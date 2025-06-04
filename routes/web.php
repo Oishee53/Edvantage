@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('landing');
@@ -23,3 +24,15 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
+
+
+Route::get('/profile', [UserController::class, 'profile'])->middleware('auth')->name('profile');
+
+
+Route::get('/courses/enrolled', function () {
+    return 'Enrolled courses page coming soon!';
+});
+
+Route::get('/courses/all', function () {
+    return 'All available courses page coming soon!';
+});
