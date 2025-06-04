@@ -7,6 +7,13 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::get('/homepage', function () {
+    return view('homepage'); // this will look for resources/views/homepage.blade.php
+});
+
+
 Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register',[AuthController::class,'showRegister']);
+Route::post('/register', [AuthController::class, 'register']);
 

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -20,11 +22,40 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect('/dashboard');  // you can change this to your homepage/dashboard
+            return redirect('/homepage'); 
         }
 
         return back()->with('error', 'Invalid email or password.');
     }
+    public function showRegister()
+    {
+        return view ('auth.register');
+    }
+
+    public function register(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users',
+        'phone'=>'required',
+        'password' => 'required|min:5|confirmed',
+        'field' => 'nullable|string|max:255',
+        
+    ]);
+
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone'=>$request->phone,
+        'password' => Hash::make($request->password),
+        'field' => $request->field,
+       
+    ]);
+
+    return redirect('/homepage')->with('success', 'Account created! Please login.');
+}
+
+
 }
 
 

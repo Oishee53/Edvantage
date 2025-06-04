@@ -4,8 +4,9 @@
     <title>Login - EDVANTAGE</title>
 </head>
 <body>
+    <h2>EDVANTAGE</h2>
 
-    <h2>Login</h2>
+    <h3>Login</h3>
 
     @if (session('error'))
         <p>{{ session('error') }}</p>
