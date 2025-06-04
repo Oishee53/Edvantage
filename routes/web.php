@@ -8,11 +8,11 @@ Route::get('/', function () {
 });
 
 Route::get('/homepage', function () {
-    return view('homepage'); // this will look for resources/views/homepage.blade.php
-});
+    return view('homepage'); 
+})->middleware('auth');
 
 
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register',[AuthController::class,'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
