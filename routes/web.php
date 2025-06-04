@@ -3,8 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\WishlistController;
 
 Route::get('/', function () {
+
     return view('landing');
 });
 
@@ -33,6 +37,10 @@ Route::get('/courses/enrolled', function () {
     return 'Enrolled courses page coming soon!';
 });
 
-Route::get('/courses/all', function () {
-    return 'All available courses page coming soon!';
-});
+Route::get('/courses',[CourseController::class, 'viewCourses'])->name('courses.all');;
+
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
+
+Route::post('/cart/{id}', [CartController::class, 'add'])->name('cart.add');
+
+Route::post('/wishlist/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
