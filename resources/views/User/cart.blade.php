@@ -6,7 +6,14 @@
             <li>
                 <strong>{{ $item->course->title }}</strong> - {{ $item->course->price }}$
                 <p>{{ $item->course->description }}</p>
+
             </li>
+            <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display:inline;">
+    @csrf
+    @method('DELETE')
+    <button type="submit">Remove from Cart</button>
+</form>
+
         @endforeach
     </ul>
 @else

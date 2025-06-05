@@ -33,4 +33,17 @@ public function showCart()
     return view('user.cart', compact('cartItems'));
 }
 
+public function removeFromCart($id)
+{
+    $cartItem = Cart::where('id', $id)->where('user_id', auth()->id())->first();
+
+    if ($cartItem) {
+        $cartItem->delete();
+        return redirect()->back()->with('success', 'Course removed from cart.');
+    }
+
+    return redirect()->back()->with('error', 'Item not found or unauthorized.');
+}
+
+
 }

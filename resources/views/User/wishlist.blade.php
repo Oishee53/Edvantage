@@ -6,8 +6,16 @@
             <li>
                 <strong>{{ $item->course->title }}</strong> - {{ $item->course->price }}$
                 <p>{{ $item->course->description }}</p>
+         
             </li>
-        @endforeach
+           <form action="{{ route('wishlist.remove', $item->id) }}" method="POST" style="display:inline;">
+    @csrf
+    @method('DELETE')
+    <button type="submit"> Remove</button>
+</form>
+
+   
+     @endforeach
     </ul>
 @else
     <p>Your wishlist is empty.</p>
