@@ -11,13 +11,16 @@
 
     <h2>Welcome, {{ $lastName }} 👋</h2>
 
-     <a href="#">Wishlist</a> |
-     <a href="#">Cart</a>
+     <a href="{{ route('cart.all') }}">🛒 View Cart</a>
+     <a href="{{ route('wishlist.all') }}">Wishlist</a> |
+
+
+
 
     <ul>
         <li><a href="{{ route('profile') }}">View Profile</a></li>
         <li><a href="/courses/enrolled">Courses Enrolled</a></li>
-        <li><a href="/courses">All Courses</a></li>
+        <li><a href="{{route('courses.all')}}">All Courses</a></li>
         <li><a href="/user/dashboard">Dashboard</a></li>
         <li><a href="/purchase_history">Purchase History</a></li>
     </ul>

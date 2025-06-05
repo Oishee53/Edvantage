@@ -8,13 +8,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->string('email')->primary();       // ✅ Primary key
-            $table->string('name');                   // User name
-            $table->string('phone')->nullable();      // Optional phone
-            $table->string('password');               // Hashed password
-            $table->string('field')->nullable();      // Area of interest
-            $table->rememberToken();                  // "Remember me" login
-            $table->timestamps();                     // created_at & updated_at
+        $table->id(); // auto-incremented primary key
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->string('phone')->nullable();
+        $table->string('password');
+        $table->string('field')->nullable();
+        $table->timestamps();
         });
     }
 

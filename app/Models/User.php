@@ -11,12 +11,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-    protected $primaryKey = 'email';
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-
-    /**
+/**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -47,4 +42,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function cart()
+{
+    return $this->hasMany(Cart::class);
+}
+
 }

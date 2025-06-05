@@ -4,14 +4,15 @@
         <p>{{ $course->description }}</p>
       
 
-        <a href="{{ route('courses.details', $course->id) }}">🔍 Details</a> |
+        <a href="{{ route('courses.details', $course->id) }}">🔍 Details</a> 
+        |
         <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
             @csrf
             <button type="submit">🛒 Add to Cart</button>
-        </form> |
+</form> |
         <form action="{{ route('wishlist.add', $course->id) }}" method="POST" style="display: inline;">
             @csrf
             <button type="submit">❤️ Add to Wishlist</button>
-        </form>
+        </form> 
     </div>
 @endforeach

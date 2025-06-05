@@ -38,9 +38,10 @@ Route::get('/courses/enrolled', function () {
 });
 
 Route::get('/courses',[CourseController::class, 'viewCourses'])->name('courses.all');;
-
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
-Route::post('/cart/{id}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
+Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 
-Route::post('/wishlist/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
+Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('wishlist.all');
+Route::post('/wishlist/{id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
