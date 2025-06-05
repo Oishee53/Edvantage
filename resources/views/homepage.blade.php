@@ -11,8 +11,8 @@
 
     <h2>Welcome, {{ $lastName }} 👋</h2>
 
-     <a href="{{ route('cart.all') }}">🛒 View Cart</a>
-     <a href="{{ route('wishlist.all') }}">Wishlist</a> |
+     <a href="{{ route('cart.all') }}"> 🛒 </a>
+     <a href="{{ route('wishlist.all') }}">  🖤 </a> |
 
 
 

@@ -8,11 +8,11 @@
         |
         <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
             @csrf
-            <button type="submit">🛒 Add to Cart</button>
+            <button type="submit">🛒</button>
 </form> |
         <form action="{{ route('wishlist.add', $course->id) }}" method="POST" style="display: inline;">
             @csrf
-            <button type="submit">❤️ Add to Wishlist</button>
+            <button type="submit">🖤</button>
         </form> 
     </div>
 @endforeach
