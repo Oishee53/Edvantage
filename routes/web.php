@@ -25,7 +25,7 @@ Route::post('/logout', function () {
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth.custom'])->group(function () {
 
 Route::get('/homepage', function () {
     $user = auth()->user();
