@@ -13,12 +13,6 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/homepage', function () {
-    $user = auth()->user();
-    return view('homepage',compact('user')); 
-})->middleware('auth');
-
-
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register',[AuthController::class,'showRegister']);
@@ -31,7 +25,14 @@ Route::post('/logout', function () {
 
 
 
-Route::get('/profile', [UserController::class, 'profile'])->middleware('auth')->name('profile');
+Route::middleware(['auth'])->group(function () {
+
+Route::get('/homepage', function () {
+    $user = auth()->user();
+    return view('homepage',compact('user')); 
+});
+
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
 
 Route::get('/courses/enrolled', function () {
@@ -51,3 +52,6 @@ Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('ca
 Route::delete('/wishlist/{id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 
 Route::post('/enroll/{id}', [EnrollmentController::class, 'enroll'])->middleware('auth')->name('enroll');
+
+
+});
