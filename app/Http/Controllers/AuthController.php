@@ -52,6 +52,8 @@ class AuthController extends Controller
        
     ]);
 
+    Auth::login($user);
+
     return redirect('/homepage')->with('success', 'Account created! Please login.');
 }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\EnrollmentController;
 
 Route::get('/', function () {
 
@@ -48,3 +49,5 @@ Route::post('/wishlist/{id}', [WishlistController::class, 'addToWishlist'])->nam
 
 Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::delete('/wishlist/{id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+
+Route::post('/enroll/{id}', [EnrollmentController::class, 'enroll'])->middleware('auth')->name('enroll');

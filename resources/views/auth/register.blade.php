@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Register - EDVANTAGE</title>
+
+
 </head>
 <body>
 
