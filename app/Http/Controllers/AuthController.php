@@ -43,7 +43,7 @@ class AuthController extends Controller
         
     ]);
 
-    User::create([
+   $user =  User::create([
         'name' => $request->name,
         'email' => $request->email,
         'phone'=>$request->phone,
@@ -52,7 +52,9 @@ class AuthController extends Controller
        
     ]);
 
-    return redirect('/homepage')->with('success', 'Account created! Please login.');
+    Auth::login($user);
+
+    return redirect('/homepage')->with('success', 'Account created!');
 }
 
 
