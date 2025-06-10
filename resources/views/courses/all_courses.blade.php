@@ -5,8 +5,12 @@
 @endif
 
 
+<h2>All courses<h2>
+
 @foreach($courses as $course)
-    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+   
+        <img src="{{ $course->image }}" alt="Course Image" style="width: 100px; height: auto; display: block; margin-bottom: 10px;">
+
         <h3>{{ $course->title }}</h3>
         <p>{{ $course->description }}</p>
       
