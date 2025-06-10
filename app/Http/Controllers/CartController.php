@@ -23,7 +23,8 @@ class CartController extends Controller
         ]);
     }
 
-    return redirect()->back()->with('success', 'Course added to cart.');
+    return redirect()->back()->with('cart_added', 'Course added to cart.');
+
 }
 
 public function showCart()

@@ -31,10 +31,10 @@
 
         <a href="{{ route('courses.details', $course->id) }}">🔍 Details</a>
 
-    <form action="{{ route('enroll', $course->id) }}" method="POST">
-    @csrf
-    <button type="submit">📘 Enroll</button>
-    </form>
+    <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit">🛒</button>
+    </form> |
 
     </div>
 @endforeach

@@ -57,7 +57,8 @@ Route::post('/wishlist/{id}', [WishlistController::class, 'addToWishlist'])->nam
 Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::delete('/wishlist/{id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 
-Route::post('/enroll/{id}', [EnrollmentController::class, 'enroll'])->middleware('auth')->name('enroll');
+Route::post('/checkout', [EnrollmentController::class, 'checkout'])->name('cart.checkout');
+
 
 
 });
