@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Courses extends Model
 {
+    protected $table = 'courses';
+    protected $fillable = [
+        'image',
+        'title',
+        'description',
+        'category',
+        'video_count',
+        'approx_video_length',
+        'total_duration',
+        'price'
+    ];
     public function enrollments()
 {
     return $this->hasMany(Enrollment::class);
