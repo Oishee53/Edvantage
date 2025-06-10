@@ -13,7 +13,7 @@
 
     <br>
 
-    <form action="/login/admin" method="GET">
+    <form action="/admin" method="GET">
         <button type="submit">Admin</button>
     </form>
 

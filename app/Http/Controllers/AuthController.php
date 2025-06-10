@@ -20,6 +20,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $credentials['role'] = 1;
 
         if (Auth::attempt($credentials)) {
             return redirect('/homepage'); 
@@ -27,6 +28,8 @@ class AuthController extends Controller
 
         return back()->with('error', 'Invalid email or password.');
     }
+
+    
     public function showRegister()
     {
         return view ('auth.register');
@@ -49,6 +52,7 @@ class AuthController extends Controller
         'phone'=>$request->phone,
         'password' => Hash::make($request->password),
         'field' => $request->field,
+        'role' => User::ROLE_USER,
        
     ]);
 
