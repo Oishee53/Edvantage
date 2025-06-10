@@ -26,9 +26,6 @@ Route::post('/logout', function () {
 
 Route::get('/login/user', [LandingController::class, 'showLanding']);
 
-Route::get('/login/admin',[LandingController::class, 'showLanding'] );
-
-
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 Route::middleware(['auth.custom'])->group(function () {
