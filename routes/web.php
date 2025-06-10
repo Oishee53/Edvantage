@@ -26,9 +26,6 @@ Route::post('/logout', function () {
 
 Route::get('/login/user', [LandingController::class, 'showLanding']);
 
-Route::get('/login/admin',[LandingController::class, 'showLanding'] );
-
-
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 Route::middleware(['auth.custom'])->group(function () {
@@ -57,7 +54,8 @@ Route::post('/wishlist/{id}', [WishlistController::class, 'addToWishlist'])->nam
 Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::delete('/wishlist/{id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 
-Route::post('/enroll/{id}', [EnrollmentController::class, 'enroll'])->middleware('auth')->name('enroll');
+Route::post('/checkout', [EnrollmentController::class, 'checkout'])->name('cart.checkout');
+
 
 
 });
