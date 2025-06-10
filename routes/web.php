@@ -7,6 +7,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\LandingController;
 
 Route::get('/', function () {
 
@@ -23,7 +24,10 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
+Route::get('/', [LandingController::class, 'showLanding']);
 
+
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 Route::middleware(['auth.custom'])->group(function () {
 
@@ -40,7 +44,7 @@ Route::get('/courses/enrolled', function () {
 });
 
 Route::get('/courses',[CourseController::class, 'viewCourses'])->name('courses.all');;
-Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
+
 
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
 Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
