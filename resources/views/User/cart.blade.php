@@ -16,6 +16,12 @@
 
         @endforeach
     </ul>
+
+    <form action="{{ route('cart.checkout') }}" method="POST">
+    @csrf
+    <button type="submit">Checkout</button>
+</form>
+
 @else
     <p>Your cart is empty.</p>
 @endif
