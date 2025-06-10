@@ -11,7 +11,7 @@ use App\Http\Controllers\LandingController;
 
 Route::get('/', function () {
 
-    return view('landing');
+    return view('multiple_authentication');
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -24,7 +24,9 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-Route::get('/', [LandingController::class, 'showLanding']);
+Route::get('/login/user', [LandingController::class, 'showLanding']);
+
+Route::get('/login/admin',[LandingController::class, 'showLanding'] );
 
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
