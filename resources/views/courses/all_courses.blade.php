@@ -14,7 +14,8 @@
 
 @foreach($courses as $course)
    
-        <img src="{{ $course->image }}" alt="Course Image" style="width: 100px; height: auto; display: block; margin-bottom: 10px;">
+      <img src="{{ asset('storage/' . $course->image) }}" alt="Course Image" width="120">
+
 
         <h3>{{ $course->title }}</h3>
         <p>{{ $course->description }}</p>
@@ -30,9 +31,10 @@
             @csrf
             <button type="submit">🖤</button>
         </form> 
-       
+      
 
     </div>
+     <br>
 @endforeach
 
 @if(session('cart_added'))
