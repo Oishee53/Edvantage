@@ -26,7 +26,7 @@
 
     <ul>
         <li><a href="{{ route('profile') }}">View Profile</a></li>
-        <li><a href="/courses/enrolled">Courses Enrolled</a></li>
+        <li><a href="{{ route('courses.enrolled') }}">Courses Enrolled</a></li>
         <li><a href="{{route('courses.all')}}">All Courses</a></li>
         <li><a href="/user/dashboard">Dashboard</a></li>
         <li><a href="/purchase_history">Purchase History</a></li>
