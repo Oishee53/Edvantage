@@ -6,6 +6,7 @@
     <title>Edit Course</title>
 </head>
 <body>
+    @auth
     <h2>Edit Course</h2>
 
     <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="POST" enctype="multipart/form-data">
@@ -65,6 +66,9 @@
     </form>
     <br>
     <a href="/admin_panel">Back to Home Page</a>
+    @else
+    <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 
 </body>
 </html>
