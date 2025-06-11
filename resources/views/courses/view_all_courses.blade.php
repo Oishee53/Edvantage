@@ -5,6 +5,7 @@
     <title>All Courses</title>
 </head>
 <body>
+    @auth
     <h2>📚 All Courses</h2>
 
     @if($courses->isEmpty())
@@ -49,5 +50,8 @@
 
     <br>
     <a href="/admin_panel/manage_courses">← Back to Manage Courses</a>
+    @else
+    <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 </body>
 </html>

@@ -7,6 +7,7 @@
     <title>Edit Module</title>
 </head>
 <body>
+    @auth
     {{$course->title}}
     {{$module_id}}
     <form id="resourceForm" action="{{ url('admin_panel/manage_resources/' . $course->id . '/module/' . $module_id . '/add') }}" method="POST" enctype="multipart/form-data">
@@ -56,6 +57,9 @@
 </script>
 
     <a href="/admin_panel">← Back to Home Page</a>
+    @else
+        <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 </body>
 </html>
 

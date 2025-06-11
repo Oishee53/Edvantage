@@ -7,6 +7,7 @@
     <title>Manage Courses</title>
 </head>
 <body>
+    @auth
     <h2>📚 Manage Courses</h2>
 
     <form action="/admin_panel/manage_courses/add" method="GET" style="margin-bottom: 10px;">
@@ -27,6 +28,9 @@
 
     <br>
     <a href="/admin_panel">← Back to Home Page</a>
+    @else
+    <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 
 </body>
 </html>

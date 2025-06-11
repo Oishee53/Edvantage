@@ -5,6 +5,7 @@
     <title>Add New Course</title>
 </head>
 <body>
+    @auth
     <h2>➕ Add New Course</h2>
 
      <form action="/admin_panel/manage_courses/create" method="POST" enctype="multipart/form-data">
@@ -65,5 +66,8 @@
 
     <br>
     <a href="/admin_panel/manage_courses">← Back to Manage Courses</a>
+    @else
+    <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 </body>
 </html>
