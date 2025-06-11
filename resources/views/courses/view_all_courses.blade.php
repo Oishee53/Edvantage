@@ -5,6 +5,7 @@
     <title>All Courses</title>
 </head>
 <body>
+    @auth
     <h2>📚 All Courses</h2>
 
     @if($courses->isEmpty())
@@ -12,8 +13,10 @@
     @else
         <table border="1" cellpadding="8">
             <tr>
+                <th>Image</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Category</th>
                 <th>Videos</th>
                 <th>Video Length</th>
                 <th>Total Duration</th>
@@ -23,13 +26,15 @@
 
             @foreach($courses as $course)
             <tr>
-                 @if($course->image)
-                    <img src="{{ asset('storage/' . $course->image) }}" 
-                    alt="{{ $course->title }}" 
-                    style="width: 560; height: 315; object-fit: cover; border-radius: 4px;">
-                @else
-                    <span style="color: #999; font-style: italic;">No image</span>
-                @endif
+                 <td>
+                    @if($course->image)
+                        <img src="{{ asset('storage/' . $course->image) }}" 
+                             alt="{{ $course->title }}" 
+                             style="width: 120px; height: 90px; object-fit: cover; border-radius: 4px;">
+                    @else
+                        <span style="color: #999; font-style: italic;">No image</span>
+                    @endif
+                </td>
                 <td>{{ $course->title }}</td>
                 <td>{{ $course->description }}</td>
                 <td>{{ $course->category }}</td>
@@ -45,5 +50,8 @@
 
     <br>
     <a href="/admin_panel/manage_courses">← Back to Manage Courses</a>
+    @else
+    <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 </body>
 </html>
