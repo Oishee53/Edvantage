@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ResourceController;
 
 Route::get('/admin', [AdminController::class, 'showLoginForm']);
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
@@ -25,3 +26,21 @@ Route::post('/admin_panel/manage_courses/delete-course', [CourseController::clas
 Route::get('/admin_panel/manage_courses/edit-list', [CourseController::class,'editList']);
 Route::get('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'editCourse']);
 Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'update']);
+
+Route::get('/admin_panel/manage_resources', function () {
+    return view('Resources.manage_resources');
+});
+
+Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
+Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules']);
+
+Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit', [ResourceController::class, 'editModule']);
+
+Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/add', [ResourceController::class, 'insert']);
+Route::get('/admin_panel/manage_resources/view', [ResourceController::class,'viewPage']);
+Route::get('/pdf/{filename}', [ResourceController::class, 'showPdf'])->name('pdf.view');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin_panel/manage_resources/{course_id}/view', [ResourceController::class, 'index']);
+});
+
