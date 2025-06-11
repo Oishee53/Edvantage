@@ -5,7 +5,7 @@
     <title>Edit Courses</title>
 </head>
 <body>
-    <h2>Edit Courses</h2>
+    <h2>Manage Resources</h2>
 
     @if($courses->isEmpty())
         <p>No courses available.</p>
@@ -23,18 +23,10 @@
 
             @foreach($courses as $course)
             <tr>
-                @if($course->image)
-                    <img src="{{ asset('storage/' . $course->image) }}" 
-                    alt="{{ $course->title }}" 
-                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
-                @else
-                    <span style="color: #999; font-style: italic;">No image</span>
-                @endif
                 <td>
-                    <a href="/admin/manage_courses/courses/{{ $course->id }}/edit">{{ $course->title }}</a>
+                    <a href="/admin_panel/manage_resources/{{ $course->id }}/view">{{ $course->title }}</a>
                 </td>
                 <td>{{ $course->description }}</td>
-                <td>{{ $course->category }}</td>
                 <td>{{ $course->video_count }}</td>
                 <td>{{ $course->approx_video_length }} mins</td>
                 <td>{{ $course->total_duration }} hrs</td>
@@ -46,6 +38,6 @@
     @endif
 
     <br>
-    <a href="/admin_panel/manage_courses">← Back to Manage Courses</a>
+    <a href="/admin_panel">← Back to Home Page</a>
 </body>
 </html>

@@ -14,9 +14,6 @@
     <br>
     <a href="/admin_panel/manage_resources" style="font-weight: bold;">Manage Resources</a>
     <br>
-    <a href="/videos" style="font-weight: bold;">Watch Video</a>
-    <br>
-
     <form action="/logout" method="POST">
         @csrf
         <button>Logout</button>
