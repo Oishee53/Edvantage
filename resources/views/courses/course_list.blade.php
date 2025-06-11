@@ -12,24 +12,27 @@
     @else
         <table border="1" cellpadding="8">
             <tr>
+                <th>Image</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Category</th>
                 <th>Videos</th>
                 <th>Video Length</th>
                 <th>Total Duration</th>
                 <th>Price (৳)</th>
                 <th>Added</th>
             </tr>
-
             @foreach($courses as $course)
             <tr>
-                @if($course->image)
-                    <img src="{{ asset('storage/' . $course->image) }}" 
-                    alt="{{ $course->title }}" 
-                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
-                @else
-                    <span style="color: #999; font-style: italic;">No image</span>
-                @endif
+                <td>
+                    @if($course->image)
+                        <img src="{{ asset('storage/' . $course->image) }}" 
+                             alt="{{ $course->title }}" 
+                             style="width: 120px; height: 90px; object-fit: cover; border-radius: 4px;">
+                    @else
+                        <span style="color: #999; font-style: italic;">No image</span>
+                    @endif
+                </td>
                 <td>
                     <a href="/admin/manage_courses/courses/{{ $course->id }}/edit">{{ $course->title }}</a>
                 </td>

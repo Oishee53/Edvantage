@@ -34,6 +34,7 @@
             </tr>
             @endforeach
         </table>
+        <br>
     <form action="/admin_panel/manage_courses/delete-course" method="POST">
         @csrf
         <input type="text" name="title" placeholder="Course Title" required><br><br>

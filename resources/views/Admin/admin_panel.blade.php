@@ -10,7 +10,7 @@
     @auth
     <p>Welcome, {{ auth()->user()->name }}!</p>
     <br>
-    <a href="/admin_panel/manage_courses" style="font-weight: bold;">📚 Manage Courses</a>
+    <a href="/admin_panel/manage_courses" style="font-weight: bold;">Manage Courses</a>
     <br>
     <a href="/admin_panel/manage_resources" style="font-weight: bold;">Manage Resources</a>
     <br>

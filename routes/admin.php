@@ -44,3 +44,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/manage_resources/{course_id}/view', [ResourceController::class, 'index']);
 });
 
+Route::post('/check-resource', [ResourceController::class, 'checkExists'])->name('check.resource.exists');
+
+
