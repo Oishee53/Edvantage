@@ -7,6 +7,7 @@
     <title>Delete Course</title>
 </head>
 <body>
+    @auth
     <h2>Delete A Course</h2>
     @if($courses->isEmpty())
         <p>No courses available.</p>
@@ -34,6 +35,7 @@
             </tr>
             @endforeach
         </table>
+        <br>
     <form action="/admin_panel/manage_courses/delete-course" method="POST">
         @csrf
         <input type="text" name="title" placeholder="Course Title" required><br><br>
@@ -42,5 +44,8 @@
     @endif
     <br>
     <a href="/admin_panel/manage_courses">← Back to Manage Courses</a>
+    @else
+    <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 </body>
 </html>

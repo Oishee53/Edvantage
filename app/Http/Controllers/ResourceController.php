@@ -33,22 +33,6 @@ class ResourceController extends Controller
 
     return view('Resources.edit_module', compact('course', 'module_id'));
 }
-    public function insert(Request $request,$course_id,$module_id) {
-     $request->validate([
-        'video_url' => 'required|url',
-        'lecture_note' => 'required|mimes:pdf|max:2048',
-    ]);
-
-    $pdfPath = $request->file('lecture_note')->store('lecture_notes');
-
-    Resource::create([
-        'courseId' => $course_id,       
-        'moduleId' => $module_id,       
-        'videos' => $request->video_url,
-        'pdf' => $pdfPath,
-    ]);
-    return redirect('/admin_panel/manage_resources');
-    }
 public function index($courseId) {
     $resources = Resource::where('courseId', $courseId)->get();
     $course = Courses::findOrFail($courseId);
@@ -70,5 +54,28 @@ public function showPdf($filename)
         'Content-Disposition' => 'inline; filename="' . $filename . '"'
     ]);
 }
+public function checkExists(Request $request) {
+    $exists = Resource::where('courseId', $request->course_id)
+                      ->where('moduleId', $request->module_id)
+                      ->exists();
+
+    return response()->json(['exists' => $exists]);
+}
+public function insert(Request $request, $course_id, $module_id) {
+    $request->validate([
+        'video_url' => 'required|url',
+        'lecture_note' => 'required|mimes:pdf|max:2048',
+    ]);
+
+    $pdfPath = $request->file('lecture_note')->store('lecture_notes');
+
+    Resource::updateOrCreate(
+        ['courseId' => $course_id, 'moduleId' => $module_id],
+        ['videos' => $request->video_url, 'pdf' => $pdfPath]
+    );
+
+    return redirect('/admin_panel/manage_resources')->with('success', 'Resource saved successfully.');
+}
+
     
 }
