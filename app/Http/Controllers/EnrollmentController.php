@@ -65,7 +65,7 @@ public function viewModuleResource($courseId, $moduleId)
 
 public function showPdf($filename)
 {
-    $path = storage_path('app/lecture_notes/' . $filename);
+    $path = storage_path('app/private/lecture_notes/' . $filename);
 
     if (!file_exists($path)) {
         abort(404, 'PDF not found.');
