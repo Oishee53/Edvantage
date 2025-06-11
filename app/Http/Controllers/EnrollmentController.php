@@ -6,7 +6,7 @@ use App\Models\Enrollment;
 use App\Models\Courses;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
-
+use App\Models\Resource;
 
 class EnrollmentController extends Controller
 {
@@ -38,9 +38,44 @@ public function checkout()
 public function showEnrolledCourses()
 {
     $user = Auth::user();
-    $courses = $user->enrolledCourses;
+    $enrolledCourses = $user->enrolledCourses;
 
-    return view('User.enrolled_courses', compact('courses'));
+    return view('User.enrolled_courses', compact('enrolledCourses'));
 }
+
+
+public function userEnrolledCourses()
+{
+    $user = Auth::user();
+    $enrolledCourses = $user->enrollments()->with('course')->get()->pluck('course');
+    return view('User.enrolled_courses', compact('enrolledCourses'));
+}
+
+public function viewCourseModules($courseId)
+{
+    $course = Courses::findOrFail($courseId);
+    $modules = Resource::where('courseId', $courseId)->pluck('moduleId')->unique();
+    return view('User.course_modules', compact('course', 'modules'));
+}
+public function viewModuleResource($courseId, $moduleId)
+{
+    $resource = Resource::where('courseId', $courseId)->where('moduleId', $moduleId)->firstOrFail();
+    return view('User.module_resource', compact('resource'));
+}
+
+public function showPdf($filename)
+{
+    $path = storage_path('app/lecture_notes/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404, 'PDF not found.');
+    }
+
+    return response()->file($path, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"'
+    ]);
+}
+
 
 }

@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Enrolled Courses</title>
-</head>
-<body>
-    <h2>My Enrolled Courses</h2>
+<h2>My Courses</h2>
+<ul>
+   
+@foreach ($enrolledCourses as $course)
+     <div>
+    <img src="{{ asset('storage/' . $course->image) }}" alt="Course Image" width="120">
+    <li><a href="{{ route('user.course.modules', $course->id) }}">{{ $course->title }}</a></li>
+     <p>{{ $course->description }}</p>
+     </div>
+@endforeach
 
-    @if($courses->isEmpty())
-        <p>You have not enrolled in any courses yet.</p>
-    @else
-        @foreach($courses as $course)
-            <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-                <h3>{{ $course->title }}</h3>
-                <p>{{ $course->description }}</p>
-            </div>
-        @endforeach
-    @endif
-
-</body>
-</html>
+</ul>
