@@ -38,9 +38,12 @@ Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit',
 
 Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/add', [ResourceController::class, 'insert']);
 Route::get('/admin_panel/manage_resources/view', [ResourceController::class,'viewPage']);
-Route::get('/pdf/{filename}', [ResourceController::class, 'showPdf'])->name('pdf.view');
+Route::get('/admin/pdf/{filename}', [ResourceController::class, 'showPdf'])->name('pdf.view');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/manage_resources/{course_id}/view', [ResourceController::class, 'index']);
 });
+
+Route::post('/check-resource', [ResourceController::class, 'checkExists'])->name('check.resource.exists');
+
 
