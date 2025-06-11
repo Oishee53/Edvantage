@@ -56,6 +56,7 @@ Route::delete('/wishlist/{id}', [WishlistController::class, 'removeFromWishlist'
 
 Route::post('/checkout', [EnrollmentController::class, 'checkout'])->name('cart.checkout');
 
+Route::get('/enrolled', [EnrollmentController::class, 'showEnrolledCourses'])->name('courses.enrolled');
 
 
 });
