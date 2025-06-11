@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ResourceController;
 
 Route::get('/', function () {
 
