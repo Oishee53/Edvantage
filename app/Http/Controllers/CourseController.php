@@ -20,7 +20,7 @@ public function viewCourses()
 
 public function show($id)
 {
-    $course = Courses::findOrFail($id); // fetch course or show 404
+    $course = Courses::findOrFail($id);
     return view('courses.course_details', compact('course'));
 }
  public function create()
