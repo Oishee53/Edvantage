@@ -5,6 +5,7 @@
 @endif
 <br>
 @if($resource->pdf)
-    <a href="{{ asset('storage/' . $resource->pdf) }}" target="_blank">View PDF</a>
+    <a href="{{ route('resources.showPdf', ['filename' => basename($resource->pdf)]) }}" target="_blank">View PDF</a>
+
 
 @endif
