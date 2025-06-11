@@ -64,4 +64,5 @@ public function enrolledCourses()
     return $this->belongsToMany(\App\Models\Courses::class, 'enrollments', 'user_id', 'course_id');
 }
 
+
 }
