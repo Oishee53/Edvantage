@@ -76,6 +76,13 @@ public function insert(Request $request, $course_id, $module_id) {
 
     return redirect('/admin_panel/manage_resources')->with('success', 'Resource saved successfully.');
 }
+public function destroy($course_id, $module_id) {
+    $resource = Resource::where('courseId', $course_id)
+                      ->where('moduleId', $module_id)
+                      ->firstOrFail();
+    $resource->delete();
 
+    return redirect("/admin_panel/manage_resources/{$course_id}/view");
+}
     
 }
