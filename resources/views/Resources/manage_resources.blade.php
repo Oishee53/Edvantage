@@ -10,8 +10,6 @@
 @auth
     <a href="/admin_panel/manage_resources/add" style="font-weight: bold;">Add Resources</a>
     <br>
-    <a href="/admin_panel/manage_resources/delete" style="font-weight: bold;">Delete Resources</a>
-    <br>
     <a href="/admin_panel/manage_resources/view" style="font-weight: bold;">View Resources</a>
     <br>
     <a href="/admin_panel">← Back to Home Page</a>

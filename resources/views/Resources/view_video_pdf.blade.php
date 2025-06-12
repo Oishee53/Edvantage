@@ -35,6 +35,10 @@
             <a href="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" target="_blank">🔗 Open PDF in New Tab</a>
 
         </div>
+        <form action="/admin_panel/manage_resources/{{$course->id}}/module/{{$resource->moduleId}}/delete" method="post">
+             @csrf
+            <button type="submit">Delete</button>
+        </form>
         <hr>
     </tr>
     @endforeach
