@@ -17,4 +17,6 @@ class Resource extends Model
     {
         return $this->belongsTo(Courses::class, 'courseId');
     }
+
+    
 }

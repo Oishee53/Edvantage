@@ -19,7 +19,7 @@
 
     <form action="{{ route('cart.checkout') }}" method="POST">
     @csrf
-    <button type="submit">Checkout</button>
+    <button type="submit">Proceed to Checkout</button>
 </form>
 
 @else
