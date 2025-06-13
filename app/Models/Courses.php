@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Resource;
 
 class Courses extends Model
 {
@@ -25,5 +26,7 @@ class Courses extends Model
     {
     return $this->hasMany(Resource::class, 'courseId');
     }
+
+    
 
 }

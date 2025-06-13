@@ -4,12 +4,13 @@
     <title>Uploaded Resources</title>
 </head>
 <body>
+    @auth
     <h2>PDF and Video List</h2>
 
     <h3>Course Title: {{ $course->title }}</h3>
-    @auth
 
     @foreach ($resources as $resource)
+    <tr>
         <p><strong>Module:</strong> {{ $resource->moduleId ?? 'N/A' }}</p>
 
         @php
@@ -31,15 +32,18 @@
 
             {{-- Display PDF --}}
             <h3>PDF File:</h3>
-            <embed src="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" type="application/pdf" width="560" height="315" />
-            <br>
             <a href="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" target="_blank">🔗 Open PDF in New Tab</a>
 
         </div>
+        <form action="/admin_panel/manage_resources/{{$course->id}}/module/{{$resource->moduleId}}/delete" method="post">
+             @csrf
+            <button type="submit">Delete</button>
+        </form>
         <hr>
+    </tr>
     @endforeach
     @else
-    <p>Please <a href="{{ route('login') }}">log in</a> to access course materials.</p>
+    <p>You are not logged in. <a href="/">Go to Login</a></p>
 @endauth
      
 

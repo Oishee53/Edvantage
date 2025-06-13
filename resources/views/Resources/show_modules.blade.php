@@ -4,6 +4,7 @@
     <title>Modules - {{ $course->title }}</title>
 </head>
 <body>
+    @auth
     <h2>Modules for {{ $course->title }}</h2>
 
     <ul>
@@ -17,5 +18,8 @@
     </ul>
 
     <a href="/admin_panel">← Back to Home Page</a>
+    @else
+        <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 </body>
 </html>
