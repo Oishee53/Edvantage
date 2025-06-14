@@ -114,7 +114,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') center/cover;
+            background: url('https://i.pinimg.com/736x/e9/57/00/e95700d9ef5a22ce023354485e5a959a.jpg') center/cover;
             opacity: 0.3;
         }
 
@@ -167,14 +167,14 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Courses Section - Horizontal Banner Style */
+        /* Courses Section - Smaller Square Grid Layout */
         .courses-section {
-            padding: 4rem 0;
+            padding: 5rem 0;
             background: #f8fafc;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
         }
@@ -195,151 +195,169 @@
             color: #64748b;
         }
 
-        .courses-list {
-            display: flex;
-            flex-direction: column;
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .course-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             position: relative;
-            min-height: 180px;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .course-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .course-banner {
+        .course-image-container {
             position: relative;
-            height: 180px;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #f59e0b 100%);
-            display: flex;
-            align-items: center;
-            padding: 2rem;
+            height: 45%;
             overflow: hidden;
         }
 
-        .course-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60%;
+        .course-image {
+            width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-            border-radius: 50% 0 0 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
 
-        .course-content {
-            position: relative;
-            z-index: 2;
-            flex: 1;
-        }
-
-        .course-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .course-description {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .course-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #fbbf24;
-            font-weight: 600;
-        }
-
-        .course-price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #10b981;
-        }
-
-        .course-actions {
-            position: absolute;
-            bottom: 1.5rem;
-            right: 2rem;
-            display: flex;
-            gap: 1rem;
-            z-index: 3;
-        }
-
-        .btn-details {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-details:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .btn-cart {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-cart:hover {
-            background: #059669;
+        .course-card:hover .course-image {
             transform: scale(1.05);
         }
 
-        /* Different gradient colors for variety */
-        .course-card:nth-child(1) .course-banner {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #f59e0b 100%);
+        .course-content {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .course-card:nth-child(2) .course-banner {
-            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+        .course-category {
+            background: #6366f1;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            width: fit-content;
         }
 
-        .course-card:nth-child(3) .course-banner {
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #0d9488 100%);
+        .course-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .course-card:nth-child(4) .course-banner {
-            background: linear-gradient(135deg, #f59e0b 0%, #f97316 50%, #ef4444 100%);
+        .course-bottom {
+            margin-top: auto;
         }
 
-        .course-card:nth-child(5) .course-banner {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #ec4899 100%);
+        .course-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 0.75rem;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-details {
+            flex: 1;
+            background: #f1f5f9;
+            color: #475569;
+            text-align: center;
+            padding: 0.6rem 0.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-details:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-cart {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.6rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-cart:hover {
+            background: #4f46e5;
+            transform: scale(1.02);
+        }
+
+        /* Category Colors */
+        .category-programming {
+            background: #6366f1;
+        }
+
+        .category-design {
+            background: #ec4899;
+        }
+
+        .category-business {
+            background: #10b981;
+        }
+
+        .category-marketing {
+            background: #f59e0b;
+        }
+
+        .category-data {
+            background: #06b6d4;
+        }
+
+        .category-science {
+            background: #8b5cf6;
+        }
+
+        .category-language {
+            background: #ef4444;
         }
 
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .courses-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -358,30 +376,25 @@
                 align-items: center;
             }
 
-            .course-banner {
-                padding: 1.5rem;
-                height: 160px;
-            }
-
-            .course-title {
-                font-size: 1.4rem;
+            .courses-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1rem;
             }
 
             .course-actions {
-                position: static;
-                margin-top: 1rem;
-                justify-content: center;
-            }
-
-            .course-meta {
                 flex-direction: column;
-                align-items: flex-start;
                 gap: 0.5rem;
             }
         }
 
+        @media (max-width: 480px) {
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         /* Animation */
-        @keyframes slideInUp {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
@@ -393,13 +406,16 @@
         }
 
         .course-card {
-            animation: slideInUp 0.6s ease forwards;
+            animation: fadeInUp 0.6s ease forwards;
         }
 
         .course-card:nth-child(2) { animation-delay: 0.1s; }
         .course-card:nth-child(3) { animation-delay: 0.2s; }
         .course-card:nth-child(4) { animation-delay: 0.3s; }
         .course-card:nth-child(5) { animation-delay: 0.4s; }
+        .course-card:nth-child(6) { animation-delay: 0.5s; }
+        .course-card:nth-child(7) { animation-delay: 0.6s; }
+        .course-card:nth-child(8) { animation-delay: 0.7s; }
     </style>
 </head>
 <body>
@@ -411,6 +427,7 @@
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#courses">Courses</a></li>
+                    <li><a href="#blog">Blog</a></li>
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
             </nav>
@@ -424,8 +441,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Experience Learning<br>Like Never Before</h1>
-            <p>Elevate your knowledge with interactive learning anytime, anywhere through our online courses. Your virtual classroom redefined.</p>
+            <h1>Your virtual<br>classroom redefined</h1>
+            <p>Elevate your knowledge with interactive learning anytime, anywhere through our online courses.</p>
             <div class="hero-buttons">
                 <a href="/register" class="btn btn-primary btn-hero">Get Started for FREE</a>
                 <a href="#courses" class="btn btn-secondary btn-hero">Learn More</a>
@@ -441,25 +458,28 @@
                 <p>Discover our most popular courses designed to help you achieve your learning goals</p>
             </div>
             
-            <div class="courses-list">
-                @foreach($courses as $course)
+            <div class="courses-grid">
+                @foreach($courses as $index => $course)
                 <div class="course-card">
-                    <div class="course-banner">
-                        <div class="course-content">
-                            <h3 class="course-title">{{ $course->title }}</h3>
-                            <p class="course-description">{{ $course->description }}</p>
-                            <div class="course-meta">
-                                <div class="course-price">{{ $course->price }}</div>
-                            </div>
+                    <div class="course-image-container">
+                        <img src="{{ asset('storage/' . $course->image) }}" alt="Course Image" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="course-content">
+                        <div class="course-category category-{{ strtolower(str_replace(' ', '-', $course->category ?? 'programming')) }}">
+                            {{ $course->category ?? 'Programming' }}
                         </div>
-                        <div class="course-actions">
-                            <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
-                                Details
-                            </a>
-                            <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="btn-cart">Add Cart</button>
-                            </form>
+                        <h3 class="course-title">{{ $course->title }}</h3>
+                        <div class="course-bottom">
+                            <div class="course-price">${{ $course->price ?? '49' }}</div>
+                            <div class="course-actions">
+                                <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
+                                    Details
+                                </a>
+                                <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn-cart">Add to Cart</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
