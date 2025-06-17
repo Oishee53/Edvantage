@@ -30,7 +30,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('https://i.pinimg.com/736x/e9/57/00/e95700d9ef5a22ce023354485e5a959a.jpg') center/cover;
+            background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') center/cover;
             opacity: 0.1;
         }
 
@@ -194,31 +194,6 @@
             text-decoration: underline;
         }
 
-        /* Decorative Elements */
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        .login-container::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            left: -50%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
-            border-radius: 50%;
-            z-index: -1;
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .login-container {
@@ -268,7 +243,7 @@
         }
 
         .form-input.with-icon {
-            padding-left: 3rem;
+            padding-left: 1rem;
         }
 
         /* Ripple Effect */
@@ -304,8 +279,8 @@
     <div class="login-container">
         <!-- Header -->
         <div class="login-header">
-            <h2 class="login-title">Welcome Back</h2>
-            <p class="login-subtitle">Sign in to your account to continue learning</p>
+            <h2 class="login-title">Sign in</h2>
+        
         </div>
 
         <!-- Error Message -->
@@ -322,7 +297,7 @@
             <div class="form-group">
                 <label for="email" class="form-label">Email Address</label>
                 <div class="input-group">
-                    <span class="input-icon">📧</span>
+                  
                     <input 
                         type="email" 
                         id="email" 
@@ -338,7 +313,7 @@
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group">
-                    <span class="input-icon">🔒</span>
+                 
                     <input 
                         type="password" 
                         id="password" 
