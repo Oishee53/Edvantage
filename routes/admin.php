@@ -6,7 +6,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ResourceController;
 
-Route::get('/admin', [AdminController::class, 'showLoginForm']);
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 
 Route::get('/admin_panel', function () {

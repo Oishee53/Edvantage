@@ -10,19 +10,14 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ResourceController;
 
-Route::get('/', function () {
-
-    return view('multiple_authentication');
-});
-
-
+Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {
     auth()->logout();
     return redirect('/');
 })->name('logout');
 
-Route::get('/login/user', [LandingController::class, 'showLanding']);
+
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
