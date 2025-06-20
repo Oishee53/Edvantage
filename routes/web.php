@@ -15,10 +15,7 @@ Route::get('/', function () {
     return view('multiple_authentication');
 });
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register',[AuthController::class,'showRegister']);
-Route::post('/register', [AuthController::class, 'register']);
+
 
 Route::post('/logout', function () {
     auth()->logout();
@@ -28,6 +25,18 @@ Route::post('/logout', function () {
 Route::get('/login/user', [LandingController::class, 'showLanding']);
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
+
+
+
+
+
+Route::middleware('block-login')->group(function () {
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register',[AuthController::class,'showRegister']);
+Route::post('/register', [AuthController::class, 'register']);
+});
+
 
 Route::middleware(['auth.custom'])->group(function () {
 
