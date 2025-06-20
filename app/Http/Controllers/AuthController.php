@@ -7,13 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
+
 class AuthController extends Controller
 {
    
     // Show login form
     public function showLogin()
     {
-        return view('auth.login');  // refers to resources/views/auth/login.blade.php
+return response()
+        ->view('auth.login') // or whatever your login view is
+        ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        ->header('Pragma', 'no-cache')
+        ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
     }
 
     // Handle login submission
@@ -32,7 +37,12 @@ class AuthController extends Controller
     
     public function showRegister()
     {
-        return view ('auth.register');
+         return response()
+        ->view('auth.register') // or your register view
+        ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        ->header('Pragma', 'no-cache')
+        ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');             
+
     }
 
     public function register(Request $request)
