@@ -1,19 +1,17 @@
+@if(session('message'))
+    <div class="alert alert-info">
+        {{ session('message') }}
+    </div>
+@endif
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>EDVANTAGE | Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EDVANTAGE</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --cream: #FFF2E0;
-            --light: #CBD4F4;
-            --mid: #A9B2DD;
-            --slate: #8F95C6;
-            --deep: #7E82B2;
-            --text-dark: #1f1f2e;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -21,293 +19,589 @@
         }
 
         body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, rgba(106, 76, 156, 0.7), rgba(78, 42, 132, 0.7)), 
-                url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2071&q=80') center/cover no-repeat fixed;
-    color: var(--text-dark);
-    min-height: 100vh;
-    padding: 15px;
-}
-
-
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .top-bar h2 {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--text-dark);
-        }
-
-        .emoji {
-            display: inline-block;
-            animation: wave 2s ease-in-out infinite;
-        }
-
-        @keyframes wave {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(20deg); }
-            75% { transform: rotate(-10deg); }
-        }
-
-        .icons a {
-            font-size: 18px;
-            text-decoration: none;
-            margin-left: 10px;
-            padding: 8px 12px;
-            background: var(--light);
-            border-radius: 50%;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
-        }
-
-        .icons a:hover {
-            background: var(--mid);
-            transform: translateY(-2px);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
         }
 
         .header {
-            text-align: center;
-            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 100;
         }
 
-        .header h1 {
-            font-size: 38px;
-            background: linear-gradient(to right, var(--slate), var(--deep));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .header p {
-            font-size: 16px;
-            margin-top: 5px;
-            color: #3f3f50;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: 1px solid #c3e6cb;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .hero {
-            background: var(--light);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .hero h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: var(--text-dark);
-        }
-
-        .hero p {
-            font-size: 14px;
-            color: #444;
-            max-width: 85%;
-            margin: auto;
-            line-height: 1.4;
-        }
-
-        .nav-card {
-            background: var(--slate);
-            padding: 25px;
-            border-radius: 20px;
+        .hamburger-menu {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-        }
-
-        .nav-card h4 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .nav-card ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .nav-card li {
-            margin-bottom: 12px;
-        }
-
-        .nav-card a {
-            text-decoration: none;
-            background: var(--deep);
-            display: block;
-            padding: 10px 18px;
+            border: none;
+            width: 45px;
+            height: 45px;
             border-radius: 10px;
-            color: white;
-            transition: 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .nav-card a:hover {
-            background: var(--mid);
+        .hamburger-menu:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .hamburger-line {
+            width: 20px;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .icon-link:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
         }
 
         .logout-btn {
-            margin-top: 20px;
-            background: #EF4444;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 14px;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
             cursor: pointer;
-            transition: 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .logout-btn:hover {
-            background: #B91C1C;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 350px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+            overflow-y: auto;
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.75);
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-left-color: #667eea;
+            color: #667eea;
+        }
+
+        .sidebar-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-text {
+            flex: 1;
+        }
+
+        .sidebar-item-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .sidebar-item-description {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.3;
+        }
+
+        .sidebar-arrow {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        /* Overlay */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .alert {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: none;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        /* My Courses Content - Styled version of your original code */
+        .courses-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .courses-container h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .courses-container h2::before {
+            content: "🎓";
+            font-size: 2rem;
+        }
+
+        .courses-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .courses-container > ul > div {
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-            transition: 0.3s ease;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
         }
 
-        .stat-card:hover {
+        .courses-container > ul > div:hover {
             transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
-        .stat-card h2 {
-            font-size: 26px;
-            margin-bottom: 5px;
-            color: var(--text-dark);
+        .courses-container img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
         }
 
-        .stat-card p {
-            font-size: 12px;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .course-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
+        .courses-container li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .courses-container li a {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .courses-container li a:hover {
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .courses-container p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
+            .header-content {
+                flex-wrap: wrap;
+                gap: 1rem;
             }
 
-            .top-bar {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .courses-container h2 {
+                font-size: 2rem;
+            }
+
+            .courses-container > ul > div {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+                text-align: center;
             }
 
-            .hero h3 {
-                font-size: 22px;
+            .courses-container img {
+                width: 100%;
+                max-width: 200px;
+                height: auto;
             }
 
-            .hero p {
-                font-size: 13px;
+            .sidebar {
+                width: 100%;
+                left: -100%;
             }
+        }
+
+        /* Empty state */
+        .no-courses {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-courses-icon {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .no-courses-text {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .no-courses-subtext {
+            font-size: 0.9rem;
+            color: #999;
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        @if(session('success'))
-            <div class="success-message">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @php
-            $lastName = explode(' ', $user->name);
-            $lastName = end($lastName);
-        @endphp
-
-        <div class="top-bar">
-            <h2>Welcome, {{ $lastName }} <span class="emoji">👋</span></h2>
-            <div class="icons">
-                <a href="{{ route('cart.all') }}" title="Cart">🛒</a>
-                <a href="{{ route('wishlist.all') }}" title="Wishlist">🖤</a>
-            </div>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">Navigation</div>
+            <div class="sidebar-subtitle">Choose your destination</div>
         </div>
-
-        <div class="header">
-            <h1>EDVANTAGE</h1>
-            <p>Your gateway to explore learning opportunities</p>
+        <div class="sidebar-menu">
+            <a href="{{ route('profile') }}" class="sidebar-item">
+                <div class="sidebar-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="sidebar-text">
+                    <div class="sidebar-item-title">My Profile</div>
+                    <div class="sidebar-item-description">View and update your personal information</div>
+                </div>
+                <div class="sidebar-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+            
+            <a href="{{ route('courses.enrolled') }}" class="sidebar-item">
+                <div class="sidebar-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="sidebar-text">
+                    <div class="sidebar-item-title">My Courses</div>
+                    <div class="sidebar-item-description">Access your enrolled courses and track progress</div>
+                </div>
+                <div class="sidebar-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+            
+            <a href="{{ route('courses.all') }}" class="sidebar-item">
+                <div class="sidebar-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="sidebar-text">
+                    <div class="sidebar-item-title">Course Catalog</div>
+                    <div class="sidebar-item-description">Explore our complete catalog of courses</div>
+                </div>
+                <div class="sidebar-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+            
+            <a href="/user/dashboard" class="sidebar-item">
+                <div class="sidebar-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="sidebar-text">
+                    <div class="sidebar-item-title">Dashboard</div>
+                    <div class="sidebar-item-description">View your learning analytics and progress</div>
+                </div>
+                <div class="sidebar-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+            
+            <a href="/purchase_history" class="sidebar-item">
+                <div class="sidebar-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <div class="sidebar-text">
+                    <div class="sidebar-item-title">Purchase History</div>
+                    <div class="sidebar-item-description">Review your past purchases and invoices</div>
+                </div>
+                <div class="sidebar-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
         </div>
+    </nav>
 
-        <div class="grid">
-            <div class="hero">
-                <h3>Unlock Your Learning Potential</h3>
-                <p>Join thousands of learners advancing their careers with top-rated courses and interactive content tailored to your journey.</p>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                </button>
+                <a href="/" class="logo">EDVANTAGE</a>
             </div>
-
-            <div class="nav-card">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="{{ route('profile') }}"> View Profile</a></li>
-                    <li><a href="{{ route('courses.enrolled') }}"> Courses Enrolled</a></li>
-                    <li><a href="{{ route('courses.all') }}"> All Courses</a></li>
-                    <li><a href="/user/dashboard"> Dashboard</a></li>
-                    <li><a href="/purchase_history"> Purchase History</a></li>
-                </ul>
-
-                <form action="{{ route('logout') }}" method="POST">
+            <div class="header-actions">
+                <a href="{{ route('cart.all') }}" class="icon-link" title="Shopping Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+                <a href="{{ route('wishlist.all') }}" class="icon-link" title="Wishlist">
+                    <i class="fas fa-heart"></i>
+                </a>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                     @csrf
-                    <button type="submit" class="logout-btn"> Logout</button>
+                    <button type="submit" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </form>
             </div>
         </div>
+    </header>
 
-        <div class="stats">
-            <div class="stat-card">
-                <h2>500+</h2>
-                <p>Courses</p>
-            </div>
-            <div class="stat-card">
-                <h2>50K+</h2>
-                <p>Students</p>
-            </div>
-            <div class="stat-card">
-                <h2>95%</h2>
-                <p>Success Rate</p>
-            </div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Success Alert -->
+        @if(session('success'))
+        <div class="alert">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
         </div>
-    </div>
+        @endif
 
+        <!-- My Courses Content - Your Original Code with Styling -->
+        <div class="courses-container">
+            <h2>My Courses</h2>
+            
+            @if(isset($enrolledCourses) && $enrolledCourses->count() > 0)
+                <ul>
+                    @foreach ($enrolledCourses as $course)
+                        <div>
+                            <img src="{{ asset('storage/' . $course->image) }}" alt="Course Image" width="120">
+                            <div class="course-content">
+                                <li><a href="{{ route('user.course.modules', $course->id) }}">{{ $course->title }}</a></li>
+                                <p>{{ $course->description }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </ul>
+            @else
+                <div class="no-courses">
+                    <div class="no-courses-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="no-courses-text">No courses enrolled yet</div>
+                    <div class="no-courses-subtext">Start your learning journey by exploring our course catalog</div>
+                </div>
+            @endif
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            function toggleSidebar() {
+                const isActive = sidebar.classList.contains('active');
+                
+                if (isActive) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    hamburgerMenu.classList.remove('active');
+                } else {
+                    sidebar.classList.add('active');
+                    sidebarOverlay.classList.add('active');
+                    hamburgerMenu.classList.add('active');
+                }
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            }
+
+            hamburgerMenu.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', closeSidebar);
+
+            // Close sidebar on escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeSidebar();
+                }
+            });
+
+            // Handle sidebar link clicks
+            const sidebarLinks = document.querySelectorAll('.sidebar-item');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    setTimeout(closeSidebar, 100);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
