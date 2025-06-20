@@ -40,6 +40,7 @@ Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/add', 
 Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/delete', [ResourceController::class, 'destroy']);
 Route::get('/admin_panel/manage_resources/view', [ResourceController::class,'viewPage']);
 Route::get('/admin/pdf/{filename}', [ResourceController::class, 'showPdf'])->name('pdf.view');
+Route::get('/admin/video/{filename}', [ResourceController::class, 'showVideo'])->name('video.view');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/manage_resources/{course_id}/view', [ResourceController::class, 'index']);

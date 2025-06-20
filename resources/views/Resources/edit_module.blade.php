@@ -12,8 +12,8 @@
     {{$module_id}}
     <form id="resourceForm" action="{{ url('admin_panel/manage_resources/' . $course->id . '/module/' . $module_id . '/add') }}" method="POST" enctype="multipart/form-data">
     @csrf
-    <label>Video URL:</label>
-    <input type="url" name="video_url" id="video_url" required><br>
+    <label>Video</label>
+    <input type="file" name="video" id="video" required><br>
 
     <label>Lecture Note (PDF only):</label>
     <input type="file" name="lecture_note" id="lecture_note" accept="application/pdf" required><br>

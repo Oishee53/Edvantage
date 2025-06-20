@@ -13,7 +13,7 @@ class ResourceController extends Controller
     $courses = Courses::all();
     return view('Resources.course_list', compact('courses'));
     }
-     public function viewPage()
+    public function viewPage()
     {
     $courses = Courses::all();
     return view('Resources.view_resources', compact('courses'));
@@ -54,6 +54,36 @@ public function showPdf($filename)
         'Content-Disposition' => 'inline; filename="' . $filename . '"'
     ]);
 }
+public function showVideo($filename)
+{
+    $path = storage_path('app/private/lecture_videos/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404, 'Video not found.');
+    }
+    if (!Auth::check()) {
+        abort(403, 'Unauthorized access.');
+    }
+
+    $mimeType = $this->getVideoMimeType($filename);
+    return response()->file($path, [
+        'Content-Type' => $mimeType,
+        'Content-Disposition' => 'inline; filename="' . $filename . '"'
+    ]);
+}
+
+private function getVideoMimeType($filename)
+{
+    $extension = pathinfo($filename, PATHINFO_EXTENSION);
+    
+    return match(strtolower($extension)) {
+        'mp4' => 'video/mp4',
+        'avi' => 'video/x-msvideo',
+        'mov' => 'video/quicktime',
+        'webm' => 'video/webm',
+        default => 'video/mp4'
+    };
+}
 public function checkExists(Request $request) {
     $exists = Resource::where('courseId', $request->course_id)
                       ->where('moduleId', $request->module_id)
@@ -63,15 +93,16 @@ public function checkExists(Request $request) {
 }
 public function insert(Request $request, $course_id, $module_id) {
     $request->validate([
-        'video_url' => 'required|url',
+        'video' => 'required',
         'lecture_note' => 'required|mimes:pdf|max:2048',
     ]);
 
     $pdfPath = $request->file('lecture_note')->store('lecture_notes');
+    $videoPath = $request->file('video')->store('lecture_videos');
 
     Resource::updateOrCreate(
         ['courseId' => $course_id, 'moduleId' => $module_id],
-        ['videos' => $request->video_url, 'pdf' => $pdfPath]
+        ['videos' => $videoPath, 'pdf' => $pdfPath]
     );
 
     return redirect('/admin_panel/manage_resources')->with('success', 'Resource saved successfully.');
