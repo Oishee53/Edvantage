@@ -14,14 +14,14 @@
         @foreach ($resources as $resource)
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5>Module: {{ $resource->moduleId ?? 'N/A' }}</h5>
+                    <h3>Module: {{ $resource->moduleId ?? 'N/A' }}</h3>
                 </div>
                 <div class="card-body">
                     
                     {{-- Video Section --}}
-                    <h6>Video Lecture</h6>
+                    <h3>Video Lecture</h3>
                     <video width="70%" height="auto" controls 
-                           controlsList="nodownload nofullscreen noremoteplayback"
+                           controlsList="nodownload"
                            disablepictureinpicture
                            oncontextmenu="return false;">
                         <source src="{{ route('video.view', ['filename' => basename($resource->videos)]) }}" type="video/mp4">
@@ -30,12 +30,12 @@
 
                     {{-- PDF Section --}}
                     <div class="mt-4">
-                        <h6>
+                        <h3>
                             PDF Lecture Notes
                             <button class="btn btn-secondary btn-sm" type="button" onclick="togglePdf('pdf-{{ $loop->index }}')">
                                 Show/Hide PDF
                             </button>
-                        </h6>
+                        </h3>
 
                         <div id="pdf-{{ $loop->index }}" style="display: none;">
                             <iframe src="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" width="100%" height="500px" frameborder="0"></iframe>
