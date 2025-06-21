@@ -10,9 +10,11 @@
     @auth
     <p>Welcome, {{ auth()->user()->name }}!</p>
     <br>
-    <a href="/admin_panel/manage_courses" style="font-weight: bold;">Manage Courses</a>
+    <a href="/admin_panel/manage_courses" style="font-weight: bold;">Course Management</a>
     <br>
-    <a href="/admin_panel/manage_resources" style="font-weight: bold;">Manage Resources</a>
+    <a href="/admin_panel/manage_resources" style="font-weight: bold;">Resource Management</a>
+    <br>
+    <a href="" style="font-weight: bold;">View Entrolled Student</a>
     <br>
     <form action="/logout" method="POST">
         @csrf

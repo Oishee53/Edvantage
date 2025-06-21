@@ -47,4 +47,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('/check-resource', [ResourceController::class, 'checkExists'])->name('check.resource.exists');
 
+Route::post('/upload-chunk', [ResourceController::class, 'uploadChunk']);
+
+
 
