@@ -63,17 +63,24 @@ public function showVideo($filename)
     if (!file_exists($path)) {
         abort(404, 'Video not found.');
     }
+
     if (!Auth::check()) {
         abort(403, 'Unauthorized access.');
     }
 
     $mimeType = $this->getVideoMimeType($filename);
-    return response()->file($path, [
+
+    // Return a streamed response with proper headers
+    return response()->stream(function () use ($path) {
+        readfile($path);
+    }, 200, [
         'Content-Type' => $mimeType,
-        'Content-Disposition' => 'inline; filename="' . $filename . '"'
+        'Content-Disposition' => 'inline; filename="' . basename($path) . '"',
+        'Accept-Ranges' => 'bytes',
+        'Content-Length' => filesize($path),
+        'X-Content-Type-Options' => 'nosniff',
     ]);
 }
-
 private function getVideoMimeType($filename)
 {
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -97,12 +104,12 @@ public function checkExists(Request $request) {
 }
 public function insert(Request $request, $course_id, $module_id) {
     $request->validate([
-        'video' => 'required|string', // Now it's a path, not a file
+        'video' => 'required',
         'lecture_note' => 'required|mimes:pdf|max:2048',
     ]);
 
     $pdfPath = $request->file('lecture_note')->store('lecture_notes');
-    $videoPath = $request->video; // From hidden input
+    $videoPath = $request->file('video')->store('lecture_videos');
 
     Resource::updateOrCreate(
         ['courseId' => $course_id, 'moduleId' => $module_id],
@@ -111,7 +118,6 @@ public function insert(Request $request, $course_id, $module_id) {
 
     return redirect('/admin_panel/manage_resources')->with('success', 'Resource saved successfully.');
 }
-
 public function destroy($course_id, $module_id) {
     $resource = Resource::where('courseId', $course_id)
                       ->where('moduleId', $module_id)
