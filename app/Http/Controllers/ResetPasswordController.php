@@ -42,7 +42,7 @@ public function showResetForm(Request $request, $token = null)
             // Validate the request inputs
             $request->validate([
                 'email'    => 'required|email|exists:users,email',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|min:5|confirmed',
                 'token'    => 'required',
             ]);
 
@@ -51,9 +51,10 @@ public function showResetForm(Request $request, $token = null)
                 ->where('email', $request->email)
                 ->first();
 
-            if (!$resetRecord || !Hash::check($request->token, $resetRecord->token)) {
-                return back()->with('error', 'Invalid token!')->withInput();
-            }
+           if (!$resetRecord || $request->token !== $resetRecord->token) {
+        return back()->with('error', 'Invalid token!');
+         }
+
 
             // Check if the token has expired (valid for 60 minutes)
             if (Carbon::parse($resetRecord->created_at)->addMinutes(60)->isPast()) {
