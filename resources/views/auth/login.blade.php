@@ -329,7 +329,9 @@
                 Sign In
             </button>
         </form>
-
+       <div class="forgot pass-link">
+            <p>Forgot your password? <a href="/password/reset">Create a new one</a></p>
+        </div>
         <!-- Register Link -->
         <div class="register-link">
             <p>Don't have an account? <a href="/register">Create one here</a></p>
