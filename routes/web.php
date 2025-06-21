@@ -9,6 +9,10 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules;
 
 Route::get('/', function () {
 
@@ -25,6 +29,30 @@ Route::post('/logout', function () {
 Route::get('/login/user', [LandingController::class, 'showLanding']);
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
+
+
+
+// ----------------------------- Forget Password --------------------------//
+Route::controller(ForgotPasswordController::class)->group(function () {
+    Route::post('forget-password', 'sendResetLinkEmail')->name('password.email');
+    Route::get('/password/reset', 'showLinkRequestForm');
+});
+
+
+
+// ---------------------------- Reset Password ----------------------------//
+Route::controller(ResetPasswordController::class)->group(function () {
+    Route::get('reset-password/{token}', 'showResetForm')->name('password.reset');
+    Route::post('reset-password', 'updatePassword')->name('password.update');
+    
+});
+
+
+
+
+
+
+
 
 
 
