@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('videos')->nullable(); // You can store video URL or path
             $table->string('pdf')->nullable();    // You can store file name/path
             $table->timestamps();
-            $table->foreign('courseId')->references('id')->on('course')->onDelete('cascade');
+            $table->foreign('courseId')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 
