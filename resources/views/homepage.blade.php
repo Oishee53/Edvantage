@@ -1,607 +1,563 @@
-@if(session('message'))
-    <div class="alert alert-info">
-        {{ session('message') }}
-    </div>
-@endif
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - EDVANTAGE</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EDVANTAGE - Your Virtual Classroom Redefined</title>
+  <style>
+    /* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-            overflow-x: hidden;
-        }
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80') center/cover;
+  opacity: 0.3;
+}
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 100;
-        }
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+.hero p {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-        .hamburger-menu {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-        .hamburger-menu:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
+.btn-hero {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+}
 
-        .hamburger-line {
-            width: 20px;
-            height: 2px;
-            background: white;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
 
-        .hamburger-menu.active .hamburger-line:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
 
-        .hamburger-menu.active .hamburger-line:nth-child(2) {
-            opacity: 0;
-        }
+/* Courses Section */
+.courses-section {
+  padding: 5rem 0;
+  background: #f8fafc;
+}
 
-        .hamburger-menu.active .hamburger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #667eea;
-            text-decoration: none;
-        }
+.section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+.section-title h2 {
+  font-size: 2.5rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
 
-        .icon-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
+.section-title p {
+  font-size: 1.1rem;
+  color: #64748b;
+}
 
-        .icon-link:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-        }
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
 
-        .logout-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
+.course-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
 
-        /* Sidebar Styles */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -350px;
-            width: 350px;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 1000;
-            overflow-y: auto;
-        }
+.course-image-container {
+  position: relative;
+  height: 45%;
+  overflow: hidden;
+}
 
-        .sidebar.active {
-            left: 0;
-        }
+.course-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
 
-        .sidebar-header {
-            padding: 2rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
+.course-card:hover .course-image {
+  transform: scale(1.05);
+}
 
-        .sidebar-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
+.course-content {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-        .sidebar-subtitle {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
+.course-category {
+  background: #6366f1;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+}
 
-        .sidebar-menu {
-            padding: 1rem 0;
-        }
+.course-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
+.course-bottom {
+  margin-top: auto;
+}
 
-        .sidebar-item:hover {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            border-left-color: #667eea;
-            color: #667eea;
-        }
+.course-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #10b981;
+  margin-bottom: 0.75rem;
+}
 
-        .sidebar-icon {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin-right: 1rem;
-            font-size: 1.1rem;
-        }
+.course-actions {
+  display: flex;
+  gap: 0.5rem;
+}
 
-        .sidebar-text {
-            flex: 1;
-        }
+.btn-details {
+  flex: 1;
+  background: #f1f5f9;
+  color: #475569;
+  text-align: center;
+  padding: 0.6rem 0.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
 
-        .sidebar-item-title {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
-        }
+.btn-details:hover {
+  background: #e2e8f0;
+  color: #334155;
+}
 
-        .sidebar-item-description {
-            font-size: 0.8rem;
-            color: #666;
-            line-height: 1.3;
-        }
+.btn-cart {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
 
-        .sidebar-arrow {
-            color: #999;
-            font-size: 0.8rem;
-        }
+.btn-cart:hover {
+  background: #4f46e5;
+  transform: scale(1.02);
+}
 
-        /* Overlay */
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
+/* Responsive Courses Grid */
+@media (max-width: 1200px) {
+  .courses-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
-        .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            transition: all 0.4s ease;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
 
-        .alert {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            border: none;
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
-        }
+    /* Header Styles */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
 
-        /* My Courses Content - Styled version of your original code */
-        .courses-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
 
-        .courses-container h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #6366f1;
+    }
 
-        .courses-container h2::before {
-            content: "🎓";
-            font-size: 2rem;
-        }
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
 
-        .courses-container ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+    .nav-menu a {
+      text-decoration: none;
+      color: #64748b;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
 
-        .courses-container > ul > div {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(102, 126, 234, 0.1);
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-        }
+    .nav-menu a:hover {
+      color: #6366f1;
+    }
 
-        .courses-container > ul > div:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
+    .header-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-left: 20rem;
+    }
 
-        .courses-container img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-        }
+    .btn {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
 
-        .course-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
+    .btn-outline {
+      background: transparent;
+      color: #6366f1;
+      border: 2px solid #6366f1;
+    }
 
-        .courses-container li {
-            margin: 0;
-            padding: 0;
-        }
+    .btn-outline:hover {
+      background: #6366f1;
+      color: white;
+    }
 
-        .courses-container li a {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
+    .btn-primary {
+      background: #6366f1;
+      color: white;
+    }
 
-        .courses-container li a:hover {
-            color: #667eea;
-            transform: translateX(5px);
-        }
+    .btn-primary:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
 
-        .courses-container p {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 0;
-        }
+    .user-menu {
+      position: relative;
+    }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
+    .user-menu-button {
+      width: 48px;
+      height: 48px;
+      background: #6366f1;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
 
-            .main-content {
-                padding: 1rem;
-            }
+    .user-menu-button:hover {
+      background: #4f46e5;
+      transform: scale(1.05);
+    }
 
-            .courses-container h2 {
-                font-size: 2rem;
-            }
+    .user-dropdown {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e2e8f0;
+      min-width: 220px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
 
-            .courses-container > ul > div {
-                flex-direction: column;
-                text-align: center;
-            }
+    .user-menu:hover .user-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
 
-            .courses-container img {
-                width: 100%;
-                max-width: 200px;
-                height: auto;
-            }
+    .user-dropdown a {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #374151;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+      border-bottom: 1px solid #f3f4f6;
+    }
 
-            .sidebar {
-                width: 100%;
-                left: -100%;
-            }
-        }
+    .user-dropdown a:last-child {
+      border-bottom: none;
+    }
 
-        /* Empty state */
-        .no-courses {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-        }
+    .user-dropdown a:hover {
+      background: #f8fafc;
+      color: #6366f1;
+    }
 
-        .no-courses-icon {
-            font-size: 4rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
+    .user-dropdown .icon {
+      margin-right: 12px;
+      font-size: 1rem;
+      width: 16px;
+      text-align: center;
+    }
 
-        .no-courses-text {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
+    .user-dropdown .separator {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 4px 0;
+    }
 
-        .no-courses-subtext {
-            font-size: 0.9rem;
-            color: #999;
-        }
-    </style>
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+
+      .header-buttons {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-title">Navigation</div>
-            <div class="sidebar-subtitle">Choose your destination</div>
-        </div>
-        <div class="sidebar-menu">
-            <a href="{{ route('profile') }}" class="sidebar-item">
-                <div class="sidebar-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="sidebar-text">
-                    <div class="sidebar-item-title">My Profile</div>
-                    <div class="sidebar-item-description">View and update your personal information</div>
-                </div>
-                <div class="sidebar-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-            
-            <a href="{{ route('courses.enrolled') }}" class="sidebar-item">
-                <div class="sidebar-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="sidebar-text">
-                    <div class="sidebar-item-title">My Courses</div>
-                    <div class="sidebar-item-description">Access your enrolled courses and track progress</div>
-                </div>
-                <div class="sidebar-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-            
-            <a href="{{ route('courses.all') }}" class="sidebar-item">
-                <div class="sidebar-icon">
-                    <i class="fas fa-book-open"></i>
-                </div>
-                <div class="sidebar-text">
-                    <div class="sidebar-item-title">Course Catalog</div>
-                    <div class="sidebar-item-description">Explore our complete catalog of courses</div>
-                </div>
-                <div class="sidebar-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-            
-            <a href="/user/dashboard" class="sidebar-item">
-                <div class="sidebar-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="sidebar-text">
-                    <div class="sidebar-item-title">Dashboard</div>
-                    <div class="sidebar-item-description">View your learning analytics and progress</div>
-                </div>
-                <div class="sidebar-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-            
-            <a href="/purchase_history" class="sidebar-item">
-                <div class="sidebar-icon">
-                    <i class="fas fa-receipt"></i>
-                </div>
-                <div class="sidebar-text">
-                    <div class="sidebar-item-title">Purchase History</div>
-                    <div class="sidebar-item-description">Review your past purchases and invoices</div>
-                </div>
-                <div class="sidebar-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-        </div>
-    </nav>
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">EDVANTAGE</div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </nav>
 
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+      <!-- Wishlist and Cart Buttons -->
+      <div class="header-buttons">
+        <a href="/wishlist" class="btn btn-outline">❤︎</a>
+        <a href="/cart" class="btn btn-primary">🛒</a>
+      </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <button class="hamburger-menu" id="hamburgerMenu">
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                </button>
-                <a href="/" class="logo">EDVANTAGE</a>
-            </div>
-            <div class="header-actions">
-                <a href="{{ route('cart.all') }}" class="icon-link" title="Shopping Cart">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
-                <a href="{{ route('wishlist.all') }}" class="icon-link" title="Wishlist">
-                    <i class="fas fa-heart"></i>
-                </a>
-                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </form>
+
+      
+
+      <!-- User Menu -->
+      <div class="user-menu">
+        <button class="user-menu-button">👤</button>
+        <div class="user-dropdown">
+          <a href="/profile"><span class="icon"></span> My Profile</a>
+          <a href="{{ route('courses.enrolled') }}"><span class="icon"></span> My Courses</a>
+          <a href="/user/dashboard"><span class="icon"></span> Dashboard</a>
+          <a href="{{ route('courses.all') }}"><span class="icon"></span> Course Catalog</a>
+          <a href="/purchase_history"><span class="icon"></span> Purchase History</a>
+          <div class="separator"></div>
+          <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="icon"></span> Logout
+          </a>
+        </div>
+      </div>
+
+      <!-- Hidden logout form -->
+     <form id="logout-form" action="/logout" method="POST" style="display: none;">
+  @csrf
+  </form>
+      </form>
+    </div>
+  </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Your virtual<br>classroom redefined</h1>
+            <p>Elevate your knowledge with interactive learning anytime, anywhere through our online courses.</p>
+            <div class="hero-buttons">
+                <a href="#courses" class="btn btn-secondary btn-hero">Learn More</a>
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Success Alert -->
-        @if(session('success'))
-        <div class="alert">
-            <i class="fas fa-check-circle"></i> {{ session('success') }}
-        </div>
-        @endif
-
-        <!-- My Courses Content - Your Original Code with Styling -->
-        <div class="courses-container">
-            <h2>My Courses</h2>
+    <!-- Courses Section -->
+    <section class="courses-section" id="courses">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Courses</h2>
+                <p>Discover our most popular courses designed to help you achieve your learning goals</p>
+            </div>
             
-            @if(isset($enrolledCourses) && $enrolledCourses->count() > 0)
-                <ul>
-                    @foreach ($enrolledCourses as $course)
-                        <div>
-                            <img src="{{ asset('storage/' . $course->image) }}" alt="Course Image" width="120">
-                            <div class="course-content">
-                                <li><a href="{{ route('user.course.modules', $course->id) }}">{{ $course->title }}</a></li>
-                                <p>{{ $course->description }}</p>
+            <div class="courses-grid">
+                @foreach($courses as $index => $course)
+                <div class="course-card">
+                    <div class="course-image-container">
+                        <img src="{{ asset('storage/' . $course->image) }}" alt="Course Image" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="course-content">
+                        <div class="course-category category-{{ strtolower(str_replace(' ', '-', $course->category ?? 'programming')) }}">
+                            {{ $course->category ?? 'Programming' }}
+                        </div>
+                        <h3 class="course-title">{{ $course->title }}</h3>
+                        <div class="course-bottom">
+                            <div class="course-price">${{ $course->price ?? '49' }}</div>
+                            <div class="course-actions">
+                                <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
+                                    Details
+                                </a>
+                                <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn-cart">Add to Cart</button>
+                                </form>
                             </div>
                         </div>
-                    @endforeach
-                </ul>
-            @else
-                <div class="no-courses">
-                    <div class="no-courses-icon">
-                        <i class="fas fa-book-open"></i>
                     </div>
-                    <div class="no-courses-text">No courses enrolled yet</div>
-                    <div class="no-courses-subtext">Start your learning journey by exploring our course catalog</div>
                 </div>
-            @endif
+                @endforeach
+            </div>
         </div>
-    </main>
+    </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburgerMenu = document.getElementById('hamburgerMenu');
-            const sidebar = document.getElementById('sidebar');
-            const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-            function toggleSidebar() {
-                const isActive = sidebar.classList.contains('active');
-                
-                if (isActive) {
-                    sidebar.classList.remove('active');
-                    sidebarOverlay.classList.remove('active');
-                    hamburgerMenu.classList.remove('active');
-                } else {
-                    sidebar.classList.add('active');
-                    sidebarOverlay.classList.add('active');
-                    hamburgerMenu.classList.add('active');
-                }
-            }
-
-            function closeSidebar() {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-                hamburgerMenu.classList.remove('active');
-            }
-
-            hamburgerMenu.addEventListener('click', toggleSidebar);
-            sidebarOverlay.addEventListener('click', closeSidebar);
-
-            // Close sidebar on escape key
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape') {
-                    closeSidebar();
-                }
-            });
-
-            // Handle sidebar link clicks
-            const sidebarLinks = document.querySelectorAll('.sidebar-item');
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    setTimeout(closeSidebar, 100);
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
             });
         });
+
+        // Header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+        @if(session('cart_added'))
+    
+        if (confirm("{{ session('cart_added') }} Go to cart?")) {
+        window.location.href = "{{ route('cart.all') }}";
+        }
+    
+        @endif
+        
     </script>
 </body>
 </html>
