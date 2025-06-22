@@ -307,7 +307,7 @@
     .header-buttons {
       display: flex;
       gap: 1rem;
-      margin-left:20rem;
+      margin-left: 20rem;
     }
 
     .btn {
@@ -450,29 +450,33 @@
 
       <!-- Wishlist and Cart Buttons -->
       <div class="header-buttons">
-        <a href="/wishlist" class="btn btn-outline">❤️ Wishlist</a>
-        <a href="/cart" class="btn btn-primary">🛒 Cart</a>
+        <a href="/wishlist" class="btn btn-outline">❤︎</a>
+        <a href="/cart" class="btn btn-primary">🛒</a>
       </div>
+
+
+      
 
       <!-- User Menu -->
       <div class="user-menu">
         <button class="user-menu-button">👤</button>
         <div class="user-dropdown">
-          <a href="/profile"><span class="icon">👤</span> My Profile</a>
-          <a href="{{ route('courses.enrolled') }}"><span class="icon">📚</span> My Courses</a>
-          <a href="/user/dashboard"><span class="icon">📊</span> Dashboard</a>
-          <a href="{{ route('courses.all') }}"><span class="icon">📖</span> Course Catalog</a>
-          <a href="/purchase_history"><span class="icon">📋</span> Purchase History</a>
+          <a href="/profile"><span class="icon"></span> My Profile</a>
+          <a href="{{ route('courses.enrolled') }}"><span class="icon"></span> My Courses</a>
+          <a href="/user/dashboard"><span class="icon"></span> Dashboard</a>
+          <a href="{{ route('courses.all') }}"><span class="icon"></span> Course Catalog</a>
+          <a href="/purchase_history"><span class="icon"></span> Purchase History</a>
           <div class="separator"></div>
           <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <span class="icon">🚪</span> Logout
+            <span class="icon"></span> Logout
           </a>
         </div>
       </div>
 
       <!-- Hidden logout form -->
-      <form id="logout-form" action="/logout" method="POST" style="display: none;">
-        <!-- Add CSRF token here if using Laravel -->
+     <form id="logout-form" action="/logout" method="POST" style="display: none;">
+  @csrf
+  </form>
       </form>
     </div>
   </header>
@@ -483,7 +487,6 @@
             <h1>Your virtual<br>classroom redefined</h1>
             <p>Elevate your knowledge with interactive learning anytime, anywhere through our online courses.</p>
             <div class="hero-buttons">
-                <a href="/register" class="btn btn-primary btn-hero">Get Started for FREE</a>
                 <a href="#courses" class="btn btn-secondary btn-hero">Learn More</a>
             </div>
         </div>
