@@ -14,19 +14,14 @@ use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules;
 
-Route::get('/', function () {
-
-    return view('multiple_authentication');
-});
-
-
+Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {
     auth()->logout();
     return redirect('/');
 })->name('logout');
 
-Route::get('/login/user', [LandingController::class, 'showLanding']);
+
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 

@@ -5,47 +5,82 @@
 </head>
 <body>
     @auth
-    <h2>PDF and Video List</h2>
 
+<div class="container mt-4">
+    <h2>PDF and Video List</h2>
     <h3>Course Title: {{ $course->title }}</h3>
 
-    @foreach ($resources as $resource)
-    <tr>
-        <p><strong>Module:</strong> {{ $resource->moduleId ?? 'N/A' }}</p>
+    @auth
+        @foreach ($resources as $resource)
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Module: {{ $resource->moduleId ?? 'N/A' }}</h3>
+                </div>
+                <div class="card-body">
+                    
+                    {{-- Video Section --}}
+                    <h3>Video Lecture</h3>
+                    <video width="70%" height="auto" controls 
+                           controlsList="nodownload"
+                           disablepictureinpicture
+                           oncontextmenu="return false;">
+                        <source src="{{ route('video.view', ['filename' => basename($resource->videos)]) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
 
-        @php
-            preg_match('/(?:v=|\/)([0-9A-Za-z_-]{11})/', $resource->videos, $matches);
-            $videoId = $matches[1] ?? null;
-        @endphp
+                    {{-- PDF Section --}}
+                    <div class="mt-4">
+                        <h3>
+                            PDF Lecture Notes
+                            <button class="btn btn-secondary btn-sm" type="button" onclick="togglePdf('pdf-{{ $loop->index }}')">
+                                Show/Hide PDF
+                            </button>
+                        </h3>
 
-        <div style="margin-bottom: 30px;">
-            {{-- Display YouTube Video --}}
-            @if ($videoId)
-                <p><strong>YouTube Link:</strong></p>
-                <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/{{ $videoId }}"
-                        frameborder="0" allowfullscreen>
-                </iframe>
-            @else
-                <p>❌ Invalid YouTube URL</p>
-            @endif
+                        <div id="pdf-{{ $loop->index }}" style="display: none;">
+                            <iframe src="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" width="100%" height="500px" frameborder="0"></iframe>
+                        </div>
 
-            {{-- Display PDF --}}
-            <h3>PDF File:</h3>
-            <a href="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" target="_blank">🔗 Open PDF in New Tab</a>
+                        <div class="mt-2">
+                            <a href="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                📄 Open PDF in New Tab
+                            </a>
+                            <a href="{{ route('pdf.view', ['filename' => basename($resource->pdf)]) }}" download class="btn btn-outline-success btn-sm">
+                                💾 Download PDF
+                            </a>
+                        </div>
+                    </div>
 
-        </div>
-        <form action="/admin_panel/manage_resources/{{$course->id}}/module/{{$resource->moduleId}}/delete" method="post">
-             @csrf
-            <button type="submit">Delete</button>
-        </form>
-        <hr>
-    </tr>
-    @endforeach
+                    {{-- Delete Resource --}}
+                    <form action="/admin_panel/manage_resources/{{$course->id}}/module/{{$resource->moduleId}}/delete" method="POST" class="mt-4">
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this resource?')">
+                            🗑️ Delete Resource
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @endforeach
+    @else
+        <p>You are not logged in. <a href="/">Go to Login</a></p>
+    @endauth
+</div>
+
+<script>
+    function togglePdf(id) {
+        const pdf = document.getElementById(id);
+        if (pdf.style.display === 'none' || pdf.style.display === '') {
+            pdf.style.display = 'block';
+        } else {
+            pdf.style.display = 'none';
+        }
+    }
+</script>
+
+
+
     @else
     <p>You are not logged in. <a href="/">Go to Login</a></p>
-@endauth
-     
-
+    @endauth
 </body>
 </html>
