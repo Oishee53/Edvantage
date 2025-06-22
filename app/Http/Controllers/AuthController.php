@@ -14,7 +14,7 @@ class AuthController extends Controller
     // Show login form
     public function showLogin()
     {
-return response()
+    return response()
         ->view('auth.login') // or whatever your login view is
         ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
         ->header('Pragma', 'no-cache')
@@ -23,16 +23,30 @@ return response()
 
     // Handle login submission
     public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        $credentials['role'] = 1;
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (Auth::attempt($credentials)) {
-            return redirect('/homepage'); 
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        
+        switch ($user->role) {
+            case 1:
+                return redirect('/homepage');
+            case 2:
+                return redirect('/admin_panel');
+            default:
+                Auth::logout();
+                return back()->with('error', 'Access denied - Invalid role.');
         }
-
-        return back()->with('error', 'Invalid email or password.');
     }
+
+    return back()->with('error', 'Invalid email or password.');
+}
 
     
     public function showRegister()

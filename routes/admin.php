@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ResourceController;
 
-Route::get('/admin', [AdminController::class, 'showLoginForm']);
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 
 Route::get('/admin_panel', function () {
@@ -40,11 +40,24 @@ Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/add', 
 Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/delete', [ResourceController::class, 'destroy']);
 Route::get('/admin_panel/manage_resources/view', [ResourceController::class,'viewPage']);
 Route::get('/admin/pdf/{filename}', [ResourceController::class, 'showPdf'])->name('pdf.view');
+Route::get('/admin/video/{filename}', [ResourceController::class, 'showVideo'])->name('video.view');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/manage_resources/{course_id}/view', [ResourceController::class, 'index']);
 });
 
 Route::post('/check-resource', [ResourceController::class, 'checkExists'])->name('check.resource.exists');
+
+Route::post('/upload-chunk', [ResourceController::class, 'uploadChunk']);
+
+Route::get('/admin_panel/manage_user', function () {
+    return view('Student.manage_student');
+});
+Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController::class, 'enrolledStudents']);
+Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
+Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);
+
+
+
 
 
