@@ -120,15 +120,16 @@
     <div class="container">
         @auth
             <p>Welcome, {{ auth()->user()->name }}!</p>
-            <a href="/admin_panel/manage_courses">📚 Manage Courses</a>
-            <a href="/admin_panel/manage_resources">📂 Manage Resources</a>
+            <a href="/admin_panel/manage_courses">Course Management</a>
+            <a href="/admin_panel/manage_resources">Resource Management</a>
+             <a href="/admin_panel/manage_user">User Management</a>
             <form action="/logout" method="POST">
                 @csrf
                 <button>Logout</button>
             </form>
         @else
             <p>You are not logged in.</p>
-            <a href="/">🔐 Go to Login</a>
+            <a href="/">Go to Login</a>
         @endauth
     </div>
 </body>
