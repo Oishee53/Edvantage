@@ -20,7 +20,7 @@
     }
 
     h2 {
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       font-weight: 700;
       margin-bottom: 30px;
       text-align: center;
@@ -28,7 +28,7 @@
 
     .wishlist-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 25px;
       max-width: 1200px;
       margin: auto;
@@ -36,7 +36,7 @@
 
     .wishlist-item {
       background-color: #fff;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
@@ -51,38 +51,41 @@
 
     .course-image {
       width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      border-radius: 20px;
+      background-color: #000;
+      padding: 4px;
       margin-bottom: 15px;
     }
 
     .course-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: #1c1c1c;
-      margin-bottom: 8px;
-    }
-
-    .course-description {
-      font-size: 0.95rem;
-      color: #555;
-      margin-bottom: 12px;
-      flex: 1;
+      margin-bottom: 6px;
     }
 
     .course-price {
+      font-size: 1rem;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
+    }
+
+    .course-description {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 12px;
+      flex: 1;
     }
 
     .remove-btn {
       background-color: #a435f0;
       color: #fff;
       border: none;
-      padding: 10px 16px;
+      padding: 8px 14px;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.3s ease;
@@ -101,7 +104,7 @@
 
     @media (max-width: 600px) {
       .course-description {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
       }
     }
   </style>
