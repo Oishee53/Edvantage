@@ -13,6 +13,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules;
+use App\Models\Courses;
 
 Route::get('/', [LandingController::class, 'showLanding']);
 
@@ -65,7 +66,8 @@ Route::middleware(['auth.custom'])->group(function () {
 
 Route::get('/homepage', function () {
     $user = auth()->user();
-    return view('homepage',compact('user')); 
+    $courses = Courses::all(); 
+    return view('homepage',compact('user','courses')); 
 });
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
