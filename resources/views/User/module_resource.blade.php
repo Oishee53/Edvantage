@@ -1,7 +1,13 @@
 <h2>Module {{ $resource->moduleId }} Resources</h2>
 
 @if($resource->videos)
-    <iframe width="560" height="315" src="{{ $resource->videos }}" frameborder="0" allowfullscreen></iframe>
+    <video width="70%" height="auto" controls 
+                           controlsList="nodownload"
+                           disablepictureinpicture
+                           oncontextmenu="return false;">
+                        <source src="{{ route('video.view', ['filename' => basename($resource->videos)]) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
 @endif
 <br>
 @if($resource->pdf)

@@ -63,6 +63,7 @@
             dropArea.innerHTML = 'Upload failed. Try again.';
         });
     </script>
+    --}}
 
     {{-- Resource existence check & submit --}}
     <script>
