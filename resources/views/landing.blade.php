@@ -197,7 +197,7 @@
 
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
             margin-top: 2rem;
         }
@@ -354,7 +354,7 @@
         /* Responsive Design */
         @media (max-width: 1200px) {
             .courses-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -508,6 +508,7 @@
                 header.style.background = 'rgba(255, 255, 255, 0.95)';
             }
         });
+        
     </script>
 </body>
 </html>

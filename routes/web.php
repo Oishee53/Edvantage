@@ -1,18 +1,19 @@
 <?php
 
+use App\Models\Courses;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ResetPasswordController;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\Rules;
+use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', [LandingController::class, 'showLanding']);
 
@@ -65,7 +66,8 @@ Route::middleware(['auth.custom'])->group(function () {
 
 Route::get('/homepage', function () {
     $user = auth()->user();
-    return view('homepage',compact('user')); 
+    $courses = Courses::all(); 
+    return view('homepage',compact('user','courses')); 
 });
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
