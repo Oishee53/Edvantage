@@ -13,4 +13,10 @@ class StudentController extends Controller
 
     return view('Student.view_enrolled_student', compact('courses'));
 }
+ public function allStudents()
+{
+    $courses = Courses::with(['students'])->get();
+
+    return view('Student.view_all_student', compact('courses'));
+}
 }

@@ -9,6 +9,9 @@
 <body>
     <form action="/admin_panel/manage_user/view_enrolled_student" method="GET">
             <button type="submit">View Enrolled Student</button>
-        </form>
+    </form>
+    <form action="/admin_panel/manage_user/view_all_student" method="GET">
+            <button type="submit">View All Student</button>
+    </form>
 </body>
 </html>
