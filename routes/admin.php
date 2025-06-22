@@ -55,6 +55,9 @@ Route::get('/admin_panel/manage_user', function () {
 });
 Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController::class, 'enrolledStudents']);
 Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
+Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);
+
+
 
 
 

@@ -36,7 +36,13 @@
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->email }}</td>
                                     <td>{{ $student->phone }}</td>
+                                    <td><form action="/admin_panel/manage_user/unenroll_student/{{course->id}}/{{student->id}}" method="POST">
+                                     @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Unenroll</button>
+                                    </form></td>
                                 </tr>
+                                
                             @endforeach
                         </tbody>
                     </table>

@@ -19,4 +19,14 @@ public function allStudents()
     $students =User::where('role', User::ROLE_USER)->get();                  
     return view('Student.view_all_student', compact('students'));
 }
+public function destroy(Request $request){
+    $request->validate([
+        'title' => 'required',
+    ]);
+    $course = Courses::where('title', $request->title)->firstOrFail();
+    $course->delete();
+
+    return redirect('/admin_panel/manage_courses/delete-course');
+    
+}
 }
