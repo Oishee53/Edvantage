@@ -54,6 +54,7 @@ Route::get('/admin_panel/manage_user', function () {
     return view('Student.manage_student');
 });
 Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController::class, 'enrolledStudents']);
+Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
 
 
 
