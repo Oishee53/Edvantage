@@ -28,6 +28,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.custom' => AuthenticateUser::class,
         ]);
+        
+
+        $middleware->web(append: [
+        PreventBackHistory::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
