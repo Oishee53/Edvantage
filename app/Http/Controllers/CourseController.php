@@ -14,7 +14,8 @@ class CourseController extends Controller
 public function viewCourses()
 {
     $courses = Courses::all();
-    return view('courses.all_courses', compact('courses'));
+    $uniqueCategories = $courses->pluck('category')->unique();
+    return view('courses.all_courses', compact('courses','uniqueCategories'));
 }
 
 
