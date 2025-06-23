@@ -496,7 +496,9 @@
   <!-- Header matching the profile theme -->
   <header class="header">
     <div class="header-content">
-      <a href="{{ url('/') }}" class="logo">EDVANTAGE</a>
+      <a href="/" class="logo">
+        <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:32px; display:inline-block; vertical-align:middle;">
+      </a>
       
       <nav>
         <ul class="nav-menu">

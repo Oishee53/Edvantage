@@ -13,9 +13,9 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
+        font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
         }
 
         /* Header Styles */
@@ -40,7 +40,7 @@
         }
 
         .logo {
-            font-family: 'Lora', serif;
+            font-family: 'Roboto', sans-serif;;
             font-size: 1.8rem;
             font-weight: bold;
             color: #6366f1;
@@ -130,7 +130,7 @@
         }
 
         .hero h1 {
-            font-family: 'Lora', serif;
+            font-family:'Roboto', sans-serif;
             font-size: 3.5rem;
             font-weight: bold;
             color: white;
@@ -188,7 +188,7 @@
         }
 
         .section-title h2 {
-            font-family: 'Lora', serif;
+            font-family: 'Roboto', sans-serif;
             font-size: 2.5rem;
             color: #1e293b;
             margin-bottom: 1rem;
@@ -241,9 +241,9 @@
         }
 
         .course-title {
-            font-family: 'Lora', serif;
+            font-family: 'Roboto', sans-serif;
             font-size: 18px; /* Increased font size */
-            font-weight: 500;
+            font-weight: 700;
             color: #1a1a1a;
             margin-bottom: 4px;
             line-height: 1.3;
@@ -289,7 +289,7 @@
         }
 
         .course-price {
-            font-family: 'Lora', serif;
+            font-family: 'Roboto', sans-serif;
             font-size: 16px;
             font-weight: 700;
             color: #1a1a1a;
