@@ -8,11 +8,11 @@
   <style>
     :root {
       --cream: #FFF2E0;
-      --light-purple: #CCD3F3;
-      --mid-purple: #B1B9E8;
-      --deep-purple: #949CDC;
-      --action-purple: #6A5ACD;
-      --action-purple-hover: #5849b4;
+      --light-blue: #E3F2FD;
+      --mid-blue: #BBDEFB;
+      --deep-blue: #90CAF9;
+      --action-blue: #4285f4;
+      --action-blue-hover: #3367d6;
       --text-dark: #2F2F2F;
     }
 
@@ -35,6 +35,7 @@
       color: white;
       padding: 15px 0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height:
     }
 
     .header-content {
@@ -49,13 +50,13 @@
     .logo {
       font-size: 24px;
       font-weight: bold;
-      color: #667eea;
+      color: #4285f4;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
+    
     .header-search {
       flex: 1;
       max-width: 500px;
@@ -98,9 +99,9 @@
 
     .header-btn {
       position: relative;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: 
+      background: rgba(66, 133, 244, 0.1);
+      border: 1px solid rgba(66, 133, 244, 0.3);
+      color: #4285f4;
       padding: 8px 12px;
       border-radius: 8px;
       cursor: pointer;
@@ -112,8 +113,8 @@
     }
 
     .header-btn:hover {
-      background: rgba(255,255,255,0.2);
-      color: #6366f1;;
+      background: rgba(66, 133, 244, 0.2);
+      color: #4285f4;
     }
 
     .badge {
@@ -136,7 +137,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--action-purple);
+      background: var(--action-blue);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -146,8 +147,8 @@
     /* Hero Banner */
     .hero-banner {
   height: 300px;
-  background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), 
-              url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+  background: linear-gradient(rgba(47, 98, 180, 0.8), rgba(24, 87, 225, 0.8));
+             
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -243,7 +244,7 @@
 
     .category-link:hover,
     .category-link.active {
-      background: var(--action-purple);
+      background: var(--action-blue);
       color: white;
       transform: translateX(5px);
     }
@@ -258,7 +259,7 @@
     }
 
     .search-section {
-      background: linear-gradient(#667eea);
+      background: linear-gradient(#4285f4, #3367d6);
       border-radius: 15px;
       padding: 30px;
       text-align: left;
@@ -287,7 +288,7 @@
       right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      background: #3498db;
+      background: #4285f4;
       border: none;
       color: white;
       width: 40px;
@@ -393,7 +394,7 @@
   font-size: 13px;
   font-weight: 600;
   color: white;
-  background: var(--action-purple);
+  background: var(--action-blue);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -406,7 +407,7 @@
 }
 
 .view-details-btn:hover {
-  background: var(--action-purple-hover);
+  background: var(--action-blue-hover);
   transform: translateY(-1px);
 }
 
@@ -420,7 +421,7 @@
 }
 
 .icon-btn {
-  background-color: var(--action-purple);
+  background-color: var(--action-blue);
   border: none;
   color: white;
   padding: 10px;
@@ -434,7 +435,7 @@
 }
 
 .icon-btn:hover {
-  background-color: var(--action-purple-hover);
+  background-color: var(--action-blue-hover);
   transform: translateY(-1px);
 }
 
@@ -540,7 +541,7 @@
   <div class="header">
     <div class="header-content">
       <a href="/" class="logo">
-        EDVANTAGE
+        <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:32px; display:inline-block; vertical-align:middle;">
       </a>
       <div class="header-actions">
         <div class="cart-wishlist">
@@ -562,11 +563,7 @@
 
   <!-- Hero Banner -->
 <div class="hero-banner">
-  <div class="hero-content">
-    <h1 class="hero-title">Transform Your Future</h1>
-    <p class="hero-subtitle">Learn from Industry Experts</p>
-    <div class="hero-stats">{{ $courses->count() }}+ Courses Available</div>
-  </div>
+  
 </div>
 
   <!-- Main Container -->
@@ -698,7 +695,7 @@
     document.querySelectorAll('input[type="text"]').forEach(input => {
       input.addEventListener('focus', function() {
         this.style.transform = 'scale(1.02)';
-        this.style.boxShadow = '0 4px 15px rgba(106, 90, 205, 0.2)';
+        this.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.2)';
       });
       
       input.addEventListener('blur', function() {
