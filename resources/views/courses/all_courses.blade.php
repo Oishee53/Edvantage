@@ -145,51 +145,46 @@
 
     /* Hero Banner */
     .hero-banner {
-  height: 300px;
-  background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), 
-              url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+      height: 300px;
+      background: url('https://www.topuniversities.com/sites/default/files/styles/articles_inline/public/articles/lead-images/pexels-yankrukov-8199555.jpg.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-.hero-content {
-  z-index: 2;
-  max-width: 800px;
-  padding: 0 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  padding: 40px;
-  backdrop-filter: blur(5px);
-}
+    .hero-content {
+      z-index: 2;
+      max-width: 800px;
+      padding: 40px 20px;
+      position: relative;
+    }
 
-.hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
+    .hero-title {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    }
 
-.hero-subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
 
-.hero-stats {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #ffd700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
+    .hero-stats {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    }
 
     /* Main Container */
     .main-container {
@@ -263,7 +258,6 @@
       padding: 30px;
       text-align: left;
       margin-bottom: 30px;
-      
     }
 
     .main-search {
@@ -381,62 +375,62 @@
     }
 
     .course-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 10px;
-}
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 10px;
+    }
 
-.view-details-btn {
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-  background: var(--action-purple);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-  transition: all 0.3s ease;
-}
+    .view-details-btn {
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      background: var(--action-purple);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
 
-.view-details-btn:hover {
-  background: var(--action-purple-hover);
-  transform: translateY(-1px);
-}
+    .view-details-btn:hover {
+      background: var(--action-purple-hover);
+      transform: translateY(-1px);
+    }
 
-.icon-btn-group {
-  display: flex;
-  gap: 10px;
-}
+    .icon-btn-group {
+      display: flex;
+      gap: 10px;
+    }
 
-.icon-btn-form {
-  margin: 0;
-}
+    .icon-btn-form {
+      margin: 0;
+    }
 
-.icon-btn {
-  background-color: var(--action-purple);
-  border: none;
-  color: white;
-  padding: 10px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-  cursor: pointer;
-  font-size: 16px;
-}
+    .icon-btn {
+      background-color: var(--action-purple);
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-.icon-btn:hover {
-  background-color: var(--action-purple-hover);
-  transform: translateY(-1px);
-}
+    .icon-btn:hover {
+      background-color: var(--action-purple-hover);
+      transform: translateY(-1px);
+    }
 
     /* Empty State */
     .empty-state {
@@ -561,13 +555,13 @@
   </div>
 
   <!-- Hero Banner -->
-<div class="hero-banner">
-  <div class="hero-content">
-    <h1 class="hero-title">Transform Your Future</h1>
-    <p class="hero-subtitle">Learn from Industry Experts</p>
-    <div class="hero-stats">{{ $courses->count() }}+ Courses Available</div>
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1 class="hero-title">Transform Your Future</h1>
+      <p class="hero-subtitle">Learn from Industry Experts</p>
+      <div class="hero-stats">{{ $courses->count() }}+ Courses Available</div>
+    </div>
   </div>
-</div>
 
   <!-- Main Container -->
   <div class="main-container">
@@ -638,29 +632,27 @@
                 <h3 class="course-title">{{ $course->title }}</h3>
                 <p class="course-description">{{ $course->description }}</p>
                 <div class="course-actions">
-  <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
-    <i class="fas fa-info-circle"></i>
-    View
-  </a>
+                  <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
+                    <i class="fas fa-info-circle"></i>
+                    View
+                  </a>
 
-  <div class="icon-btn-group">
-    <form action="{{ route('wishlist.add', $course->id) }}" method="POST" class="icon-btn-form">
-      @csrf
-      <button type="submit" class="icon-btn" title="Add to Wishlist">
-        <i class="fas fa-heart"></i>
-      </button>
-    </form>
+                  <div class="icon-btn-group">
+                    <form action="{{ route('wishlist.add', $course->id) }}" method="POST" class="icon-btn-form">
+                      @csrf
+                      <button type="submit" class="icon-btn" title="Add to Wishlist">
+                        <i class="fas fa-heart"></i>
+                      </button>
+                    </form>
 
-    <form action="{{ route('cart.add', $course->id) }}" method="POST" class="icon-btn-form">
-      @csrf
-      <button type="submit" class="icon-btn" title="Add to Cart">
-        <i class="fas fa-shopping-cart"></i>
-      </button>
-    </form>
-  </div>
-</div>
-
-
+                    <form action="{{ route('cart.add', $course->id) }}" method="POST" class="icon-btn-form">
+                      @csrf
+                      <button type="submit" class="icon-btn" title="Add to Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           @endforeach
@@ -716,3 +708,4 @@
 
 </body>
 </html>
+</merged_code>
