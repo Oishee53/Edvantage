@@ -40,12 +40,12 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: #667eea;
+            background: #4285f4;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            border: 4px solid #667eea;
+            border: 4px solid #4285f4;
         }
 
         .profile-avatar i {
@@ -89,19 +89,19 @@
 
         .btn-outline {
             background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            color: #4285f4;
+            border: 2px solid #4285f4;
         }
 
         .btn-outline:hover {
-            background: #667eea;
+            background: #4285f4;
             color: white;
             transform: translateY(-2px);
         }
 
         .btn-link {
             background: none;
-            color: #667eea;
+            color: #4285f4;
             border: none;
             text-decoration: underline;
             padding: 8px 0;
@@ -109,7 +109,7 @@
         }
 
         .btn-link:hover {
-            color: #5a67d8;
+            color: #3367d6;
         }
 
         /* Stats Section in Sidebar */
@@ -139,13 +139,13 @@
             padding: 15px;
             border-radius: 8px;
             text-align: center;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #4285f4;
         }
 
         .stat-number {
             font-size: 24px;
             font-weight: 700;
-            color: #667eea;
+            color: #4285f4;
             margin-bottom: 5px;
         }
 
@@ -186,7 +186,7 @@
         }
 
         .section-title i {
-            color: #667eea;
+            color: #4285f4;
             font-size: 20px;
         }
 
@@ -206,19 +206,19 @@
             background: #f8f9ff;
             padding: 20px;
             border-radius: 12px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #4285f4;
             transition: all 0.3s ease;
         }
 
         .info-item:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.15);
         }
 
         .info-label {
             font-size: 14px;
             font-weight: 600;
-            color: #667eea;
+            color: #4285f4;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
@@ -231,33 +231,33 @@
         }
 
         .btn-primary {
-            background: #667eea;
+            background: #4285f4;
             color: white;
             border: none;
         }
 
         .btn-primary:hover {
-            background: #5a67d8;
+            background: #3367d6;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
         }
 
         .btn-secondary {
             background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            color: #4285f4;
+            border: 2px solid #4285f4;
         }
 
         .btn-secondary:hover {
-            background: #667eea;
+            background: #4285f4;
             color: white;
             transform: translateY(-2px);
         }
 
         .add-button {
             background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            color: #4285f4;
+            border: 2px solid #4285f4;
             padding: 10px 20px;
             border-radius: 6px;
             font-size: 14px;
@@ -267,7 +267,7 @@
         }
 
         .add-button:hover {
-            background: #667eea;
+            background: #4285f4;
             color: white;
         }
 
@@ -276,7 +276,7 @@
             background: #f8f9ff;
             padding: 20px;
             border-radius: 12px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #4285f4;
         }
 
         .bio-text {
@@ -306,7 +306,7 @@
 
         .bio-textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #4285f4;
         }
 
         .bio-actions {

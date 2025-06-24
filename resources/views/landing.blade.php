@@ -1,9 +1,10 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDVANTAGE - Your Virtual Classroom Redefined</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,9 +13,9 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
+        font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
         }
 
         /* Header Styles */
@@ -39,6 +40,7 @@
         }
 
         .logo {
+            font-family: 'Roboto', sans-serif;;
             font-size: 1.8rem;
             font-weight: bold;
             color: #6366f1;
@@ -128,6 +130,7 @@
         }
 
         .hero h1 {
+            font-family:'Roboto', sans-serif;
             font-size: 3.5rem;
             font-weight: bold;
             color: white;
@@ -167,7 +170,7 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Courses Section - Smaller Square Grid Layout */
+        /* Courses Section */
         .courses-section {
             padding: 5rem 0;
             background: #f8fafc;
@@ -185,6 +188,7 @@
         }
 
         .section-title h2 {
+            font-family: 'Roboto', sans-serif;
             font-size: 2.5rem;
             color: #1e293b;
             margin-bottom: 1rem;
@@ -198,71 +202,50 @@
         .courses-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
+            gap: 1rem;
             margin-top: 2rem;
         }
 
         .course-card {
-            background: white;
-            border-radius: 12px;
+            background: #f8fafc;;
+            border-radius: 2px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            position: relative;
-            aspect-ratio: 1;
+            border: none;
+            cursor: pointer;
+            height: 280px;
             display: flex;
             flex-direction: column;
+            /* Remove shadow and hover effect for flat look */
+            box-shadow: none;
+            transition: none;
+            }lex-direction: column;
         }
-
         .course-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .course-image-container {
-            position: relative;
-            height: 45%;
-            overflow: hidden;
-        }
+            /* Remove any hover effect */
+            box-shadow: none;
+            transform: none;
+}
 
         .course-image {
             width: 100%;
-            height: 100%;
+            height: 140px;
             object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .course-card:hover .course-image {
-            transform: scale(1.05);
         }
 
         .course-content {
-            padding: 1rem;
+            padding: 12px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .course-category {
-            background: #6366f1;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: inline-block;
-            margin-bottom: 0.75rem;
-            width: fit-content;
-        }
-
         .course-title {
-            font-size: 1rem;
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px; /* Increased font size */
             font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+            margin-bottom: 4px;
             line-height: 1.3;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -270,48 +253,79 @@
             overflow: hidden;
         }
 
-        .course-bottom {
-            margin-top: auto;
+
+        .course-instructor {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .course-category {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .rating-number {
+            font-size: 12px;
+            font-weight: 600;
+            color: #f59e0b;
+        }
+
+        .stars {
+            color: #f59e0b;
+            font-size: 12px;
+        }
+
+        .rating-count {
+            font-size: 11px;
+            color: #9ca3af;
         }
 
         .course-price {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #10b981;
-            margin-bottom: 0.75rem;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
         }
 
         .course-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 6px;
         }
 
         .btn-details {
             flex: 1;
-            background: #f1f5f9;
-            color: #475569;
+            background: #f3f4f6;
+            color: #374151;
             text-align: center;
-            padding: 0.6rem 0.5rem;
-            border-radius: 6px;
+            padding: 6px 8px;
+            border-radius: 4px;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 11px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .btn-details:hover {
-            background: #e2e8f0;
-            color: #334155;
+            background: #e5e7eb;
         }
 
         .btn-cart {
             background: #6366f1;
             color: white;
             border: none;
-            padding: 0.6rem 0.75rem;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 11px;
             font-weight: 600;
             transition: all 0.3s ease;
             white-space: nowrap;
@@ -319,42 +333,12 @@
 
         .btn-cart:hover {
             background: #4f46e5;
-            transform: scale(1.02);
-        }
-
-        /* Category Colors */
-        .category-programming {
-            background: #6366f1;
-        }
-
-        .category-design {
-            background: #ec4899;
-        }
-
-        .category-business {
-            background: #10b981;
-        }
-
-        .category-marketing {
-            background: #f59e0b;
-        }
-
-        .category-data {
-            background: #06b6d4;
-        }
-
-        .category-science {
-            background: #8b5cf6;
-        }
-
-        .category-language {
-            background: #ef4444;
         }
 
         /* Responsive Design */
         @media (max-width: 1200px) {
             .courses-grid {
-            grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -377,52 +361,24 @@
             }
 
             .courses-grid {
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                gap: 1rem;
-            }
-
-            .course-actions {
-                flex-direction: column;
-                gap: 0.5rem;
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 480px) {
             .courses-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
             }
         }
-
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .course-card {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .course-card:nth-child(2) { animation-delay: 0.1s; }
-        .course-card:nth-child(3) { animation-delay: 0.2s; }
-        .course-card:nth-child(4) { animation-delay: 0.3s; }
-        .course-card:nth-child(5) { animation-delay: 0.4s; }
-        .course-card:nth-child(6) { animation-delay: 0.5s; }
-        .course-card:nth-child(7) { animation-delay: 0.6s; }
-        .course-card:nth-child(8) { animation-delay: 0.7s; }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="nav-container">
-            <div class="logo">EDVANTAGE</div>
+            <a href="/" class="logo">
+            <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:32px; display:inline-block; vertical-align:middle;">
+            </a>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
@@ -459,18 +415,39 @@
             </div>
             
             <div class="courses-grid">
-                @foreach($courses as $index => $course)
+                @forelse($courses as $index => $course)
                 <div class="course-card">
-                    <div class="course-image-container">
-                        <img src="{{ asset('storage/' . $course->image) }}" alt="Course Image" style="width: 100%; height: 100%; object-fit: contain;">
-                    </div>
+                    <!-- Course Image -->
+                    @if($course->image)
+                        <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+                    @else
+                        <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
+                    @endif
+                    
+                    <!-- Course Content -->
                     <div class="course-content">
-                        <div class="course-category category-{{ strtolower(str_replace(' ', '-', $course->category ?? 'programming')) }}">
-                            {{ $course->category ?? 'Programming' }}
+                        <div>
+                            <!-- Course Title -->
+                            <h3 class="course-title">{{ $course->title }}</h3>
+                            
+                            <!-- Course Instructor (if available) -->
+                            @if(isset($course->instructor))
+                                <div class="course-instructor">{{ $course->instructor }}</div>
+                            @endif
+                            @if(isset($course->category))
+                            <div class="course-category" style="font-size:13px; color:#6b7280; margin-bottom:4px;">
+                                {{ $course->category }}
+                            </div>
+                        @endif
+                            
+                            
                         </div>
-                        <h3 class="course-title">{{ $course->title }}</h3>
-                        <div class="course-bottom">
-                            <div class="course-price">${{ $course->price ?? '49' }}</div>
+                        
+                        <div>
+                            <!-- Course Price -->
+                            <div class="course-price">${{ number_format($course->price ?? 0, 2) }}</div>
+                            
+                            <!-- Action Buttons -->
                             <div class="course-actions">
                                 <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
                                     Details
@@ -483,7 +460,12 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                    <h3 style="font-size: 1.25rem; font-weight: 600; color: #6b7280; margin-bottom: 0.5rem;">No courses available</h3>
+                    <p style="color: #9ca3af;">Check back later for new courses!</p>
+                </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -508,7 +490,6 @@
                 header.style.background = 'rgba(255, 255, 255, 0.95)';
             }
         });
-        
     </script>
 </body>
 </html>
