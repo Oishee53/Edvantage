@@ -392,7 +392,9 @@
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem; /* Reduce margin */
+      box-sizing: border-box; /* Add this */
+      display: block;         /* Add this for safety */
     }
 
     .checkout-btn:hover {
@@ -628,50 +630,75 @@
           </div>
 
           <ul class="cart-items">
-            @foreach ($cartItems as $item)
-              <li class="cart-item">
-                <img src="{{ asset('storage/' . $item->course->image) }}" alt="{{ $item->course->title }}" class="cart-img">
-                
-                <div class="cart-info">
-                  <h3 class="course-title">{{ $item->course->title }}</h3>
-                  <p class="course-description">{{ $item->course->description }}</p>
-                  <div class="course-price">${{ number_format($item->course->price, 2) }}</div>
-                  
-                  <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="remove-btn">Remove</button>
-                  </form>
-                </div>
-              </li>
-            @endforeach
+            @if(isset($isGuest) && $isGuest)
+              @foreach ($cartItems as $course)
+                <li class="cart-item">
+                  <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="cart-img">
+                  <div class="cart-info">
+                    <h3 class="course-title">{{ $course->title }}</h3>
+                    <p class="course-description">{{ $course->description }}</p>
+                    <div class="course-price">${{ number_format($course->price, 2) }}</div>
+                    <!-- Remove button for guest cart (optional, needs extra logic) -->
+                  </div>
+                </li>
+              @endforeach
+            @else
+              @foreach ($cartItems as $item)
+                <li class="cart-item">
+                  <img src="{{ asset('storage/' . $item->course->image) }}" alt="{{ $item->course->title }}" class="cart-img">
+                  <div class="cart-info">
+                    <h3 class="course-title">{{ $item->course->title }}</h3>
+                    <p class="course-description">{{ $item->course->description }}</p>
+                    <div class="course-price">${{ number_format($item->course->price, 2) }}</div>
+                    <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display: inline;">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="remove-btn">Remove</button>
+                    </form>
+                  </div>
+                </li>
+              @endforeach
+            @endif
           </ul>
         </div>
 
         <!-- Order Summary -->
         <div class="summary-container">
           <h3 class="summary-title">Order Summary</h3>
-          
           <div class="summary-row">
             <span class="summary-label">Subtotal ({{ $cartItems->count() }} items)</span>
-            <span class="summary-value">${{ number_format($cartItems->sum('course.price'), 2) }}</span>
+            <span class="summary-value">
+              @if(isset($isGuest) && $isGuest)
+                ${{ number_format($cartItems->sum('price'), 2) }}
+              @else
+                ${{ number_format($cartItems->sum(fn($item) => $item->course->price), 2) }}
+              @endif
+            </span>
           </div>
-          
           <div class="summary-row">
             <span class="summary-label">Taxes</span>
             <span class="summary-value">$0.00</span>
           </div>
-          
           <div class="summary-row">
             <span class="summary-label">Total</span>
-            <span class="summary-value">${{ number_format($cartItems->sum('course.price'), 2) }}</span>
+            <span class="summary-value">
+              @if(isset($isGuest) && $isGuest)
+                ${{ number_format($cartItems->sum('price'), 2) }}
+              @else
+                ${{ number_format($cartItems->sum(fn($item) => $item->course->price), 2) }}
+              @endif
+            </span>
           </div>
 
-          <form action="{{ route('cart.checkout') }}" method="POST">
-            @csrf
-            <button type="submit" class="checkout-btn">Proceed to Checkout</button>
-          </form>
-          
+          @if(isset($isGuest) && $isGuest)
+            <a href="{{ route('login') }}" class="checkout-btn">Proceed to Checkout</a>
+          @else
+            <form action="{{ route('cart.checkout') }}" method="POST">
+              @csrf
+              <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+            </form>
+          @endif
+
           <a href="{{ route('courses.all') }}" class="continue-shopping">Continue Shopping</a>
         </div>
       </div>
