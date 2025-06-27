@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
-      --logo-blue: #1560c1;
+      --logo-blue: #0057b8;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
       --secondary: #f3f4f6;
@@ -27,7 +27,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background: var(--background);
+      background: linear-gradient(120deg, #e3edfa 0%, #f8fafc 100%);
       font-family: 'Inter', Arial, sans-serif;
       color: var(--text);
     }
@@ -62,13 +62,14 @@
       padding: 0.6rem 1.2rem;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      transition: none;
       box-shadow: 0 2px 6px 0 rgba(37, 99, 235, 0.07);
     }
+    .navbar .admin-panel-link:focus,
     .navbar .admin-panel-link:hover {
-      background: var(--primary-hover);
+      background: var(--primary);
       color: var(--white);
-      transform: translateY(-2px) scale(1.03);
+      transform: none;
       text-decoration: none;
     }
     .edit-card {
@@ -78,8 +79,17 @@
       padding: 2.5rem 2rem 2rem 2rem;
       border-radius: 1.2rem;
       box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+      border: 2.5px solid var(--primary);
       position: relative;
+      overflow: hidden;
+    }
+    /* Progress bar at the top */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary) 75%, var(--secondary) 75%);
+      border-radius: 4px 4px 0 0;
+      margin-bottom: 1.2rem;
     }
     .edit-card h2 {
       font-size: 1.4rem;
@@ -99,6 +109,23 @@
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
+      position: relative;
+    }
+    .form-group .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 1rem;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group select,
+    .form-group textarea {
+      padding-left: 2.2rem;
     }
     label {
       font-size: 1rem;
@@ -133,6 +160,7 @@
     textarea {
       min-height: 80px;
       max-height: 180px;
+      padding-left: 2.2rem;
     }
     .current-image {
       width: 90px;
@@ -147,6 +175,12 @@
       color: var(--muted);
       font-size: 0.92rem;
     }
+    .section-divider {
+      border: none;
+      border-top: 1.5px dashed var(--border);
+      margin: 1.6rem 0 1.1rem 0;
+      width: 100%;
+    }
     button[type="submit"] {
       background: var(--primary);
       color: var(--white);
@@ -158,16 +192,17 @@
       cursor: pointer;
       margin-top: 0.7rem;
       box-shadow: 0 2px 6px 0 rgba(37, 99, 235, 0.07);
-      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      transition: none;
       display: flex;
       align-items: center;
       gap: 0.6rem;
       justify-content: center;
     }
+    button[type="submit"]:focus,
     button[type="submit"]:hover {
-      background: var(--primary-hover);
-      box-shadow: 0 4px 16px 0 rgba(37, 99, 235, 0.12);
-      transform: translateY(-2px) scale(1.02);
+      background: var(--primary);
+      box-shadow: 0 2px 6px 0 rgba(37, 99, 235, 0.07);
+      transform: none;
     }
     .back-link {
       display: inline-flex;
@@ -177,11 +212,11 @@
       text-decoration: none;
       font-weight: 500;
       margin-top: 1.4rem;
-      transition: color 0.2s;
+      transition: none;
     }
     .back-link:hover {
-      color: var(--accent);
-      text-decoration: underline;
+      color: var(--primary);
+      text-decoration: none;
     }
     .auth-error {
       color: var(--danger);
@@ -197,10 +232,10 @@
       text-decoration: underline;
       margin-left: 0.4rem;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: none;
     }
     .auth-error a:hover {
-      color: var(--danger);
+      color: var(--primary);
     }
     @media (max-width: 600px) {
       .edit-card {
@@ -224,6 +259,7 @@
   </div>
 
   <div class="edit-card">
+    <div class="progress-bar"></div>
     @auth
     <h2><i class="fas fa-pen-to-square"></i> Edit Course</h2>
     <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="POST" enctype="multipart/form-data">
@@ -232,6 +268,7 @@
 
       <div class="form-group">
         <label>Course Image</label>
+        <span class="input-icon"><i class="fas fa-image"></i></span>
         @if($course->image)
           <small>Current Image:</small>
           <img src="{{ asset('storage/' . $course->image) }}" class="current-image" alt="{{ $course->title }}">
@@ -239,21 +276,24 @@
         @else
           <small>No image uploaded.</small>
         @endif
-        <input type="file" name="image" accept="image/*" />
+        <input type="file" name="image" accept="image/*" style="padding-left:2.2rem;" />
       </div>
 
       <div class="form-group">
         <label for="title">Course Title <span class="required">*</span></label>
+        <span class="input-icon"><i class="fas fa-heading"></i></span>
         <input type="text" id="title" name="title" value="{{ old('title', $course->title) }}" required />
       </div>
 
       <div class="form-group">
         <label for="description">Course Description</label>
+        <span class="input-icon"><i class="fas fa-align-left"></i></span>
         <textarea id="description" name="description">{{ old('description', $course->description) }}</textarea>
       </div>
 
       <div class="form-group">
         <label for="category">Category <span class="required">*</span></label>
+        <span class="input-icon"><i class="fas fa-list"></i></span>
         <select id="category" name="category" required>
           <option value="">Select Category</option>
           <option value="Web Development" {{ old('category', $course->category) == 'Web Development' ? 'selected' : '' }}>Web Development</option>
@@ -269,23 +309,29 @@
 
       <div class="form-group">
         <label for="video_count">Number of Videos <span class="required">*</span></label>
+        <span class="input-icon"><i class="fas fa-video"></i></span>
         <input type="number" id="video_count" name="video_count" value="{{ old('video_count', $course->video_count) }}" min="1" required />
       </div>
 
       <div class="form-group">
         <label for="approx_video_length">Approx. Video Length (minutes) <span class="required">*</span></label>
+        <span class="input-icon"><i class="fas fa-clock"></i></span>
         <input type="number" id="approx_video_length" name="approx_video_length" value="{{ old('approx_video_length', $course->approx_video_length) }}" min="1" required />
       </div>
 
       <div class="form-group">
         <label for="total_duration">Total Duration (hours) <span class="required">*</span></label>
+        <span class="input-icon"><i class="fas fa-hourglass-half"></i></span>
         <input type="number" id="total_duration" name="total_duration" value="{{ old('total_duration', $course->total_duration) }}" step="0.1" min="0.1" required />
       </div>
 
       <div class="form-group">
         <label for="price">Price (৳) <span class="required">*</span></label>
+        <span class="input-icon"><i class="fas fa-coins"></i></span>
         <input type="number" id="price" name="price" value="{{ old('price', $course->price) }}" step="0.1" min="0" required />
       </div>
+
+      <hr class="section-divider" />
 
       <button type="submit"><i class="fas fa-save"></i> Update Course</button>
     </form>
