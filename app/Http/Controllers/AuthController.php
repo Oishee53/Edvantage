@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Cart;
 
 
 
@@ -32,18 +33,22 @@ class AuthController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-        $user = Auth::user();
-        
-        switch ($user->role) {
-            case 1:
-                return redirect('/homepage');
-            case 2:
-                return redirect('/admin_panel');
-            default:
-                Auth::logout();
-                return back()->with('error', 'Access denied - Invalid role.');
+    $user = Auth::user();
+
+    // Sync guest cart if available
+    if (session()->has('guest_cart')) {
+        foreach (session('guest_cart') as $courseId) {
+            Cart::firstOrCreate([
+                'user_id' => $user->id,
+                'course_id' => $courseId,
+            ]);
         }
+        session()->forget('guest_cart');
     }
+
+    return redirect('/cart'); // redirect back to cart
+}
+
 
     return back()->with('error', 'Invalid email or password.');
 }
