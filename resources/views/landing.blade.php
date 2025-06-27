@@ -576,10 +576,14 @@
                                 <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
                                     Details
                                 </a>
-                                <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit" class="btn-cart">Add to Cart</button>
-                                </form>
+                               @guest
+                     <form method="POST" action="{{ route('cart.guest.add') }}">
+                    @csrf
+                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                    @endguest
+
                             </div>
                         </div>
                     </div>
