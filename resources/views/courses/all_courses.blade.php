@@ -562,31 +562,30 @@
   </div>
 
   <!-- Hero Banner -->
-<div class="hero-banner">
-  
-</div>
+  <div class="hero-banner">
+    <!-- Optional hero content -->
+  </div>
 
   <!-- Main Container -->
   <div class="main-container">
     <!-- Sidebar - Categories -->
     <div class="sidebar">
       <h3>Course Categories</h3>
-       @if($courses->isEmpty())
-          <div class="empty-state">
-            <i class="fas fa-book-open"></i>
-            <h3>No courses available</h3>
-            <p>Check back later for new courses!</p>
-          </div>
-        @else
+      @if($courses->isEmpty())
+        <div class="empty-state">
+          <i class="fas fa-book-open"></i>
+          <h3>No courses available</h3>
+          <p>Check back later for new courses!</p>
+        </div>
+      @else
+        <ul class="category-list">
           @foreach($uniqueCategories as $course)
-          
-           <ul class="category-list">
-           <li class="category-item">
+            <li class="category-item">
               <a href="#" class="category-link">{{$course}}</a>
             </li>
           @endforeach
-        @endif
         </ul>
+      @endif
     </div>
 
     <!-- Main Content -->
@@ -598,14 +597,12 @@
       @endif
 
       <!-- Search Section -->
-      
-        <div class="main-search">
-          <input type="text" placeholder="Search the course or skills you want to learn">
-          <button type="button">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-     
+      <div class="main-search">
+        <input type="text" placeholder="Search the course or skills you want to learn">
+        <button type="button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
 
       <!-- Section Header -->
       <div class="section-header">
@@ -635,29 +632,25 @@
                 <h3 class="course-title">{{ $course->title }}</h3>
                 <p class="course-description">{{ $course->description }}</p>
                 <div class="course-actions">
-            <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
-              <i class="fas fa-info-circle"></i>
-              View
-            </a>
-
-  <div class="icon-btn-group">
-    <form action="{{ route('wishlist.add', $course->id) }}" method="POST" class="icon-btn-form">
-      @csrf
-      <button type="submit" class="icon-btn" title="Add to Wishlist">
-        <i class="fas fa-heart"></i>
-      </button>
-    </form>
-
-    <form action="{{ route('cart.add', $course->id) }}" method="POST" class="icon-btn-form">
-      @csrf
-      <button type="submit" class="icon-btn" title="Add to Cart">
-        <i class="fas fa-shopping-cart"></i>
-      </button>
-    </form>
-  </div>
-  </div>
-
-
+                  <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
+                    <i class="fas fa-info-circle"></i>
+                    View
+                  </a>
+                  <div class="icon-btn-group">
+                    <form action="{{ route('wishlist.add', $course->id) }}" method="POST" class="icon-btn-form">
+                      @csrf
+                      <button type="submit" class="icon-btn" title="Add to Wishlist">
+                        <i class="fas fa-heart"></i>
+                      </button>
+                    </form>
+                    <form action="{{ route('cart.add', $course->id) }}" method="POST" class="icon-btn-form">
+                      @csrf
+                      <button type="submit" class="icon-btn" title="Add to Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           @endforeach
@@ -679,13 +672,10 @@
     document.querySelectorAll('.category-link').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
-        
         // Remove active class from all links
         document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
-        
         // Add active class to clicked link
         this.classList.add('active');
-        
         // Here you can add filtering logic
         console.log('Category selected:', this.textContent);
       });
@@ -697,7 +687,6 @@
         this.style.transform = 'scale(1.02)';
         this.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.2)';
       });
-      
       input.addEventListener('blur', function() {
         this.style.transform = 'scale(1)';
         this.style.boxShadow = 'none';
