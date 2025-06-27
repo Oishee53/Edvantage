@@ -34,36 +34,34 @@
     {{-- Resumable.js --}}
     <script src="https://cdn.jsdelivr.net/npm/resumablejs/resumable.js"></script>
     <script>
-        let r = new Resumable({
-            target: '/upload-chunk',
-            chunkSize: 1 * 1024 * 1024, // 1MB
-            query: {_token: '{{ csrf_token() }}'},
-            fileType: ['mp4', 'avi', 'mov', 'webm', 'mkv', 'flv'],
-            headers: {'Accept': 'application/json'},
-            testChunks: false
-        });
+    let r = new Resumable({
+        target: '/upload-chunk',
+        chunkSize: 1 * 1024 * 1024, // 1MB
+        query: {_token: '{{ csrf_token() }}'},
+        fileType: ['mp4', 'mov'],
+        headers: {'Accept': 'application/json'},
+        testChunks: false
+    });
 
-        const dropArea = document.getElementById('videoDrop');
-        r.assignDrop(dropArea);
-        r.assignBrowse(dropArea);
+    const dropArea = document.getElementById('videoDrop');
+    r.assignDrop(dropArea);
+    r.assignBrowse(dropArea);
 
-        r.on('fileAdded', function(file) {
-            dropArea.innerHTML = 'Uploading...';
-            r.upload();
-        });
+    r.on('fileAdded', function(file) {
+        dropArea.innerHTML = 'Uploading...';
+        r.upload();
+    });
 
-        r.on('fileSuccess', function(file, message) {
-            const response = JSON.parse(message);
-            document.getElementById('videoPath').value = response.filePath;
-            dropArea.innerHTML = 'Upload complete: ' + file.fileName;
-        });
+    r.on('fileSuccess', function(file, message) {
+        const response = JSON.parse(message);
+        document.getElementById('videoPath').value = response.filePath;
+        dropArea.innerHTML = 'Upload complete: ' + file.fileName;
+    });
 
-        r.on('fileError', function(file, message) {
-            alert('Video upload failed.');
-            dropArea.innerHTML = 'Upload failed. Try again.';
-        });
-    </script>
-    --}}
+    r.on('fileError', function(file, message) {
+        alert('Video upload failed.');
+    });
+</script>
 
     {{-- Resource existence check & submit --}}
     <script>

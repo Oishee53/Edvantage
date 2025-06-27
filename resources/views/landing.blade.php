@@ -13,65 +13,70 @@
         }
 
         body {
-        font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         color: #333;
         }
 
         /* Header Styles */
         .header {
-            background: rgba(255, 255, 255, 0.95);
+            background: #fff;
             backdrop-filter: blur(10px);
-            padding: 1rem 0;
+            padding: 0.5rem 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: none; /* Remove shadow */
+        }
+        .logo {
+            margin-left: -1rem;
+            margin-right:0.75rem;
         }
 
         .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1rem; /* Reduce gap for tighter layout */
             max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 0 2rem;
         }
-
-        .logo {
-            font-family: 'Roboto', sans-serif;;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #6366f1;
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-shrink: 0;
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 0.5rem;
+            margin-right:1rem;
         }
 
         .nav-menu a {
             text-decoration: none;
-            color: #64748b;
+            color: #374151;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: color 0.3s ease;
+            margin-right:1rem;
         }
 
-        .nav-menu a:hover {
-            color: #6366f1;
-        }
-
+        
         .auth-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
+            margin-left: auto;
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.2rem 0.75rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
@@ -80,23 +85,98 @@
 
         .btn-outline {
             background: transparent;
-            color: #6366f1;
-            border: 2px solid #6366f1;
+            color: #0148ad;
+            border: 2px solid #0148ad;
         }
 
         .btn-outline:hover {
-            background: #6366f1;
-            color: white;
+            background: #ccdcf2;
+            color: #0148ad;
         }
 
         .btn-primary {
-            background: #6366f1;
+            background: #0148ad;
             color: white;
         }
 
         .btn-primary:hover {
-            background: #4f46e5;
-            transform: translateY(-2px);
+            background: #015edf
+            
+        }
+
+        .category-bar {
+            background: #fff;
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 0 0.25rem 0; /* Slightly less bottom padding */
+            position: fixed;
+            width: 100%;
+            top: 56px; /* Adjust to match your header height */
+            z-index: 999;
+            border: none; /* Remove border */
+            box-shadow: none; /* Remove shadow */
+        }
+
+        .category-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .category-container::-webkit-scrollbar {
+            display: none;
+        }
+        .header-btn {
+      position: relative;
+      background: rgba(66, 133, 244, 0.1);
+      border: 1px solid rgba(66, 133, 244, 0.3);
+      color: #4285f4;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .header-btn:hover {
+      background: rgba(66, 133, 244, 0.2);
+      color: #4285f4;
+    }
+
+        .category-link {
+            color: #374151;
+            font-size: 0.95rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+            padding: 0.25rem 0;
+            margin-right: 1rem;
+            margin-left: 1rem;
+        }
+
+        .category-link:hover {
+            color: #2563eb;
+        }
+        .search-form {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        .search-input {
+            width: 250px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 24px;
+            font-size: 1rem;
         }
 
         /* Hero Section */
@@ -130,7 +210,7 @@
         }
 
         .hero h1 {
-            font-family:'Roboto', sans-serif;
+            font-family:'Montserrat', sans-serif;
             font-size: 3.5rem;
             font-weight: bold;
             color: white;
@@ -188,7 +268,7 @@
         }
 
         .section-title h2 {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 2.5rem;
             color: #1e293b;
             margin-bottom: 1rem;
@@ -224,7 +304,7 @@
             /* Remove any hover effect */
             box-shadow: none;
             transform: none;
-}
+        }
 
         .course-image {
             width: 100%;
@@ -241,7 +321,7 @@
         }
 
         .course-title {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 18px; /* Increased font size */
             font-weight: 700;
             color: #1a1a1a;
@@ -282,6 +362,7 @@
             color: #f59e0b;
             font-size: 12px;
         }
+        
 
         .rating-count {
             font-size: 11px;
@@ -289,7 +370,7 @@
         }
 
         .course-price {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 16px;
             font-weight: 700;
             color: #1a1a1a;
@@ -373,26 +454,38 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+   <!-- Main Navigation Bar -->
     <header class="header">
         <div class="nav-container">
             <a href="/" class="logo">
-            <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:32px; display:inline-block; vertical-align:middle;">
+                <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
+            <form class="search-form" action="" method="GET">
+                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
+            </form>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
-                    <li><a href="#courses">Courses</a></li>
-                    <li><a href="#blog">Blog</a></li>
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
             </nav>
+            <a href="{{ route('cart.all') }}" class="header-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge">0</span>
+            </a>
             <div class="auth-buttons">
-                <a href="/login" class="btn btn-outline">Log In</a>
-                <a href="/register" class="btn btn-primary">Sign Up</a>
+                <a href="/login" class="btn btn-outline">Login</a>
+                <a href="/register" class="btn btn-primary">SignUp</a>
             </div>
         </div>
     </header>
+
+    <!-- Place the category bar immediately after the header -->
+    <div class="category-bar" style="top:56px;">
+        @foreach($uniqueCategories as $category)
+            <a href="#" class="category-link">{{$category}}</a>
+        @endforeach
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
