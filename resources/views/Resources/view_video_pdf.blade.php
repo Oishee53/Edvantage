@@ -21,10 +21,10 @@
                     {{-- Video Section --}}
                     <h3>Video Lecture</h3>
                     <video width="70%" height="auto" controls 
-                           controlsList="nodownload"
-                           disablepictureinpicture
-                           oncontextmenu="return false;">
-                        <source src="{{ route('video.view', ['filename' => basename($resource->videos)]) }}" type="video/mp4">
+                        controlsList="nodownload"
+                        disablepictureinpicture
+                        oncontextmenu="return false;">
+                        <source src="{{ route('video.view', ['filename' => $resource->videos]) }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
 
