@@ -382,29 +382,29 @@
     }
 
     .course-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 10px;
 }
 
-.view-details-btn {
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-  background: var(--action-blue);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-  transition: all 0.3s ease;
-}
+    .view-details-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: white;
+        background: var(--action-blue);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+    }
 
 .view-details-btn:hover {
   background: var(--action-blue-hover);
@@ -598,14 +598,14 @@
       @endif
 
       <!-- Search Section -->
-      <div class="search-section">
+      
         <div class="main-search">
           <input type="text" placeholder="Search the course or skills you want to learn">
           <button type="button">
             <i class="fas fa-search"></i>
           </button>
         </div>
-      </div>
+     
 
       <!-- Section Header -->
       <div class="section-header">
@@ -635,10 +635,10 @@
                 <h3 class="course-title">{{ $course->title }}</h3>
                 <p class="course-description">{{ $course->description }}</p>
                 <div class="course-actions">
-  <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
-    <i class="fas fa-info-circle"></i>
-    View
-  </a>
+            <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
+              <i class="fas fa-info-circle"></i>
+              View
+            </a>
 
   <div class="icon-btn-group">
     <form action="{{ route('wishlist.add', $course->id) }}" method="POST" class="icon-btn-form">
@@ -655,7 +655,7 @@
       </button>
     </form>
   </div>
-</div>
+  </div>
 
 
               </div>
