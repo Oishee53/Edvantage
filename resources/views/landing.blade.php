@@ -131,24 +131,55 @@
             display: none;
         }
         .header-btn {
-      position: relative;
-      background: rgba(66, 133, 244, 0.1);
-      border: 1px solid rgba(66, 133, 244, 0.3);
-      color: #4285f4;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+            position: relative;
+            background: rgba(66, 133, 244, 0.1);
+            border: 1px solid rgba(66, 133, 244, 0.3);
+            color: #4285f4;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-    .header-btn:hover {
-      background: rgba(66, 133, 244, 0.2);
-      color: #4285f4;
-    }
+            .header-btn:hover {
+            background: rgba(66, 133, 244, 0.2);
+            color: #4285f4;
+            }
+            .header-btn i.fa-shopping-cart {
+                font-size: 20px;
+                color: var(--action-blue);
+            }
+
+            .cart-btn {
+  position: relative;
+}
+
+.cart-btn .fas.fa-shopping-cart {
+  font-size: 22px;
+}
+
+.cart-btn .badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+
 
         .category-link {
             color: #374151;
@@ -469,7 +500,7 @@
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
             </nav>
-            <a href="{{ route('cart.all') }}" class="header-btn">
+            <a href="{{ route('cart.all') }}" class="header-btn cart-btn">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="badge">0</span>
             </a>
