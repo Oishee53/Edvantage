@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 use App\Models\Courses;
 use App\Models\Resource;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Container\Attributes\Log;
 
 class ResourceController extends Controller
 {
@@ -53,7 +55,9 @@ public function showPdf($filename)
 
     return response()->file($path, [
         'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'inline; filename="' . $filename . '"'
+        'Cache-Control' => 'no-store, no-cache, must-revalidate',
+        'Pragma' => 'no-cache',
+        'Expires' => '0',
     ]);
 }
 public function showVideo($filename)
@@ -69,18 +73,50 @@ public function showVideo($filename)
     }
 
     $mimeType = $this->getVideoMimeType($filename);
+    $size = filesize($path);
+    $start = 0;
+    $length = $size;
 
-    // Return a streamed response with proper headers
-    return response()->stream(function () use ($path) {
-        readfile($path);
-    }, 200, [
+    // Handle HTTP_RANGE
+    $headers = [];
+    if (isset($_SERVER['HTTP_RANGE'])) {
+        preg_match('/bytes=(\d+)-(\d*)/', $_SERVER['HTTP_RANGE'], $matches);
+        $start = intval($matches[1]);
+        $end = isset($matches[2]) && $matches[2] !== '' ? intval($matches[2]) : $size - 1;
+        $length = $end - $start + 1;
+
+        $headers['Content-Range'] = "bytes $start-$end/$size";
+        $headers['Content-Length'] = $length;
+        $status = 206; // Partial Content
+    } else {
+        $headers['Content-Length'] = $size;
+        $status = 200;
+    }
+
+    $headers += [
         'Content-Type' => $mimeType,
-        'Content-Disposition' => 'inline; filename="' . basename($path) . '"',
         'Accept-Ranges' => 'bytes',
-        'Content-Length' => filesize($path),
+        'Content-Disposition' => 'inline; filename="' . basename($path) . '"',
         'X-Content-Type-Options' => 'nosniff',
-    ]);
+    ];
+
+    return response()->stream(function () use ($path, $start, $length) {
+        $handle = fopen($path, 'rb');
+        fseek($handle, $start);
+        $bufferSize = 1024 * 8;
+        $bytesSent = 0;
+
+        while (!feof($handle) && $bytesSent < $length) {
+            $readLength = min($bufferSize, $length - $bytesSent);
+            echo fread($handle, $readLength);
+            flush();
+            $bytesSent += $readLength;
+        }
+
+        fclose($handle);
+    }, $status, $headers);
 }
+
 private function getVideoMimeType($filename)
 {
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -102,22 +138,7 @@ public function checkExists(Request $request) {
 
     return response()->json(['exists' => $exists]);
 }
-public function insert(Request $request, $course_id, $module_id) {
-    $request->validate([
-        'video' => 'required',
-        'lecture_note' => 'required|mimes:pdf|max:2048',
-    ]);
 
-    $pdfPath = $request->file('lecture_note')->store('lecture_notes');
-    $videoPath = $request->file('video')->store('lecture_videos');
-
-    Resource::updateOrCreate(
-        ['courseId' => $course_id, 'moduleId' => $module_id],
-        ['videos' => $videoPath, 'pdf' => $pdfPath]
-    );
-
-    return redirect('/admin_panel/manage_resources')->with('success', 'Resource saved successfully.');
-}
 public function destroy($course_id, $module_id) {
     $resource = Resource::where('courseId', $course_id)
                       ->where('moduleId', $module_id)
@@ -127,15 +148,35 @@ public function destroy($course_id, $module_id) {
     return redirect("/admin_panel/manage_resources/{$course_id}/view");
 }
 
+public function insert(Request $request, $course_id, $module_id) 
+{
+    $request->validate([
+        'video' => 'required',
+        'lecture_note' => 'required|mimes:pdf|max:2048',
+    ]);
+
+    $pdfPath = $request->file('lecture_note')->store('lecture_notes');
+   $videoPath = $request->video;
+
+    Resource::updateOrCreate(
+        ['courseId' => $course_id, 'moduleId' => $module_id],
+        ['videos' => $videoPath, 'pdf' => $pdfPath]
+    );
+
+    return redirect('/admin_panel/manage_resources')->with('success', 'Resource saved successfully.');
+}
+
 public function uploadChunk(Request $request)
 {
     $file = $request->file('file');
+    if (!$file) {
+        return response()->json(['error' => 'No file uploaded'], 400);
+    }
     $filename = $request->input('resumableFilename');
     $identifier = $request->input('resumableIdentifier');
-    $chunkNumber = $request->input('resumableChunkNumber');
+    $chunkNumber = (int) $request->input('resumableChunkNumber');
 
     $tempDir = storage_path('app/chunks/' . $identifier);
-    $chunkFile = $tempDir . '/chunk.' . $chunkNumber;
 
     if (!file_exists($tempDir)) {
         mkdir($tempDir, 0777, true);
@@ -143,7 +184,7 @@ public function uploadChunk(Request $request)
 
     $file->move($tempDir, 'chunk.' . $chunkNumber);
 
-    $totalChunks = $request->input('resumableTotalChunks');
+    $totalChunks = (int) $request->input('resumableTotalChunks');
     $allChunksExist = true;
     for ($i = 1; $i <= $totalChunks; $i++) {
         if (!file_exists($tempDir . '/chunk.' . $i)) {
@@ -154,7 +195,7 @@ public function uploadChunk(Request $request)
 
     if ($allChunksExist) {
         $finalPath = 'lecture_videos/' . time() . '-' . $filename;
-        $finalFullPath = storage_path('app/private/' . $finalPath);
+        $finalFullPath = storage_path('app/private/' . $finalPath); // use 'private'
         $out = fopen($finalFullPath, 'ab');
 
         for ($i = 1; $i <= $totalChunks; $i++) {
@@ -164,36 +205,37 @@ public function uploadChunk(Request $request)
         }
 
         fclose($out);
-        File::deleteDirectory($tempDir);
+        \Illuminate\Support\Facades\File::deleteDirectory($tempDir);
 
         return response()->json(['filePath' => $finalPath]);
     }
 
     return response()->json(['chunk' => $chunkNumber]);
 }
- public function assembleChunks(Request $request)
-    {
-        $identifier = $request->input('identifier');
-        $filename = $request->input('filename');
+public function assembleChunks(Request $request)
+{
+    $identifier = $request->input('identifier');
+    $filename = $request->input('filename');
 
-        $chunkPath = storage_path('app/chunks/' . $identifier);
-        $finalPath = storage_path('app/private/lecture_videos/' . $filename);
+    $chunkPath = storage_path('app/chunks/' . $identifier);
+    $finalPath = storage_path('app/private/lecture_videos/' . $filename);
+    $out = fopen($finalPath, "ab");
 
-        $out = fopen($finalPath, "ab");
-        $chunkNumber = 1;
+    $chunkNumber = 1;
 
-        while (file_exists($chunkPath . '/chunk.' . $chunkNumber)) {
-            $in = fopen($chunkPath . '/chunk.' . $chunkNumber, "rb");
-            stream_copy_to_stream($in, $out);
-            fclose($in);
-            $chunkNumber++;
-        }
-
-        fclose($out);
-        File::deleteDirectory($chunkPath);
-
-        return response()->json(['file' => $finalPath]);
+    while (file_exists($chunkPath . '/chunk.' . $chunkNumber)) {
+        $in = fopen($chunkPath . '/chunk.' . $chunkNumber, "rb");
+        stream_copy_to_stream($in, $out);
+        fclose($in);
+        $chunkNumber++;
     }
 
-    
+    fclose($out);
+
+    // Clean up
+    File::deleteDirectory($chunkPath);
+
+    return response()->json(['file' => $finalPath]);
+}
+ 
 }

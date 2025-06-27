@@ -39,6 +39,7 @@ Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit',
 Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/add', [ResourceController::class, 'insert']);
 Route::post('/admin_panel/manage_resources/{course_id}/module/{module_id}/delete', [ResourceController::class, 'destroy']);
 Route::get('/admin_panel/manage_resources/view', [ResourceController::class,'viewPage']);
+
 Route::get('/admin/pdf/{filename}', [ResourceController::class, 'showPdf'])->name('pdf.view');
 Route::get('/admin/video/{filename}', [ResourceController::class, 'showVideo'])->name('video.view');
 
