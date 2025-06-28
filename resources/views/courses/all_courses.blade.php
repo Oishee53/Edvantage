@@ -8,11 +8,11 @@
   <style>
     :root {
       --cream: #FFF2E0;
-      --light-blue: #E3F2FD;
-      --mid-blue: #BBDEFB;
-      --deep-blue: #90CAF9;
-      --action-blue: #4285f4;
-      --action-blue-hover: #3367d6;
+      --light-purple: #CCD3F3;
+      --mid-purple: #B1B9E8;
+      --deep-purple: #949CDC;
+      --action-purple: #6A5ACD;
+      --action-purple-hover: #5849b4;
       --text-dark: #2F2F2F;
     }
 
@@ -35,7 +35,6 @@
       color: white;
       padding: 15px 0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      height:
     }
 
     .header-content {
@@ -50,13 +49,13 @@
     .logo {
       font-size: 24px;
       font-weight: bold;
-      color: #4285f4;
+      color: #667eea;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    
+
     .header-search {
       flex: 1;
       max-width: 500px;
@@ -99,9 +98,9 @@
 
     .header-btn {
       position: relative;
-      background: rgba(66, 133, 244, 0.1);
-      border: 1px solid rgba(66, 133, 244, 0.3);
-      color: #4285f4;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: 
       padding: 8px 12px;
       border-radius: 8px;
       cursor: pointer;
@@ -113,8 +112,8 @@
     }
 
     .header-btn:hover {
-      background: rgba(66, 133, 244, 0.2);
-      color: #4285f4;
+      background: rgba(255,255,255,0.2);
+      color: #6366f1;;
     }
 
     .badge {
@@ -137,7 +136,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--action-blue);
+      background: var(--action-purple);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -146,51 +145,46 @@
 
     /* Hero Banner */
     .hero-banner {
-  height: 300px;
-  background: linear-gradient(rgba(47, 98, 180, 0.8), rgba(24, 87, 225, 0.8));
-             
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+      height: 300px;
+      background: url('https://www.topuniversities.com/sites/default/files/styles/articles_inline/public/articles/lead-images/pexels-yankrukov-8199555.jpg.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-.hero-content {
-  z-index: 2;
-  max-width: 800px;
-  padding: 0 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  padding: 40px;
-  backdrop-filter: blur(5px);
-}
+    .hero-content {
+      z-index: 2;
+      max-width: 800px;
+      padding: 40px 20px;
+      position: relative;
+    }
 
-.hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
+    .hero-title {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    }
 
-.hero-subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
 
-.hero-stats {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #ffd700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
+    .hero-stats {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    }
 
     /* Main Container */
     .main-container {
@@ -244,7 +238,7 @@
 
     .category-link:hover,
     .category-link.active {
-      background: var(--action-blue);
+      background: var(--action-purple);
       color: white;
       transform: translateX(5px);
     }
@@ -259,12 +253,11 @@
     }
 
     .search-section {
-      background: linear-gradient(#4285f4, #3367d6);
+      background: linear-gradient(#667eea);
       border-radius: 15px;
       padding: 30px;
       text-align: left;
       margin-bottom: 30px;
-      
     }
 
     .main-search {
@@ -288,7 +281,7 @@
       right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      background: #4285f4;
+      background: #3498db;
       border: none;
       color: white;
       width: 40px;
@@ -387,57 +380,57 @@
       justify-content: space-between;
       width: 100%;
       margin-top: 10px;
-}
-
-    .view-details-btn {
-        padding: 8px 12px;
-        font-size: 13px;
-        font-weight: 600;
-        color: white;
-        background: var(--action-blue);
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        white-space: nowrap;
-        transition: all 0.3s ease;
     }
 
-.view-details-btn:hover {
-  background: var(--action-blue-hover);
-  transform: translateY(-1px);
-}
+    .view-details-btn {
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      background: var(--action-purple);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
 
-.icon-btn-group {
-  display: flex;
-  gap: 10px;
-}
+    .view-details-btn:hover {
+      background: var(--action-purple-hover);
+      transform: translateY(-1px);
+    }
 
-.icon-btn-form {
-  margin: 0;
-}
+    .icon-btn-group {
+      display: flex;
+      gap: 10px;
+    }
 
-.icon-btn {
-  background-color: var(--action-blue);
-  border: none;
-  color: white;
-  padding: 10px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-  cursor: pointer;
-  font-size: 16px;
-}
+    .icon-btn-form {
+      margin: 0;
+    }
 
-.icon-btn:hover {
-  background-color: var(--action-blue-hover);
-  transform: translateY(-1px);
-}
+    .icon-btn {
+      background-color: var(--action-purple);
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--action-purple-hover);
+      transform: translateY(-1px);
+    }
 
     /* Empty State */
     .empty-state {
@@ -541,7 +534,7 @@
   <div class="header">
     <div class="header-content">
       <a href="/" class="logo">
-        <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:32px; display:inline-block; vertical-align:middle;">
+        EDVANTAGE
       </a>
       <div class="header-actions">
         <div class="cart-wishlist">
@@ -562,9 +555,13 @@
   </div>
 
   <!-- Hero Banner -->
-<div class="hero-banner">
-  
-</div>
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1 class="hero-title">Transform Your Future</h1>
+      <p class="hero-subtitle">Learn from Industry Experts</p>
+      <div class="hero-stats">{{ $courses->count() }}+ Courses Available</div>
+    </div>
+  </div>
 
   <!-- Main Container -->
   <div class="main-container">
@@ -598,14 +595,14 @@
       @endif
 
       <!-- Search Section -->
-      
+      <div class="search-section">
         <div class="main-search">
           <input type="text" placeholder="Search the course or skills you want to learn">
           <button type="button">
             <i class="fas fa-search"></i>
           </button>
         </div>
-     
+      </div>
 
       <!-- Section Header -->
       <div class="section-header">
@@ -635,29 +632,27 @@
                 <h3 class="course-title">{{ $course->title }}</h3>
                 <p class="course-description">{{ $course->description }}</p>
                 <div class="course-actions">
-            <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
-              <i class="fas fa-info-circle"></i>
-              View
-            </a>
+                  <a href="{{ route('courses.details', $course->id) }}" class="view-details-btn">
+                    <i class="fas fa-info-circle"></i>
+                    View
+                  </a>
 
-  <div class="icon-btn-group">
-    <form action="{{ route('wishlist.add', $course->id) }}" method="POST" class="icon-btn-form">
-      @csrf
-      <button type="submit" class="icon-btn" title="Add to Wishlist">
-        <i class="fas fa-heart"></i>
-      </button>
-    </form>
+                  <div class="icon-btn-group">
+                    <form action="{{ route('wishlist.add', $course->id) }}" method="POST" class="icon-btn-form">
+                      @csrf
+                      <button type="submit" class="icon-btn" title="Add to Wishlist">
+                        <i class="fas fa-heart"></i>
+                      </button>
+                    </form>
 
-    <form action="{{ route('cart.add', $course->id) }}" method="POST" class="icon-btn-form">
-      @csrf
-      <button type="submit" class="icon-btn" title="Add to Cart">
-        <i class="fas fa-shopping-cart"></i>
-      </button>
-    </form>
-  </div>
-  </div>
-
-
+                    <form action="{{ route('cart.add', $course->id) }}" method="POST" class="icon-btn-form">
+                      @csrf
+                      <button type="submit" class="icon-btn" title="Add to Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           @endforeach
@@ -695,7 +690,7 @@
     document.querySelectorAll('input[type="text"]').forEach(input => {
       input.addEventListener('focus', function() {
         this.style.transform = 'scale(1.02)';
-        this.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.2)';
+        this.style.boxShadow = '0 4px 15px rgba(106, 90, 205, 0.2)';
       });
       
       input.addEventListener('blur', function() {
@@ -713,3 +708,4 @@
 
 </body>
 </html>
+</merged_code>

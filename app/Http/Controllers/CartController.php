@@ -27,11 +27,36 @@ class CartController extends Controller
 
 }
 
+
+public function addToGuestCart(Request $request)
+{
+    $courseId = $request->input('course_id');
+
+    // Store in session cart array
+    $cart = session()->get('guest_cart', []);
+    if (!in_array($courseId, $cart)) {
+        $cart[] = $courseId;
+        session()->put('guest_cart', $cart);
+    }
+
+    return redirect('/cart');
+}
+
+
 public function showCart()
 {
-    $cartItems = Cart::with('course')->where('user_id', auth()->id())->get();
+    if (auth()->check()) {
+        // Logged-in user: get cart items from DB
+        $cartItems = Cart::with('course')->where('user_id', auth()->id())->get();
+        $isGuest = false;
+    } else {
+        // Guest: get course IDs from session and fetch course models
+        $cartCourseIds = session()->get('guest_cart', []);
+        $cartItems = \App\Models\Courses::whereIn('id', $cartCourseIds)->get();
+        $isGuest = true;
+    }
 
-    return view('user.cart', compact('cartItems'));
+    return view('user.cart', compact('cartItems', 'isGuest'));
 }
 
 public function removeFromCart($id)
