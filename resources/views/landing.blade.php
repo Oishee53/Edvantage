@@ -512,11 +512,8 @@
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
             </nav>
+           
             <div class="auth-buttons">
-                <a href="{{ route('cart.all') }}" class="header-btn cart-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge">0</span>
-                </a>
                 <a href="/login" class="btn btn-outline">Login</a>
                 <a href="/register" class="btn btn-primary">SignUp</a>
             </div>
