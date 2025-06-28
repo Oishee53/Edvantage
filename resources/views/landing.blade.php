@@ -39,10 +39,11 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 1rem; /* Reduce gap for tighter layout */
+            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+            
         }
         .nav-right {
             display: flex;
@@ -55,7 +56,7 @@
             display: flex;
             list-style: none;
             gap: 0.5rem;
-            margin-right:1rem;
+            margin-right: 0.25rem; /* Reduce margin */
         }
 
         .nav-menu a {
@@ -72,6 +73,7 @@
             display: flex;
             gap: 0.5rem;
             margin-left: auto;
+            align-items: center;
         }
 
         .btn {
@@ -98,15 +100,16 @@
         .btn-primary {
             background: #0148ad;
             color: white;
+            border: 2px solid #0148ad;
         }
 
         .btn-primary:hover {
-            background: #015edf
+            background: #015edf;
             
         }
 
         .category-bar {
-            background: #fff;
+            background: #0148ad;
             backdrop-filter: blur(10px);
             padding: 0.5rem 0 0.25rem 0; /* Slightly less bottom padding */
             position: fixed;
@@ -114,7 +117,7 @@
             top: 56px; /* Adjust to match your header height */
             z-index: 999;
             border: none; /* Remove border */
-            box-shadow: none; /* Remove shadow */
+            box-shadow: 0 12px 32px 0 rgba(0,0,0,0.22), 0 2px 8px 0 rgba(0,0,0,0.12); /* Stronger dropdown shadow */
         }
 
         .category-container {
@@ -132,60 +135,60 @@
             display: none;
         }
         .header-btn {
-    position: relative;
-    background: transparent;
-    border: 2px solid #0148ad;
-    color: #0148ad;
-    padding: 0.2rem 0.75rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-weight: 600;
-}
-
-            .header-btn:hover {
-            background: #ccdcf2;
+            position: relative;
+            background: transparent;
+            border: none;
             color: #0148ad;
-            }
-            .header-btn i.fa-shopping-cart {
-                font-size: 16px;
-                color: #0148ad;
-            }
+            padding: 0.2rem 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
 
-            .cart-btn {
-  position: relative;
-}
+        .header-btn:hover {
+            background: transparent;
+            color: #0148ad;
+        }
+        .header-btn i.fa-shopping-cart {
+            font-size: 16px;
+            color: #727272;
+        }
 
-.cart-btn .fas.fa-shopping-cart {
-  font-size: 22px;
-}
+        .cart-btn {
+            position: relative;
+        }
 
-.cart-btn .badge {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  background: #e74c3c;
-  color: white;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.2);
-}
+        .cart-btn .fas.fa-shopping-cart {
+            font-size: 18px;
+        }
+
+        .cart-btn .badge {
+            position: absolute;
+            top: -6px;
+            right: 1px;
+            background: #0148ad;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            box-shadow: 0 0 3px rgba(0,0,0,0.2);
+        }
 
         .category-link {
-            color: #374151;
-            font-size: 0.95rem;
+            color: #fff ;
+            font-size: 0.9rem;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 300;
             transition: color 0.3s ease;
             white-space: nowrap;
             padding: 0.25rem 0;
@@ -194,7 +197,7 @@
         }
 
         .category-link:hover {
-            color: #2563eb;
+            color: #ccdcf2;
         }
         .search-form {
             flex: 0 0 auto;
@@ -203,7 +206,7 @@
             margin-right: 1rem;
         }
         .search-input {
-            width: 250px;
+            width: 400px;
             padding: 0.5rem 1rem;
             border: 1px solid #d1d5db;
             border-radius: 24px;
@@ -212,12 +215,13 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
             min-height: 100vh;
             display: flex;
             align-items: center;
             position: relative;
             overflow: hidden;
+            background: url('/image/hero.png') center center/cover no-repeat;
         }
 
         .hero::before {
@@ -227,58 +231,57 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') center/cover;
-            opacity: 0.3;
+           /* background: url('https://plus.unsplash.com/premium_photo-1661368202259-0e9a21b5bbd3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover;*/
+            
         }
 
         .hero-content {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            text-align: center;
+            margin: 0;
+            padding: 0 4.5rem;
+            text-align: left;
             position: relative;
             z-index: 2;
+            font-size: 1.2rem;
+            color: #0148ad;
+            left: 0;                /* Align to the left edge */
+            top: 80px;              /* Move downwards (adjust as needed) */
+            position: relative;     /* Ensure top/left works */
         }
 
-        .hero h1 {
-            font-family:'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
+        .hero h1,
         .hero p {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
+            text-align: left;       /* Ensure heading and paragraph are left-aligned */
+            margin-left: 0;
             margin-right: auto;
         }
 
         .hero-buttons {
             display: flex;
             gap: 1rem;
-            justify-content: center;
+            justify-content: flex-start; /* Align buttons to the left */
             flex-wrap: wrap;
         }
 
         .btn-hero {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            border-radius: 50px;
+            font-size: 1rem;
+            border-radius: 5px;
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: white;
+            color: #0148ad;
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;           /* Smaller font */
+            color: black;            /* Softer blue/gray color */
+            margin-bottom: 1.5rem;
         }
 
         /* Courses Section */
@@ -312,64 +315,60 @@
 
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+            grid-template-columns: repeat(4, 1fr); /* 3 per row, adjust to 4 if you want */
+            gap: 2.5rem 0.5rem;
             margin-top: 2rem;
         }
 
         .course-card {
-            background: #f8fafc;;
-            border-radius: 2px;
+            background: #fff;
+            border-radius: 5px;
             overflow: hidden;
-            border: none;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             cursor: pointer;
-            height: 280px;
             display: flex;
             flex-direction: column;
-            /* Remove shadow and hover effect for flat look */
-            box-shadow: none;
-            transition: none;
-            }lex-direction: column;
+            height: 340px; /* Adjust height as needed */
+            width: 280px;
+            transition: box-shadow 0.2s;
+            row-gap: 4rem
+            position: relative;
+            margin: 0 auto; /* Center the card */
+            box-sizing: border-box;
+            text-align: left;
         }
+
         .course-card:hover {
-            /* Remove any hover effect */
-            box-shadow: none;
-            transform: none;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+            border: #0148ad 1px solid;
         }
 
         .course-image {
             width: 100%;
-            height: 140px;
+            height: 160px;
             object-fit: cover;
+            border-bottom: 1px solid #f1f1f1;
         }
 
         .course-content {
-            padding: 12px;
-            flex: 1;
+            padding: 18px 16px 12px 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            flex: 1;
         }
 
         .course-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 18px; /* Increased font size */
+            font-size: 1.1rem;
             font-weight: 700;
             color: #1a1a1a;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            min-height: 2.4em;
         }
 
-
-        .course-instructor {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
+        .course-instructor,
         .course-category {
             font-size: 13px;
             color: #6b7280;
@@ -447,6 +446,13 @@
             background: #4f46e5;
         }
 
+        #loadMoreBtn {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
         /* Responsive Design */
         @media (max-width: 1200px) {
             .courses-grid {
@@ -485,6 +491,12 @@
     </style>
 </head>
 <body>
+    <!-- Place the category bar immediately after the header -->
+    <div class="category-bar" style="top:56px;">
+        @foreach($uniqueCategories as $category)
+            <a href="#" class="category-link">{{$category}}</a>
+        @endforeach
+    </div>
    <!-- Main Navigation Bar -->
     <header class="header">
         <div class="nav-container">
@@ -500,29 +512,23 @@
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
             </nav>
-            <a href="{{ route('cart.all') }}" class="header-btn cart-btn">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="badge">0</span>
-            </a>
             <div class="auth-buttons">
+                <a href="{{ route('cart.all') }}" class="header-btn cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge">0</span>
+                </a>
                 <a href="/login" class="btn btn-outline">Login</a>
                 <a href="/register" class="btn btn-primary">SignUp</a>
             </div>
         </div>
     </header>
 
-    <!-- Place the category bar immediately after the header -->
-    <div class="category-bar" style="top:56px;">
-        @foreach($uniqueCategories as $category)
-            <a href="#" class="category-link">{{$category}}</a>
-        @endforeach
-    </div>
+    
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Your virtual<br>classroom redefined</h1>
-            <p>Elevate your knowledge with interactive learning anytime, anywhere through our online courses.</p>
+            
             <div class="hero-buttons">
                 <a href="/register" class="btn btn-primary btn-hero">Get Started for FREE</a>
                 <a href="#courses" class="btn btn-secondary btn-hero">Learn More</a>
@@ -538,63 +544,52 @@
                 <p>Discover our most popular courses designed to help you achieve your learning goals</p>
             </div>
             
-            <div class="courses-grid">
-                @forelse($courses as $index => $course)
-                <div class="course-card">
-                    <!-- Course Image -->
-                    @if($course->image)
-                        <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
-                    @else
-                        <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
-                    @endif
-                    
-                    <!-- Course Content -->
-                    <div class="course-content">
-                        <div>
-                            <!-- Course Title -->
-                            <h3 class="course-title">{{ $course->title }}</h3>
-                            
-                            <!-- Course Instructor (if available) -->
-                            @if(isset($course->instructor))
-                                <div class="course-instructor">{{ $course->instructor }}</div>
-                            @endif
-                            @if(isset($course->category))
-                                <div class="course-category" style="font-size:13px; color:#6b7280; margin-bottom:4px;">
-                                    {{ $course->category }}
-                                </div>
-                            @endif
-                            
-                            
-                        </div>
-                        
-                        <div>
-                            <!-- Course Price -->
-                            <div class="course-price">${{ number_format($course->price ?? 0, 2) }}</div>
-                            
-                            <!-- Action Buttons -->
-                            <div class="course-actions">
-                                <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
-                                    Details
-                                </a>
-                               @guest
-                     <form method="POST" action="{{ route('cart.guest.add') }}">
-                    @csrf
-                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-                    <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </form>
-                    @endguest
+            <!-- Show only one row of courses and add a "Load More" button -->
+            <div class="courses-grid" id="coursesGrid">
+                @foreach($courses as $index => $course)
+                    <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
+                        <!-- Course Image -->
+                        @if($course->image)
+                            <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+                        @else
+                            <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
+                        @endif
 
+                        <!-- Course Content -->
+                        <div class="course-content">
+                            <div>
+                                <h3 class="course-title">{{ $course->title }}</h3>
+                                @if(isset($course->instructor))
+                                    <div class="course-instructor">{{ $course->instructor }}</div>
+                                @endif
+                                @if(isset($course->category))
+                                    <div class="course-category" style="font-size:13px; color:#6b7280; margin-bottom:4px;">
+                                        {{ $course->category }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div>
+                                <div class="course-price">${{ number_format($course->price ?? 0, 2) }}</div>
+                                <div class="course-actions">
+                                    <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
+                                        Details
+                                    </a>
+                                    <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn-cart">Add to Cart</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                @empty
-                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                    <h3 style="font-size: 1.25rem; font-weight: 600; color: #6b7280; margin-bottom: 0.5rem;">No courses available</h3>
-                    <p style="color: #9ca3af;">Check back later for new courses!</p>
-                </div>
-                @endforelse
+                @endforeach
             </div>
+
+            @if($courses->count() > 4)
+                <div style="text-align:center; margin-top:2rem;">
+                    <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
+                </div>
+            @endif
         </div>
     </section>
 
@@ -618,6 +613,24 @@
                 header.style.background = 'rgba(255, 255, 255, 0.95)';
             }
         });
+        // Load More functionality
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const cards = document.querySelectorAll('#coursesGrid .course-card');
+        let visible = 4;
+        const increment = 4;
+
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                let shown = 0;
+                for (let i = visible; i < cards.length && shown < increment; i++, shown++) {
+                    cards[i].style.display = '';
+                }
+                visible += increment;
+                if (visible >= cards.length) {
+                    loadMoreBtn.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>
