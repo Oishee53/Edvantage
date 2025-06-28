@@ -46,7 +46,13 @@ class AuthController extends Controller
         session()->forget('guest_cart');
     }
 
-    return redirect('/cart'); // redirect back to cart
+     if ($user->role === 2) {
+        return redirect('/admin_panel'); // Change to your admin dashboard route
+    } else {
+        return redirect('/homepage');
+    }
+
+
 }
 
 
