@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDVANTAGE - Your Virtual Classroom Redefined</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -131,27 +132,28 @@
             display: none;
         }
         .header-btn {
-            position: relative;
-            background: rgba(66, 133, 244, 0.1);
-            border: 1px solid rgba(66, 133, 244, 0.3);
-            color: #4285f4;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+    position: relative;
+    background: transparent;
+    border: 2px solid #0148ad;
+    color: #0148ad;
+    padding: 0.2rem 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
 
             .header-btn:hover {
-            background: rgba(66, 133, 244, 0.2);
-            color: #4285f4;
+            background: #ccdcf2;
+            color: #0148ad;
             }
             .header-btn i.fa-shopping-cart {
-                font-size: 20px;
-                color: var(--action-blue);
+                font-size: 16px;
+                color: #0148ad;
             }
 
             .cart-btn {
@@ -178,8 +180,6 @@
   padding: 2px;
   box-shadow: 0 0 3px rgba(0,0,0,0.2);
 }
-
-
 
         .category-link {
             color: #374151;
@@ -559,10 +559,10 @@
                                 <div class="course-instructor">{{ $course->instructor }}</div>
                             @endif
                             @if(isset($course->category))
-                            <div class="course-category" style="font-size:13px; color:#6b7280; margin-bottom:4px;">
-                                {{ $course->category }}
-                            </div>
-                        @endif
+                                <div class="course-category" style="font-size:13px; color:#6b7280; margin-bottom:4px;">
+                                    {{ $course->category }}
+                                </div>
+                            @endif
                             
                             
                         </div>
