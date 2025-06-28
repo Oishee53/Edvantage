@@ -63,7 +63,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/guest/cart/add', [CartController::class, 'addToGuestCart'])->name('cart.guest.add');
 Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
 
 Route::middleware(['auth.custom'])->group(function () {
 
@@ -84,7 +84,7 @@ Route::get('/courses',[CourseController::class, 'viewCourses'])->name('courses.a
 
 
 
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
+
 
 Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('wishlist.all');
 Route::post('/wishlist/{id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
