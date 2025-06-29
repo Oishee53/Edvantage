@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDVANTAGE - Your Virtual Classroom Redefined</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        * {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -58,20 +61,26 @@
             gap: 0.5rem;
             margin-right: 0.25rem; /* Reduce margin */
         }
+        .nav-menu a:hover{
+            color: #0148ad;
+        }
 
         .nav-menu a {
+            font-family: 'Montserrat', sans-serif;
             text-decoration: none;
             color: #374151;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: color 0.3s ease;
             margin-right:1rem;
         }
 
+
         
         .auth-buttons {
+            font-family: 'Montserrat', sans-serif;
             display: flex;
-            gap: 0.5rem;
+            gap: 0.75rem;
             margin-left: auto;
             align-items: center;
         }
@@ -81,7 +90,7 @@
             border: none;
             border-radius: 5px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 400;
             transition: all 0.3s ease;
             cursor: pointer;
         }
@@ -126,7 +135,7 @@
             padding: 0 1.5rem;
             display: flex;
             align-items: center;
-            gap: 2.5rem;
+            gap: 2.75rem;
             overflow-x: auto;
             scrollbar-width: none;
         }
@@ -159,36 +168,11 @@
             color: #727272;
         }
 
-        .cart-btn {
-            position: relative;
-        }
-
-        .cart-btn .fas.fa-shopping-cart {
-            font-size: 18px;
-        }
-
-        .cart-btn .badge {
-            position: absolute;
-            top: -6px;
-            right: 1px;
-            background: #0148ad;
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2px;
-            box-shadow: 0 0 3px rgba(0,0,0,0.2);
-        }
-
         .category-link {
-            color: #fff ;
+            font-family: 'Montserrat', sans-serif;
+            color: white ;
             font-size: 0.9rem;
-            text-decoration: none;
-            font-weight: 300;
+            text-decoration: none;   
             transition: color 0.3s ease;
             white-space: nowrap;
             padding: 0.25rem 0;
@@ -324,24 +308,23 @@
             background: #fff;
             border-radius: 5px;
             overflow: hidden;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #c4c6ca;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            height: 340px; /* Adjust height as needed */
-            width: 280px;
+            height: 340px;      /* Fixed height */
+            width: 280px;       /* Fixed width */
             transition: box-shadow 0.2s;
-            row-gap: 4rem
             position: relative;
-            margin: 0 auto; /* Center the card */
+            margin: 0 auto;
             box-sizing: border-box;
             text-align: left;
         }
 
         .course-card:hover {
             box-shadow: 0 6px 24px rgba(0,0,0,0.10);
-            border: #0148ad 1px solid;
+            border: #0148ad 1.3px solid;
         }
 
         .course-image {
@@ -352,64 +335,85 @@
         }
 
         .course-content {
-            padding: 18px 16px 12px 16px;
+            padding: 10px 12px 8px 12px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            flex: 1;
+            flex: 1 1 auto;
+            min-height: 0;
         }
 
         .course-title {
             font-size: 1.1rem;
             font-weight: 700;
             color: #1a1a1a;
-            margin-bottom: 6px;
+           
             line-height: 1.3;
             min-height: 2.4em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-
-        .course-instructor,
         .course-category {
             font-size: 13px;
             color: #6b7280;
             margin-bottom: 4px;
         }
 
+        .course-category-badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 16px;
+            padding: 3px 14px;
+            margin: 4px -10 6px 0; /* Less margin */
+            border: none;
+            cursor: default;
+        }
+
         .course-rating {
             display: flex;
             align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
-        }
-
-        .rating-number {
-            font-size: 12px;
-            font-weight: 600;
-            color: #f59e0b;
+            gap: 6px;
+            margin-bottom: 2px;
         }
 
         .stars {
             color: #f59e0b;
-            font-size: 12px;
+            font-size: 1rem;
+            letter-spacing: 1px;
         }
-        
+
+        .rating-number {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #f59e0b;
+        }
 
         .rating-count {
-            font-size: 11px;
+            font-size: 0.85rem;
             color: #9ca3af;
         }
 
         .course-price {
             font-family: 'Montserrat', sans-serif;
-            font-size: 16px;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #1a1a1a;
-            margin-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 2px; /* Less margin */
         }
 
         .course-actions {
             display: flex;
             gap: 6px;
+            margin-top: auto; /* Always push actions to the bottom */
+        }
+        .taka-bold {
+            font-weight: 790;
+            font-size: 1.3rem; /* Optional: slightly larger */
+            letter-spacing: 0.5px; /* Optional: for clarity */
         }
 
         .btn-details {
@@ -417,12 +421,13 @@
             background: #f3f4f6;
             color: #374151;
             text-align: center;
-            padding: 6px 8px;
+            padding: 6px 4px;
             border-radius: 4px;
             text-decoration: none;
             font-size: 11px;
             font-weight: 600;
             transition: all 0.3s ease;
+            border-color: #e2e3e4;
         }
 
         .btn-details:hover {
@@ -447,7 +452,7 @@
         }
 
         #loadMoreBtn {
-            padding: 1rem 2rem;
+            padding: 0.5rem 1rem;
             font-size: 1.2rem;
             border-radius: 5px;
             font-weight: 500;
@@ -492,7 +497,7 @@
 </head>
 <body>
     <!-- Place the category bar immediately after the header -->
-    <div class="category-bar" style="top:56px;">
+    <div class="category-bar" style="top:56px; font-weight: 50;">
         @foreach($uniqueCategories as $category)
             <a href="#" class="category-link">{{$category}}</a>
         @endforeach
@@ -544,41 +549,45 @@
             <!-- Show only one row of courses and add a "Load More" button -->
             <div class="courses-grid" id="coursesGrid">
                 @foreach($courses as $index => $course)
-                    <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
-                        <!-- Course Image -->
-                        @if($course->image)
-                            <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
-                        @else
-                            <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
-                        @endif
+                <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
+    <!-- Course Image -->
+    @if($course->image)
+        <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+    @else
+        <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
+    @endif
 
-                        <!-- Course Content -->
-                        <div class="course-content">
-                            <div>
-                                <h3 class="course-title">{{ $course->title }}</h3>
-                                @if(isset($course->instructor))
-                                    <div class="course-instructor">{{ $course->instructor }}</div>
-                                @endif
-                                @if(isset($course->category))
-                                    <div class="course-category" style="font-size:13px; color:#6b7280; margin-bottom:4px;">
-                                        {{ $course->category }}
-                                    </div>
-                                @endif
-                            </div>
-                            <div>
-                                <div class="course-price">${{ number_format($course->price ?? 0, 2) }}</div>
-                                <div class="course-actions">
-                                    <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
-                                        Details
-                                    </a>
-                                    <form action="{{ route('cart.add', $course->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        <button type="submit" class="btn-cart">Add to Cart</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Course Content -->
+    <div class="course-content">
+        <h3 class="course-title">{{ $course->title }}</h3>
+        @if(isset($course->category))
+            <span class="course-category-badge">{{ $course->category }}</span>
+        @endif
+
+        <div class="course-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-number">4.8</span>
+            <span class="rating-count">(120)</span>
+        </div>
+
+        <div class="course-price">
+            <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
+        </div>
+        <div class="course-actions">
+            <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
+                Details
+            </a>
+            @guest
+            <form method="POST" action="{{ route('cart.guest.add') }}">
+                @csrf
+                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+            @endguest
+        </div>
+    </div>
+</div>
+ 
                 @endforeach
             </div>
 
