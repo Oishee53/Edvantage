@@ -48,7 +48,7 @@ public function userEnrolledCourses()
 {
     $user = Auth::user();
     $enrolledCourses = $user->enrollments()->with('course')->get()->pluck('course');
-    return view('User.enrolled_courses', compact('enrolledCourses'));
+    return view('User.enrolled_courses', compact('user','enrolledCourses'));
 }
 
 public function viewCourseModules($courseId)
