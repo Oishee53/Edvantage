@@ -607,7 +607,7 @@
           <div class="empty-state">
             <h3>Begin Your Learning Journey</h3>
             <p>Explore our comprehensive course catalog to advance your skills</p>
-            <a href="{{ url('/courses') }}" class="browse-btn">Browse Courses</a>
+            <a href="/login" class="browse-btn">Browse Courses</a>
           </div>
         @endforelse
       </div>

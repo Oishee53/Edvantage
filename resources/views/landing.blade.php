@@ -63,7 +63,7 @@
             font-family: 'Montserrat', sans-serif;
             display: flex;
             gap: 1rem;
-            margin-left: 2rem;
+            margin-left: 6rem;
             margin-right: -2rem;
             align-items: center;
         }
