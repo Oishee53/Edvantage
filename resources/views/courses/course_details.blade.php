@@ -975,7 +975,13 @@
                         </div>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-primary">Login to Enroll</a>
+                   @guest
+                        <form method="POST" action="{{ route('cart.guest.add') }}">
+                            @csrf
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <button type="submit" class="btn btn-primary" >Add to Cart</button>
+                        </form>
+                    @endguest
                 @endauth
             </div>
         </div>

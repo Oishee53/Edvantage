@@ -12,8 +12,10 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\GitHubController;
 use Illuminate\Validation\Rules;
 use App\Models\Courses;
+
 
 Route::get('/', [LandingController::class, 'showLanding']);
 
@@ -99,5 +101,9 @@ Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])-
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
 Route::get('/pdf/{filename}', [EnrollmentController::class, 'showPdf'])->name('resources.showPdf');
+
+
+
+Route::get('/github-repo', [GitHubController::class, 'getRepo']);
 
 });
