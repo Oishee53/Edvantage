@@ -657,10 +657,10 @@
                     @if(isset($isGuest) && $isGuest)
                         <a href="{{ route('login') }}" class="checkout-btn">Proceed to Checkout</a>
                     @else
-                        <form action="{{ route('cart.checkout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="checkout-btn">Proceed to Checkout</button>
-                        </form>
+                      <form method="GET" action="{{ route('checkout') }}">
+    <input type="hidden" name="amount" value="{{ $cartItems->sum(fn($item) => $item->course->price) }}">
+    <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+</form>
                     @endif
                     <a href="/login" class="continue-shopping">Continue Shopping</a>
                 </div>
