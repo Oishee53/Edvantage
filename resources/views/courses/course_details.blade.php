@@ -65,7 +65,7 @@
             margin-right: 0.25rem;
         }
         .nav-menu a:hover{
-            color: #0E1B33;
+            color: #8b8b8d;
         }
         .nav-menu a {
             font-family: 'Montserrat', sans-serif;
@@ -402,8 +402,8 @@
             border: 1px solid #0E1B33;
         }
         .btn-secondary:hover {
-            background: #0E1B33;
-            color: white;
+            background: #dbdbdb;
+            color: #0E1B33;
         }
         .course-features {
             list-style: none;

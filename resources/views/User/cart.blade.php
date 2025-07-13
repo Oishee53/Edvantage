@@ -662,7 +662,7 @@
                             <button type="submit" class="checkout-btn">Proceed to Checkout</button>
                         </form>
                     @endif
-                    <a href="{{ route('courses.all') }}" class="continue-shopping">Continue Shopping</a>
+                    <a href="/login" class="continue-shopping">Continue Shopping</a>
                 </div>
             </div>
         @else

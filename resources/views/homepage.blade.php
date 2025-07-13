@@ -99,7 +99,7 @@
         }
         .btn-primary:hover {
             background: #475569;
-            border: 2px solid #475569;      
+            border: 2px solid #475569;
         }
         .btn.btn-primary {
             background: #0E1B33;
@@ -234,7 +234,7 @@
             font-family: 'Montserrat', sans-serif;
             color: white ;
             font-size: 0.9rem;
-            text-decoration: none;   
+            text-decoration: none;
             transition: color 0.3s ease;
             white-space: nowrap;
             padding: 0.25rem 0;
@@ -442,50 +442,72 @@
             font-size: 1.1rem;
             font-weight: 700;
             color: #1a1a1a;
-            margin-top: 0;
-            margin-bottom: 2px;
+            margin-top: -1;
+            margin-bottom: 0px;
         }
         .course-actions {
             display: flex;
-            gap: 6px;
+            justify-content: space-between; /* Aligns items to ends */
+            align-items: center; /* Vertically centers items */
             margin-top: auto;
+            
         }
         .taka-bold {
             font-weight: 790;
             font-size: 1.3rem;
             letter-spacing: 0.5px;
         }
-        .btn-details {
+        
+      .btn-details {
             flex: 1;
             background: #f3f4f6;
             color: #374151;
             text-align: center;
-            padding: 6px 4px;
+            padding: 6px 6px;
             border-radius: 4px;
             text-decoration: none;
             font-size: 11px;
             font-weight: 600;
             transition: all 0.3s ease;
+            display: inline;
+            margin-right:100px;
             border: #bebfc0 1px solid;
+
+            margin-bottom:50px;
         }
         .btn-details:hover {
             background: #ffffff;
             border: #bebfc0 1px solid;
         }
-        .btn-cart {
-            background: #0E1B33;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+        .btn-details i {
+            font-size: 1rem; /* Ensure icon size is consistent */
         }
-        .btn-cart:hover {
-            background: #475569;
+        .btn-icon-action { /* Style for wishlist and cart icons */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px; /* Fixed width */
+            height: 30px; /* Fixed height */
+            font-size: 1.1rem;
+            color: #f3f4f6;; /* White icon color */
+            background: #0E1B33; /* Updated to match image's purple */
+            border: none;
+            border-radius: 50%; /* Circular shape */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 50px; /* Space below the icons */
+        }
+        .btn-icon-action:hover {
+            background: #475569; /* Darker purple on hover */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .btn-icon-action i {
+            font-size: 1rem; /* Ensure icon size is consistent */
+        }
+        .action-icons-group {
+            display: flex;
+            gap: 8px; /* Space between wishlist and cart */
         }
         #loadMoreBtn {
             padding: 0.5rem 1rem;
@@ -576,9 +598,10 @@
             <p class="username">{{ explode(' ', $user->name)[0] }}</p>
         </div>
     </header>
-    <!-- Hero Section -->
-    <section class="hero">
+   <section class="hero">
         <div class="hero-content">
+            <h1>Welcome to Edvantage</h1>
+            <p>Your virtual classroom redefined. Learn from the best instructors, explore trending courses, and unlock your potential.</p>
             <div class="hero-buttons">
                 <a href="/register" class="btn btn-primary btn-hero">Get Started for FREE</a>
                 <a href="#courses" class="btn btn-secondary btn-hero">Learn More</a>
@@ -621,11 +644,22 @@
                             <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
                                 Details
                             </a>
-                            <form method="POST" action="{{ route('cart.add', $course->id) }}">
-                                @csrf
-                                <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                            </form>
+                            <div class="action-icons-group">
+                                <form method="POST" action="{{ route('wishlist.add', $course->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                    <button type="submit" class="btn-icon-action" title="Add to Wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('cart.add', $course->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                    <button type="submit" class="btn-icon-action" title="Add to Cart">
+                                        <i class="fa-solid fa-shopping-cart"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -698,6 +732,11 @@
         @if(session('cart_added'))
         if (confirm("{{ session('cart_added') }} Go to cart?")) {
             window.location.href = "{{ route('cart.all') }}";
+        }
+        @endif
+        @if(session('wishlist_added'))
+        if (confirm("{{ session('wishlist_added') }} Go to wishlist?")) {
+            window.location.href = "{{ route('wishlist.all') }}";
         }
         @endif
     </script>
