@@ -1,231 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ $course->title }} - EDVANTAGE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - EDVANTAGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+       * {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        i[class^="fa-"], i[class*=" fa-"] {
+            font-family: "Font Awesome 6 Free" !important;
+            font-style: normal;
+            font-weight: 900 !important;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        /* Header Styles */
+        .header {
+            background: #fff;
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: none;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+          }
+        .logo {
+            margin-left: -1rem;
+            margin-right:0.75rem;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-shrink: 0;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            margin-right: 0.25rem;
+        }
+        .nav-menu a:hover{
+            color: #0148ad;
+        }
+        .nav-menu a {
+            font-family: 'Montserrat', sans-serif;
+            text-decoration: none;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            margin-right:1rem;
+        }
+        .btn {
+            padding: 0.2rem 0.75rem;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #0148ad;
+            border: 2px solid #0148ad;
+        }
+        .btn-outline:hover {
+            background: #ccdcf2;
+            color: #0148ad;
+        }
+        .btn-primary {
+            background: #0148ad;
+            color: white;
+            border: 2px solid #0148ad;
+        }
+        .btn-primary:hover {
+            background: #015edf;
+        }
+        .top-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: 2rem; /* Add this line to move all icons (including heart) to the right */
+            margin-right: -1rem;
+        }
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            font-size: 1.1rem;
+            color: #4285f4;
+            background: rgba(66, 133, 244, 0.08);
+            border: 1px solid rgba(66, 133, 244, 0.2);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .icon-button:hover {
+            background: rgba(66, 133, 244, 0.15);
+            border-color: rgba(66, 133, 244, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.2);
+        }
+        .icon-button:active {
+            transform: translateY(0);
+        }
+        .user-menu-button {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #4285f4 0%, #3367d6 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+        .user-menu-button:hover {
+            background: linear-gradient(135deg, #3367d6 0%, #2851a3 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(66, 133, 244, 0.4);
+        }
+        .user-menu-button:active {
+            transform: translateY(0);
+        }
+        .user-menu-button i {
+            font-size: 1rem;
+        }
+        .user-menu {
+            position: relative;
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+        .user-menu:hover .user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #374151;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .user-dropdown a:last-child {
+            border-bottom: none;
+        }
+        .user-dropdown a:hover {
+            background: #f8fafc;
+            color: #4285f4;
+        }
+        .user-dropdown .icon {
+            margin-right: 12px;
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+            color: #4285f4;
+        }
+        .user-dropdown .separator {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 8px 0;
+        }
+                                
+        .search-form {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        .search-input {
+            width: 400px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 24px;
+            font-size: 1rem;
+        }
+                            
+        .hero-course-image {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      display: block;
     }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f8f9fa;
-      color: #202124;
-      min-height: 100vh;
-    }
-
-    .course-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.btn-cart,
-.btn-wishlist {
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  white-space: nowrap;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s ease;
-}
-
-.btn-cart {
-  background-color: #6366f1;
-  color: white;
-}
-
-.btn-cart:hover {
-  background-color: #4f46e5;
-}
-
-.btn-wishlist {
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #d1d5db;
-}
-
-.btn-wishlist:hover {
-  background-color: #e2e8f0;
-  color: #334155;
-}
-
-
-    /* Header - Matching Profile Theme */
-    .header {
-      background: white;
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      border-bottom: 1px solid #e8eaed;
-    }
-
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2rem;
-    }
-
-    .logo {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #4285f4;
-      text-decoration: none;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-
-    .nav-menu a {
-      color: #5f6368;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-menu a:hover {
-      color: #4285f4;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .action-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
+    .hero-content {
+      z-index: 2;
+      max-width: 800px;
+      padding: 40px 20px;
       position: relative;
     }
-
-    .wishlist-btn {
-      background: #f8f9fa;
-      color: #5f6368;
-      border: 1px solid #dadce0;
+    .hero-title {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
     }
-
-    .cart-btn {
-      background: #f8f9fa;
-      color: #5f6368;
-      border: 1px solid #dadce0;
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     }
-
-    .action-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(66, 133, 244, 0.2);
+    .hero-stats {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
     }
-
-    /* Badge */
-    .badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #ea4335;
-      color: white;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      font-size: 0.7rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-    }
-
-    /* User Menu Dropdown */
-    .user-menu {
-      position: relative;
-    }
-
-    .user-menu-button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #4285f4;
-      color: white;
-      border: none;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .user-menu-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
-    }
-
-    .user-dropdown {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: white;
-      border: 1px solid #dadce0;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      min-width: 200px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      margin-top: 0.5rem;
-    }
-
-    .user-menu:hover .user-dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .user-dropdown a {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      color: #202124;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: background-color 0.2s ease;
-      gap: 0.75rem;
-    }
-
-    .user-dropdown a:hover {
-      background: #f8f9fa;
-    }
-
-    .separator {
-      height: 1px;
-      background: #e8eaed;
-      margin: 0.5rem 0;
-    }
-
     /* Main Content */
     .main-content {
       padding: 1.5rem 2rem;
       max-width: 1200px;
       margin: 0 auto;
     }
-
     /* Breadcrumb */
     .breadcrumb {
       display: flex;
@@ -235,16 +271,13 @@
       font-size: 0.9rem;
       color: #5f6368;
     }
-
     .breadcrumb a {
       color: #4285f4;
       text-decoration: none;
     }
-
     .breadcrumb a:hover {
       text-decoration: underline;
     }
-
     /* Course Details Layout */
     .course-details-wrapper {
       display: grid;
@@ -252,14 +285,11 @@
       gap: 2rem;
       align-items: start;
     }
-
     .course-main {
-      background: white;
+      background: #f9f9f9;
       padding: 2.5rem;
-      border-radius: 8px;
-      border: 1px solid #dadce0;
+      border: none;
     }
-
     .course-sidebar {
       background: white;
       padding: 2rem;
@@ -268,7 +298,6 @@
       position: sticky;
       top: 120px;
     }
-
     .course-title {
       font-size: 2.5rem;
       font-weight: 400;
@@ -276,7 +305,6 @@
       margin-bottom: 1rem;
       line-height: 1.2;
     }
-
     .course-meta {
       display: flex;
       gap: 2rem;
@@ -285,7 +313,6 @@
       border-bottom: 1px solid #e8eaed;
       flex-wrap: wrap;
     }
-
     .meta-item {
       display: flex;
       align-items: center;
@@ -293,67 +320,65 @@
       color: #5f6368;
       font-size: 0.9rem;
     }
-
     .course-description {
       font-size: 1.1rem;
       color: #202124;
       line-height: 1.6;
       margin-bottom: 2rem;
     }
-
-    .course-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: #f8f9fa;
-      padding: 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      border: 1px solid #e8eaed;
-    }
-
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #4285f4;
-      margin-bottom: 0.5rem;
-    }
-
-    .stat-label {
-      color: #5f6368;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
+                  
+      .course-stats {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+      }
+      .stat-card {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+        text-align: left;
+        border: none;
+        box-shadow: none;
+      }
+      .stat-number {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0148ad;
+        margin-bottom: 0.2rem;
+        display: inline;
+      }
+      .stat-label {
+        color: #5f6368;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-left: 0.5rem;
+        display: inline;
+      }
     /* Sidebar */
     .price-section {
       text-align: center;
       margin-bottom: 2rem;
     }
-
     .course-price {
       font-size: 2.5rem;
       font-weight: 600;
-      color: #4285f4;
+      color: #0148ad;
       margin-bottom: 0.5rem;
     }
-
     .price-label {
       color: #5f6368;
       font-size: 0.9rem;
     }
-
     .action-buttons {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       margin-bottom: 2rem;
     }
-
     .btn {
       padding: 1rem;
       border: none;
@@ -366,33 +391,27 @@
       display: block;
       text-align: center;
     }
-
     .btn-primary {
-      background: #4285f4;
+      background: #0148ad;
       color: white;
     }
-
     .btn-primary:hover {
       background: #3367d6;
       box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
     }
-
     .btn-secondary {
       background: white;
-      color: #4285f4;
-      border: 1px solid #4285f4;
+      color: #0148ad;
+      border: 1px solid #0148ad;
     }
-
     .btn-secondary:hover {
       background: #4285f4;
       color: white;
     }
-
     .course-features {
       list-style: none;
       padding: 0;
     }
-
     .course-features li {
       display: flex;
       align-items: center;
@@ -402,88 +421,49 @@
       color: #5f6368;
       font-size: 0.9rem;
     }
-
     .course-features li:last-child {
       border-bottom: none;
     }
-
     .feature-icon {
-      color: #4285f4;
+      color: #0148ad;
       font-size: 1.1rem;
     }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #4285f4;
-      text-decoration: none;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      transition: all 0.3s ease;
-    }
-
     .back-link:hover {
       text-decoration: underline;
     }
-
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .header-content {
         padding: 0 1rem;
       }
-
       .nav-menu {
         display: none;
       }
-
       .main-content {
         padding: 1rem 1rem;
       }
-
       .course-title {
         font-size: 2rem;
       }
-
       .course-details-wrapper {
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
-
       .course-main,
       .course-sidebar {
         padding: 1.5rem;
       }
-
       .course-sidebar {
         position: static;
       }
-
       .course-meta {
         flex-direction: column;
         gap: 1rem;
       }
-
       .course-stats {
         grid-template-columns: 1fr;
       }
     }
-
-    /* Icons */
-    .icon-heart::before { content: "♡"; }
-    .icon-cart::before { content: "🛒"; }
-    .icon-profile::before { content: "👤"; }
-    .icon-courses::before { content: "📚"; }
-    .icon-dashboard::before { content: "📊"; }
-    .icon-catalog::before { content: "📖"; }
-    .icon-history::before { content: "🛍️"; }
-    .icon-logout::before { content: "🚪"; }
-    .icon-video::before { content: "🎥"; }
-    .icon-time::before { content: "⏱️"; }
-    .icon-duration::before { content: "⏰"; }
-    .icon-check::before { content: "✓"; }
-    .icon-arrow-left::before { content: "←"; }
-
     /* Animations */
     @keyframes fadeInUp {
       from {
@@ -495,67 +475,50 @@
         transform: translateY(0);
       }
     }
-
     .course-main,
     .course-sidebar {
       animation: fadeInUp 0.6s ease forwards;
     }
-
     .course-sidebar {
-      animation-delay: 0.2s;
+        margin-top: -20rem;
+        background: white;
+        padding: 0 0 2rem 0;
+        border-radius: 0px;
+        border: 1px solid #dadce0;
+        position: sticky;
+        top: 120px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-
+                  
+    .sidebar-course-image {
+          width: 100%;
+          height: 230px;
+          border: 5px solid #ffffff;
+          object-fit: cover;
+          border-radius: 0px;
+          margin-bottom: 1.5rem;
+          display: block;
+      }
     .course-image-section {
       margin-bottom: 2rem;
     }
-
     .course-hero-image {
       width: 100%;
       height: 400px;
       object-fit: cover;
       border-radius: 8px;
     }
-
-    .course-tabs {
-      margin-top: 2rem;
-    }
-
-    .tab-buttons {
-      display: flex;
-      border-bottom: 1px solid #e8eaed;
-      margin-bottom: 2rem;
-    }
-
-    .tab-btn {
-      padding: 1rem 2rem;
-      border: none;
-      background: none;
-      color: #5f6368;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.3s ease;
-    }
-
-    .tab-btn.active {
-      color: #4285f4;
-      border-bottom-color: #4285f4;
-    }
-
-    .tab-pane {
-      display: none;
-    }
-
-    .tab-pane.active {
-      display: block;
-    }
-
+        
     .course-quick-stats {
       margin-bottom: 2rem;
       padding: 1.5rem;
       background: #f8f9fa;
       border-radius: 8px;
     }
-
     .stat-item {
       display: flex;
       align-items: center;
@@ -564,213 +527,394 @@
       font-size: 0.9rem;
       color: #5f6368;
     }
-
     .instructor-section {
       margin-bottom: 2rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid #e8eaed;
     }
-
     .instructor-info {
       display: flex;
       align-items: center;
       gap: 1rem;
       margin-top: 1rem;
     }
-
     .instructor-avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       object-fit: cover;
     }
-
     .instructor-name {
       font-weight: 500;
       color: #202124;
     }
-
     .materials-list {
       list-style: none;
       padding: 0;
     }
-
     .materials-list li {
       padding: 0.5rem 0;
       color: #5f6368;
       font-size: 0.9rem;
     }
-
     .materials-list li:before {
       content: "✓";
-      color: #4285f4;
+      color: #0148ad;
       margin-right: 0.75rem;
       font-weight: bold;
     }
-
     .original-price {
       text-decoration: line-through;
       color: #5f6368;
       font-size: 1rem;
       margin-top: 0.25rem;
     }
-  </style>
+    .course-hero-flex {
+    height:400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(120deg, #0a276e 0%, #c9d0da 100%);
+    padding: 2.5rem 2rem 2.5rem 2rem;
+    border-radius: 0 0 0px 0px;
+    margin-bottom: 2rem;
+    color: #fff;
+    gap: 2.5rem;
+}
+.course-hero-left {
+    flex: 1.2;
+    min-width: 0;
+    margin-top:2rem;
+}
+.course-hero-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top:2rem;
+}
+.course-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+.course-meta {
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    color: #ffd700;
+}
+.course-description {
+    color: #e5e7eb;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+/* New styles for instructor and prerequisites sections */
+.instructor-details {
+    background: #f9f9f9;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid #d5d7da;
+    box-shadow: #000000;
+}
+.instructor-details h3 {
+    color: #202124;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.instructor-profile {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.instructor-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0148ad;
+}
+.instructor-info-details {
+    flex: 1;
+}
+.instructor-name-large {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #202124;
+    margin-bottom: 0.5rem;
+}
+.instructor-title {
+    color: #0148ad;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.instructor-details-list {
+    list-style: none;
+    padding: 0;
+}
+.instructor-details-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    color: #5f6368;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+.instructor-details-list .detail-icon {
+    color: #0148ad;
+    font-size: 1rem;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+}
+.prerequisites-section {
+    background: #f9f9f9;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid #d5d7da;
+    box-shadow: #000000;
+}
+.prerequisites-section h3 {
+    color: #202124;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.prerequisites-list {
+    list-style: none;
+    padding: 0;
+}
+.prerequisites-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    color: #5f6368;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-bottom: 1px solid #f1f3f4;
+}
+.prerequisites-list li:last-child {
+    border-bottom: none;
+}
+.prerequisites-list .prereq-icon {
+    color: #0148ad;
+    font-size: 1rem;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+}
+/* Target Audience Section */
+.target-audience-section {
+    background: #f9f9f9;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid #d5d7da;
+    box-shadow: #000000;
+}
+.target-audience-section h3 {
+    color: #202124;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.target-audience-list {
+    list-style: none;
+    padding: 0;
+}
+.target-audience-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    color: #5f6368;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-bottom: 1px solid #f1f3f4;
+}
+.target-audience-list li:last-child {
+    border-bottom: none;
+}
+.target-audience-list .audience-icon {
+    color: #0148ad;
+    font-size: 1rem;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+}
+@media (max-width: 900px) {
+    .course-hero-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 1rem;
+    }
+    .course-hero-right {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 1.5rem;
+    }
+    .course-hero-image {
+        width: 100%;
+        max-width: 350px;
+        height: 200px;
+    }
+            
+    .instructor-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+            
+    .instructor-details,
+    .prerequisites-section,
+    .target-audience-section {
+        padding: 1.5rem;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+}
+    </style>
 </head>
 <body>
-
-  <!-- Header matching the profile theme -->
-  <header class="header">
-    <div class="header-content">
-      <a href="{{ url('/') }}" class="logo">EDVANTAGE</a>
-      
-      <nav>
-        <ul class="nav-menu">
-          <li><a href="{{ url('/about') }}">About Us</a></li>
-          <li><a href="{{ url('/courses') }}">Courses</a></li>
-          <li><a href="{{ url('/blog') }}">Blog</a></li>
-          <li><a href="{{ url('/contact') }}">Contact Us</a></li>
-        </ul>
-      </nav>
-
-      <div class="header-actions">
-        <!-- Wishlist Button -->
-        <a href="{{ route('wishlist.all') }}" class="action-btn wishlist-btn" title="Wishlist">
-          <span class="icon-heart"></span>
-          @if(isset($wishlistCount) && $wishlistCount > 0)
-            <span class="badge">{{ $wishlistCount }}</span>
-          @endif
-        </a>
-
-        <!-- Cart Button -->
-        <a href="{{ route('cart.all') }}" class="action-btn cart-btn" title="Cart">
-          <span class="icon-cart"></span>
-          @if(isset($cartCount) && $cartCount > 0)
-            <span class="badge">{{ $cartCount }}</span>
-          @endif
-        </a>
-
-        <!-- User Menu -->
-        <div class="user-menu">
-          <button class="user-menu-button">👤</button>
-          <div class="user-dropdown">
-            <a href="{{ route('profile') }}">
-              <span class="icon-profile"></span> My Profile
+ <header class="header">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <a href="{{ route('courses.enrolled') }}">
-              <span class="icon-courses"></span> My Courses
-            </a>
-            <a href="#">
-              <span class="icon-dashboard"></span> Dashboard
-            </a>
-            <a href="{{ route('courses.all') }}">
-              <span class="icon-catalog"></span> Course Catalog
-            </a>
-            <a href="#">
-              <span class="icon-history"></span> Purchase History
-            </a>
-            <div class="separator"></div>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-              <span class="icon-logout"></span> Logout
-            </a>
-          </div>
+            <form class="search-form" action="" method="GET">
+                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
+            </form>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="top-icons">
+                <a href="/wishlist" class="icon-button" title="Wishlist">
+                    <i class="fa-solid fa-heart"></i>
+                </a>
+                <a href="/cart" class="icon-button" title="Shopping Cart">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                </a>
+                <div class="user-menu">
+                    <button class="user-menu-button" title="User Menu">
+                        <i class="fa-solid fa-user-circle"></i>
+                    </button>
+                    <div class="user-dropdown">
+                        <a href="/profile"><i class="fa-solid fa-user icon"></i> My Profile</a>
+                        <a href="{{ route('courses.enrolled') }}"><i class="fa-solid fa-graduation-cap icon"></i> My Courses</a>
+                        <a href="/user/dashboard"><i class="fa-solid fa-tachometer-alt icon"></i> Dashboard</a>
+                        <a href="{{ route('courses.all') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
+                        <a href="/purchase_history"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
+                        <div class="separator"></div>
+                        <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fa-solid fa-right-from-bracket icon"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Hidden logout form -->
+            <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                @csrf
+            </form>
+                                    
         </div>
+    </header>
 
-        <!-- Hidden logout form -->
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          @csrf
-        </form>
-      </div>
+    <!-- Hero Banner -->
+  <div class="course-hero-flex">
+    <div class="course-hero-left">
+        <h1 class="course-title">{{ $course->title }}</h1>
+        <div class="course-meta">
+            <!-- Example: rating, enrolled, etc. -->
+            <span class="stars">★★★★★</span>
+            <span class="rating-number">4.8</span>
+            <span class="rating-count">(120)</span>
+        </div>
+        <div class="course-description">
+            {{ $course->description }}
+        </div>
+        <!-- Add more details/buttons here if needed -->
     </div>
-  </header>
+    </div>
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-      <a href="{{ url('/') }}">Home</a>
-      <span>›</span>
-      <a href="{{ route('courses.all') }}">Courses</a>
-      <span>›</span>
-      <span>{{ $course->title }}</span>
-    </div>
-
-    <!-- Back Link -->
-    <a href="{{ route('courses.all') }}" class="back-link">
-      <span class="icon-arrow-left"></span>
-      Back to All Courses
-    </a>
-
-    <div class="course-details-wrapper">
+        <div class="course-details-wrapper">
       <!-- Main Course Content -->
       <div class="course-main">
-        <!-- Course Image Section -->
-        <div class="course-image-section">
-          <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-hero-image">
-        </div>
-
-        <h1 class="course-title">{{ $course->title }}</h1>
-        
-        <div class="course-meta">
-          <div class="meta-item">
-            <span class="icon-video"></span>
-            <span>{{ $course->video_count }} Videos</span>
-          </div>
-          <div class="meta-item">
-            <span class="icon-time"></span>
-            <span>{{ $course->approx_video_length }} min per video</span>
-          </div>
-          <div class="meta-item">
-            <span class="icon-duration"></span>
-            <span>{{ $course->total_duration }} min total</span>
-          </div>
-        </div>
-
-        <div class="course-description">
-          {{ $course->description }}
-        </div>
-
-        <!-- Course Tabs -->
-        <div class="course-tabs">
-          <div class="tab-buttons">
-            <button class="tab-btn active" data-tab="info">Course Info</button>
-            <button class="tab-btn" data-tab="reviews">Reviews</button>
-          </div>
-          
-          <div class="tab-content">
-            <div class="tab-pane active" id="info">
-              <h3>About this course</h3>
-              <p>{{ $course->description }}</p>
-            </div>
-            <div class="tab-pane" id="reviews">
-              <h3>Student Reviews</h3>
-              <p>No reviews yet. Be the first to review this course!</p>
+                        
+        <!-- Instructor Details Section -->
+        <div class="instructor-details">
+          <h3><i class="fa-solid fa-chalkboard-teacher"></i> Meet Your Instructor</h3>
+          <div class="instructor-profile">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Dr. Ahmed Rahman" class="instructor-avatar-large">
+            <div class="instructor-info-details">
+              <div class="instructor-name-large">Dr. Ahmed Rahman</div>
+              <div class="instructor-title">Senior Software Engineer & Tech Educator</div>
+              <ul class="instructor-details-list">
+                <li>
+                  <i class="fa-solid fa-graduation-cap detail-icon"></i>
+                  <span><strong>Education:</strong> Ph.D. in Computer Science from MIT, M.S. in Software Engineering from Stanford University</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-briefcase detail-icon"></i>
+                  <span><strong>Experience:</strong> 12+ years in software development, Former Senior Engineer at Google and Microsoft</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-award detail-icon"></i>
+                  <span><strong>Achievements:</strong> Published 25+ research papers, Speaker at 50+ tech conferences worldwide</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-users detail-icon"></i>
+                  <span><strong>Students Taught:</strong> Over 50,000 students across various platforms with 4.9/5 average rating</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="course-stats">
-          <div class="stat-card">
-            <div class="stat-number">{{ $course->video_count }}</div>
-            <div class="stat-label">Total Videos</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">{{ number_format($course->total_duration / 60, 1) }}h</div>
-            <div class="stat-label">Total Duration</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">{{ $course->approx_video_length }}</div>
-            <div class="stat-label">Avg Video Length</div>
-          </div>
+        <!-- Prerequisites Section -->
+        <div class="prerequisites-section">
+          <h3><i class="fa-solid fa-list-check"></i> Course Prerequisites</h3>
+          <ul class="prerequisites-list">
+            <li>
+              <i class="fa-solid fa-code prereq-icon"></i>
+              <span>Basic understanding of programming concepts (variables, functions, loops)</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Target Audience Section -->
+        <div class="target-audience-section">
+          <h3><i class="fa-solid fa-users"></i> Who This Course Is For</h3>
+          <ul class="target-audience-list">
+            <li>
+              <i class="fa-solid fa-user-graduate audience-icon"></i>
+              <span><strong>Beginner Developers:</strong> Students or professionals new to programming who want to build a solid foundation</span>
+            </li>
+          </ul>
         </div>
       </div>
-
+                  
       <!-- Enhanced Sidebar -->
       <div class="course-sidebar">
+       <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="sidebar-course-image">
+        
         <div class="price-section">
-          <div class="course-price">৳{{ number_format($course->price) }}</div>
-          @if(isset($course->original_price) && $course->original_price > $course->price)
-            <div class="original-price">৳{{ number_format($course->original_price) }}</div>
-          @endif
+            <div class="course-price">৳{{ number_format($course->price) }}</div>
+            @if(isset($course->original_price) && $course->original_price > $course->price)
+                <div class="original-price">৳{{ number_format($course->original_price) }}</div>
+            @endif
         </div>
 
         <!-- Course Stats -->
@@ -788,13 +932,15 @@
             <span>{{ $course->total_duration }} Hours Duration</span>
           </div>
           <div class="stat-item">
+            <span class="stat-icon">⏱️</span>
+            <span>{{ $course->approx_video_length }} min Avg Video Length</span>
+          </div>
+          <div class="stat-item">
             <span class="stat-icon">📅</span>
             <span>{{ $course->updated_at->format('M d, Y') }} Last Updated</span>
           </div>
         </div>
-
-       
-
+                               
         <!-- Enhanced Course Materials -->
         <div class="course-materials">
           <h4>Course Materials</h4>
@@ -816,27 +962,27 @@
             @else
               <div class="course-actions">
   <!-- Cart Button -->
-  <form action="{{ route('cart.add', $course->id) }}" method="POST" style="flex: 1;">
-    @csrf
-    <button type="submit" class="btn btn-cart">
-      🛒 Add to Cart
-    </button>
-  </form>
+   <form method="POST" action="{{ route('cart.add', $course->id) }}" class="cart-form">
+      @csrf
+      <input type="hidden" name="course_id" value="{{ $course->id }}">
+      <button type="submit" class="btn btn-primary cart-btn">Add to Cart</button>
+    </form>
 
   <!-- Wishlist Button -->
-  <form action="{{ route('wishlist.add', $course->id) }}" method="POST" style="flex: 1;">
+  <form action="{{ route('wishlist.add', $course->id) }}" method="POST" style="flex: 1;" class="wishlist-form">
     @csrf
-    <button type="submit" class="btn btn-wishlist">
+    <button type="submit" class="btn btn-wishlist wishlist-btn">
       ♡ Save to Wishlist
     </button>
   </form>
 </div>
-
             @endif
           @else
             <a href="{{ route('login') }}" class="btn btn-primary">Login to Enroll</a>
           @endauth
-       
+                           
+        </div>
+      </div>
     </div>
   </main>
 
@@ -851,14 +997,15 @@
         }, index * 200);
       });
     });
-
-    // Add to cart/wishlist feedback
-    document.querySelectorAll('form button').forEach(btn => {
-      btn.addEventListener('click', function() {
+            
+    // FIXED: Add to cart/wishlist feedback - Only for wishlist buttons, not cart buttons
+    document.querySelectorAll('.wishlist-form button').forEach(btn => {
+      btn.addEventListener('click', function(e) {
         const originalText = this.textContent;
         this.textContent = 'Adding...';
         this.disabled = true;
         
+        // Allow form to submit naturally
         setTimeout(() => {
           this.textContent = originalText;
           this.disabled = false;
@@ -866,21 +1013,55 @@
       });
     });
 
+    // Cart form submission - let it submit naturally without interference
+    document.querySelectorAll('.cart-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        const btn = this.querySelector('.cart-btn');
+        btn.textContent = 'Adding...';
+        btn.disabled = true;
+      });
+    });
+            
     // Tab functionality
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const tabId = this.dataset.tab;
-        
+                                
         // Remove active class from all buttons and panes
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-        
+                                
         // Add active class to clicked button and corresponding pane
         this.classList.add('active');
         document.getElementById(tabId).classList.add('active');
       });
     });
-  </script>
 
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Header background on scroll
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 100) {
+            header.style.background = 'rgba(255, 255, 255, 0.98)';
+        } else {
+            header.style.background = 'rgba(255, 255, 255, 0.95)';
+        }
+    });
+
+    @if(session('cart_added'))
+    if (confirm("{{ session('cart_added') }} Go to cart?")) {
+        window.location.href = "{{ route('cart.all') }}";
+    }
+    @endif
+  </script>
 </body>
 </html>
