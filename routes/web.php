@@ -70,7 +70,8 @@ Route::middleware(['auth.custom'])->group(function () {
 Route::get('/homepage', function () {
     $user = auth()->user();
     $courses = Courses::all(); 
-    return view('homepage',compact('user','courses')); 
+    $uniqueCategories = $courses->pluck('category')->unique();
+    return view('homepage',compact('user','courses','uniqueCategories')); 
 });
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');

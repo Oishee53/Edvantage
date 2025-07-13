@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - EDVANTAGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* General Reset & Font */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Added Montserrat */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0E1B33 0%, #334155 100%); /* Matched login page gradient */
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -32,7 +34,8 @@
             right: 0;
             bottom: 0;
             background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') center/cover;
-            opacity: 0.1;
+            opacity: 0.4; /* Matched login page opacity */
+            z-index: 1;
         }
 
         /* Top Logo */
@@ -45,6 +48,10 @@
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .top-logo img { /* Added img styling for logo */
+            height: 40px;
+            vertical-align: middle;
         }
 
         /* Main Container */
@@ -60,6 +67,7 @@
             z-index: 5;
             border: 1px solid rgba(255, 255, 255, 0.2);
             margin: 2rem auto;
+            animation: fadeInUp 0.8s ease forwards; /* Animation applied here */
         }
 
         /* Register Header */
@@ -71,12 +79,12 @@
         .register-title {
             font-size: 1.8rem;
             font-weight: 600;
-            color: #1e293b;
+            color: #0E1B33; /* Matched login page title color */
             margin-bottom: 0.5rem;
         }
 
         .register-subtitle {
-            color: #64748b;
+            color: #64748b; /* Matched login page subtitle color */
             font-size: 0.95rem;
         }
 
@@ -137,7 +145,7 @@
         .form-label {
             display: block;
             font-weight: 600;
-            color: #374151;
+            color: #374151; /* Matched login page label color */
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
@@ -154,9 +162,9 @@
 
         .form-input:focus {
             outline: none;
-            border-color: #6366f1;
+            border-color: #0E1B33; /* Matched login page focus color */
             background: white;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            box-shadow: 0 0 0 3px rgba(14, 27, 51, 0.1); /* Matched login page focus shadow */
         }
 
         .form-input:hover {
@@ -178,13 +186,13 @@
         }
 
         .form-input.with-icon {
-            padding-left:1rem;
+            padding-left:1rem; /* Adjusted to 1rem as no icon is present */
         }
 
         /* Register Button */
         .register-button {
             width: 100%;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: #0E1B33; /* Matched login page button background */
             color: white;
             border: none;
             padding: 1rem;
@@ -201,9 +209,9 @@
         }
 
         .register-button:hover {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #334155 0%, #475569 100%); /* Matched login page button hover gradient */
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 25px rgba(14, 27, 51, 0.3); /* Matched login page button hover shadow */
         }
 
         .register-button:active {
@@ -225,19 +233,19 @@
         }
 
         .login-link p {
-            color: #64748b;
+            color: #64748b; /* Matched login page link text color */
             font-size: 0.95rem;
         }
 
         .login-link a {
-            color: #6366f1;
+            color: #0E1B33; /* Matched login page link color */
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
         .login-link a:hover {
-            color: #4f46e5;
+            color: #475569; /* Matched login page link hover color */
             text-decoration: underline;
         }
 
@@ -306,7 +314,11 @@
 </head>
 <body>
     <!-- Top Logo -->
-    <div class="top-logo">EDVANTAGE</div>
+    <div class="top-logo">
+        <a href="/" class="logo">
+            <img src="/image/Edvantage.png" alt="EDVANTAGE Logo">
+        </a>
+    </div>
 
     <!-- Main Container -->
     <div class="register-container">
@@ -331,51 +343,47 @@
         <form action="/register" method="POST" class="register-form" id="registerForm">
             @csrf
 
-            <!-- Name and Phone Row -->
-        
-                <div class="form-group full-width">
-                    <label for="name" class="form-label">Full Name</label>
-                    <div class="input-group">
-                       
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            class="form-input with-icon" 
-                            placeholder="Enter your full name"
-                            required
-                            value="{{ old('name') }}"
-                        >
-                    </div>
+            <!-- Name Field -->
+            <div class="form-group full-width">
+                <label for="name" class="form-label">Full Name</label>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input with-icon"
+                        placeholder="Enter your full name"
+                        required
+                        value="{{ old('name') }}"
+                    >
                 </div>
-             
-                <div class="form-group full-width">
-                    <label for="phone" class="form-label">Phone Number</label>
-                    <div class="input-group">
-                       
-                        <input 
-                            type="text" 
-                            id="phone" 
-                            name="phone" 
-                            class="form-input with-icon" 
-                            placeholder="Enter your phone"
-                            required
-                            value="{{ old('phone') }}"
-                        >
-                    </div>
+            </div>
+
+            <!-- Phone Field -->
+            <div class="form-group full-width">
+                <label for="phone" class="form-label">Phone Number</label>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        class="form-input with-icon"
+                        placeholder="Enter your phone"
+                        required
+                        value="{{ old('phone') }}"
+                    >
                 </div>
-        
+            </div>
 
             <!-- Email Field -->
             <div class="form-group full-width">
                 <label for="email" class="form-label">Email Address</label>
                 <div class="input-group">
-                    
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        class="form-input with-icon" 
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-input with-icon"
                         placeholder="Enter your email address"
                         required
                         value="{{ old('email') }}"
@@ -387,12 +395,11 @@
             <div class="form-group full-width">
                 <label for="field" class="form-label">Area of Interest</label>
                 <div class="input-group">
-                   
-                    <input 
-                        type="text" 
-                        id="field" 
-                        name="field" 
-                        class="form-input with-icon" 
+                    <input
+                        type="text"
+                        id="field"
+                        name="field"
+                        class="form-input with-icon"
                         placeholder="e.g. Data Science, Web Development"
                         value="{{ old('field') }}"
                     >
@@ -404,12 +411,11 @@
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
                     <div class="input-group">
-                      
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            class="form-input with-icon" 
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input with-icon"
                             placeholder="Create password"
                             required
                         >
@@ -419,12 +425,11 @@
                 <div class="form-group">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
                     <div class="input-group">
-                     
-                        <input 
-                            type="password" 
-                            id="password_confirmation" 
-                            name="password_confirmation" 
-                            class="form-input with-icon" 
+                        <input
+                            type="password"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            class="form-input with-icon"
                             placeholder="Confirm password"
                             required
                         >
@@ -450,7 +455,7 @@
             const button = document.getElementById('registerBtn');
             button.disabled = true;
             button.innerHTML = 'Creating Account...';
-            
+
             // Re-enable button after 5 seconds in case of issues
             setTimeout(() => {
                 button.disabled = false;
@@ -458,14 +463,16 @@
             }, 5000);
         });
 
-        // Input focus effects
+        // Input focus effects (aligned with login page's direct style modification)
         document.querySelectorAll('.form-input').forEach(input => {
             input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
+                this.style.borderColor = '#0E1B33'; /* Matched login page focus color */
+                this.style.boxShadow = '0 0 0 3px rgba(14, 27, 51, 0.1)'; /* Matched login page focus shadow */
             });
-            
+
             input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
+                this.style.borderColor = '#e5e7eb';
+                this.style.boxShadow = 'none';
             });
         });
 
@@ -473,7 +480,7 @@
         document.getElementById('password_confirmation').addEventListener('input', function() {
             const password = document.getElementById('password').value;
             const confirmPassword = this.value;
-            
+
             if (confirmPassword && password !== confirmPassword) {
                 this.style.borderColor = '#ef4444';
             } else {
