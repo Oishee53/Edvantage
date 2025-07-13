@@ -11,6 +11,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\GitHubController;
 use Illuminate\Validation\Rules;
@@ -95,7 +96,12 @@ Route::post('/wishlist/{id}', [WishlistController::class, 'addToWishlist'])->nam
 Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::delete('/wishlist/{id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 
-Route::post('/checkout', [EnrollmentController::class, 'checkout'])->name('cart.checkout');
+
+
+Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+
+Route::post('/make-payment', [PaymentController::class, 'makePayment'])->name('make.payment');
+
 
 Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
