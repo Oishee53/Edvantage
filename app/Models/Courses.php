@@ -33,6 +33,15 @@ class Courses extends Model
 {
     return $this->hasMany(Enrollment::class, 'course_id');
 }
-  
+
+ public function resources()
+    {
+    return $this->hasMany(Resource::class, 'courseId');
+    }
+
+    public function students()
+{
+    return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
+}
 
 }
