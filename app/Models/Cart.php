@@ -12,7 +12,7 @@ public function course()
 }
 
 
-  protected $fillable = [
+protected $fillable = [
         'user_id',
         'course_id',
         // add other columns if needed
