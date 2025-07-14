@@ -68,16 +68,21 @@ public function deleteCourse()
     $courses = Courses::all();
     return view('courses.delete_course', compact('courses'));
 }
-public function destroy(Request $request){
-    $request->validate([
-        'title' => 'required',
-    ]);
-    $course = Courses::where('title', $request->title)->firstOrFail();
+public function destroy($id)
+{
+    $course = Courses::findOrFail($id);
+
+    // Delete image file if exists
+    if ($course->image && \Storage::disk('public')->exists($course->image)) {
+        \Storage::disk('public')->delete($course->image);
+    }
+
     $course->delete();
 
-    return redirect('/admin_panel/manage_courses/delete-course');
-    
+    return redirect()->route('admin.dashboard')
+        ->with('success', 'Course deleted successfully!');
 }
+
 public function editList()
 {
     $courses = Courses::all();

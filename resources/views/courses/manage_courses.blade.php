@@ -3,260 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Manage Courses - Edvantage</title>
+  <title>Manage Courses</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
-    :root {
-      --primary: #2563eb;
-      --primary-dark: #1e40af;
-      --accent: #3b82f6;
-      --sidebar-bg: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
-      --card-bg: #fff;
-      --card-shadow: 0 8px 32px rgba(30,64,175,0.10);
-      --sidebar-width: 270px;
-      --transition: 0.25s cubic-bezier(.4,0,.2,1);
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0E1B33',
+            primaryLight: '#E3E6F3',
+            editBg: '#EDF2FC',
+            editText: '#0E1B33',
+            viewBg: '#ECFDF5',
+            viewIcon: '#16A34A',
+            deleteBg: '#FEF2F2',
+            deleteIcon: '#DC2626',
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  </script>
+  <style>
     body {
       font-family: 'Poppins', sans-serif;
-      display: flex;
-      min-height: 100vh;
-      background-color: #f4f6fb;
-      color: #1e293b;
-      font-size: 1.08rem;
-    }
-    .sidebar {
-      width: var(--sidebar-width);
-      background: var(--sidebar-bg);
-      color: #fff;
-      padding: 36px 20px 20px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      box-shadow: 2px 0 16px rgba(30,64,175,0.06);
-      position: relative;
-    }
-    .logo {
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: #fff;
-      text-align: center;
-      margin-bottom: 36px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    }
-    .sidebar-nav {
-      flex: 1;
-    }
-    .sidebar a {
-      color: #e0e7ff;
-      text-decoration: none;
-      margin: 8px 0;
-      font-weight: 500;
-      padding: 12px 18px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.08rem;
-      outline: none;
-      background: none;
-      box-shadow: none;
-      transition: background var(--transition), color var(--transition);
-      cursor: pointer;
-    }
-    .sidebar a:hover,
-    .sidebar a:focus {
-      background: var(--primary);
-      color: #fff;
-    }
-    .sidebar .profile {
-      margin-top: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0 0 0;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      font-size: 1.03rem;
-    }
-    .sidebar .profile img {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #fff;
-    }
-    .sidebar .logout {
-      margin-top: 10px;
-      color: #fca5a5;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.03rem;
-      padding: 7px 0;
-      text-align: left;
-      transition: none;
-    }
-    .main {
-      flex: 1;
-      padding: 36px 32px;
-      overflow-y: auto;
-      background: #f8fafc;
-      min-width: 0;
-    }
-    .header {
-      font-size: 1.32rem;
-      font-weight: 600;
-      margin-bottom: 28px;
-      color: var(--primary-dark);
-      letter-spacing: 0.5px;
-      text-shadow: 0 1px 0 #fff;
-    }
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 28px;
-    }
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 28px 18px 22px 18px;
-      box-shadow: var(--card-shadow);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 120px;
-      position: relative;
-      font-size: 1.08rem;
-      outline: none;
-      justify-content: center;
-      transition: box-shadow 0.2s;
-    }
-    .card:hover,
-    .card:focus-within,
-    .card:focus {
-      outline: 2.5px solid var(--primary);
-      outline-offset: 2px;
-      z-index: 1;
-    }
-    .card h3 {
-      font-size: 1.22rem;
-      margin-bottom: 18px;
-      color: #1e293b;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-    }
-    .card h3 i {
-      font-size: 1.3em;
-      color: var(--primary);
-    }
-    .card button {
-      padding: 11px 26px;
-      font-size: 1.08rem;
-      font-weight: 600;
-      background: var(--primary);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(30,64,175,0.07);
-      outline: none;
-      transition: background 0.2s;
-    }
-    .card button:hover,
-    .card button:focus {
-      outline: 2.5px solid var(--primary);
-      outline-offset: 2px;
-      z-index: 2;
-      background: var(--primary-dark);
-    }
-    @media (max-width: 900px) {
-      .main { padding: 18px 8px; }
-      .sidebar { width: 160px; padding: 14px 4px 8px 4px; }
-      .logo { font-size: 1.08rem; }
-      .card-grid { gap: 14px; }
-      .card { padding: 14px 6px 10px 6px; min-height: 70px; }
-      .card h3 { font-size: 1rem; margin-bottom: 10px; }
-      .card h3 i { font-size: 1.1em; }
-      .card button { padding: 7px 14px; font-size: 0.95rem; }
-    }
-    @media (max-width: 640px) {
-      body { flex-direction: column; }
-      .sidebar { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; padding: 10px 3vw; box-shadow: none; }
-      .sidebar-nav { display: flex; gap: 8px; }
-      .main { padding: 10px 2vw; }
-      .header { font-size: 1.02rem; }
-      .card-grid { gap: 8px; }
-      .card { padding: 8px 4px; min-height: 50px; }
-      .sidebar .profile { display: none; }
-      .sidebar .logout { display: none; }
+      background-color: #f9fafb;
     }
   </style>
 </head>
-<body>
+<body class="flex min-h-screen">
 
   <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="logo">EDVANTAGE</div>
-    <nav class="sidebar-nav">
-      <a href="/admin_panel/manage_courses"><i class="fas fa-book"></i> Manage Courses</a>
-      <a href="/admin_panel/manage_resources"><i class="fas fa-folder-open"></i> Manage Resources</a>
-      <a href="/admin_panel/manage_user"><i class="fas fa-users-cog"></i> Manage Users</a>
-      <a href="/admin_panel"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-    </nav>
-    <div class="profile">
-      <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="Admin Profile" />
-      <span>Admin</span>
+  <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+    <div class="p-6 flex items-center gap-2">
+      <img src="/image/Edvantage.png" class="h-10" alt="Edvantage Logo">
     </div>
-    <form method="POST" action="/logout">
-      @csrf
-      <button class="logout" type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
-    </form>
+    <nav class="mt-8 flex-1">
+      <a href="/admin_panel" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">
+        Dashboard
+      </a>
+      <a href="/admin_panel/manage_courses" class="block py-3 px-6 text-primary bg-primaryLight font-semibold">
+        Manage Course
+      </a>
+      <a href="/admin_panel/manage_user" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">
+        Manage User
+      </a>
+      <a href="/admin_panel/manage_resources" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">
+        Manage Resources
+      </a>
+    </nav>
   </aside>
 
   <!-- Main Content -->
-  <main class="main">
-    <div class="header">Manage Courses</div>
+  <main class="flex-1 flex flex-col">
+    <!-- Top bar -->
+    <header class="flex justify-between items-center px-8 py-4 bg-white border-b border-gray-200">
+      <h1 class="text-2xl font-bold text-primary">Course Management</h1>
+      <form action="/admin_panel/manage_courses/add" method="GET">
+        <button type="submit" class="flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLight">
+          <span>➕</span> Add Course
+        </button>
+      </form>
+    </header>
 
     @auth
-    <div class="card-grid">
-      <div class="card" tabindex="0">
-        <h3><i class="fas fa-plus-circle"></i> Add a New Course</h3>
-        <form action="/admin_panel/manage_courses/add" method="GET">
-          <button type="submit">Add Course</button>
-        </form>
+    <section class="p-8">
+      <p class="text-gray-500 mb-6">Manage all courses and their details</p>
+
+      <div class="flex gap-4 mb-8">
+        <input type="text" placeholder="Search courses..." class="flex-1 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+        <button class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 flex items-center gap-2">
+          <span>🔍</span> Filter
+        </button>
       </div>
 
-      <div class="card" tabindex="0">
-        <h3><i class="fas fa-edit"></i> Update Existing Course</h3>
-        <form action="/admin_panel/manage_courses/edit-list" method="GET">
-          <button type="submit">Update Course</button>
-        </form>
-      </div>
+      <!-- Cards grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <div class="card" tabindex="0">
-        <h3><i class="fas fa-trash-alt"></i> Delete a Course</h3>
-        <form action="/admin_panel/manage_courses/delete-course" method="GET">
-          <button type="submit">Delete Course</button>
-        </form>
-      </div>
+        <!-- Example Course Card -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://via.placeholder.com/400x200" class="w-full h-40 object-cover rounded mb-4" alt="React Dev">
+          <div class="flex justify-between items-center mb-2">
+            <div class="text-lg font-semibold text-primary">React Development Masterclass</div>
+            <span class="text-green-700 bg-green-100 text-xs font-medium px-2 py-1 rounded-full">active</span>
+          </div>
+          <p class="text-gray-500 text-sm mb-3">Complete guide to modern React development with hooks, context, and more.</p>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-gray-600">Instructor:</span>
+            <span class="text-primary font-medium">John Smith</span>
+          </div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-gray-600">Students:</span>
+            <span class="text-primary">156</span>
+          </div>
+          <div class="flex justify-between text-sm mb-4">
+            <span class="text-gray-600">Price:</span>
+            <span class="text-green-600 font-bold">$99.99</span>
+          </div>
 
-      <div class="card" tabindex="0">
-        <h3><i class="fas fa-eye"></i> View All Courses</h3>
-        <form action="/admin_panel/manage_courses/view-list" method="GET">
-          <button type="submit">View Courses</button>
-        </form>
+          <!-- Action buttons like your screenshot -->
+          <div class="flex gap-2">
+            <!-- Edit Button -->
+            <form action="/admin_panel/manage_courses/edit-list" method="GET">
+              <button type="submit" class="flex items-center gap-2 bg-editBg text-editText px-4 py-2 rounded-lg font-medium hover:bg-blue-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l5-5m-5 5v5h5m-5-5H4m5 0L4 20l5-5"/>
+                </svg>
+                Edit
+              </button>
+            </form>
+
+            <!-- View Button -->
+            <form action="/admin_panel/manage_courses/view-list" method="GET">
+              <button type="submit" class="flex items-center justify-center bg-viewBg text-viewIcon w-10 h-10 rounded-lg hover:bg-green-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
+            </form>
+
+            <!-- Delete Button -->
+            <form action="/admin_panel/manage_courses/delete-course" method="GET">
+              <button type="submit" class="flex items-center justify-center bg-deleteBg text-deleteIcon w-10 h-10 rounded-lg hover:bg-red-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-3h4a1 1 0 011 1v1H9V5a1 1 0 011-1z" />
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Repeat similar cards as needed... -->
+
       </div>
-    </div>
+    </section>
     @else
-      <p>You are not logged in. <a href="/">Go to Login</a></p>
+      <p class="p-8 text-gray-700">You are not logged in. <a href="/" class="text-primary hover:underline">Go to Login</a></p>
     @endauth
-  </main>
 
+  </main>
 </body>
 </html>

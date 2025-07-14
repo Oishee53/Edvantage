@@ -1,136 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
 
-        body {
-            height: 100vh;
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed, #6d28d9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-            position: relative;
-        }
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
 
-        .logo {
-            position: absolute;
-            top: 20px;
-            left: 30px;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
-            letter-spacing: 1px;
-            user-select: none;
-        }
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        .container {
-            position: relative;
-            padding: 40px;
-            width: 330px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            text-align: center;
-        }
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            z-index: -1;
-            background: linear-gradient(135deg, #c084fc, #a855f7, #9333ea);
-            border-radius: inherit;
-        }
-
-        .container p {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 20px;
-        }
-
-        .container a {
-            display: block;
-            text-decoration: none;
-            font-size: 1.1rem;
-            color: white;
-            margin: 12px 0;
-            padding: 10px 0;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            position: relative;
-            font-weight: 500;
-        }
-
-        .container a:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.05);
-            box-shadow: 0 0 12px #d8b4fe;
-        }
-
-        .container button {
-            margin-top: 20px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #7c3aed;
-            background: #ffffff;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        .container button:hover {
-            background: #f3e8ff;
-            transform: scale(1.05);
-            box-shadow: 0 0 12px #c4b5fd;
-        }
-
-        @media screen and (max-width: 400px) {
-            .container {
-                width: 90%;
-                padding: 30px;
-            }
-
-            .logo {
-                font-size: 1.5rem;
-                left: 20px;
-                top: 15px;
-            }
-        }
-    </style>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2D336B',
+            primaryLight: '#E3E6F3',
+          },
+        },
+      },
+    }
+  </script>
 </head>
-<body>
-    <div class="logo">EDVANTAGE</div>
+<body class="flex">
 
-    <div class="container">
-        @auth
-            <p>Welcome, {{ auth()->user()->name }}!</p>
-            <a href="/admin_panel/manage_courses">Course Management</a>
-            <a href="/admin_panel/manage_resources">Resource Management</a>
-             <a href="/admin_panel/manage_user">User Management</a>
-            <form action="/logout" method="POST">
-                @csrf
-                <button>Logout</button>
-            </form>
-        @else
-            <p>You are not logged in.</p>
-            <a href="/">Go to Login</a>
-        @endauth
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white min-h-screen shadow-md">
+    <div class="p-6 flex items-center gap-2 text-primary font-bold text-xl">
+      <img src="/image/Edvantage.png" class="h-10" alt="Edvantage Logo">
     </div>
+    <nav class="mt-10">
+      <a href="/admin_panel/dashboard" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Dashboard</a>
+      <a href="/admin_panel/manage_courses" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Manage Course</a>
+      <a href="/admin_panel/manage_user" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Manage User</a>
+      <a href="/admin_panel/manage_resources" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Manage Resources</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 p-8">
+    <!-- Top bar -->
+    <div class="flex justify-between items-center mb-8">
+      <div class="text-2xl font-semibold text-primary">Dashboard</div>
+      @auth
+        <div class="flex items-center space-x-4">
+          <span class="text-primary font-medium">{{ auth()->user()->name }}</span>
+          <form action="/logout" method="POST">
+            @csrf
+            <button class="bg-primary text-white px-3 py-2 rounded hover:bg-opacity-90">
+              Logout
+            </button>
+          </form>
+        </div>
+      @endauth
+    </div>
+
+    <!-- Stats cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="text-gray-600">Total Courses</div>
+        <div class="text-2xl font-bold text-primary">{{ $totalCourses ?? 6 }}</div>
+        <div class="text-green-500 text-sm mt-1">+0.0% from last week</div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="text-gray-600">Total Earn</div>
+        <div class="text-2xl font-bold text-primary">${{ $totalEarn ?? 3835 }}</div>
+        <div class="text-green-500 text-sm mt-1">+0.0% from last week</div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="text-gray-600">Total Students</div>
+        <div class="text-2xl font-bold text-primary">{{ $totalStudents ?? 3 }}</div>
+        <div class="text-green-500 text-sm mt-1">+33.3% from last week</div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="text-gray-600">Total Instructors</div>
+        <div class="text-2xl font-bold text-primary">{{ $totalInstructors ?? 4 }}</div>
+        <div class="text-green-500 text-sm mt-1">+100.0% from last week</div>
+      </div>
+    </div>
+
+    <!-- Graph -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-lg shadow col-span-3">
+        <div class="text-primary text-lg font-semibold mb-4">
+          Total Student Enrollments
+        </div>
+        <canvas id="enrollmentsChart" height="100"></canvas>
+      </div>
+    </div>
+
+    <!-- Contact List -->
+    <div class="bg-white mt-8 p-6 rounded-lg shadow">
+      <div class="text-primary text-lg font-semibold mb-4">Contact List</div>
+      <table class="min-w-full text-sm text-gray-700">
+        <thead class="text-gray-500 border-b">
+          <tr>
+            <th class="py-2 text-left">Name</th>
+            <th class="py-2 text-left">Email</th>
+            <th class="py-2 text-left">Course</th>
+            <th class="py-2 text-left">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b">
+            <td class="py-2">John Smith</td>
+            <td class="py-2">john@example.com</td>
+            <td class="py-2">React Development</td>
+            <td class="py-2 text-primary hover:underline cursor-pointer">View Details</td>
+          </tr>
+          <tr class="border-b">
+            <td class="py-2">Sarah Johnson</td>
+            <td class="py-2">sarah@example.com</td>
+            <td class="py-2">Laravel Framework</td>
+            <td class="py-2 text-primary hover:underline cursor-pointer">View Details</td>
+          </tr>
+          <tr>
+            <td class="py-2">Mike Chen</td>
+            <td class="py-2">mike@example.com</td>
+            <td class="py-2">Database Design</td>
+            <td class="py-2 text-primary hover:underline cursor-pointer">View Details</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    const ctx = document.getElementById('enrollmentsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Student Enrollments',
+          data: [120, 150, 180, 100, 90, 160],
+          backgroundColor: '#2D336B'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+
 </body>
 </html>
