@@ -23,7 +23,8 @@ public function viewCourses()
 public function show($id)
 {
     $course = Courses::findOrFail($id);
-    return view('courses.course_details', compact('course'));
+    $user = auth()->user();
+    return view('courses.course_details', compact('course','user'));
 }
  public function create()
 {

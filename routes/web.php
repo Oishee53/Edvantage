@@ -109,7 +109,4 @@ Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::cl
 Route::get('/pdf/{filename}', [EnrollmentController::class, 'showPdf'])->name('resources.showPdf');
 
 
-
-Route::get('/github-repo', [GitHubController::class, 'getRepo']);
-
 });

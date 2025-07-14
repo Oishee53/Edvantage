@@ -31,6 +31,10 @@ Route::get('/admin_panel/manage_resources', function () {
     return view('Resources.manage_resources');
 });
 
+Route::get('/admin_panel/manage_user', function () {
+    return view('Student.manage_student');
+});
+
 Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
 Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules']);
 

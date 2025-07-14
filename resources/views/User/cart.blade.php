@@ -229,7 +229,6 @@
             font-weight: 500;
             color: #374151;
         }
-
         /* Main Content */
         .main-content {
             padding: 1.5rem 2rem;
@@ -250,6 +249,34 @@
             font-size: 1.1rem;
             color: #5f6368;
             margin-bottom: 2rem;
+        }
+        .auth-buttons {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            gap: 1rem;
+            margin-left: 6rem;
+            margin-right: -2rem;
+            align-items: center;
+        }
+        .btn-login {
+            background: #f9f9f9;
+            color: #0E1B33;
+            border: 2px solid #0E1B33 !important; /* Added !important */
+            padding: 0.4rem 0.75rem !important;
+        }
+        .btn-login:hover {
+            background: #dcdcdd;
+            color: #0E1B33;
+        } 
+        .btn-signup {
+            background: #0E1B33;
+            color: white;
+            border: 2px solid #0E1B33 !important; /* Added !important */
+            padding: 0.4rem 0.75rem !important; 
+        }
+        .btn-signup:hover {
+            background: #475569;
+            border: 2px solid #475569 !important;
         }
         /* Breadcrumb */
         .breadcrumb {
@@ -360,6 +387,10 @@
             font-weight: 600;
             color: #0E1B33; /* Updated color */
             margin-top: auto;
+        }
+        .taka-symbol { /* New style for the Taka symbol */
+            font-weight: 700;
+            font-size: 1.3em; /* Slightly larger than parent font size */
         }
         .remove-btn {
             background: none;
@@ -540,6 +571,7 @@
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
             </nav>
+            @auth
             <div class="top-icons">
                 <a href="/wishlist" class="icon-button" title="Wishlist">
                     <i class="fa-solid fa-heart"></i>
@@ -564,16 +596,20 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="auth-buttons">
+                <a href="/login" class="btn btn-login" >Login</a>
+                <a href="/register" class="btn btn-signup">SignUp</a>
+            </div>
+            @endauth
+            @auth
             <!-- Hidden logout form -->
             <form id="logout-form" action="/logout" method="POST" style="display: none;">
                 @csrf
             </form>
-            @auth
-            <p class="username">{{ explode(' ', Auth::user()->name)[0] }}</p>
             @endauth
         </div>
     </header>
-
     <!-- Main Content -->
     <main class="main-content">
         <!-- Breadcrumb -->
@@ -603,7 +639,7 @@
                                     <div class="cart-info">
                                         <h3 class="course-title">{{ $course->title }}</h3>
                                         <p class="course-description">{{ $course->description }}</p>
-                                        <div class="course-price">${{ number_format($course->price, 2) }}</div>
+                                        <div class="course-price"><span class="taka-symbol">৳</span>{{ number_format($course->price, 2) }}</div>
                                         <!-- Remove button for guest cart (optional, needs extra logic) -->
                                     </div>
                                 </li>
@@ -615,7 +651,7 @@
                                     <div class="cart-info">
                                         <h3 class="course-title">{{ $item->course->title }}</h3>
                                         <p class="course-description">{{ $item->course->description }}</p>
-                                        <div class="course-price">${{ number_format($item->course->price, 2) }}</div>
+                                        <div class="course-price"><span class="taka-symbol">৳</span>{{ number_format($item->course->price, 2) }}</div>
                                         <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
@@ -634,35 +670,36 @@
                         <span class="summary-label">Subtotal ({{ $cartItems->count() }} items)</span>
                         <span class="summary-value">
                             @if(isset($isGuest) && $isGuest)
-                                ${{ number_format($cartItems->sum('price'), 2) }}
+                                <span class="taka-symbol">৳</span>{{ number_format($cartItems->sum('price'), 2) }}
                             @else
-                                ${{ number_format($cartItems->sum(fn($item) => $item->course->price), 2) }}
+                                <span class="taka-symbol">৳</span>{{ number_format($cartItems->sum(fn($item) => $item->course->price), 2) }}
                             @endif
                         </span>
                     </div>
                     <div class="summary-row">
                         <span class="summary-label">Taxes</span>
-                        <span class="summary-value">$0.00</span>
+                        <span class="summary-value"><span class="taka-symbol">৳</span>0.00</span>
                     </div>
                     <div class="summary-row">
                         <span class="summary-label">Total</span>
                         <span class="summary-value">
                             @if(isset($isGuest) && $isGuest)
-                                ${{ number_format($cartItems->sum('price'), 2) }}
+                                <span class="taka-symbol">৳</span>{{ number_format($cartItems->sum('price'), 2) }}
                             @else
-                                ${{ number_format($cartItems->sum(fn($item) => $item->course->price), 2) }}
+                                <span class="taka-symbol">৳</span>{{ number_format($cartItems->sum(fn($item) => $item->course->price), 2) }}
                             @endif
                         </span>
                     </div>
                     @if(isset($isGuest) && $isGuest)
                         <a href="{{ route('login') }}" class="checkout-btn">Proceed to Checkout</a>
+                        <a href="/" class="continue-shopping">Continue Shopping</a>
                     @else
-                      <form method="GET" action="{{ route('checkout') }}">
-    <input type="hidden" name="amount" value="{{ $cartItems->sum(fn($item) => $item->course->price) }}">
-    <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
-</form>
+                        <form method="GET" action="{{ route('checkout') }}">
+                            <input type="hidden" name="amount" value="{{ $cartItems->sum(fn($item) => $item->course->price) }}">
+                            <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                            <a href="/login" class="continue-shopping">Continue Shopping</a>
+                        </form>
                     @endif
-                    <a href="/login" class="continue-shopping">Continue Shopping</a>
                 </div>
             </div>
         @else
