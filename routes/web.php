@@ -13,11 +13,8 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\GitHubController;
 use Illuminate\Validation\Rules;
 use App\Models\Courses;
-
-
 Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {
@@ -102,11 +99,18 @@ Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout'
 
 Route::post('/make-payment', [PaymentController::class, 'makePayment'])->name('make.payment');
 
-
 Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
 Route::get('/pdf/{filename}', [EnrollmentController::class, 'showPdf'])->name('resources.showPdf');
 
 
+
+Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
+Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
+Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
+Route::get('/pdf/{filename}', [EnrollmentController::class, 'showPdf'])->name('resources.showPdf');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+});
 });

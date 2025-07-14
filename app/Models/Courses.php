@@ -18,10 +18,7 @@ class Courses extends Model
         'total_duration',
         'price'
     ];
-    public function enrollments()
-{
-    return $this->hasMany(Enrollment::class);
-}
+    
  public function resources()
     {
     return $this->hasMany(Resource::class, 'courseId');
@@ -32,6 +29,19 @@ class Courses extends Model
     return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
 }
 
-    
+  public function enrollments()
+{
+    return $this->hasMany(Enrollment::class, 'course_id');
+}
+
+ public function resources()
+    {
+    return $this->hasMany(Resource::class, 'courseId');
+    }
+
+    public function students()
+{
+    return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
+}
 
 }

@@ -278,6 +278,7 @@
             background: #475569;
             border: 2px solid #475569 !important;
         }
+
         /* Breadcrumb */
         .breadcrumb {
             display: flex;
@@ -388,10 +389,12 @@
             color: #0E1B33; /* Updated color */
             margin-top: auto;
         }
+
         .taka-symbol { /* New style for the Taka symbol */
             font-weight: 700;
             font-size: 1.3em; /* Slightly larger than parent font size */
         }
+
         .remove-btn {
             background: none;
             border: none;
@@ -596,6 +599,7 @@
                     </div>
                 </div>
             </div>
+
             @else
             <div class="auth-buttons">
                 <a href="/login" class="btn btn-login" >Login</a>
@@ -639,6 +643,7 @@
                                     <div class="cart-info">
                                         <h3 class="course-title">{{ $course->title }}</h3>
                                         <p class="course-description">{{ $course->description }}</p>
+
                                         <div class="course-price"><span class="taka-symbol">৳</span>{{ number_format($course->price, 2) }}</div>
                                         <!-- Remove button for guest cart (optional, needs extra logic) -->
                                     </div>
@@ -651,7 +656,9 @@
                                     <div class="cart-info">
                                         <h3 class="course-title">{{ $item->course->title }}</h3>
                                         <p class="course-description">{{ $item->course->description }}</p>
+
                                         <div class="course-price"><span class="taka-symbol">৳</span>{{ number_format($item->course->price, 2) }}</div>
+
                                         <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
@@ -679,6 +686,7 @@
                     <div class="summary-row">
                         <span class="summary-label">Taxes</span>
                         <span class="summary-value"><span class="taka-symbol">৳</span>0.00</span>
+
                     </div>
                     <div class="summary-row">
                         <span class="summary-label">Total</span>
@@ -687,6 +695,7 @@
                                 <span class="taka-symbol">৳</span>{{ number_format($cartItems->sum('price'), 2) }}
                             @else
                                 <span class="taka-symbol">৳</span>{{ number_format($cartItems->sum(fn($item) => $item->course->price), 2) }}
+
                             @endif
                         </span>
                     </div>
@@ -700,6 +709,7 @@
                             <a href="/login" class="continue-shopping">Continue Shopping</a>
                         </form>
                     @endif
+
                 </div>
             </div>
         @else
@@ -735,3 +745,4 @@
     </script>
 </body>
 </html>
+
