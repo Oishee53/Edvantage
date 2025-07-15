@@ -676,7 +676,7 @@
                         <a href="/profile"><i class="fa-solid fa-user icon"></i> My Profile</a>
                         <a href="{{ route('courses.enrolled') }}"><i class="fa-solid fa-graduation-cap icon"></i> My Courses</a>
                         <a href="/user/dashboard"><i class="fa-solid fa-tachometer-alt icon"></i> Dashboard</a>
-                        <a href="{{ route('courses.all') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
+                        <a href="/homepage"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
                         <a href="/purchase_history"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
                         <div class="separator"></div>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
