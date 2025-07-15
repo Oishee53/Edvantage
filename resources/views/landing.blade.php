@@ -157,7 +157,7 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background:
                 linear-gradient(135deg, rgba(32,42,68,0.75) 0%, rgba(102,126,234,0.5) 100%),
-                url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') center center/cover no-repeat;
+                url('/image/hero.png') center center/cover no-repeat;
             opacity: 1;
             z-index: 1;
         }
