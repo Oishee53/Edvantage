@@ -241,11 +241,12 @@
       margin-bottom: 3rem;
     }
     .page-title {
-      font-size: 2.5rem;
-      font-weight: 400;
-      color: #202124;
-      margin-bottom: 1rem;
+    flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
     }
+  
+
     .page-subtitle {
       font-size: 1.1rem;
       color: #5f6368;
@@ -271,7 +272,7 @@
       transform: translateY(-2px);
     }
     .stat-number {
-      font-size: 2.5rem;
+      font-size: 1.5rem;
       font-weight: 400;
       color: #0E1B33;
       margin-bottom: 0.5rem;
@@ -526,7 +527,7 @@
                         <a href="/profile"><i class="fa-solid fa-user icon"></i> My Profile</a>
                         <a href="{{ route('courses.enrolled') }}"><i class="fa-solid fa-graduation-cap icon"></i> My Courses</a>
                         <a href="/user/dashboard"><i class="fa-solid fa-tachometer-alt icon"></i> Dashboard</a>
-                        <a href="{{ route('courses.all') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
+                        <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
                         <a href="/purchase_history"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
                         <div class="separator"></div>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

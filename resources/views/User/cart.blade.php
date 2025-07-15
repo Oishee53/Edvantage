@@ -392,7 +392,7 @@
 
         .taka-symbol { /* New style for the Taka symbol */
             font-weight: 700;
-            font-size: 1.3em; /* Slightly larger than parent font size */
+            font-size: 1.5em; /* Slightly larger than parent font size */
         }
 
         .remove-btn {
@@ -437,21 +437,25 @@
             color: #202124;
             font-weight: 500;
         }
-        .checkout-btn {
-            width: 100%;
-            padding: 1rem;
-            background: #0E1B33; /* Updated color */
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 0.5rem;
-            box-sizing: border-box;
-            display: block;
-        }
+      .checkout-btn {
+  font-size: 17px;
+  padding: 10px 27px;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  background-color: #0E1B33; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 0.375rem; /* same as Bootstrap .btn rounded */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background-color: #0b5ed7; /* Bootstrap primary hover color */
+  color: white;
+}
+
         .checkout-btn:hover {
             background: #475569; /* Updated hover color */
             box-shadow: 0 2px 8px rgba(14, 27, 51, 0.3); /* Updated shadow color */
@@ -590,7 +594,7 @@
                         <a href="/profile"><i class="fa-solid fa-user icon"></i> My Profile</a>
                         <a href="{{ route('courses.enrolled') }}"><i class="fa-solid fa-graduation-cap icon"></i> My Courses</a>
                         <a href="/user/dashboard"><i class="fa-solid fa-tachometer-alt icon"></i> Dashboard</a>
-                        <a href="{{ route('courses.all') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
+                        <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
                         <a href="/purchase_history"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
                         <div class="separator"></div>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -700,12 +704,14 @@
                         </span>
                     </div>
                     @if(isset($isGuest) && $isGuest)
-                        <a href="{{ route('login') }}" class="checkout-btn">Proceed to Checkout</a>
+                        <a href="{{ route('login') }}" class="checkout-btn" >Proceed to Checkout</a>
                         <a href="/" class="continue-shopping">Continue Shopping</a>
                     @else
                         <form method="GET" action="{{ route('checkout') }}">
                             <input type="hidden" name="amount" value="{{ $cartItems->sum(fn($item) => $item->course->price) }}">
-                            <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                             <button type="submit" class="btn btn-primary" style="font-size: 15px; padding: 12px 30px; display: block; margin: 20px auto;">
+  Proceed to Checkout
+</button>
                             <a href="/login" class="continue-shopping">Continue Shopping</a>
                         </form>
                     @endif
