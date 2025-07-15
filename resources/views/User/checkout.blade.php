@@ -30,7 +30,7 @@
 
             <div class="mb-3">
                 <label class="form-label"> Card Number</label>
-                <input type="text" name="card_number" class="form-control" placeholder="Card Number eg 4242424242424242">
+                <input type="text" name="card_number" class="form-control" >
             </div>
 
             <div class="row mb-3">
