@@ -19,11 +19,22 @@ class Courses extends Model
         'price'
     ];
     
+ public function resources()
+    {
+    return $this->hasMany(Resource::class, 'courseId');
+    }
+
+    public function students()
+{
+    return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
+}
+
   public function enrollments()
 {
     return $this->hasMany(Enrollment::class, 'course_id');
 }
 
  
+
 
 }

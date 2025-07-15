@@ -5,9 +5,9 @@
         <div class="row w-100 justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <div class="card shadow-sm p-4">
-                    <div class="card-header text-center bg-primary text-white fs-4 fw-bold rounded">
+                    <div class="card-header text-center fs-4 fw-bold bg-transparent border-bottom-0">
                         Reset Password
-                    </div>
+                        </div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -46,16 +46,20 @@
                             </div>
 
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary p-2">
-                                    Reset Password
+                                <button type="submit" class="btn p-2" style="background-color: #0E1B33; color: white;">
+                                 Reset Password
                                 </button>
+
+                                 
+
+
                             </div>
                         </form>
 
                         <div class="text-center mt-3">
-                            <a href="{{ route('login') }}" class="btn btn-link">
-                                Back to Login
-                            </a>
+                          <a href="{{ route('login') }}" class="btn btn-link" style="color: #0E1B33;">
+                          Back to Login
+                          </a>
                         </div>
                     </div>
                 </div>
