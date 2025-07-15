@@ -53,7 +53,7 @@ class PaymentController extends Controller
         $enrollmentController = new EnrollmentController();
         $enrollmentController->checkout();
 
-        return redirect()->route('courses.all')->with('success', 'Payment successful! You are enrolled in your selected courses.');
+        return redirect('/homepage')->with('success', 'Payment successful! You are enrolled in your selected courses.');
     } else {
         return redirect()->route('checkout')->with('error', 'Payment failed. Please try again.');
     }
