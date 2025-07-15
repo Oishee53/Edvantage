@@ -320,11 +320,16 @@
         }
         .course-sidebar {
             background: white;
-            padding: 2rem;
-            border-radius: 8px;
+            padding: 0 0 2rem 0;
+            border-radius: 0px;
             border: 1px solid #dadce0;
             position: sticky;
-            top: 120px;
+            top: 200px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .course-title {
             font-size: 2.5rem;
@@ -513,20 +518,6 @@
         .course-main,
         .course-sidebar {
             animation: fadeInUp 0.6s ease forwards;
-        }
-        .course-sidebar {
-            margin-top: -20rem;
-            background: white;
-            padding: 0 0 2rem 0;
-            border-radius: 0px;
-            border: 1px solid #dadce0;
-            position: sticky;
-            top: 120px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
         .sidebar-course-image {
             width: 100%;

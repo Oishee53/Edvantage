@@ -306,10 +306,10 @@
             <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
         <nav class="sidebar-nav">
-            <a href="/admin_panel/dashboard">Dashboard</a>
+            <a href="/admin_panel">Dashboard</a>
             <a href="/admin_panel/manage_courses">Manage Course</a>
             <a href="/admin_panel/manage_user">Manage User</a>
-            <a href="/admin_panel/manage_resources">Manage Resources</a>
+            <a href="#">Manage Resources</a>
         </nav>
     </aside>
 
@@ -374,22 +374,22 @@
                     </div>
                     <div class="form-group">
                         <label for="video_count">Number of Videos <span class="required">*</span></label>
-                        <input type="number" id="video_count" name="video_count" placeholder="e.g., 25" min="1" required>
+                        <input type="number" id="video_count" name="video_count"  min="1" required>
                     </div>
 
                     <div class="form-group">
                         <label for="approx_video_length">Approx Video Length (minutes) <span class="required">*</span></label>
-                        <input type="number" id="approx_video_length" name="approx_video_length" placeholder="e.g., 15" min="1" required>
+                        <input type="number" id="approx_video_length" name="approx_video_length"  min="1" required>
                     </div>
 
                     <div class="form-group">
                         <label for="total_duration">Total Duration (hours) <span class="required">*</span></label>
-                        <input type="number" id="total_duration" name="total_duration" placeholder="e.g., 6.5" step="0.1" min="0.1" required>
+                        <input type="number" id="total_duration" name="total_duration"  step="0.1" min="0.1" required>
                     </div>
 
                     <div class="form-group">
                         <label for="price">Price (৳) <span class="required">*</span></label>
-                        <input type="number" id="price" name="price" placeholder="e.g., 2500" step="0.01" min="0" required>
+                        <input type="number" id="price" name="price" step="0.01" min="0" required>
                     </div>
 
                     <button type="submit"><i class="fas fa-save"></i> Save Course</button>

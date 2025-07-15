@@ -5,155 +5,129 @@
     <title>Edit Courses</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated primary colors to match admin_panel
+                        primary: '#0E1B33',
+                        primaryLight: '#E3E6F3',
+                        editBg: '#EDF2FC',
+                        editText: '#0E1B33',
+                        viewBg: '#ECFDF5',
+                        viewIcon: '#16A34A',
+                        deleteBg: '#FEF2F2',
+                        deleteIcon: '#DC2626',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
         }
-
+    </script>
+    <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed, #6d28d9);
-            color: #fff;
-            padding: 80px 20px 40px;
-        }
-
-        .logo {
-            position: fixed;
-            top: 20px;
-            left: 25px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-            z-index: 100;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-            color: #facc15;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        th, td {
-            padding: 10px;
-            font-size: 0.85rem;
-            text-align: center;
-        }
-
-        th {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #facc15;
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        img {
-            width: 100px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-
-        a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #facc15;
-        }
-
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 30px;
-            font-size: 0.95rem;
-        }
-
-        @media screen and (max-width: 768px) {
-            th, td {
-                font-size: 0.75rem;
-                padding: 8px 6px;
-            }
-
-            h2 {
-                font-size: 1.4rem;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
+            background-color: #f9fafb; /* Consistent background with admin_panel */
         }
     </style>
 </head>
-<body>
-    <div class="logo">EDVANTAGE</div>
+<body class="flex min-h-screen">
 
-    @auth
-    <h2>Edit Courses</h2>
+    <!-- Sidebar - Copied from admin_panel.blade.php -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+        <div class="p-6 flex items-center gap-2">
+            <img src="/image/Edvantage.png" class="h-10" alt="Edvantage Logo">
+            <span class="text-primary font-bold text-xl">Edvantage</span>
+        </div>
+        <nav class="mt-8 flex-1">
+            <a href="/admin_panel/dashboard" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Dashboard</a>
+            <a href="/admin_panel/manage_courses" class="block py-3 px-6 text-primary bg-primaryLight font-semibold">Manage Course</a>
+            <a href="/admin_panel/manage_user" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage User</a>
+            <a href="/admin_panel/manage_resources" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Resources</a>
+        </nav>
+    </aside>
 
-    @if($courses->isEmpty())
-        <p style="text-align: center; font-style: italic;">No courses available.</p>
-    @else
-    <div class="table-wrapper">
-        <table>
-            <tr>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Videos</th>
-                <th>Video Length</th>
-                <th>Total Duration</th>
-                <th>Price (৳)</th>
-                <th>Added</th>
-            </tr>
-            @foreach($courses as $course)
-            <tr>
-                <td>
-                    @if($course->image)
-                        <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}">
-                    @else
-                        <span style="color: #ccc; font-style: italic;">No image</span>
-                    @endif
-                </td>
-                <td>
-                    <a href="/admin/manage_courses/courses/{{ $course->id }}/edit">{{ $course->title }}</a>
-                </td>
-                <td>{{ $course->description }}</td>
-                <td>{{ $course->category }}</td>
-                <td>{{ $course->video_count }}</td>
-                <td>{{ $course->approx_video_length }} mins</td>
-                <td>{{ $course->total_duration }} hrs</td>
-                <td>{{ $course->price }}</td>
-                <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-            </tr>
-            @endforeach
-        </table>
-    </div>
-    @endif
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col">
+        <!-- Top bar - Copied from admin_panel.blade.php, adjusted title -->
+        <header class="flex justify-between items-center px-8 py-4 bg-white border-b border-gray-200">
+            <h1 class="text-2xl font-bold text-primary">Edit Courses</h1>
+            @auth
+                <div class="flex items-center space-x-4">
+                    <span class="text-primary font-medium">{{ auth()->user()->name }}</span>
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button class="bg-primary text-white px-3 py-2 rounded hover:bg-opacity-90">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            @else
+                <div class="flex gap-2">
+                    <a href="/login" class="border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLight">Login</a>
+                    <a href="/register" class="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90">Sign Up</a>
+                </div>
+            @endauth
+        </header>
 
-    <a class="back-link" href="/admin_panel/manage_courses">← Back to Manage Courses</a>
-    @else
-    <p style="text-align: center;">You are not logged in. <a href="/">Go to Login</a></p>
-    @endauth
+        <section class="p-8 flex-1">
+            @auth
+            <h2 class="text-center mb-6 text-2xl font-bold text-primary">Edit Courses</h2>
+
+            @if($courses->isEmpty())
+                <p class="text-center text-gray-500 italic">No courses available.</p>
+            @else
+            <div class="table-wrapper bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full text-sm text-gray-700">
+                    <thead class="text-gray-500 border-b">
+                        <tr>
+                            <th class="py-3 px-6 text-left">Image</th>
+                            <th class="py-3 px-6 text-left">Title</th>
+                            <th class="py-3 px-6 text-left">Description</th>
+                            <th class="py-3 px-6 text-left">Category</th>
+                            <th class="py-3 px-6 text-left">Videos</th>
+                            <th class="py-3 px-6 text-left">Video Length</th>
+                            <th class="py-3 px-6 text-left">Total Duration</th>
+                            <th class="py-3 px-6 text-left">Price (৳)</th>
+                            <th class="py-3 px-6 text-left">Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($courses as $course)
+                        <tr class="border-b last:border-b-0">
+                            <td class="py-4 px-6">
+                                @if($course->image)
+                                    <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="w-24 h-16 object-cover rounded-md shadow-sm">
+                                @else
+                                    <span class="text-gray-400 italic">No image</span>
+                                @endif
+                            </td>
+                            <td class="py-4 px-6 font-medium text-primary">
+                                <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="text-primary hover:underline">{{ $course->title }}</a>
+                            </td>
+                            <td class="py-4 px-6">{{ $course->description }}</td>
+                            <td class="py-4 px-6">{{ $course->category }}</td>
+                            <td class="py-4 px-6">{{ $course->video_count }}</td>
+                            <td class="py-4 px-6">{{ $course->approx_video_length }} mins</td>
+                            <td class="py-4 px-6">{{ $course->total_duration }} hrs</td>
+                            <td class="py-4 px-6 text-green-600 font-bold">{{ $course->price }}</td>
+                            <td class="py-4 px-6">{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @endif
+
+            <a class="block text-center mt-8 text-primary hover:underline font-medium" href="/admin_panel/manage_courses">← Back to Manage Courses</a>
+            @else
+            <p class="text-center text-gray-700">You are not logged in. <a href="/" class="text-primary hover:underline">Go to Login</a></p>
+            @endauth
+        </section>
+    </main>
 </body>
 </html>
