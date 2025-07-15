@@ -37,10 +37,11 @@
 </head>
 <body class="flex min-h-screen">
 
-  <!-- Sidebar -->
+  <!-- Sidebar - Consistent with admin_panel and course_list -->
   <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
     <div class="p-6 flex items-center gap-2">
       <img src="/image/Edvantage.png" class="h-10" alt="Edvantage Logo">
+      <span class="text-primary font-bold text-xl">Edvantage</span>
     </div>
     <nav class="mt-8 flex-1">
       <a href="/admin_panel" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">
@@ -60,19 +61,37 @@
 
   <!-- Main Content -->
   <main class="flex-1 flex flex-col">
-    <!-- Top bar -->
+    <!-- Top bar - Consistent with admin_panel and course_list, adjusted title -->
     <header class="flex justify-between items-center px-8 py-4 bg-white border-b border-gray-200">
       <h1 class="text-2xl font-bold text-primary">Course Management</h1>
-      <form action="/admin_panel/manage_courses/add" method="GET">
-        <button type="submit" class="flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLight">
-          <span>➕</span> Add Course
-        </button>
-      </form>
+      <div class="flex items-center gap-4">
+        <form action="/admin_panel/manage_courses/add" method="GET">
+          <button type="submit" class="flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLight">
+            <span></span> Add Course
+          </button>
+        </form>
+        @auth
+          <div class="flex items-center space-x-4">
+            <span class="text-primary font-medium">{{ auth()->user()->name }}</span>
+            <form action="/logout" method="POST">
+              @csrf
+              <button class="bg-primary text-white px-3 py-2 rounded hover:bg-opacity-90">
+                Logout
+              </button>
+            </form>
+          </div>
+        @else
+          <div class="flex gap-2">
+            <a href="/login" class="border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLight">Login</a>
+            <a href="/register" class="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90">Sign Up</a>
+          </div>
+        @endauth
+      </div>
     </header>
 
-    @auth
-    <section class="p-8">
-      <p class="text-gray-500 mb-6">Manage all courses and their details</p>
+    <section class="p-8 flex-1">
+      @auth
+      <h2 class="text-center mb-6 text-2xl font-bold text-primary">Manage Courses</h2>
 
       <div class="flex gap-4 mb-8">
         <input type="text" placeholder="Search courses..." class="flex-1 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -81,71 +100,79 @@
         </button>
       </div>
 
-      <!-- Cards grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      @if(isset($courses) && $courses->isEmpty())
+          <p class="text-center text-gray-500 italic">No courses available.</p>
+      @else
+      <div class="table-wrapper bg-white rounded-lg shadow overflow-hidden">
+          <table class="min-w-full text-sm text-gray-700">
+              <thead class="text-gray-500 border-b">
+                  <tr>
+                      <th class="py-3 px-6 text-left">Image</th>
+                      <th class="py-3 px-6 text-left">Title</th>
+                      <th class="py-3 px-6 text-left">Description</th>
+                      <th class="py-3 px-6 text-left">Category</th>
+                      <th class="py-3 px-6 text-left">Videos</th>
+                      <th class="py-3 px-6 text-left">Video Length</th>
+                      <th class="py-3 px-6 text-left">Total Duration</th>
+                      <th class="py-3 px-6 text-left">Price (৳)</th>
+                      <th class="py-3 px-6 text-left">Added</th>
+                      <th class="py-3 px-6 text-left">Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @foreach($courses as $course)
+                  <tr class="border-b last:border-b-0">
+                      <td class="py-4 px-6">
+                          @if($course->image)
+                              <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="w-24 h-16 object-cover rounded-md shadow-sm">
+                          @else
+                              <span class="text-gray-400 italic">No image</span>
+                          @endif
+                      </td>
+                      <td class="py-4 px-6 font-medium text-primary">
+                          <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="text-primary hover:underline">{{ $course->title }}</a>
+                      </td>
+                      <td class="py-4 px-6">{{ $course->description }}</td>
+                      <td class="py-4 px-6">{{ $course->category }}</td>
+                      <td class="py-4 px-6">{{ $course->video_count }}</td>
+                      <td class="py-4 px-6">{{ $course->approx_video_length }} mins</td>
+                      <td class="py-4 px-6">{{ $course->total_duration }} hrs</td>
+                      <td class="py-4 px-6 text-green-600 font-bold">{{ $course->price }}</td>
+                      <td class="py-4 px-6">{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                      <td class="py-4 px-6">
+                        <div class="flex gap-2">
+                          <!-- Edit Button -->
+                          <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET">
+                            <button type="submit" class="flex items-center gap-2 bg-editBg text-editText px-3 py-1 rounded-lg font-medium hover:bg-blue-100 text-xs">
+                              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l5-5m-5 5v5h5m-5-5H4m5 0L4 20l5-5"/>
+                              </svg>
+                              Edit
+                            </button>
+                          </form>
 
-        <!-- Example Course Card -->
-        <div class="bg-white rounded-lg shadow p-4">
-          <img src="https://via.placeholder.com/400x200" class="w-full h-40 object-cover rounded mb-4" alt="React Dev">
-          <div class="flex justify-between items-center mb-2">
-            <div class="text-lg font-semibold text-primary">React Development Masterclass</div>
-            <span class="text-green-700 bg-green-100 text-xs font-medium px-2 py-1 rounded-full">active</span>
-          </div>
-          <p class="text-gray-500 text-sm mb-3">Complete guide to modern React development with hooks, context, and more.</p>
-          <div class="flex justify-between text-sm mb-1">
-            <span class="text-gray-600">Instructor:</span>
-            <span class="text-primary font-medium">John Smith</span>
-          </div>
-          <div class="flex justify-between text-sm mb-1">
-            <span class="text-gray-600">Students:</span>
-            <span class="text-primary">156</span>
-          </div>
-          <div class="flex justify-between text-sm mb-4">
-            <span class="text-gray-600">Price:</span>
-            <span class="text-green-600 font-bold">$99.99</span>
-          </div>
-
-          <!-- Action buttons like your screenshot -->
-          <div class="flex gap-2">
-            <!-- Edit Button -->
-            <form action="/admin_panel/manage_courses/edit-list" method="GET">
-              <button type="submit" class="flex items-center gap-2 bg-editBg text-editText px-4 py-2 rounded-lg font-medium hover:bg-blue-100">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l5-5m-5 5v5h5m-5-5H4m5 0L4 20l5-5"/>
-                </svg>
-                Edit
-              </button>
-            </form>
-
-            <!-- View Button -->
-            <form action="/admin_panel/manage_courses/view-list" method="GET">
-              <button type="submit" class="flex items-center justify-center bg-viewBg text-viewIcon w-10 h-10 rounded-lg hover:bg-green-100">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
-                </svg>
-              </button>
-            </form>
-
-            <!-- Delete Button -->
-            <form action="/admin_panel/manage_courses/delete-course" method="GET">
-              <button type="submit" class="flex items-center justify-center bg-deleteBg text-deleteIcon w-10 h-10 rounded-lg hover:bg-red-100">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-3h4a1 1 0 011 1v1H9V5a1 1 0 011-1z" />
-                </svg>
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Repeat similar cards as needed... -->
-
+                          <!-- Delete Button -->
+                          <form action="/admin_panel/manage_courses/delete-course/{{ $course->id }}" method="POST">
+                            @csrf
+                            @method('DELETE') {{-- Use DELETE method for deletion --}}
+                            <button type="submit" class="flex items-center justify-center bg-deleteBg text-deleteIcon w-7 h-7 rounded-lg hover:bg-red-100" onclick="return confirm('Are you sure you want to delete this course?');">
+                              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-3h4a1 1 0 011 1v1H9V5a1 1 0 011-1z" />
+                              </svg>
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                  </tr>
+                  @endforeach
+              </tbody>
+          </table>
       </div>
+      @endif
+      @else
+      <p class="text-center text-gray-700">You are not logged in. <a href="/" class="text-primary hover:underline">Go to Login</a></p>
+      @endauth
     </section>
-    @else
-      <p class="p-8 text-gray-700">You are not logged in. <a href="/" class="text-primary hover:underline">Go to Login</a></p>
-    @endauth
-
   </main>
 </body>
 </html>
