@@ -47,7 +47,7 @@
       <a href="/admin_panel/dashboard" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Dashboard</a>
       <a href="/admin_panel/manage_courses" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Manage Course</a>
       <a href="/admin_panel/manage_user" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Manage User</a>
-      <a href="/admin_panel/manage_resources" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Manage Resources</a>
+      <a href="#" class="block py-3 px-6 text-primary hover:bg-primaryLight hover:text-primary font-medium">Manage Resources</a>
     </nav>
   </aside>
 
