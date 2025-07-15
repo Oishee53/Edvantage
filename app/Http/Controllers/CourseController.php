@@ -23,7 +23,8 @@ public function viewCourses()
 public function show($id)
 {
     $course = Courses::findOrFail($id);
-    return view('courses.course_details', compact('course'));
+    $user = auth()->user();
+    return view('courses.course_details', compact('course','user'));
 }
  public function create()
 {
@@ -68,21 +69,16 @@ public function deleteCourse()
     $courses = Courses::all();
     return view('courses.delete_course', compact('courses'));
 }
-public function destroy($id)
-{
-    $course = Courses::findOrFail($id);
-
-    // Delete image file if exists
-    if ($course->image && \Storage::disk('public')->exists($course->image)) {
-        \Storage::disk('public')->delete($course->image);
-    }
-
+public function destroy(Request $request){
+    $request->validate([
+        'title' => 'required',
+    ]);
+    $course = Courses::where('title', $request->title)->firstOrFail();
     $course->delete();
 
-    return redirect()->route('admin.dashboard')
-        ->with('success', 'Course deleted successfully!');
+    return redirect('/admin_panel/manage_courses/delete-course');
+    
 }
-
 public function editList()
 {
     $courses = Courses::all();

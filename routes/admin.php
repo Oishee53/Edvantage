@@ -30,12 +30,14 @@ Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, '
 Route::get('/admin_panel/manage_resources', function () {
     return view('Resources.manage_resources');
 });
+Route::get('/admin_panel/manage_user', function () {
+    return view('Student.manage_student');
+});
 
 Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
 Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules']);
 
 Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController::class, 'enrolledStudents']);
 Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
-Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);Route::get('/admin_panel/manage_user', function () {
-    return view('Student.manage_student');
-});
+
+Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);
