@@ -1,27 +1,34 @@
 <?php
 
+use App\Models\Courses;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ResourceController;
+use App\Models\Enrollment;
 
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 
 Route::get('/admin_panel', function () {
-    return view('Admin.admin_panel');
+    $totalStudents = User::where('role', 2)->count();
+    $totalCourses =  Courses::all()->count();
+    $totalEarn = Enrollment::with('course')->get()->sum('course.price'); 
+    return view('Admin.admin_panel', compact('totalStudents','totalCourses','totalEarn'));
 });
 Route::post('/logout', [AdminController::class, 'logout']);
 Route::get('/admin_panel/manage_courses', function () {
-    return view('courses.manage_courses');
+    $courses = Courses::all();
+    return view('courses.manage_courses', compact('courses'));
 });
 
 Route::get('/admin_panel/manage_courses/add', [CourseController::class, 'create']);
 Route::post('/admin_panel/manage_courses/create', [CourseController::class, 'store']);
 Route::get('/admin_panel/manage_courses/view-list', [CourseController::class, 'viewAll']);
 Route::get('/admin_panel/manage_courses/delete-course', [CourseController::class, 'deleteCourse']);
-Route::post('/admin_panel/manage_courses/delete-course', [CourseController::class, 'destroy']);
+Route::delete('/admin_panel/manage_courses/delete-course/{id}', [CourseController::class, 'destroy']);
 
 Route::get('/admin_panel/manage_courses/edit-list', [CourseController::class,'editList']);
 Route::get('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'editCourse']);

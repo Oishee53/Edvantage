@@ -69,15 +69,12 @@ public function deleteCourse()
     $courses = Courses::all();
     return view('courses.delete_course', compact('courses'));
 }
-public function destroy(Request $request){
-    $request->validate([
-        'title' => 'required',
-    ]);
-    $course = Courses::where('title', $request->title)->firstOrFail();
+public function destroy($id)
+{
+    $course = Courses::findOrFail($id);
     $course->delete();
-
-    return redirect('/admin_panel/manage_courses/delete-course');
     
+    return redirect('/admin_panel/manage_courses')->with('success', 'Course deleted successfully');
 }
 public function editList()
 {

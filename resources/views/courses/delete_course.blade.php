@@ -3,150 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Delete Course</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
+            background-color: #f8f9fa;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #7c3aed, #6d28d9);
-            color: #fff;
-            padding: 80px 20px 40px;
+            padding-top: 70px;
         }
-
         h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 30px;
             color: #facc15;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 10px;
-            font-size: 0.85rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        th {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #facc15;
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.03);
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #ef4444;
-            border: none;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #dc2626;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 25px;
+        .table-dark-custom {
+            background-color: #343a40;
             color: #fff;
-            text-decoration: none;
-            font-size: 0.95rem;
         }
-
-        a:hover {
+        .table-dark-custom th {
+            background-color: #495057;
             color: #facc15;
         }
-
-        @media (max-width: 768px) {
-            th, td {
-                font-size: 0.75rem;
-                padding: 8px;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+            border-color: #b02a37;
+        }
+        a.back-link {
+            display: block;
+            margin-top: 25px;
+            text-align: center;
+            color: #212529;
+            text-decoration: none;
+        }
+        a.back-link:hover {
+            color: #facc15;
         }
     </style>
 </head>
 <body>
-    @auth
-    <h2>Delete A Course</h2>
+    <!-- Admin Panel Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Admin Panel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Delete Course</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    @if($courses->isEmpty())
-        <p style="text-align: center; font-style: italic;">No courses available.</p>
-    @else
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Videos</th>
-                <th>Video Length</th>
-                <th>Total Duration</th>
-                <th>Price (৳)</th>
-                <th>Added</th>
-            </tr>
-            @foreach($courses as $course)
-            <tr>
-                <td>{{ $course->title }}</td>
-                <td>{{ $course->description }}</td>
-                <td>{{ $course->video_count }}</td>
-                <td>{{ $course->approx_video_length }} mins</td>
-                <td>{{ $course->total_duration }} hrs</td>
-                <td>{{ $course->price }}</td>
-                <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-            </tr>
-            @endforeach
-        </table>
+    <div class="container">
+        @auth
+        <h2 class="text-center my-4">Delete A Course</h2>
 
-        <form action="/admin_panel/manage_courses/delete-course" method="POST">
-            @csrf
-            <input type="text" name="title" placeholder="Enter Course Title to Delete" required>
-            <button type="submit">❌ Delete Course</button>
-        </form>
-    @endif
+        @if($courses->isEmpty())
+            <p class="text-center fst-italic">No courses available.</p>
+        @else
+            <div class="table-responsive">
+                <table class="table table-dark-custom table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Videos</th>
+                            <th>Video Length</th>
+                            <th>Total Duration</th>
+                            <th>Price (৳)</th>
+                            <th>Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($courses as $course)
+                        <tr>
+                            <td>{{ $course->title }}</td>
+                            <td>{{ $course->description }}</td>
+                            <td>{{ $course->video_count }}</td>
+                            <td>{{ $course->approx_video_length }} mins</td>
+                            <td>{{ $course->total_duration }} hrs</td>
+                            <td>{{ $course->price }}</td>
+                            <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-    <a href="/admin_panel/manage_courses">← Back to Manage Courses</a>
-    @else
-    <p style="text-align: center;">You are not logged in. <a href="/">Go to Login</a></p>
-    @endauth
+            <form action="/admin_panel/manage_courses/delete-course" method="POST" class="my-4">
+                @csrf
+                <div class="mb-3">
+                    <input type="text" name="title" class="form-control" placeholder="Enter Course Title to Delete" required>
+                </div>
+                <button type="submit" class="btn btn-danger">
+                    ❌ Delete Course
+                </button>
+            </form>
+        @endif
+
+        <a href="/admin_panel/manage_courses" class="back-link">← Back to Manage Courses</a>
+        @else
+        <p class="text-center">You are not logged in. <a href="/">Go to Login</a></p>
+        @endauth
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
