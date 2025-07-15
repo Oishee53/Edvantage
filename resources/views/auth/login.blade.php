@@ -127,10 +127,11 @@
         .form-input:hover {
             border-color: #d1d5db;
         }
-        .forgot-pass-link { /* Renamed class for consistency */
-            text-align: right;
-            margin-top: 0.5rem;
-        }
+      .forgot-pass-link {
+    text-align: left;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+}
         .forgot-pass-link a {
             color: #0E1B33; /* Primary dark color */
             text-decoration: none;
@@ -302,13 +303,14 @@
                     >
                 </div>
             </div>
+             <div class="forgot-pass-link">
+            <a href="/password/reset">Forgot Password?</a>
+            </div>
             <button type="submit" class="login-button" id="loginBtn">
                 Sign In
             </button>
         </form>
-        <div class="forgot-pass-link">
-            <a href="/password/reset">Forgot Password?</a>
-        </div>
+       
         <!-- Register Link -->
         <div class="register-link">
             <p>Don't have an account? <a href="/register">Create one here</a></p>
