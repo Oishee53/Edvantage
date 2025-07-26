@@ -239,7 +239,7 @@
       <a href="/admin_panel">Dashboard</a>
       <a href="/admin_panel/manage_courses">Manage Course</a>
       <a href="/admin_panel/manage_user">Manage User</a>
-      <a href="#">Manage Resources</a>
+      <a href="/admin_panel/manage_resources">Manage Resources</a>
     </nav>
   </aside>
   <!-- Main content -->
