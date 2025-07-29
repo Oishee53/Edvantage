@@ -9,11 +9,10 @@ use App\Models\Cart;
 use App\Models\Resource;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
+use App\Models\Quiz;
 
 class EnrollmentController extends Controller
 {
-   
-
 public function checkout()
 {
     $user = Auth::user();
@@ -34,7 +33,7 @@ public function checkout()
     // Clear cart after successful enrollment
     Cart::where('user_id', $user->id)->delete();
 
-    return redirect('\homepage')->with('success', 'Checkout successful. You are now enrolled in all selected courses!');
+    return redirect()->route('courses.all')->with('success', 'Checkout successful. You are now enrolled in all selected courses!');
 }
 
 public function showEnrolledCourses()
@@ -55,15 +54,34 @@ public function userEnrolledCourses()
 
 public function viewCourseModules($courseId)
 {
-    $course = Courses::findOrFail($courseId);
-    $modules = Resource::where('courseId', $courseId)->pluck('moduleId')->unique();
-    return view('User.course_modules', compact('course', 'modules'));
+   
+
+   $course = Courses::findOrFail($courseId);
+
+ 
+    $videoCount = $course->video_count; 
+
+    $modules = range(1, $videoCount);
+
+    return view('user.course_modules', compact('course', 'modules'));
 }
-public function viewModuleResource($courseId, $moduleId)
+
+public function showInsideModule($courseId, $moduleNumber)
 {
-    $resource = Resource::where('courseId', $courseId)->where('moduleId', $moduleId)->firstOrFail();
-    return view('User.module_resource', compact('resource'));
+    $course = Courses::findOrFail($courseId);
+    $quiz = Quiz::where('course_id', $courseId)
+                ->where('module_number', $moduleNumber)
+                ->first();
+    $questions = $quiz ? $quiz->questions : collect();
+
+    return view('Resources.inside_module', [
+        'course' => $course,
+        'quiz' => $quiz,
+        'questions' => $questions,
+        'moduleNumber' => $moduleNumber,
+    ]);
 }
+
 
 
 public function viewPDF($id)
@@ -82,6 +100,5 @@ public function viewPDF($id)
     'Content-Disposition' => 'inline; filename="module-resource.pdf"',
     ]);
 }
-
-
+    
 }

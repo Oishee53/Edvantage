@@ -12,6 +12,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\QuizController;
+use App\Models\Enrollment;
 
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 
@@ -44,10 +46,18 @@ Route::get('/admin_panel/manage_user', function () {
     return view('Student.manage_student');
 });
 
+
+Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
+Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class, 'store'])->name('quiz.store');
+
+
+
+
 Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
-Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules']);
 Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit', [ResourceController::class, 'editModule']);
 Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadController::class, 'handleUpload'])->name('upload.resources');
+Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules'])->name('modules.show');
+
 
 
 
