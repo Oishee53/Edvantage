@@ -102,7 +102,9 @@ Route::post('/make-payment', [PaymentController::class, 'makePayment'])->name('m
 Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
-Route::get('/pdf/{filename}', [EnrollmentController::class, 'showPdf'])->name('resources.showPdf');
+Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
+    ->name('secure.pdf.view')
+    ->middleware('auth');
 
 
 

@@ -7,6 +7,8 @@ use App\Models\Courses;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\Resource;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Response;
 
 class EnrollmentController extends Controller
 {
@@ -32,7 +34,7 @@ public function checkout()
     // Clear cart after successful enrollment
     Cart::where('user_id', $user->id)->delete();
 
-    return redirect()->route('courses.all')->with('success', 'Checkout successful. You are now enrolled in all selected courses!');
+    return redirect('\homepage')->with('success', 'Checkout successful. You are now enrolled in all selected courses!');
 }
 
 public function showEnrolledCourses()
@@ -63,17 +65,21 @@ public function viewModuleResource($courseId, $moduleId)
     return view('User.module_resource', compact('resource'));
 }
 
-public function showPdf($filename)
+
+public function viewPDF($id)
 {
-    $path = storage_path('app/private/lecture_notes/' . $filename);
+    $resource = Resource::findOrFail($id);
 
-    if (!file_exists($path)) {
-        abort(404, 'PDF not found.');
-    }
+    // Cloudinary public URL
+    $pdfUrl = $resource->pdf;
 
-    return response()->file($path, [
-        'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'inline; filename="' . $filename . '"'
+
+
+    //Option 2: Stream the file securely through your server (better for privacy, heavier on backend)
+    $response = Http::get($pdfUrl);
+    return Response::make($response->body(), 200, [
+    'Content-Type' => 'application/pdf',
+    'Content-Disposition' => 'inline; filename="module-resource.pdf"',
     ]);
 }
 
