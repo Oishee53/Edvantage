@@ -20,8 +20,8 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background-color: #4361ee;
-            color: white;
+            background-color: #0E1B33;
+            color: white !important;
             padding: 10px;
             text-align: center;
             border-radius: 8px 8px 0 0;
@@ -33,8 +33,8 @@
         .btn {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #4361ee;
-            color: white;
+            background-color: #0E1B33;
+            color: white !important;
             text-decoration: none;
             border-radius: 5px;
             margin-top: 10px;
