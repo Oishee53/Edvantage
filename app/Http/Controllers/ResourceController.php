@@ -37,5 +37,16 @@ class ResourceController extends Controller
 
     return view('Resources.edit_module', compact('course', 'module_id'));
 }
+public function addModule(Request $request){
+    $courseId = $request->course;
+    $moduleNumber = $request->module;
+
+    $course = Courses::findOrFail($courseId);
+
+    return view('Resources.module_management', [
+        'course' => $course,
+        'moduleNumber' => $moduleNumber,
+    ]);
+    }
  
 }

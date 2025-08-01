@@ -7,12 +7,12 @@ use App\Models\Courses;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\Resource;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Response;
 use App\Models\Quiz;
 
 class EnrollmentController extends Controller
 {
-   
-
 public function checkout()
 {
     $user = Auth::user();
@@ -68,6 +68,7 @@ public function viewCourseModules($courseId)
 
 public function showInsideModule($courseId, $moduleNumber)
 {
+    $resource = Resource::where('courseId', $courseId)->where('moduleId', $moduleNumber)->firstOrFail();
     $course = Courses::findOrFail($courseId);
     $quiz = Quiz::where('course_id', $courseId)
                 ->where('module_number', $moduleNumber)
@@ -79,10 +80,27 @@ public function showInsideModule($courseId, $moduleNumber)
         'quiz' => $quiz,
         'questions' => $questions,
         'moduleNumber' => $moduleNumber,
+        'resource' => $resource,
     ]);
 }
 
 
 
+public function viewPDF($id)
+{
+    $resource = Resource::findOrFail($id);
 
+    // Cloudinary public URL
+    $pdfUrl = $resource->pdf;
+
+
+
+    //Option 2: Stream the file securely through your server (better for privacy, heavier on backend)
+    $response = Http::get($pdfUrl);
+    return Response::make($response->body(), 200, [
+    'Content-Type' => 'application/pdf',
+    'Content-Disposition' => 'inline; filename="module-resource.pdf"',
+    ]);
+}
+    
 }
