@@ -7,13 +7,11 @@ use App\Models\Enrollment;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UploadController;
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\QuizController;
-use App\Models\Enrollment;
 
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 
@@ -48,6 +46,7 @@ Route::get('/admin_panel/manage_user', function () {
 
 
 Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
+Route::get('/admin_panel/courses/{course}/modules/{module}/module/create', [ResourceController::class, 'addModule'])->name('module.create');
 Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class, 'store'])->name('quiz.store');
 
 
@@ -78,11 +77,11 @@ Route::get('/admin/view', function() {
     return view('Resources.viewVideo');
 });
 
-Route::post('/admin/upload', [VideoController::class, 'upload'])->name('admin.upload');
+Route::post('/admin/upload', [UploadController::class, 'upload'])->name('admin.upload');
 
-Route::post('/admin/cloud', [VideoController::class, 'uploadToCloudinary'])->name('upload.cloudinary');
+Route::post('/admin/cloud', [UploadController::class, 'uploadToCloudinary'])->name('upload.cloudinary');
 
-Route::post('/admin/mux-upload-url', [VideoController::class, 'getUploadUrl'])->name('mux.direct.upload.url');
+Route::post('/admin/mux-upload-url', [UploadController::class, 'getUploadUrl'])->name('mux.direct.upload.url');
 
 
 

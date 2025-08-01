@@ -16,7 +16,7 @@
     <ul>
         @foreach ($modules as $index)
             <li>
-                <a href="{{ route('quiz.create', ['course' => $course->id, 'module' => $index]) }}">
+                <a href="{{ route('module.create', ['course' => $course->id, 'module' => $index]) }}">
                     Module {{ $index }}
                 </a>
             </li>

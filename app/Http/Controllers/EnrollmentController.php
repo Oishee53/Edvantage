@@ -68,6 +68,7 @@ public function viewCourseModules($courseId)
 
 public function showInsideModule($courseId, $moduleNumber)
 {
+    $resource = Resource::where('courseId', $courseId)->where('moduleId', $moduleNumber)->firstOrFail();
     $course = Courses::findOrFail($courseId);
     $quiz = Quiz::where('course_id', $courseId)
                 ->where('module_number', $moduleNumber)
@@ -79,6 +80,7 @@ public function showInsideModule($courseId, $moduleNumber)
         'quiz' => $quiz,
         'questions' => $questions,
         'moduleNumber' => $moduleNumber,
+        'resource' => $resource,
     ]);
 }
 
