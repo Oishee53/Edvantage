@@ -7,6 +7,7 @@ use App\Models\Courses;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\Resource;
+use App\Models\Quiz;
 
 class EnrollmentController extends Controller
 {
@@ -53,29 +54,35 @@ public function userEnrolledCourses()
 
 public function viewCourseModules($courseId)
 {
+   
+
+   $course = Courses::findOrFail($courseId);
+
+ 
+    $videoCount = $course->video_count; 
+
+    $modules = range(1, $videoCount);
+
+    return view('user.course_modules', compact('course', 'modules'));
+}
+
+public function showInsideModule($courseId, $moduleNumber)
+{
     $course = Courses::findOrFail($courseId);
-    $modules = Resource::where('courseId', $courseId)->pluck('moduleId')->unique();
-    return view('User.course_modules', compact('course', 'modules'));
-}
-public function viewModuleResource($courseId, $moduleId)
-{
-    $resource = Resource::where('courseId', $courseId)->where('moduleId', $moduleId)->firstOrFail();
-    return view('User.module_resource', compact('resource'));
-}
+    $quiz = Quiz::where('course_id', $courseId)
+                ->where('module_number', $moduleNumber)
+                ->first();
+    $questions = $quiz ? $quiz->questions : collect();
 
-public function showPdf($filename)
-{
-    $path = storage_path('app/private/lecture_notes/' . $filename);
-
-    if (!file_exists($path)) {
-        abort(404, 'PDF not found.');
-    }
-
-    return response()->file($path, [
-        'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'inline; filename="' . $filename . '"'
+    return view('Resources.inside_module', [
+        'course' => $course,
+        'quiz' => $quiz,
+        'questions' => $questions,
+        'moduleNumber' => $moduleNumber,
     ]);
 }
+
+
 
 
 }

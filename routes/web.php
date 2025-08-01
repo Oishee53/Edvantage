@@ -12,6 +12,7 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserQuizController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules;
 use App\Models\Courses;
@@ -109,7 +110,22 @@ Route::get('/pdf/{filename}', [EnrollmentController::class, 'showPdf'])->name('r
 Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
-Route::get('/pdf/{filename}', [EnrollmentController::class, 'showPdf'])->name('resources.showPdf');
+Route::get('/inside-module/{courseId}/{moduleNumber}', [EnrollmentController::class, 'showInsideModule'])->name('inside.module');
+
+
+
+
+// Show quiz start page for a module
+Route::get('/user/courses/{course}/modules/{module}/quiz', [UserQuizController::class, 'startQuiz'])->name('user.quiz.start');
+
+
+
+
+Route::post('/quiz/submit/{course}/{moduleNumber}', [UserQuizController::class, 'submitQuiz'])->name('user.quiz.submit');
+Route::get('/quiz/result/{course}/{moduleNumber}', [UserQuizController::class, 'result'])->name('user.quiz.result');
+
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });

@@ -1,10 +1,10 @@
 <h2>{{ $course->title }} - Modules</h2>
 
 <ul>
-@forelse ($modules as $moduleId)
+@forelse ($modules as $moduleNumber )
     <li>
-        <a href="{{ route('user.module.resource', [$course->id, $moduleId]) }}">
-            Module {{ $moduleId }}
+        <a href="{{ route('inside.module', ['courseId' => $course->id, 'moduleNumber' => $moduleNumber]) }}">
+            Module {{ $moduleNumber  }}
         </a>
     </li>
 @empty

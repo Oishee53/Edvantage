@@ -4,13 +4,19 @@
     <title>Modules - {{ $course->title }}</title>
 </head>
 <body>
+    @if(session('success'))
+    <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        {{ session('success') }}
+    </div>
+@endif
+
     @auth
     <h2>Modules for {{ $course->title }}</h2>
 
     <ul>
         @foreach ($modules as $index)
             <li>
-                <a href="/admin_panel/manage_resources/{{ $course->id }}/modules/{{ $index }}/edit">
+                <a href="{{ route('quiz.create', ['course' => $course->id, 'module' => $index]) }}">
                     Module {{ $index }}
                 </a>
             </li>
