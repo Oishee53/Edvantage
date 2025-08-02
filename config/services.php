@@ -34,5 +34,16 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    
+    'mux' => [
+    'token_id' => env('MUX_TOKEN_ID'),
+    'token_secret' => env('MUX_TOKEN_SECRET'),
+  ],
+
+  'cloud' => [
+    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+    'api_key' => env('CLOUDINARY_KEY'),
+    'api_secret' => env('CLOUDINARY_SECRET'),
+  ],
 
 ];

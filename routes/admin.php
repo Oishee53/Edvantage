@@ -1,15 +1,17 @@
 <?php
 
 use App\Models\Courses;
+use App\Models\Resource;
+use MuxPhp\Models\Upload;
+use App\Models\Enrollment;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\QuizController;
-use App\Models\Enrollment;
 
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 
@@ -44,12 +46,15 @@ Route::get('/admin_panel/manage_user', function () {
 
 
 Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
+Route::get('/admin_panel/courses/{course}/modules/{module}/module/create', [ResourceController::class, 'addModule'])->name('module.create');
 Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class, 'store'])->name('quiz.store');
 
 
 
 
 Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
+Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit', [ResourceController::class, 'editModule']);
+Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadController::class, 'handleUpload'])->name('upload.resources');
 Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules'])->name('modules.show');
 
 
@@ -59,3 +64,24 @@ Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController:
 Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
 
 Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);
+
+Route::get('/admin/upload', function() {
+    return view('Resources.upload');
+})->name('admin.upload.form');
+
+Route::get('/admin/cloud', function() {
+    return view('Resources.uploadToCloud');
+});
+
+Route::get('/admin/view', function() {
+    return view('Resources.viewVideo');
+});
+
+Route::post('/admin/upload', [UploadController::class, 'upload'])->name('admin.upload');
+
+Route::post('/admin/cloud', [UploadController::class, 'uploadToCloudinary'])->name('upload.cloudinary');
+
+Route::post('/admin/mux-upload-url', [UploadController::class, 'getUploadUrl'])->name('mux.direct.upload.url');
+
+
+

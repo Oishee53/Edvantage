@@ -326,6 +326,28 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.3);
         }
+        .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .filter-dropdown {
+      padding: 10px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      background: white;
+    }
         /* Courses Section */
         .courses-section {
             padding: 5rem 0;
@@ -615,6 +637,17 @@
             </div>
         </div>
     </section>
+    <!-- Section Header -->
+      <div class="section-header">
+        <h2 class="section-title"></h2>
+        <select class="filter-dropdown">
+          <option>Filter Courses</option>
+          <option>Newest First</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+          <option>Most Popular</option>
+        </select>
+      </div>
     <!-- Courses Section -->
     <section class="courses-section" id="courses">
         <div class="container">
