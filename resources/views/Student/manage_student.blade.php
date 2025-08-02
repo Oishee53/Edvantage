@@ -55,7 +55,7 @@
             <a href="/admin_pane" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Dashboard</a>
             <a href="/admin_panel/manage_courses" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Course</a>
             <a href="/admin_panel/manage_user" class="block py-3 px-6 text-primary bg-primaryLight font-semibold">Manage User</a>
-            <a href="#" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Resources</a>
+            <a href= "/admin_panel/manage_resources"class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Resources</a>
         </nav>
     </aside>
 

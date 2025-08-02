@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -125,8 +125,16 @@ Route::post('/quiz/submit/{course}/{moduleNumber}', [UserQuizController::class, 
 Route::get('/quiz/result/{course}/{moduleNumber}', [UserQuizController::class, 'result'])->name('user.quiz.result');
 
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/admin_panel/manage_courses', [\App\Http\Controllers\AdminCourseController::class, 'index'])
+    ->name('admin.courses.index')
+    ->middleware('auth'); // if needed
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
+
+
+
 });

@@ -558,9 +558,16 @@
             <a href="/" class="logo">
                 <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <form class="search-form" action="" method="GET">
-                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
-            </form>
+            <!-- replace your current form tag -->
+<form class="search-form" action="{{ route('home') }}" method="GET">
+    <input
+        type="text"
+        name="q"
+        placeholder="What do you want to learn?"
+        class="search-input"
+        value="{{ request('q') }}"   {{-- keep the typed text --}}
+    >
+</form>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
@@ -616,56 +623,80 @@
                 <p>Discover our most popular courses designed to help you achieve your learning goals</p>
             </div>
             <!-- Show only one row of courses and add a "Load More" button -->
-            <div class="courses-grid" id="coursesGrid">
-                @foreach($courses as $index => $course)
-                 @if(!auth()->user()->enrolledCourses->contains($course->id))
-                <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
-                    <!-- Course Image -->
-                    @if($course->image)
-                        <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
-                    @else
-                        <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
+           <div class="courses-grid" id="coursesGrid">
+       {{-- If there is a search query AND the query returned zero courses --}}
+  @if(request('q') && $courses->isEmpty())
+  <div style="
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: 700;
+      padding: 2rem 0;
+  ">
+      No courses found for "{{ e(request('q')) }}".
+  </div>
+    @else
+        @php $visible = 0; @endphp
+
+        @foreach($courses as $index => $course)
+            @php
+                // true if logged in and already enrolled
+                $alreadyEnrolled = auth()->check() && auth()->user()->enrolledCourses->contains($course->id);
+            @endphp
+            @if($alreadyEnrolled)
+                @continue
+            @endif
+
+            @php $visible++; @endphp
+
+            <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
+                {{-- Course Image --}}
+                @if($course->image)
+                    <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+                @else
+                    <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
+                @endif
+
+                {{-- Course Content --}}
+                <div class="course-content">
+                    <h3 class="course-title">{{ $course->title }}</h3>
+                    @if(isset($course->category))
+                        <span class="course-category-badge">{{ $course->category }}</span>
                     @endif
-                    <!-- Course Content -->
-                    <div class="course-content">
-                        <h3 class="course-title">{{ $course->title }}</h3>
-                        @if(isset($course->category))
-                            <span class="course-category-badge">{{ $course->category }}</span>
-                        @endif
-                        <div class="course-rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="rating-number">4.8</span>
-                            <span class="rating-count">(120)</span>
-                        </div>
-                        <div class="course-price">
-                            <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
-                        </div>
-                        <div class="course-actions">
-                            <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
-                                Details
-                            </a>
-                            <div class="action-icons-group">
-                                <form method="POST" action="{{ route('wishlist.add', $course->id) }}">
-                                    @csrf
-                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                    <button type="submit" class="btn-icon-action" title="Add to Wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                    </button>
-                                </form>
-                                <form method="POST" action="{{ route('cart.add', $course->id) }}">
-                                    @csrf
-                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                    <button type="submit" class="btn-icon-action" title="Add to Cart">
-                                        <i class="fa-solid fa-shopping-cart"></i>
-                                    </button>
-                                </form>
-                            </div>
+                    <div class="course-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-number">4.8</span>
+                        <span class="rating-count">(120)</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
+                    </div>
+                    <div class="course-actions">
+                        <a href="{{ route('courses.details', $course->id) }}" class="btn-details">Details</a>
+                        <div class="action-icons-group">
+                            <form method="POST" action="{{ route('wishlist.add', $course->id) }}">
+                                @csrf
+                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                <button type="submit" class="btn-icon-action" title="Add to Wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ route('cart.add', $course->id) }}">
+                                @csrf
+                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                <button type="submit" class="btn-icon-action" title="Add to Cart">
+                                    <i class="fa-solid fa-shopping-cart"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                @endif
-                @endforeach
             </div>
+        @endforeach
+    @endif  {{-- closes the outer if --}}
+</div>
             @if($courses->count() > 4)
                 <div style="text-align:center; margin-top:2rem;">
                     <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
