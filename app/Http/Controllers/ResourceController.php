@@ -14,8 +14,15 @@ use Illuminate\Container\Attributes\Log;
 class ResourceController extends Controller
 {
     public function viewCourses(){
-    $courses = Courses::all();
-    return view('Resources.course_list', compact('courses'));
+    if(Auth::user()->role === 2) {
+        $courses = Courses::all();
+        return view('Resources.course_list', compact('courses'));
+    } 
+    elseif (Auth::user()->role === 3) {
+        $instructorId = auth()->user()->id;
+        $courses = Courses::where('instructor_id', $instructorId)->get();
+        return view('Resources.course_list', compact('courses', 'instructorId'));
+    }
     }
     public function viewPage()
     {

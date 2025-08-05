@@ -344,7 +344,7 @@
             <div class="form-card">
                 @auth
                 <h2><i class="fas fa-plus-circle" style="color:var(--primary);"></i>Add New Course</h2>
-                <form action="/admin_panel/manage_courses/create" method="POST" enctype="multipart/form-data">
+                <form action="/manage_courses/create" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="image">Course Image <span class="required">*</span></label>
@@ -372,6 +372,13 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
+                    @if(auth()->user()->role === 2)
+                    <div class="form-group">
+                        <label for="course_instructor">Course Instructor<span class="required">*</span></label>
+                        <input type="number" id="instructor_id" name="instructor_id"  min="1" required>
+                    </div>
+                    @endif
+
                     <div class="form-group">
                         <label for="video_count">Number of Videos <span class="required">*</span></label>
                         <input type="number" id="video_count" name="video_count"  min="1" required>
@@ -391,10 +398,18 @@
                         <label for="price">Price (৳) <span class="required">*</span></label>
                         <input type="number" id="price" name="price" step="0.01" min="0" required>
                     </div>
+                    <div class="form-group">
+                        <label for="course_prerequisite">Course Prerequisite(If any)</label>
+                        <input type="text" id="prerequisite" name="prerequisite">
+                    </div>
 
                     <button type="submit"><i class="fas fa-save"></i> Save Course</button>
                 </form>
+                @if(auth()->user()->role === 2)
                 <a class="back-link" href="/admin_panel/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
+                @elseif(auth()->user()->role === 3)
+                <a class="back-link" href="/instructor/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
+                @endif
                 @else
                 <p style="text-align:center;color:#DC2626;">You are not logged in. <a href="/" style="color:#0E1B33;">Go to Login</a></p>
                 @endauth

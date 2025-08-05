@@ -6,12 +6,14 @@ use MuxPhp\Models\Upload;
 use App\Models\Enrollment;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UploadController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\QuizController;
+use App\Http\Controllers\NotificationController;
 
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 
@@ -21,14 +23,24 @@ Route::get('/admin_panel', function () {
     $totalEarn = Enrollment::with('course')->get()->sum('course.price'); 
     return view('Admin.admin_panel', compact('totalStudents','totalCourses','totalEarn'));
 });
+
+Route::get('/instructor_homepage', function () {
+    return view('Instructor.instructor_homepage');
+});
 Route::post('/logout', [AdminController::class, 'logout']);
 Route::get('/admin_panel/manage_courses', function () {
     $courses = Courses::all();
     return view('courses.manage_courses', compact('courses'));
 });
 
+Route::get('/instructor/manage_courses', function () {
+    $instructorId = auth()->user()->id;
+    $courses = Courses::where('instructor_id', $instructorId)->get();
+    return view('courses.manage_courses', compact('courses','instructorId'));
+});
+
 Route::get('/admin_panel/manage_courses/add', [CourseController::class, 'create']);
-Route::post('/admin_panel/manage_courses/create', [CourseController::class, 'store']);
+Route::post('/manage_courses/create', [CourseController::class, 'store']);
 Route::get('/admin_panel/manage_courses/view-list', [CourseController::class, 'viewAll']);
 Route::get('/admin_panel/manage_courses/delete-course', [CourseController::class, 'deleteCourse']);
 Route::delete('/admin_panel/manage_courses/delete-course/{id}', [CourseController::class, 'destroy']);
@@ -39,6 +51,9 @@ Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, '
 
 Route::get('/admin_panel/manage_resources', function () {
     return view('Resources.manage_resources');
+});
+Route::get('/instructor/manage_resources', function () {
+    return view('Instructor.instructor_manage_resources');
 });
 Route::get('/admin_panel/manage_user', function () {
     return view('Student.manage_student');
@@ -53,6 +68,7 @@ Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class
 
 
 Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
+Route::get('/manage_resources/add', [ResourceController::class,'viewCourses']);
 Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit', [ResourceController::class, 'editModule']);
 Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadController::class, 'handleUpload'])->name('upload.resources');
 Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules'])->name('modules.show');
@@ -83,5 +99,17 @@ Route::post('/admin/cloud', [UploadController::class, 'uploadToCloudinary'])->na
 
 Route::post('/admin/mux-upload-url', [UploadController::class, 'getUploadUrl'])->name('mux.direct.upload.url');
 
+Route::get('/instructor/notifications/{id}', [NotificationController::class, 'viewNotification'])
+    ->name('instructor.notifications.view')
+    ->middleware('auth');
 
+Route::get('/instructor/questions/{id}', [QuestionController::class, 'show'])
+    ->name('instructor.questions.show');
+
+Route::post('/instructor/questions/{id}/reject', [QuestionController::class, 'reject'])
+    ->name('instructor.reject');
+
+
+Route::post('/instructor/questions/{id}/answer', [QuestionController::class, 'answer'])
+    ->name('instructor.answer');
 

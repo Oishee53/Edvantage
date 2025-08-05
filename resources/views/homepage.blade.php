@@ -641,6 +641,31 @@
           <option>Most Popular</option>
         </select>
       </div>
+      @auth
+    <h3>Your Notifications</h3>
+    @foreach (auth()->user()->unreadNotifications as $notification)
+        @if ($notification->type === \App\Notifications\QuestionRejectedNotification::class)
+            <div class="p-3 mb-2 bg-danger text-white rounded">
+                <strong>Question Rejected:</strong> {{ $notification->data['content'] }}<br>
+                <small>Instructor: {{ $notification->data['instructor_name'] }}</small><br>
+                <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="btn btn-light mt-2">
+                    View Question
+                </a>
+            </div>
+        @endif
+    @endforeach
+     @foreach (auth()->user()->unreadNotifications as $notification)
+        @if ($notification->type === \App\Notifications\QuestionAnsweredNotification::class)
+            <div class="p-3 mb-2 bg-success text-white rounded">
+                <strong>Question Answered:</strong> {{ $notification->data['content'] }}<br>
+                <small>Instructor: {{ $notification->data['instructor_name'] }}</small><br>
+                <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="btn btn-light mt-2">
+                    View Answer
+                </a>
+            </div>
+        @endif
+    @endforeach
+@endauth
     <!-- Courses Section -->
     <section class="courses-section" id="courses">
         <div class="container">

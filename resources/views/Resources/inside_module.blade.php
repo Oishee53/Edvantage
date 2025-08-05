@@ -43,9 +43,7 @@
             </a>
         </div>
     @endif
-@else
-    <p><em>Please log in to view the video.</em></p>
-@endif
+   
 
     @if($quiz)
         <a href="{{ route('user.quiz.start', ['course' => $course->id, 'module' => $moduleNumber]) }}">
@@ -54,5 +52,23 @@
     @else
         <p>No quiz available for this module.</p>
     @endif
+
+    <form action="{{ route('questions.store') }}" method="POST">
+    @csrf
+    <label for="question">Ask Questions</label>
+    <input type="text" id="question" name="question">
+
+    {{-- Hidden fields --}}
+    <input type="hidden" name="course_id" value="{{ $course->id }}">
+    <input type="hidden" name="module_number" value="{{ $moduleNumber }}">
+
+    <button type="submit">Post</button>
+    </form>
+
+
+     @else
+        <p><em>Please log in to access course material</em></p>
+    @endif
+
 </body>
 </html>

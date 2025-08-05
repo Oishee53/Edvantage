@@ -1,21 +1,24 @@
 <?php
 
+use App\Models\Courses;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\UserQuizController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\UserQuizController;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\Rules;
-use App\Models\Courses;
+use App\Http\Controllers\ForgotPasswordController;
 Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {
@@ -131,4 +134,10 @@ Route::get('/quiz/result/{course}/{moduleNumber}', [UserQuizController::class, '
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
+Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
+
 });
+
+Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
+    ->name('student.questions.show');

@@ -141,9 +141,11 @@
         </button>
       </form>
 
-      <a href="/admin_panel/manage_courses" class="inline-flex items-center gap-1 text-primary font-medium mt-5 hover:text-primaryLight transition-colors">
-        Back to Manage Courses
-      </a>
+       @if(auth()->user()->role === 2)
+          <a class="back-link" href="/admin_panel/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
+        @elseif(auth()->user()->role === 3)
+          <a class="back-link" href="/instructor/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
+        @endif
       @else
         <p class="text-danger bg-red-50 p-4 rounded-lg text-center mt-8 text-lg">You are not logged in.<a href="/" class="text-primary underline ml-1 font-medium hover:text-primaryLight transition-colors">Go to Login</a></p>
       @endauth
