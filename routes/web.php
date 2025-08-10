@@ -14,6 +14,9 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserQuizController;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\VideoProgressController;
+use App\Http\Controllers\UserProgressController;
+
 use Illuminate\Validation\Rules;
 use App\Models\Courses;
 Route::get('/', [LandingController::class, 'showLanding']);
@@ -126,6 +129,13 @@ Route::get('/user/courses/{course}/modules/{module}/quiz', [UserQuizController::
 Route::post('/quiz/submit/{course}/{moduleNumber}', [UserQuizController::class, 'submitQuiz'])->name('user.quiz.submit');
 Route::get('/quiz/result/{course}/{moduleNumber}', [UserQuizController::class, 'result'])->name('user.quiz.result');
 
+
+
+Route::post('/video-progress/save', [VideoProgressController::class, 'save'])->name('video.progress.save');
+
+Route::get('/my-progress', [UserProgressController::class, 'index'])->name('user.progress');
+
+Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory'])->name('purchase.history');
 
 
 Route::middleware(['auth'])->group(function () {

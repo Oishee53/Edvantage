@@ -526,7 +526,7 @@
                     <div class="user-dropdown">
                         <a href="/profile"><i class="fa-solid fa-user icon"></i> My Profile</a>
                         <a href="{{ route('courses.enrolled') }}"><i class="fa-solid fa-graduation-cap icon"></i> My Courses</a>
-                        <a href="/user/dashboard"><i class="fa-solid fa-tachometer-alt icon"></i> Dashboard</a>
+                        <a href="{{ route('user.progress') }}"><i class="fa-solid fa-chart-line icon"></i> My Progress</a>
                         <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
                         <a href="/purchase_history"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
                         <div class="separator"></div>
@@ -549,13 +549,13 @@
     <!-- Page Header -->
     <div class="page-header">
       <br>
-      <h1 class="page-title">My Learning Dashboard</h1>
+      <h1 class="page-title">Learning Dashboard</h1>
       <p class="page-subtitle">Track your progress and continue your professional development</p>
     </div>
     <!-- Stats Cards -->
     <div class="stats-container">
       <div class="stat-card">
-        <div class="stat-number">{{ $enrolledCourses->count() }}</div>
+        <div class="stat-number">{{ $enrolledCourses->count() }}</div> 
         <div class="stat-label">Courses Enrolled</div>
       </div>
       <div class="stat-card">
@@ -572,6 +572,10 @@
       <h2 class="courses-title">My Courses</h2>
       <div class="course-list">
         @forelse ($enrolledCourses as $course)
+
+          @php
+            $progress = $courseProgress[$course->id] ?? ['completed_videos' => 0, 'total_videos' => 0, 'completion_percentage' => 0];
+          @endphp
           <div class="course-card">
             <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
                         
@@ -582,21 +586,24 @@
                             
               <p class="course-description">{{ $course->description }}</p>
                             
-              <!-- Progress Bar -->
-              <div class="progress-container">
-                <div class="progress-header">
-                  <span class="progress-label">Progress</span>
-                  <span class="progress-percentage">{{ $course->progress ?? 0 }}%</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: {{ $course->progress ?? 0 }}%"></div>
-                </div>
-              </div>
+            <!-- Progress Bar -->
+          <div class="progress-container">
+        <div class="progress-header">
+        <span class="progress-label">
+            Completed {{ $progress['completed_videos'] ?? 0 }} / {{ $progress['total_videos'] ?? 0 }} videos
+        </span>
+        <span class="progress-percentage">{{ $progress['completion_percentage'] ?? 0 }}%</span>
+        </div>
+        <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ $progress['completion_percentage'] ?? 0 }}%"></div>
+        </div>
+        </div>
+
                             
               <!-- Course Stats -->
               <div class="course-stats">
-                <span><span class="icon-book"></span> {{ $course->total_modules ?? 10 }} modules</span>
-                <span><span class="icon-clock"></span> {{ $course->estimated_time ?? '2h' }} remaining</span>
+                <span><span class="icon-book"></span> {{ $course->video_count ?? 10 }} modules</span>
+                <span><span class="icon-clock"></span> {{ $course->total_duration ?? '2h' }} h</span>
               </div>
                             
               <a href="{{ route('user.course.modules', $course->id) }}" class="continue-btn">

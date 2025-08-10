@@ -13,7 +13,7 @@
         "cloudinary-labs/cloudinary-laravel": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "muxinc/mux-php": "^5.0"
+        "muxinc/mux-php": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
