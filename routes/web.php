@@ -135,6 +135,8 @@ Route::post('/video-progress/save', [VideoProgressController::class, 'save'])->n
 
 Route::get('/my-progress', [UserProgressController::class, 'index'])->name('user.progress');
 
+Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory'])->name('purchase.history');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');

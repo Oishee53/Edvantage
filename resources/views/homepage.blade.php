@@ -584,7 +584,7 @@
                         <a href="{{ route('user.progress') }}"><i class="fa-solid fa-chart-line icon"></i> My Progress</a>
 
                         <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
-                        <a href="/purchase_history"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
+                        <a href="{{ route('purchase.history') }}"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
                         <div class="separator"></div>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fa-solid fa-right-from-bracket icon"></i> Logout

@@ -129,5 +129,20 @@ public function viewPDF($id)
     'Content-Disposition' => 'inline; filename="module-resource.pdf"',
     ]);
 }
+
+
+public function purchaseHistory()
+{
+    $user = auth()->user();
+
+    // Option 1: Get all enrolled courses with enrollment info
+    $enrollments = Enrollment::with('course')
+        ->where('user_id', $user->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('user.purchase_history', compact('enrollments'));
+}
+
     
 }
