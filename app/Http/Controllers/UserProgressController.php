@@ -4,6 +4,8 @@ use App\Models\Enrollment;
 use App\Models\Courses;
 use App\Models\VideoProgress;
 use App\Models\Resource;
+use App\Models\Quiz;
+use App\Models\QuizSubmission;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
@@ -13,30 +15,39 @@ class UserProgressController extends Controller
 {
 public function index()
 {
-    $userId = auth()->id();
+    $user = auth()->user();
+    $userId = $user->id;
 
-    // Step 1: Get all courses the user is enrolled in
-    $enrolledCourseIds = Enrollment::where('user_id', $userId)->pluck('course_id');
+
+    // Fetch all courses the user is enrolled in
+    $courses = Courses::whereHas('enrollments', function ($q) use ($userId) {
+        $q->where('user_id', $userId);
+    })->get();
 
     $courseProgress = [];
 
-    foreach ($enrolledCourseIds as $courseId) {
-        $course = Courses::find($courseId);
-
-        if (!$course) continue;
-
-        // Step 2: Count total videos for the course
-        $totalVideos = Resource::where('courseId', $courseId)->count();
-
-        // Step 3: Count completed videos from video_progress
+    foreach ($courses as $course) {
+        // Video progress
+        $totalVideos = $course->resources()->count();
         $completedVideos = VideoProgress::where('user_id', $userId)
-            ->where('course_id', $courseId)
+            ->whereIn('resource_id', $course->resources->pluck('id'))
             ->where('is_completed', true)
             ->count();
 
-        // Step 4: Calculate percentage
+        // Quiz scores for that course
+        $quizzes = Quiz::where('course_id', $course->id)->get();
+        $quizMarks = QuizSubmission::where('user_id', $userId)
+            ->whereIn('quiz_id', $quizzes->pluck('id'))
+            ->get()
+            ->map(function ($submission) {
+                return [
+                    'quiz_title' => $submission->quiz->title,
+                    'score' => $submission->score
+                ];
+            });
+
         $completionPercentage = $totalVideos > 0
-            ? round(($completedVideos / $totalVideos) * 100)
+            ? round(($completedVideos / $totalVideos) * 100, 2)
             : 0;
 
         $courseProgress[] = [
@@ -45,11 +56,16 @@ public function index()
             'completed_videos' => $completedVideos,
             'total_videos' => $totalVideos,
             'completion_percentage' => $completionPercentage,
+            'quiz_marks' => $quizMarks
         ];
     }
 
-    return view('user.progress', compact('courseProgress'));
+    return view('User.progress', [
+    'courseProgress' => $courseProgress,
+    'user' => $user,
+    'enrolledCourses' => $courses, 
+]);
+
+
 }
-
-
 }

@@ -10,6 +10,7 @@ use App\Models\Resource;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
 use App\Models\Quiz;
+use App\Models\VideoProgress;
 
 class EnrollmentController extends Controller
 {
@@ -36,20 +37,46 @@ public function checkout()
     return redirect()->route('courses.all')->with('success', 'Checkout successful. You are now enrolled in all selected courses!');
 }
 
-public function showEnrolledCourses()
-{
-    $user = Auth::user();
-    $enrolledCourses = $user->enrolledCourses;
 
-    return view('User.enrolled_courses', compact('enrolledCourses'));
-}
 
 
 public function userEnrolledCourses()
 {
     $user = Auth::user();
     $enrolledCourses = $user->enrollments()->with('course')->get()->pluck('course');
-    return view('User.enrolled_courses', compact('user','enrolledCourses'));
+    $enrolledCourseIds = Enrollment::where('user_id', $user)->pluck('course_id');
+
+    $courseProgress = [];
+
+    foreach ($enrolledCourseIds as $courseId) {
+        $course = Courses::find($courseId);
+
+        if (!$course) continue;
+
+        // Step 2: Count total videos for the course
+        $totalVideos = Resource::where('courseId', $courseId)->count();
+
+        // Step 3: Count completed videos from video_progress
+        $completedVideos = VideoProgress::where('user_id', $user)
+            ->where('course_id', $courseId)
+            ->where('is_completed', true)
+            ->count();
+
+        // Step 4: Calculate percentage
+        $completionPercentage = $totalVideos > 0
+            ? round(($completedVideos / $totalVideos) * 100)
+            : 0;
+
+        $courseProgress[] = [
+            'course_id' => $course->id,
+            'course_name' => $course->title,
+            'completed_videos' => $completedVideos,
+            'total_videos' => $totalVideos,
+            'completion_percentage' => $completionPercentage,
+        ];
+    }
+
+    return view('User.enrolled_courses', compact('user','enrolledCourses', 'courseProgress'));
 }
 
 public function viewCourseModules($courseId)
