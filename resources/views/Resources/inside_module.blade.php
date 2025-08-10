@@ -4,6 +4,14 @@
     <title>Module Resources</title>
 </head>
 <body>
+
+
+@if(session('error'))
+       <div style="background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        {{ session('error') }}
+    </div>
+@endif
+
     <h2>Module Resources for Course: {{ $course->name }}</h2>
     <p>Module Number: {{ $moduleNumber }}</p>
 
