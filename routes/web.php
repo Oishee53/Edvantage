@@ -16,8 +16,11 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\UserQuizController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\ResetPasswordControl;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserProgressController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\VideoProgressController;
 use App\Http\Controllers\ForgotPasswordController;
 Route::get('/', [LandingController::class, 'showLanding']);
 
@@ -129,6 +132,13 @@ Route::get('/user/courses/{course}/modules/{module}/quiz', [UserQuizController::
 Route::post('/quiz/submit/{course}/{moduleNumber}', [UserQuizController::class, 'submitQuiz'])->name('user.quiz.submit');
 Route::get('/quiz/result/{course}/{moduleNumber}', [UserQuizController::class, 'result'])->name('user.quiz.result');
 
+
+
+Route::post('/video-progress/save', [VideoProgressController::class, 'save'])->name('video.progress.save');
+
+Route::get('/my-progress', [UserProgressController::class, 'index'])->name('user.progress');
+
+Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory'])->name('purchase.history');
 
 
 Route::middleware(['auth'])->group(function () {

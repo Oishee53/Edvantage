@@ -7,20 +7,36 @@ use App\Models\Question;
 use App\Models\QuizSubmission;
 use App\Models\QuizAnswer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class UserQuizController extends Controller
 {
 
-    public function startQuiz($courseId, $moduleNumber)
-    {
-        $course = Courses::findOrFail($courseId);
-        $quiz = Quiz::where('course_id', $courseId)->where('module_number', $moduleNumber)->firstOrFail();
-       $questions = $quiz->questions()->with('options')->get();
+   public function startQuiz($courseId, $moduleNumber)
+{
+    $userId = auth()->id();
 
+  
+    $quiz = Quiz::where('course_id', $courseId)
+                ->where('module_number', $moduleNumber)
+                ->firstOrFail();
 
-        return view('quiz.take_quiz', compact('course', 'quiz', 'questions', 'moduleNumber'));
+    
+    $attemptExists = DB::table('quiz_submissions')  
+        ->where('quiz_id', $quiz->id)
+        ->where('user_id', $userId)
+        ->exists();
+
+    if ($attemptExists) {
+        return redirect()->back()->with('error', 'You have already attempted this quiz.');
     }
+
+    $course = Courses::findOrFail($courseId);
+    $questions = $quiz->questions()->with('options')->get();
+
+    return view('quiz.take_quiz', compact('course', 'quiz', 'questions', 'moduleNumber'));
+}
 
   
   public function submitQuiz(Request $request, $courseId, $moduleNumber)
