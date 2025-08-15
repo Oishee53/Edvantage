@@ -28,7 +28,6 @@ Route::post('/logout', function () {
 
 
 
-Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 
 
@@ -69,7 +68,7 @@ Route::post('/guest/cart/add', [CartController::class, 'addToGuestCart'])->name(
 Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
 
-Route::middleware(['auth.custom'])->group(function () {
+Route::middleware(['auth','student'])->group(function () {
 
 Route::get('/homepage', function () {
     $user = auth()->user();
@@ -80,6 +79,7 @@ Route::get('/homepage', function () {
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 Route::get('/courses/enrolled', function () {
     return 'Enrolled courses page coming soon!';

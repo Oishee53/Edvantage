@@ -731,72 +731,41 @@
             @endif
         </div>
     </section>
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
-        });
-        // Load More functionality
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const cards = document.querySelectorAll('#coursesGrid .course-card');
-        let visible = 4;
-        const increment = 4;
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', function() {
-                let shown = 0;
-                for (let i = visible; i < cards.length && shown < increment; i++, shown++) {
-                    cards[i].style.display = '';
-                }
-                visible += increment;
-                if (visible >= cards.length) {
-                    loadMoreBtn.style.display = 'none';
-                }
-            });
-        }
-    </script>
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
-        });
-        @if(session('cart_added'))
-        if (confirm("{{ session('cart_added') }} Go to cart?")) {
-            window.location.href = "{{ route('cart.all') }}";
-        }
-        @endif
-        @if(session('wishlist_added'))
-        if (confirm("{{ session('wishlist_added') }} Go to wishlist?")) {
-            window.location.href = "{{ route('wishlist.all') }}";
-        }
-        @endif
-    </script>
+<script>
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Header background on scroll
+  window.addEventListener('scroll', function () {
+    const header = document.querySelector('.header');
+    if (window.scrollY > 100) {
+      header.style.background = 'rgba(255, 255, 255, 0.98)';
+    } else {
+      header.style.background = 'rgba(255, 255, 255, 0.95)';
+    }
+  });
+
+  // Session-based alerts for cart and wishlist
+  @if(session('cart_added'))
+    if (confirm("{{ session('cart_added') }} Go to cart?")) {
+      window.location.href = "{{ route('cart.all') }}";
+    }
+  @endif
+
+  @if(session('wishlist_added'))
+    if (confirm("{{ session('wishlist_added') }} Go to wishlist?")) {
+      window.location.href = "{{ route('wishlist.all') }}";
+    }
+  @endif
+</script>
+
+
 </body>
 </html>

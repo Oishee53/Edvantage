@@ -17,7 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         
 
         $middleware->alias([
-            'block-login' => PreventMultipleLogins::class
+            'block-login' => PreventMultipleLogins::class,
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'student' => \App\Http\Middleware\StudentMiddleware::class
         ]);
     })
 

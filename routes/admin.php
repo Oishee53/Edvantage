@@ -15,22 +15,82 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\NotificationController;
 
+// ===================
+// Public / Login Routes
+// ===================
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
+Route::post('/logout', [AdminController::class, 'logout']);
 
-Route::get('/admin_panel', function () {
-    $totalStudents = User::where('role', 2)->count();
-    $totalCourses =  Courses::all()->count();
-    $totalEarn = Enrollment::with('course')->get()->sum('course.price'); 
-    return view('Admin.admin_panel', compact('totalStudents','totalCourses','totalEarn'));
+// ===================
+// Admin-Only Routes
+// ===================
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    // Admin Dashboard
+    Route::get('/admin_panel', function () {
+        $totalStudents = User::where('role', 2)->count();
+        $totalCourses = Courses::count();
+        $totalEarn = Enrollment::with('course')->get()->sum('course.price'); 
+        return view('Admin.admin_panel', compact('totalStudents','totalCourses','totalEarn'));
+    });
+
+    // Manage Courses
+    Route::get('/admin_panel/manage_courses', function () {
+        $courses = Courses::all();
+        return view('courses.manage_courses', compact('courses'));
+    });
+    Route::get('/admin_panel/manage_courses/add', [CourseController::class, 'create']);
+    Route::post('/manage_courses/create', [CourseController::class, 'store']);
+    Route::get('/admin_panel/manage_courses/view-list', [CourseController::class, 'viewAll']);
+    Route::get('/admin_panel/manage_courses/delete-course', [CourseController::class, 'deleteCourse']);
+    Route::delete('/admin_panel/manage_courses/delete-course/{id}', [CourseController::class, 'destroy']);
+    Route::get('/admin_panel/manage_courses/edit-list', [CourseController::class,'editList']);
+    Route::get('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'editCourse']);
+    Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'update']);
+
+    // Manage Resources
+    Route::get('/admin_panel/manage_resources', function () {
+        return view('Resources.manage_resources');
+    });
+    Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
+    Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit', [ResourceController::class, 'editModule']);
+    Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadController::class, 'handleUpload'])->name('upload.resources');
+    Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules'])->name('modules.show');
+
+    // Manage Users
+    Route::get('/admin_panel/manage_user', function () {
+        return view('Student.manage_student');
+    });
+    Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController::class, 'enrolledStudents']);
+    Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
+    Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);
+
+    // Quizzes & Modules
+    Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
+    Route::get('/admin_panel/courses/{course}/modules/{module}/module/create', [ResourceController::class, 'addModule'])->name('module.create');
+    Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class, 'store'])->name('quiz.store');
+
+    // Upload & Cloud
+    Route::get('/admin/upload', function() {
+        return view('Resources.upload');
+    })->name('admin.upload.form');
+    Route::get('/admin/cloud', function() {
+        return view('Resources.uploadToCloud');
+    });
+    Route::get('/admin/view', function() {
+        return view('Resources.viewVideo');
+    });
+    Route::post('/admin/upload', [UploadController::class, 'upload'])->name('admin.upload');
+    Route::post('/admin/cloud', [UploadController::class, 'uploadToCloudinary'])->name('upload.cloudinary');
+    Route::post('/admin/mux-upload-url', [UploadController::class, 'getUploadUrl'])->name('mux.direct.upload.url');
+
 });
 
+// ===================
+// Instructor Routes
+// ===================
 Route::get('/instructor_homepage', function () {
     return view('Instructor.instructor_homepage');
-});
-Route::post('/logout', [AdminController::class, 'logout']);
-Route::get('/admin_panel/manage_courses', function () {
-    $courses = Courses::all();
-    return view('courses.manage_courses', compact('courses'));
 });
 
 Route::get('/instructor/manage_courses', function () {
@@ -39,65 +99,11 @@ Route::get('/instructor/manage_courses', function () {
     return view('courses.manage_courses', compact('courses','instructorId'));
 });
 
-Route::get('/admin_panel/manage_courses/add', [CourseController::class, 'create']);
-Route::post('/manage_courses/create', [CourseController::class, 'store']);
-Route::get('/admin_panel/manage_courses/view-list', [CourseController::class, 'viewAll']);
-Route::get('/admin_panel/manage_courses/delete-course', [CourseController::class, 'deleteCourse']);
-Route::delete('/admin_panel/manage_courses/delete-course/{id}', [CourseController::class, 'destroy']);
-
-Route::get('/admin_panel/manage_courses/edit-list', [CourseController::class,'editList']);
-Route::get('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'editCourse']);
-Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'update']);
-
-Route::get('/admin_panel/manage_resources', function () {
-    return view('Resources.manage_resources');
-});
 Route::get('/instructor/manage_resources', function () {
     return view('Instructor.instructor_manage_resources');
 });
-Route::get('/admin_panel/manage_user', function () {
-    return view('Student.manage_student');
-});
 
-
-Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
-Route::get('/admin_panel/courses/{course}/modules/{module}/module/create', [ResourceController::class, 'addModule'])->name('module.create');
-Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class, 'store'])->name('quiz.store');
-
-
-
-
-Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
 Route::get('/manage_resources/add', [ResourceController::class,'viewCourses']);
-Route::get('/admin_panel/manage_resources/{course_id}/modules/{module_id}/edit', [ResourceController::class, 'editModule']);
-Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadController::class, 'handleUpload'])->name('upload.resources');
-Route::get('/admin_panel/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules'])->name('modules.show');
-
-
-
-
-Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController::class, 'enrolledStudents']);
-Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
-
-Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);
-
-Route::get('/admin/upload', function() {
-    return view('Resources.upload');
-})->name('admin.upload.form');
-
-Route::get('/admin/cloud', function() {
-    return view('Resources.uploadToCloud');
-});
-
-Route::get('/admin/view', function() {
-    return view('Resources.viewVideo');
-});
-
-Route::post('/admin/upload', [UploadController::class, 'upload'])->name('admin.upload');
-
-Route::post('/admin/cloud', [UploadController::class, 'uploadToCloudinary'])->name('upload.cloudinary');
-
-Route::post('/admin/mux-upload-url', [UploadController::class, 'getUploadUrl'])->name('mux.direct.upload.url');
 
 Route::get('/instructor/notifications/{id}', [NotificationController::class, 'viewNotification'])
     ->name('instructor.notifications.view')
@@ -109,7 +115,5 @@ Route::get('/instructor/questions/{id}', [QuestionController::class, 'show'])
 Route::post('/instructor/questions/{id}/reject', [QuestionController::class, 'reject'])
     ->name('instructor.reject');
 
-
 Route::post('/instructor/questions/{id}/answer', [QuestionController::class, 'answer'])
     ->name('instructor.answer');
-
