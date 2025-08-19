@@ -7,28 +7,36 @@ use App\Models\Courses;
 
 class HomeController extends Controller
 {
-    public function index(Request $request){
-   
-    $q = trim((string) $request->query('q', ''));
+    public function index(Request $request)
+    {
+        $q = $request->query('q'); // Get the search query
+        $coursesQuery = Courses::query();
+        $category = $request->query('category');
+        $sort = $request->query('sort');
 
-    $uniqueCategories = Courses::query()
-        ->whereNotNull('category')
-        ->where('category', '!=', '')
-        ->distinct()
-        ->orderBy('category')
-        ->pluck('category');
+        if ($q) {
+            $coursesQuery->where('title', 'like', '%' . $q . '%');
+        }
+        if ($category) {
+        $coursesQuery->where('category', $category);
+    }
+    switch ($sort) {
+        case 'price_asc':
+            $coursesQuery->orderBy('price', 'asc');
+            break;
+        case 'price_desc':
+            $coursesQuery->orderBy('price', 'desc');
+            break;
+       
+        default:
+            $coursesQuery->orderBy('created_at', 'desc'); // newest first
+    }
 
-    $courses = Courses::query()
-        ->select('id','title','price','image','category','created_at')
-        ->when($q !== '', fn ($qb) => $qb->where('title', 'like', "%{$q}%"))
-        ->orderByDesc('created_at')
-        ->get();
+        $courses = $coursesQuery->get();
 
-    return view('homepage', [        // or 'user.homepage' if that’s your path
-        'courses'          => $courses,
-        'uniqueCategories' => $uniqueCategories,
-        'user'             => auth()->user(),
-        'q'                => $q,
-    ]);
-}
+        $uniqueCategories = Courses::distinct()->pluck('category');
+        $user = auth()->user();
+
+        return view('homepage', compact('courses', 'uniqueCategories', 'user'));
+    }
 }

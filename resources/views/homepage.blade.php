@@ -580,20 +580,14 @@
             <a href="/" class="logo">
                 <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <!-- replace your current form tag -->
-<form class="search-form" action="{{ route('home') }}" method="GET">
-    <input
-        type="text"
-        name="q"
-        placeholder="What do you want to learn?"
-        class="search-input"
-        value="{{ request('q') }}"   {{-- keep the typed text --}}
-    >
+            <form class="search-form" action="{{ route('homepage') }}" method="GET">
+    <input type="text" name="q" placeholder="What do you want to learn?" class="search-input" value="{{ request('q') }}">
 </form>
+
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
+                   <li><a href="{{ route('about') }}">About Us</a></li>
+                  <li><a href="{{ route('contact') }}">Contact Us</a></li>
                 </ul>
             </nav>
             <div class="top-icons">
@@ -640,13 +634,15 @@
     <!-- Section Header -->
       <div class="section-header">
         <h2 class="section-title"></h2>
-        <select class="filter-dropdown">
-          <option>Filter Courses</option>
-          <option>Newest First</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-          <option>Most Popular</option>
-        </select>
+       <form id="filterForm" action="{{ route('homepage') }}" method="GET">
+    <select name="sort" class="filter-dropdown" onchange="document.getElementById('filterForm').submit();">
+        <option value="">Filter Courses</option>
+        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
+        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+        
+    </select>
+</form>
       </div>
     <!-- Courses Section -->
     <section class="courses-section" id="courses">
@@ -656,34 +652,20 @@
                 <p>Discover our most popular courses designed to help you achieve your learning goals</p>
             </div>
             <!-- Show only one row of courses and add a "Load More" button -->
-           <div class="courses-grid" id="coursesGrid">
-       {{-- If there is a search query AND the query returned zero courses --}}
-  @if(request('q') && $courses->isEmpty())
-  <div style="
-      grid-column: 1 / -1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      font-weight: 700;
-      padding: 2rem 0;
-  ">
-      No courses found for "{{ e(request('q')) }}".
-  </div>
+      @php
+    $visibleCourses = $courses->filter(function($course) {
+        return !auth()->user()->enrolledCourses->contains($course->id);
+    });
+@endphp
+
+<div class="courses-grid" id="coursesGrid">
+   @if($visibleCourses->isEmpty())
+    <div style="display: flex; justify-content: center; align-items: center; height: 200px; width: 100%;">
+        <p style="font-size: 1.5rem; font-weight: bold; color: #444;">No courses found.</p>
+    </div>
+
     @else
-        @php $visible = 0; @endphp
-
-        @foreach($courses as $index => $course)
-            @php
-                // true if logged in and already enrolled
-                $alreadyEnrolled = auth()->check() && auth()->user()->enrolledCourses->contains($course->id);
-            @endphp
-            @if($alreadyEnrolled)
-                @continue
-            @endif
-
-            @php $visible++; @endphp
-
+        @foreach($visibleCourses as $index => $course)
             <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
                 {{-- Course Image --}}
                 @if($course->image)
@@ -695,19 +677,24 @@
                 {{-- Course Content --}}
                 <div class="course-content">
                     <h3 class="course-title">{{ $course->title }}</h3>
+
                     @if(isset($course->category))
                         <span class="course-category-badge">{{ $course->category }}</span>
                     @endif
+
                     <div class="course-rating">
                         <span class="stars">★★★★★</span>
                         <span class="rating-number">4.8</span>
                         <span class="rating-count">(120)</span>
                     </div>
+
                     <div class="course-price">
                         <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
                     </div>
+
                     <div class="course-actions">
                         <a href="{{ route('courses.details', $course->id) }}" class="btn-details">Details</a>
+
                         <div class="action-icons-group">
                             <form method="POST" action="{{ route('wishlist.add', $course->id) }}">
                                 @csrf
@@ -716,6 +703,7 @@
                                     <i class="fa-solid fa-heart"></i>
                                 </button>
                             </form>
+
                             <form method="POST" action="{{ route('cart.add', $course->id) }}">
                                 @csrf
                                 <input type="hidden" name="course_id" value="{{ $course->id }}">
@@ -728,13 +716,14 @@
                 </div>
             </div>
         @endforeach
-    @endif  {{-- closes the outer if --}}
+    @endif
 </div>
-            @if($courses->count() > 4)
-                <div style="text-align:center; margin-top:2rem;">
-                    <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
-                </div>
-            @endif
+
+@if($visibleCourses->count() > 4)
+    <div style="text-align:center; margin-top:2rem;">
+        <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
+    </div>
+@endif
         </div>
     </section>
     <script>

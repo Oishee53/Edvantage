@@ -451,13 +451,15 @@
     <!-- Section Header -->
       <div class="section-header">
         <h2 class="section-title"></h2>
-        <select class="filter-dropdown">
-          <option>Filter Courses</option>
-          <option>Newest First</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-          <option>Most Popular</option>
-        </select>
+       <form id="filterForm" action="{{ route('homepage') }}" method="GET">
+    <select name="sort" class="filter-dropdown" onchange="document.getElementById('filterForm').submit();">
+        <option value="">Filter Courses</option>
+        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
+        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+        
+    </select>
+</form>
       </div>
     <!-- Courses Section -->
     <section class="courses-section" id="courses">

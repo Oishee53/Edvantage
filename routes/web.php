@@ -1,5 +1,5 @@
 <?php
-use App\Http\Controllers\HomeController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -16,17 +16,30 @@ use App\Http\Controllers\UserQuizController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules;
 use App\Models\Courses;
-Route::get('/', [LandingController::class, 'showLanding']);
+use App\Http\Controllers\HomeController;
+
+
+
+
+Route::get('/', [LandingController::class, 'showLanding'])->name('landing');
+
 
 Route::post('/logout', function () {
-    auth()->logout();
-    return redirect('/');
+    Auth::logout();
+    return redirect()->route('landing'); // ✅ redirect to landing page
 })->name('logout');
 
 
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
+Route::middleware(['auth']) // use your actual admin middleware
+    ->prefix('admin_panel')             // URL: /admin_panel/...
+    ->name('admin.')                    // Names: admin.*
+    ->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
+        // at least define index so route('admin.courses.index') works
+        Route::get('/courses', [AdminCourseController::class, 'index'])->name('courses.index');});
 
 
 // ----------------------------- Forget Password --------------------------//
@@ -68,11 +81,8 @@ Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
 
 Route::middleware(['auth.custom'])->group(function () {
 
-Route::get('/homepage', function () {
-    $user = auth()->user();
-    $courses = Courses::all(); 
-    $uniqueCategories = $courses->pluck('category')->unique();
-    return view('homepage',compact('user','courses','uniqueCategories')); 
+Route::middleware(['auth.custom'])->group(function () {
+    Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
 });
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
@@ -125,18 +135,14 @@ Route::get('/user/courses/{course}/modules/{module}/quiz', [UserQuizController::
 
 Route::post('/quiz/submit/{course}/{moduleNumber}', [UserQuizController::class, 'submitQuiz'])->name('user.quiz.submit');
 Route::get('/quiz/result/{course}/{moduleNumber}', [UserQuizController::class, 'result'])->name('user.quiz.result');
+Route::view('/about-us', 'about')->name('about');
+Route::view('/contact-us', 'contact')->name('contact');
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/admin_panel/manage_courses', [\App\Http\Controllers\AdminCourseController::class, 'index'])
-    ->name('admin.courses.index')
-    ->middleware('auth'); // if needed
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+
 });
-
-
-
-
 });

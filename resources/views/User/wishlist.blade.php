@@ -555,13 +555,13 @@
             <a href="/" class="logo">
                 <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <form class="search-form" action="" method="GET">
-                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
-            </form>
+            <form class="search-form" action="{{ route('homepage') }}" method="GET">
+    <input type="text" name="q" placeholder="What do you want to learn?" class="search-input" value="{{ request('q') }}">
+</form>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
+                     <li><a href="{{ route('about') }}">About Us</a></li>
+                  <li><a href="{{ route('contact') }}">Contact Us</a></li>
                 </ul>
             </nav>
             <div class="top-icons">
