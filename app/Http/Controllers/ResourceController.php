@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Courses;
 use App\Models\Resource;
 use Illuminate\Http\Request;
+use App\Models\PendingCourses;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -14,8 +15,16 @@ use Illuminate\Container\Attributes\Log;
 class ResourceController extends Controller
 {
     public function viewCourses(){
-    $courses = Courses::all();
-    return view('Resources.course_list', compact('courses'));
+    if(Auth::user()->role === 2) {
+        $courses = Courses::all();
+        return view('Resources.course_list', compact('courses'));
+    } 
+    elseif (Auth::user()->role === 3) {
+        $instructorId = auth()->user()->id;
+        $courses = Courses::where('instructor_id', $instructorId)->get();
+        $pendingCourses = PendingCourses::where('instructor_id', $instructorId)->get();
+        return view('Resources.course_list', compact('courses','pendingCourses', 'instructorId'));
+    }
     }
     public function viewPage()
     {

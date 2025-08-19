@@ -16,7 +16,8 @@ class Courses extends Model
         'video_count',
         'approx_video_length',
         'total_duration',
-        'price'
+        'price',
+        'instructor_id'
     ];
     
  public function resources()
@@ -29,10 +30,14 @@ class Courses extends Model
     return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
 }
 
-  public function enrollments()
-{
+    public function enrollments()
+    {
     return $this->hasMany(Enrollment::class, 'course_id');
-}
+    }
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
 
  
 

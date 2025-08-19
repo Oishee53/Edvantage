@@ -4,18 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Resource extends Model
+class PendingResources extends Model
 {
-    protected $table = 'resources';
+     protected $table = 'pending_resources';
     protected $fillable = [
         'courseId',
         'moduleId',
         'videos',
         'pdf'
     ];
-    public function course()
+    public function pending_course()
     {
-        return $this->belongsTo(Courses::class, 'courseId');
+        return $this->belongsTo(PendingCourses::class, 'courseId');
     }
-    
 }

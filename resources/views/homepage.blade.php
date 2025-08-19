@@ -587,6 +587,9 @@
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#contact">Contact Us</a></li>
+                    @if(auth()->user() && auth()->user()->role == 3)
+                        <li><a href="/instructor_homepage">Instructor</a></li>
+                    @endif
                 </ul>
             </nav>
             <div class="top-icons">
@@ -607,6 +610,9 @@
 
                         <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
                         <a href="{{ route('purchase.history') }}"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
+                        @if(auth()->user() && auth()->user()->role!=3)
+                        <a href="{{ route('ins.signup') }}">Register as instructor</a>
+                        @endif
                         <div class="separator"></div>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fa-solid fa-right-from-bracket icon"></i> Logout
@@ -642,6 +648,31 @@
           <option>Most Popular</option>
         </select>
       </div>
+      @auth
+    <h3>Your Notifications</h3>
+    @foreach (auth()->user()->unreadNotifications as $notification)
+        @if ($notification->type === \App\Notifications\QuestionRejectedNotification::class)
+            <div class="p-3 mb-2 bg-danger text-white rounded">
+                <strong>Question Rejected:</strong> {{ $notification->data['content'] }}<br>
+                <small>Instructor: {{ $notification->data['instructor_name'] }}</small><br>
+                <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="btn btn-light mt-2">
+                    View Question
+                </a>
+            </div>
+        @endif
+    @endforeach
+     @foreach (auth()->user()->unreadNotifications as $notification)
+        @if ($notification->type === \App\Notifications\QuestionAnsweredNotification::class)
+            <div class="p-3 mb-2 bg-success text-white rounded">
+                <strong>Question Answered:</strong> {{ $notification->data['content'] }}<br>
+                <small>Instructor: {{ $notification->data['instructor_name'] }}</small><br>
+                <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="btn btn-light mt-2">
+                    View Answer
+                </a>
+            </div>
+        @endif
+    @endforeach
+@endauth
     <!-- Courses Section -->
     <section class="courses-section" id="courses">
         <div class="container">
@@ -707,72 +738,41 @@
             @endif
         </div>
     </section>
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
-        });
-        // Load More functionality
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const cards = document.querySelectorAll('#coursesGrid .course-card');
-        let visible = 4;
-        const increment = 4;
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', function() {
-                let shown = 0;
-                for (let i = visible; i < cards.length && shown < increment; i++, shown++) {
-                    cards[i].style.display = '';
-                }
-                visible += increment;
-                if (visible >= cards.length) {
-                    loadMoreBtn.style.display = 'none';
-                }
-            });
-        }
-    </script>
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
-        });
-        @if(session('cart_added'))
-        if (confirm("{{ session('cart_added') }} Go to cart?")) {
-            window.location.href = "{{ route('cart.all') }}";
-        }
-        @endif
-        @if(session('wishlist_added'))
-        if (confirm("{{ session('wishlist_added') }} Go to wishlist?")) {
-            window.location.href = "{{ route('wishlist.all') }}";
-        }
-        @endif
-    </script>
+<script>
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Header background on scroll
+  window.addEventListener('scroll', function () {
+    const header = document.querySelector('.header');
+    if (window.scrollY > 100) {
+      header.style.background = 'rgba(255, 255, 255, 0.98)';
+    } else {
+      header.style.background = 'rgba(255, 255, 255, 0.95)';
+    }
+  });
+
+  // Session-based alerts for cart and wishlist
+  @if(session('cart_added'))
+    if (confirm("{{ session('cart_added') }} Go to cart?")) {
+      window.location.href = "{{ route('cart.all') }}";
+    }
+  @endif
+
+  @if(session('wishlist_added'))
+    if (confirm("{{ session('wishlist_added') }} Go to wishlist?")) {
+      window.location.href = "{{ route('wishlist.all') }}";
+    }
+  @endif
+</script>
+
+
 </body>
 </html>
