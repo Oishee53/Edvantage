@@ -144,6 +144,7 @@
         </div>
       @endforeach
         <div class="user-info">
+          <a href = "/homepage">Student</a>
           <span class="text-primary font-medium">{{ auth()->user()->name }}</span>
           <form action="/logout" method="POST">
             @csrf

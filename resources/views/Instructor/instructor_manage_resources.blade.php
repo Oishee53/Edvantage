@@ -8,7 +8,7 @@
 
     <h2>Module Management</h2>
 
-    <button onclick="location.href='/manage_resources/add'">
+    <button onclick="location.href='/instructor/manage_resources/add'">
         Add New Module
     </button>
 

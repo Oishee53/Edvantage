@@ -40,7 +40,6 @@
 
     <br>
     @if(auth()->user()->role === 2)
-        <a href="/admin_panel/manage_resources/create">Add New Course</a>
     <a href="/admin_panel/manage_resources">← Back to Home Page</a>
     @elseif(auth()->user()->role === 3)
         <a href="/instructor/manage_resources">← Back to Home Page</a>

@@ -75,7 +75,7 @@
       <div class="flex items-center gap-4 mb-4">
         <input type="text" placeholder="Search courses..." class="flex-1 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
 
-        <form action="/admin_panel/manage_courses/add" method="GET" class="ml-auto">
+        <form action="/manage_courses/add" method="GET" class="ml-auto">
           <button type="submit" class="flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLightHover hover:text-white">
             Add Course
           </button>

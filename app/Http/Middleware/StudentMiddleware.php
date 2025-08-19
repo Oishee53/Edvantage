@@ -16,7 +16,7 @@ class StudentMiddleware
      */
    public function handle($request, Closure $next)
     {
-        if (!Auth::check() || Auth::user()->role != 1) {
+        if (!Auth::check() || !in_array(Auth::user()->role, [1, 3])) {
             abort(403, 'Unauthorized');
         }
         return $next($request);

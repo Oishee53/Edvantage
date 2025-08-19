@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Courses;
+use App\Models\Instructor;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\UserQuizController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\ResetPasswordControl;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserProgressController;
@@ -139,6 +141,11 @@ Route::post('/video-progress/save', [VideoProgressController::class, 'save'])->n
 Route::get('/my-progress', [UserProgressController::class, 'index'])->name('user.progress');
 
 Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory'])->name('purchase.history');
+Route::get('/instructor/signup', function(){
+    return view('Instructor.instructor_signup');
+})->name('ins.signup');
+Route::post('/instructor/signup', [InstructorController::class, 'register'])->name('instructor.register');
+Route::post('instructor/payment_setup', [InstructorController::class, 'savePaymentSetup'])->name('instructor.payout.save');
 
 
 Route::middleware(['auth'])->group(function () {

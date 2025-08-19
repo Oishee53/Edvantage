@@ -306,10 +306,19 @@
             <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
         <nav class="sidebar-nav">
-            <a href="/admin_panel">Dashboard</a>
-            <a href="/admin_panel/manage_courses">Manage Course</a>
-            <a href="/admin_panel/manage_user">Manage User</a>
-            <a href="#">Manage Resources</a>
+            @if(auth()->user() && auth()->user()->role === 2)
+                <a href="/admin_panel">Dashboard</a>
+                <a href="/admin_panel/manage_courses">Manage Courses</a>
+                <a href="/admin_panel/manage_courses" class="active">Manage Courses</a>
+                <a href="/admin_panel/manage_user">Manage User</a>
+                <a href="/admin_panel/manage_resources">Manage Resources</a>
+            @elseif(auth()->user() && auth()->user()->role === 3)
+                <a href="/instructor_homepage">Dashboard</a>
+                <a href="/instructor/manage_courses">Manage Course</a>
+                <a href="/instructor/manage_user">Manage User</a>
+                <a href="/instructor/manage_resources">Manage Resources</a>
+            @endif
+            
         </nav>
     </aside>
 
@@ -344,7 +353,11 @@
             <div class="form-card">
                 @auth
                 <h2><i class="fas fa-plus-circle" style="color:var(--primary);"></i>Add New Course</h2>
-                <form action="/manage_courses/create" method="POST" enctype="multipart/form-data">
+                @if(auth()->user()->role === 2)
+                <form action="/admin/manage_courses/create" method="POST" enctype="multipart/form-data">
+                @elseif(auth()->user()->role === 3)
+                <form action="/instructor/manage_courses/create" method="POST" enctype="multipart/form-data">
+                @endif
                     @csrf
                     <div class="form-group">
                         <label for="image">Course Image <span class="required">*</span></label>

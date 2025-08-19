@@ -587,6 +587,9 @@
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#contact">Contact Us</a></li>
+                    @if(auth()->user() && auth()->user()->role == 3)
+                        <li><a href="/instructor_homepage">Instructor</a></li>
+                    @endif
                 </ul>
             </nav>
             <div class="top-icons">
@@ -607,6 +610,9 @@
 
                         <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
                         <a href="{{ route('purchase.history') }}"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
+                        @if(auth()->user() && auth()->user()->role!=3)
+                        <a href="{{ route('ins.signup') }}">Register as instructor</a>
+                        @endif
                         <div class="separator"></div>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fa-solid fa-right-from-bracket icon"></i> Logout
