@@ -25,6 +25,7 @@ use App\Http\Controllers\UserProgressController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\VideoProgressController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\HomeController;
 Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
        Schema::create('pending_resources', function (Blueprint $table) {
             $table->id();
-            $table->string('courseId');
+            $table->string('courseId',191);
             $table->unsignedBigInteger('moduleId')->nullable(); // If modules table exists, you can add FK later
             $table->string('videos')->nullable(); // You can store video URL or path
             $table->string('pdf')->nullable();    // You can store file name/path

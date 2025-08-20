@@ -18,7 +18,7 @@ return new class extends Migration
 
         // Step 2: Add string-based id with prefix
         Schema::table('pending_courses', function (Blueprint $table) {
-            $table->string('id')->primary()->first();
+            $table->string('id',191)->primary()->first();
         });
     }
 
