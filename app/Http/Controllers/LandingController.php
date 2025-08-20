@@ -7,12 +7,16 @@ use App\Models\Courses;
 
 class LandingController extends Controller
 {
-    public function showLanding()
+public function showLanding()
 {   
     $courses = Courses::all();
-    
     $uniqueCategories = $courses->pluck('category')->unique();
-    return view('landing', compact('courses', 'uniqueCategories'));
+
+    return response()
+        ->view('landing', compact('courses', 'uniqueCategories'))
+        ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        ->header('Pragma', 'no-cache')
+        ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
 }
 
 }

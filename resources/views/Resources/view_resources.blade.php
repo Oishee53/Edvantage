@@ -231,6 +231,7 @@
                 });
             });
 
+
             // Search functionality
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
@@ -252,5 +253,15 @@
             }
         });
     </script>
+
+    <br>
+    @if(auth()->user()->role === 2)
+    <a href="/admin_panel/manage_resources">← Back to Home Page</a>
+    @elseif(auth()->user()->role === 3)
+        <a href="/instructor/manage_resources">← Back to Home Page</a>
+    @endif
+    @else
+        <p>You are not logged in. <a href="/">Go to Login</a></p>
+@endauth
 </body>
 </html>

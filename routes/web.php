@@ -1,28 +1,31 @@
 <?php
 
+use App\Models\Courses;
+use App\Models\Instructor;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\UserQuizController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\ResetPasswordControl;
+use App\Http\Controllers\AdminCourseController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserProgressController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\UserQuizController;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\Rules;
-use App\Models\Courses;
-use App\Http\Controllers\HomeController;
-
-
-
-
-Route::get('/', [LandingController::class, 'showLanding'])->name('landing');
-
+use App\Http\Controllers\VideoProgressController;
+use App\Http\Controllers\ForgotPasswordController;
+Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -32,14 +35,9 @@ Route::post('/logout', function () {
 
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
-Route::middleware(['auth']) // use your actual admin middleware
-    ->prefix('admin_panel')             // URL: /admin_panel/...
-    ->name('admin.')                    // Names: admin.*
-    ->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-        // at least define index so route('admin.courses.index') works
-        Route::get('/courses', [AdminCourseController::class, 'index'])->name('courses.index');});
+// at least define index so route('admin.courses.index') works
+Route::get('/courses', [AdminCourseController::class, 'index'])->name('courses.index');
 
 
 // ----------------------------- Forget Password --------------------------//
@@ -79,7 +77,7 @@ Route::post('/guest/cart/add', [CartController::class, 'addToGuestCart'])->name(
 Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
 
-Route::middleware(['auth.custom'])->group(function () {
+Route::middleware(['auth','student'])->group(function () {
 
 Route::middleware(['auth.custom'])->group(function () {
     Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
@@ -87,6 +85,7 @@ Route::middleware(['auth.custom'])->group(function () {
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 Route::get('/courses/enrolled', function () {
     return 'Enrolled courses page coming soon!';
@@ -140,9 +139,27 @@ Route::view('/contact-us', 'contact')->name('contact');
 
 
 
+Route::post('/video-progress/save', [VideoProgressController::class, 'save'])->name('video.progress.save');
+
+Route::get('/my-progress', [UserProgressController::class, 'index'])->name('user.progress');
+
+Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory'])->name('purchase.history');
+Route::get('/instructor/signup', function(){
+    return view('Instructor.instructor_signup');
+})->name('ins.signup');
+Route::post('/instructor/signup', [InstructorController::class, 'register'])->name('instructor.register');
+Route::post('instructor/payment_setup', [InstructorController::class, 'savePaymentSetup'])->name('instructor.payout.save');
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     
 
 });
+
+Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
+
 });
+
+Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
+    ->name('student.questions.show');

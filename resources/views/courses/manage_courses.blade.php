@@ -83,12 +83,13 @@
         />
       </form>
 
-      <form action="/admin_panel/manage_courses/add" method="GET" class="ml-auto">
-        <button type="submit" class="flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLightHover hover:text-white">
-          Add Course
-        </button>
-      </form>
-    </div>
+
+        <form action="/manage_courses/add" method="GET" class="ml-auto">
+          <button type="submit" class="flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLightHover hover:text-white">
+            Add Course
+          </button>
+        </form>
+      </div>
 
     @if(isset($courses))
       @if(request('q') && $courses->isEmpty())

@@ -14,5 +14,10 @@
     <a href="{{ route('quiz.create', ['course' => $course->id, 'module' => $moduleNumber]) }}">
         <button>Add Quiz</button>
     </a>
+    @if(auth()->user()->role === 2)
+    <a href="/admin_panel/manage_resources">← Back to Home Page</a>
+    @elseif(auth()->user()->role === 3)
+        <a href="/instructor/manage_resources">← Back to Home Page</a>
+    @endif
 </body>
 </html>
