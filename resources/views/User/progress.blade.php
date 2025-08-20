@@ -36,8 +36,12 @@
                         aria-valuenow="{{ $progress['completion_percentage'] }}" 
                         aria-valuemin="0" aria-valuemax="100">
                         {{ $progress['completion_percentage'] }}%
-                    </div>
+                        {{-- Show Download Certificate button if course is 100% complete --}}
+                     </div>
                 </div>
+
+
+
 
                 {{-- Collapsible Quiz Marks --}}
                 <div class="collapse" id="course{{ $progress['course_id'] }}">
@@ -55,6 +59,22 @@
                         <p class="text-muted">No quizzes taken yet for this course.</p>
                     @endif
                 </div>
+                
+<a href="{{ route('certificate.generate', [
+        'userId' => auth()->id(),
+        'courseId' => $progress['course_id'],
+        'avgScore' => $progress['average_score'] ?? 0
+    ]) }}" 
+   class="btn btn-success" target="_blank">
+   🎓 Download Certificate
+</a>
+
+
+
+
+
+
+
             </div>
         </div>
     @empty

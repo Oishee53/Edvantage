@@ -34,7 +34,9 @@ class Courses extends Model
     return $this->hasMany(Enrollment::class, 'course_id');
 }
 
- 
+ public function quizzes() {
+    return $this->hasMany(Quiz::class);
+}
 
 
 }

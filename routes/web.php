@@ -16,9 +16,16 @@ use App\Http\Controllers\UserQuizController;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\VideoProgressController;
 use App\Http\Controllers\UserProgressController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CertificateController;
 
 use Illuminate\Validation\Rules;
 use App\Models\Courses;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+Route::get('/certificate/{userId}/{courseId}/{avgScore}', [CertificateController::class, 'generate'])->name('certificate.generate');
+
+
 Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {
@@ -139,7 +146,27 @@ Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory']
 
 
 
+  Route::get('/certificate/generate/{course}', [CertificateController::class, 'generate1']);
+
+
+ 
+
+Route::get('/certificate/check/{course}', [CertificateController::class, 'check']);
+ 
+
+Route::get('/certificate/download/{course}', function ($courseId) {
+    $user = auth()->user();
+    $certificate = \App\Models\Certificate::where('user_id', $user->id)
+        ->where('course_id', $courseId)
+        ->firstOrFail();
+
+    return Storage::download('public/' . $certificate->certificate_path);
+});
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
+
 });

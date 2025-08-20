@@ -64,5 +64,14 @@ public function enrolledCourses()
     return $this->belongsToMany(\App\Models\Courses::class, 'enrollments', 'user_id', 'course_id');
 }
 
+public function videoProgress() {
+    return $this->hasMany(VideoProgress::class);
+}
+
+public function quizSubmissions() {
+    return $this->hasMany(QuizSubmission::class);
+}
+
+
 
 }
