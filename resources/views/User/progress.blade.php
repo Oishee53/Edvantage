@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+
 @section('content')
 <div class="container">
 
@@ -59,16 +67,24 @@
                         <p class="text-muted">No quizzes taken yet for this course.</p>
                     @endif
                 </div>
-                
-<a href="{{ route('certificate.generate', [
+
+@if($progress['completion_percentage'] == 100 && $progress['average_percentage'] >= 70)
+   
+    <a href="{{ route('certificate.generate', [
         'userId' => auth()->id(),
         'courseId' => $progress['course_id'],
-        'avgScore' => $progress['average_score'] ?? 0
+        
     ]) }}" 
    class="btn btn-success" target="_blank">
    🎓 Download Certificate
 </a>
+@endif
 
+
+<pre>
+Completion: {{ $progress['completion_percentage'] }}%
+Avg percentage: {{ $progress['average_percentage'] }}
+</pre>
 
 
 
@@ -82,3 +98,6 @@
     @endforelse
 </div>
 @endsection
+
+
+

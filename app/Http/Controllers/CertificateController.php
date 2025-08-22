@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Quiz;
 use App\Models\Courses;
@@ -13,62 +13,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CertificateController extends Controller
 {
-   public function generate1($courseId)
-{
-    $user = auth()->user();
-
-    // 1. Video completion
-    $totalVideos = VideoProgress::where('user_id', $user->id)
-        ->where('course_id', $courseId)
-        ->count();
-    $completedVideos = VideoProgress::where('user_id', $user->id)
-        ->where('course_id', $courseId)
-        ->where('is_completed', true)
-        ->count();
-
-    if ($totalVideos == 0 || $completedVideos != $totalVideos) {
-        return back()->with('error', 'Complete all videos to unlock the certificate.');
-    }
-
-    // 2. Quiz completion
-    $quizIds = Quiz::where('course_id', $courseId)->pluck('id');
-    $avgScore = QuizSubmission::where('user_id', $user->id)
-        ->whereIn('quiz_id', $quizIds)
-        ->avg('score');
-
-    if ($avgScore === null || $avgScore < 70) {
-        return back()->with('error', 'Score at least 70% in quizzes to unlock the certificate.');
-    }
-
-    // 3. Generate PDF
-    $course = Courses::findOrFail($courseId);
-    $data = [
-        'user' => $user,
-        'course' => $course,
-        'avgScore' => $avgScore,  // pass this to Blade
-        'date' => now()->toDateString(),
-    ];
-
-    $pdf = Pdf::loadView('Resources.certificate', $data);
-
-    // 4. Save PDF in storage
-    $fileName = "certificates/{$user->id}_course_{$courseId}.pdf";
-    Storage::put("public/{$fileName}", $pdf->output());
-
-    // 5. Save certificate record
-    Certificate::updateOrCreate(
-        ['user_id' => $user->id, 'course_id' => $courseId],
-        ['certificate_path' => $fileName]
-    );
-
-    // 6. Force download
-    return $pdf->download("certificate_{$course->title}.pdf");
-
-
-}
-
-
- public function generate($userId, $courseId, $avgScore)
+   
+public function generate1($userId, $courseId, $avgScore)
     {
         // Fetch user and course
         $user = User::findOrFail($userId);
@@ -82,9 +28,54 @@ class CertificateController extends Controller
         ]);
 
         // Download as a file
-        return $pdf->download('certificate_'.$user->id.'.pdf');
+        return $pdf->stream('certificate_'.$user->id.'.pdf');
     }
 
+public function generate($userId, $courseId)
+    {
+        $user = auth()->user();
+
+        // Make sure user is requesting their own certificate
+        if ($user->id != $userId) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $course = Courses::findOrFail($courseId);
+
+        // ----- 🎥 Check video completion -----
+        $totalVideos = $course->resources()->whereNotNull('videos')->count();
+        $completedVideos = VideoProgress::where('user_id', $user->id)
+            ->whereIn('resource_id', $course->resources()->pluck('id'))
+            ->where('is_completed', '=', 1)
+            ->count();
+
+        $completionPercentage = $totalVideos > 0
+            ? round(($completedVideos / $totalVideos) * 100)
+            : 0;
+
+        // ----- 📝 Check average quiz score -----
+        $quizSubmissions = QuizSubmission::where('user_id', $user->id)
+            ->whereIn('quiz_id', $course->quizzes()->pluck('id'))
+            ->get();
+
+        $averageScore = $quizSubmissions->count() > 0
+            ? round($quizSubmissions->avg('score'))
+            : 0;
+
+        // ----- ✅ Check eligibility -----
+        if ($completionPercentage < 100 || $averageScore < 70) {
+            return redirect()->back()->with('error', 'You are not eligible for this certificate.');
+        }
+
+        // ----- 🎓 Generate Certificate -----
+        $pdf = Pdf::loadView('Resources.certificate', [
+            'user'   => $user,
+            'course' => $course,
+            'score'  => $averageScore,
+        ]);
+
+        return $pdf->download('certificate_' . $course->title . '.pdf');
+    }
 
 
     public function check($userId, $courseId)

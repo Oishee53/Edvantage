@@ -23,7 +23,8 @@ use Illuminate\Validation\Rules;
 use App\Models\Courses;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-Route::get('/certificate/{userId}/{courseId}/{avgScore}', [CertificateController::class, 'generate'])->name('certificate.generate');
+// routes/web.php
+
 
 
 Route::get('/', [LandingController::class, 'showLanding']);
@@ -146,7 +147,12 @@ Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory']
 
 
 
-  Route::get('/certificate/generate/{course}', [CertificateController::class, 'generate1']);
+
+
+Route::get('/certificate/{userId}/{courseId}/{avgScore}', [CertificateController::class, 'generate1']);
+
+
+  Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])->name('certificate.generate');
 
 
  
@@ -163,10 +169,6 @@ Route::get('/certificate/download/{course}', function ($courseId) {
     return Storage::download('public/' . $certificate->certificate_path);
 });
 
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-});
 
 
 });
