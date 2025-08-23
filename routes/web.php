@@ -23,6 +23,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserProgressController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\VideoProgressController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\CertificateController;
 
 Route::get('/', [LandingController::class, 'showLanding']);
 
@@ -136,7 +138,10 @@ Route::get('/instructor/signup', function(){
 Route::post('/instructor/signup', [InstructorController::class, 'register'])->name('instructor.register');
 Route::post('instructor/payment_setup', [InstructorController::class, 'savePaymentSetup'])->name('instructor.payout.save');
 
+Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
 
+Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])
+        ->name('certificate.generate');
 
 });
 
