@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Instructor;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class InstructorController extends Controller
 {
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'expertise' => 'required|string|max:255',
+            'area_of_expertise' => 'required|string|max:255',
             'qualification' => 'required|string|max:255',
             'video_editing_skill' => 'required|string',
             'target_audience' => 'required|string',
@@ -40,10 +40,6 @@ class InstructorController extends Controller
             'cvv' => 'required|digits:3',
             'bank_name' => 'nullable|string|max:255',
         ]);
-
-        // Map "cardholder_name" to match DB column "card_holder_name"
-        $validatedPayment['card_holder_name'] = $validatedPayment['card_holder_name'];
-        unset($validatedPayment['card_holder_name']);
 
         // Merge expiry month/year into single field
         $validatedPayment['expiry_date'] = $validatedPayment['expiry_month'] . '/' . $validatedPayment['expiry_year'];

@@ -411,7 +411,7 @@
           @if(isset($modules) && count($modules) > 0)
             <div class="modules-list">
               @foreach ($modules as $index)
-                <a href="##" class="module-card">
+                <a href="/view_pending_resources/{{$course->id}}/{{$index}}" class="module-card">
                   <div>
                     <div class="module-number">Module {{ $index }}</div>
                     <div class="module-description">Click to view module content and materials</div>

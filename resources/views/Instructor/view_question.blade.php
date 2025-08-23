@@ -473,10 +473,9 @@
             <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
         <nav class="sidebar-nav">            
-            <a href="/instructor_homepage">Dashboard</a>
+            <<a href="/instructor_homepage">Dashboard</a>
             <a href="/instructor/manage_courses">Manage Course</a>
-            <a href="/instructor/manage_user" class="active">Manage User</a>
-            <a href="/instructor/manage_resources">Manage Resources</a>
+            <a href="/instructor/manage_resources/add">Manage Resources</a>
         </nav>
     </aside>
 

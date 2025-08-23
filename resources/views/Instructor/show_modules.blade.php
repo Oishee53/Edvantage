@@ -272,6 +272,18 @@
             background-color: var(--primary-light-hover-bg);
             transform: translateY(-1px);
         }
+         .view-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            margin-right: -20rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
 
         /* Actions */
         .actions-section {
@@ -349,10 +361,9 @@
                     <a href="/admin_panel/manage_user">Manage Users</a>
                     <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
                 @elseif(auth()->user()->role === 3)
-                    <a href="/instructor_homepage">Dashboard</a>
-                    <a href="/instructor/manage_courses">Manage Courses</a>
-                    <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
+                   <a href="/instructor_homepage">Dashboard</a>
+                   <a href="/instructor/manage_courses">Manage Course</a>
+                   <a href="/instructor/manage_resources/add">Manage Resources</a>
                 @endif
             </nav>
         </aside>
@@ -414,8 +425,13 @@
                                     @endif
                                 </div>
                             </div>
-
-                            <a href="/instructor/manage_resources/{{ $course->id }}/modules/{{ $module['id'] }}/edit" class="module-link">
+                          
+                                @if($module['uploaded'])
+                                 <a href="/view_pending_resources/{{$course->id}}/{{ $module['id'] }}" class="view-link">
+                                    View Resources
+                                @endif
+                                <a href="/instructor/manage_resources/{{ $course->id }}/modules/{{ $module['id'] }}/edit" class="module-link">
+                               
                                 @if($module['uploaded'])
                                     Edit Module
                                 @else

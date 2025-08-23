@@ -8,7 +8,7 @@ class Instructor extends Model
 {
     protected $fillable = [
         'user_id',
-        'expertise',
+        'area_of_expertise',
         'qualification',
         'video_editing_skill',
         'target_audience',

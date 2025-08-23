@@ -145,3 +145,8 @@ Route::post('/instructor/questions/{id}/answer', [QuestionController::class, 'an
     ->name('instructor.answer');
 Route::get('/instructor/{course}/manage_resources', [CourseNotificatioController::class, 'sendNotification'])
     ->name('instructor.manage_resources');
+
+Route::get('/view_pending_resources/{courseId}/{moduleNumber}', [PendingCourseController::class, 'showInsideModule'])
+     ->name('view.pending.resources');
+     
+Route::get('/view/inside-module/{courseId}/{moduleNumber}', [ResourceController::class, 'showInsideModule'])->name('inside.module2');

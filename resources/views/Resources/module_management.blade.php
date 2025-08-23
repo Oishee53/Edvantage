@@ -359,7 +359,11 @@
               Upload video content and PDF materials for this module to enhance the learning experience.
             </p>
             <a href="/admin_panel/manage_resources/{{ $course->id ?? 1 }}/modules/{{ $moduleNumber ?? 1 }}/edit" class="action-button">
+              @if(!$resource)  
               Add Content
+              @else
+               Edit Content 
+              @endif
             </a>
           </div>
 
@@ -373,7 +377,11 @@
               Create interactive quizzes to test student understanding and reinforce learning objectives.
             </p>
             <a href="{{ route('quiz.create', ['course' => $course->id ?? 1, 'module' => $moduleNumber ?? 1]) }}" class="action-button">
+              @if($quiz)
               Create Quiz
+              @else
+               Edit Quiz
+              @endif
             </a>
           </div>
         </div>

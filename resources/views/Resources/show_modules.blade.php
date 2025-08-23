@@ -208,6 +208,7 @@
             padding: 1.5rem;
             border-bottom: 1px solid var(--border-color);
             transition: background-color 0.2s ease-in-out;
+            gap: 1.5rem;
         }
 
         .module-item:last-child {
@@ -221,7 +222,7 @@
         .module-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .module-title {
@@ -257,19 +258,45 @@
             color: white;
         }
 
+        /* Redesigned button alignment */
+        .module-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-left: 2rem;
+        }
+        .view-link,
         .module-link {
             display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.55rem 1.1rem;
             border-radius: 0.375rem;
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.98rem;
             transition: all 0.2s ease-in-out;
+            border: 2px solid transparent;
+            margin: 0;
         }
-
+        .view-link {
+            background-color: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+        .view-link:hover {
+            background-color: #047857;
+            border-color: #047857;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .module-link {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
         .module-link:hover {
             background-color: var(--primary-light-hover-bg);
+            border-color: var(--primary-light-hover-bg);
+            color: #fff;
             transform: translateY(-1px);
         }
 
@@ -334,6 +361,22 @@
             color: var(--text-gray-700);
             padding: 2rem;
         }
+
+        /* Responsive improvements for button alignment */
+        @media (max-width: 900px) {
+            .main-content {
+                padding: 1rem;
+            }
+            .module-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .module-actions {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -392,41 +435,64 @@
                     <div class="modules-section-header">
                         <h3 class="modules-section-title">Module List</h3>
                     </div>
-                   <div class="modules-list">
-    @foreach ($modules as $module)
-        <div class="module-item">
-            <div class="module-info">
-                <div class="module-title">Module {{ $module['id'] }}</div>
-                <div class="upload-status">
-                    @if($module['uploaded'])
-                        <div class="status-icon status-uploaded">✓</div>
-                        <div class="status-text">Uploaded</div>
-                    @else
-                        <div class="status-icon status-pending">!</div>
-                        <div class="status-text">Pending</div>
-                    @endif
-                </div>
-            </div>
-
-            {{-- Role-based link --}}
-            @if(auth()->user()->role === 2)
-                <a href="{{ route('module.create', ['course' => $course->id, 'module' => $module['id']]) }}" class="module-link">
-                    {{ $module['uploaded'] ? 'Edit Module' : 'Upload Resources' }}
-                </a>
-            @elseif(auth()->user()->role === 3)
-                <a href="{{ route('quiz.create', ['course' => $course->id, 'module' => $module['id']]) }}" class="module-link">
-                    {{ $module['uploaded'] ? 'Edit Quiz' : 'Upload Quiz' }}
-                </a>
-            @endif
-        </div>
-    @endforeach
-</div>
-
+                    <div class="modules-list">
+                        @foreach ($modules as $module)
+                            <div class="module-item">
+                                <div class="module-info">
+                                    <div class="module-title">Module {{ $module['id'] }}</div>
+                                    <div class="upload-status">
+                                        @if(auth()->user()->role === 3)
+                                            @if($module['quiz'])
+                                                <div class="status-icon status-uploaded">✓</div>
+                                                <div class="status-text">Quiz Uploaded</div>
+                                            @else
+                                                <div class="status-icon status-pending">!</div>
+                                                <div class="status-text">Quiz Pending</div>
+                                            @endif
+                                        @elseif(auth()->user()->role === 2)
+                                            <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+                                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                    @if($module['quiz'])
+                                                        <div class="status-icon status-uploaded">✓</div>
+                                                        <div class="status-text">Quiz Uploaded</div>
+                                                    @else
+                                                        <div class="status-icon status-pending">!</div>
+                                                        <div class="status-text">Quiz Pending</div>
+                                                    @endif
+                                                </div>
+                                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                    @if($module['resource'])
+                                                        <div class="status-icon status-uploaded">✓</div>
+                                                        <div class="status-text">Resource Uploaded</div>
+                                                    @else
+                                                        <div class="status-icon status-pending">!</div>
+                                                        <div class="status-text">Resource Pending</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="module-actions">
+                                    <a href="{{ route('inside.module', ['courseId' => $course->id, 'moduleNumber' => $module['id']]) }}" class="view-link">
+                                        View
+                                    </a>
+                                    @if(auth()->user()->role === 2)
+                                        <a href="{{ route('module.create', ['course' => $course->id, 'module' => $module['id']]) }}" class="module-link">
+                                            {{ $module['resource'] || $module['quiz'] ? 'Edit Resources' : 'Upload Resources' }}
+                                        </a>
+                                    @elseif(auth()->user()->role === 3)
+                                        <a href="{{ route('quiz.create', ['course' => $course->id, 'module' => $module['id']]) }}" class="module-link">
+                                            {{ $module['quiz'] ? 'Edit Quiz' : 'Upload Quiz' }}
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </section>
         </div>
-        
-
     @else
         <div style="width: 100%; display: flex; align-items: center; justify-content: center; min-height: 100vh;">
             <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
