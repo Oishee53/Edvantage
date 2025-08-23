@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     const ROLE_USER = 1;
     const ROLE_ADMIN = 2;
+    const ROLE_INSTRUCTOR = 3;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 /**
@@ -46,23 +47,27 @@ class User extends Authenticatable
     }
 
     public function cart()
-{
-    return $this->hasMany(Cart::class);
-}
+    {
+        return $this->hasMany(Cart::class);
+    }
     public function wishlist()
-{
-    return $this->hasMany(Wishlist::class);
-}
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 
-public function enrollments()
-{
-    return $this->hasMany(Enrollment::class);
-}
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
 
-public function enrolledCourses()
-{
-    return $this->belongsToMany(\App\Models\Courses::class, 'enrollments', 'user_id', 'course_id');
-}
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(\App\Models\Courses::class, 'enrollments', 'user_id', 'course_id');
+    }
+    public function instructor()
+    {
+        return $this->hasOne(Instructor::class);
+    }
 
 public function videoProgress() {
     return $this->hasMany(VideoProgress::class);

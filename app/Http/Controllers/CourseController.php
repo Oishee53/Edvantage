@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Courses;
 use Illuminate\Http\Request;
+use App\Models\PendingCourses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,20 +33,34 @@ public function show($id)
 }
 public function store(Request $request)
 {
-    $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'title' => 'required',
-        'description' => 'nullable',
-        'category' => 'required|string',
-        'video_count' => 'required|integer',
-        'approx_video_length' => 'required|integer',
-        'total_duration' => 'required|numeric',
-        'price' => 'required|numeric',
-    ]);
+    $user = auth()->user();
+
+    // Validation rules
+    $rules = [
+    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    'title' => 'required',
+    'description' => 'nullable',
+    'category' => 'required|string',
+    'video_count' => 'required|integer',
+    'approx_video_length' => 'required|integer',
+    'total_duration' => 'required|numeric',
+    'price' => 'required|numeric',
+    'prerequisite' => 'nullable|string|max:255',
+];
+
+    if ($user->role === 2) {
+        $rules['instructor_id'] = 'required|exists:users,id';
+    }
+
+    $request->validate($rules);
+    // Handle image upload
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('course_images', 'public');
     }
+    // Determine instructor ID
+    $instructorId = $user->role === 2 ? $request->input('instructor_id') : $user->id;
 
+    // Create the course
     Courses::create([
         'image' => $imagePath ?? null,
         'title' => $request->title,
@@ -55,10 +70,16 @@ public function store(Request $request)
         'approx_video_length' => $request->approx_video_length,
         'total_duration' => $request->total_duration,
         'price' => $request->price,
+        'instructor_id' => $instructorId,
+        'prerequisite' => $request->prerequisite,
     ]);
-
-    return redirect('/admin_panel/manage_courses')->with('success', 'Course added successfully!');
+   return match($user->role) {
+        2 => redirect('/admin_panel/manage_courses')->with('success', 'Course added successfully!'),
+        3 => redirect('/instructor/manage_courses')->with('success', 'Course added successfully!'),
+        default => redirect('/')->with('info', 'Course added.'),
+    };
 }
+
 public function viewAll()
 {
     $courses = Courses::all();
@@ -71,11 +92,19 @@ public function deleteCourse()
 }
 public function destroy($id)
 {
-    $course = Courses::findOrFail($id);
+    // Try to find in Courses
+    $course = Courses::find($id);
+
+    // If not found, try PendingCourses
+    if (!$course) {
+        $course = PendingCourses::findOrFail($id);
+    }
+
     $course->delete();
-    
+
     return redirect('/admin_panel/manage_courses')->with('success', 'Course deleted successfully');
 }
+
 public function editList()
 {
     $courses = Courses::all();
@@ -83,12 +112,12 @@ public function editList()
 }
 public function editCourse($id)
 {
-    $course = Courses::findOrFail($id);
+    $course = Courses::find($id) ?? PendingCourses::findOrFail($id);
     return view('courses.edit_course', compact('course'));
 }
 public function update(Request $request, $id) 
 {
-    $course = Courses::findOrFail($id);
+    $course = Courses::find($id) ?? PendingCourses::findOrFail($id);
     $request->validate([
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'title' => 'required|string|max:255',
@@ -117,9 +146,13 @@ public function update(Request $request, $id)
         $updateData['image'] = $request->file('image')->store('course_images', 'public');
     }
     $course->update($updateData);
-    
-    return redirect('/admin_panel/manage_courses/edit-list')
-           ->with('success', 'Course updated successfully!');
+    $user = auth()->user();
+    if ($user->role === 2) {
+    return redirect('/admin_panel/manage_courses')
+           ->with('success', 'Course updated successfully!');}
+    elseif ($user->role === 3) {
+    return redirect('/instructor/manage_courses')
+           ->with('success', 'Course updated successfully!');}
 }
 
 

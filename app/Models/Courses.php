@@ -16,7 +16,8 @@ class Courses extends Model
         'video_count',
         'approx_video_length',
         'total_duration',
-        'price'
+        'price',
+        'instructor_id'
     ];
     
  public function resources()
@@ -39,5 +40,16 @@ public function quizzes()
         return $this->hasMany(Quiz::class, 'course_id', 'id');
     }
 
-
+ public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
+     protected static function booted()
+    {
+        static::deleting(function ($course) {
+            $course->modules()->delete();
+            $course->resources()->delete();
+            $course->enrollments()->delete(); // optional
+        });
+    }
 }

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Module Management</title>
+  <title>Upload Resources</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     /* Custom CSS Variables */
     :root {
       --primary-color: #0E1B33;
-      --primary-light-hover-bg: #E3E6F3;
+      --primary-light-hover-bg: #2D336B;
       --body-background: #f9fafb;
       --card-background: #ffffff;
       --text-default: #333;
@@ -74,12 +74,12 @@
     }
 
     .sidebar-nav a:hover {
-      background-color: var(--primary-light-hover-bg);
+      background-color: #E3E6F3;;
       color: var(--primary-color);
     }
 
     .sidebar-nav a.active {
-      background-color: var(--primary-light-hover-bg);
+      background-color: #E3E6F3;;
       color: var(--primary-color);
     }
 
@@ -143,7 +143,7 @@
 
     .login-button:hover {
       background-color: var(--primary-light-hover-bg);
-      color: var(--primary-color);
+      color: white;
     }
 
     .auth-buttons {
@@ -156,121 +156,87 @@
       padding: 2rem;
     }
 
-    /* Module Info Card */
-    .module-info-card {
+    /* Added upload form specific styles */
+    .upload-form-container {
       background-color: var(--card-background);
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       padding: 2rem;
-      margin-bottom: 2rem;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .module-info-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-
-    .module-info-details {
-      color: var(--text-gray-600);
+    .form-group {
       margin-bottom: 1.5rem;
     }
 
-    .module-info-details p {
-      margin: 0.5rem 0;
-    }
-
-    /* Action Cards Grid */
-    .actions-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .action-card {
-      background-color: var(--card-background);
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      padding: 2rem;
-      text-align: center;
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
-
-    .action-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    .action-card-icon {
-      width: 4rem;
-      height: 4rem;
-      background-color: var(--edit-bg);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1rem;
-      color: var(--primary-color);
-      font-size: 1.5rem;
-    }
-
-    .action-card-title {
-      font-size: 1.25rem;
+    .form-label {
+      display: block;
       font-weight: 600;
       color: var(--primary-color);
       margin-bottom: 0.5rem;
-    }
-
-    .action-card-description {
-      color: var(--text-gray-600);
-      margin-bottom: 1.5rem;
       font-size: 0.875rem;
     }
 
-    .action-button {
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.25rem;
-      font-weight: 500;
+    .file-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px dashed var(--border-color);
+      border-radius: 0.5rem;
+      background-color: #f9fafb;
       cursor: pointer;
-      transition: opacity 0.2s ease-in-out;
-      text-decoration: none;
-      display: inline-block;
-      font-family: 'Montserrat', sans-serif;
+      transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
     }
 
-    .action-button:hover {
+    .file-input:hover {
+      border-color: var(--primary-color);
+      background-color: #f3f4f6;
+    }
+
+    .file-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(14, 27, 51, 0.2);
+    }
+
+    .upload-button {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s ease-in-out;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .upload-button:hover {
       opacity: 0.9;
     }
 
-    /* Back Navigation */
-    .back-navigation {
-      background-color: var(--card-background);
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      padding: 1.5rem;
-    }
-
     .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       color: var(--primary-color);
       text-decoration: none;
       font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.2s ease-in-out;
+      margin-top: 1.5rem;
+      transition: text-decoration 0.2s ease-in-out;
     }
 
     .back-link:hover {
-      color: var(--text-gray-700);
+      text-decoration: underline;
     }
 
-    .back-arrow {
-      font-size: 1.25rem;
+    .section-header {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin: 1rem 0 1.5rem 0;
+      text-align: center;
     }
 
     .not-logged-in {
@@ -298,18 +264,10 @@
       <span></span>
     </div>
     <nav class="sidebar-nav">
-      @if(auth()->user()->role === 2)
-        <a href="/admin_panel">Dashboard</a>
-        <a href="/admin_panel/manage_courses">Manage Course</a>
-        <a href="/admin_panel/manage_user">Manage User</a>
-        <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
-         <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
-      @elseif(auth()->user()->role === 3)
-        <a href="/instructor_homepage">Dashboard</a>
-        <a href="/instructor/manage_courses">Manage Course</a>
-        <a href="/instructor/manage_user">Manage User</a>
-        <a href="/instructor/manage_resources" class="active">Manage Resources</a>
-      @endif
+      <a href="/instructor_homepage">Dashboard</a>
+      <a href="/instructor/manage_courses">Manage Course</a>
+      <a href="/instructor/manage_user">Manage User</a>
+      <a href="/instructor/manage_resources" class="active">Manage Resources</a>
     </nav>
   </aside>
 
@@ -317,7 +275,7 @@
   <div class="main-wrapper">
     <!-- Top bar -->
     <header class="top-bar">
-      <h1 class="top-bar-title">Module Management</h1>
+      <h1 class="top-bar-title">Upload Resources</h1>
       @auth
         <div class="user-info">
           <span>{{ auth()->user()->name }}</span>
@@ -337,62 +295,30 @@
     <!-- Main Content -->
     <section class="main-content">
       @auth
-        <!-- Module Information Card -->
-        <div class="module-info-card">
-          <h2 class="module-info-title">Module {{ $moduleNumber ?? '1' }} Management</h2>
-          <div class="module-info-details">
-            <p><strong>Course:</strong> {{ $course->title ?? 'Sample Course Title' }}</p>
-            <p><strong>Module Number:</strong> {{ $moduleNumber ?? '1' }}</p>
-            <p><strong>Description:</strong> Manage videos, PDFs, and quizzes for this module</p>
-          </div>
-        </div>
+        <div class="upload-form-container">
+          <h2 class="section-header">Upload Course Resources</h2>
+          
+          <!-- Replaced basic form with styled upload form -->
+          <form method="POST" action="{{ route('upload.instructor.resources', [$course->id, $module_id]) }}" enctype="multipart/form-data">
+            @csrf
 
-        <!-- Action Cards -->
-        <div class="actions-grid">
-          <!-- Add Video and PDF Card -->
-          <div class="action-card">
-            <div class="action-card-icon">
-              📹
+            <div class="form-group">
+              <label class="form-label">Upload Video:</label>
+              <input type="file" name="video" accept="video/*" class="file-input">
             </div>
-            <h3 class="action-card-title">Add Video and PDF</h3>
-            <p class="action-card-description">
-              Upload video content and PDF materials for this module to enhance the learning experience.
-            </p>
-            <a href="/admin_panel/manage_resources/{{ $course->id ?? 1 }}/modules/{{ $moduleNumber ?? 1 }}/edit" class="action-button">
-              Add Content
-            </a>
-          </div>
 
-          <!-- Add Quiz Card -->
-          <div class="action-card">
-            <div class="action-card-icon">
-              📝
+            <div class="form-group">
+              <label class="form-label">Upload PDF:</label>
+              <input type="file" name="pdf" accept="application/pdf" class="file-input">
             </div>
-            <h3 class="action-card-title">Add Quiz</h3>
-            <p class="action-card-description">
-              Create interactive quizzes to test student understanding and reinforce learning objectives.
-            </p>
-            <a href="{{ route('quiz.create', ['course' => $course->id ?? 1, 'module' => $moduleNumber ?? 1]) }}" class="action-button">
-              Create Quiz
-            </a>
-          </div>
-        </div>
 
-        <!-- Back Navigation -->
-        <div class="back-navigation">
-          @if(auth()->user()->role === 2)
-            <a href="/admin_panel/manage_resources" class="back-link">
-              <span class="back-arrow">←</span>
-              Back to Home Page
-            </a>
-          @elseif(auth()->user()->role === 3)
-            <a href="/instructor/manage_resources" class="back-link">
-              <span class="back-arrow">←</span>
-              Back to Home Page
-            </a>
-          @endif
-        </div>
+            <button type="submit" class="upload-button">Upload Resources</button>
+          </form>
 
+          <a href="/instructor/manage_resources" class="back-link">
+            ← Back to Manage Resources
+          </a>
+        </div>
       @else
         <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
       @endauth

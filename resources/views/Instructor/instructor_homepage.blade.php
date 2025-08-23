@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Course</title>
+    <title>Instructor Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- Updated font weights to match dashboard exactly (400, 600, 700) -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -112,6 +112,177 @@
             font-weight: 500;
         }
 
+        /* Added notification icon and badge styling */
+        .notification-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .notification-container:hover {
+            background-color: var(--primary-light-hover-bg);
+        }
+
+        .notification-icon {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 9999px;
+            min-width: 1.25rem;
+            height: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Added notification dropdown styling */
+        .notification-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .notification-dropdown.show {
+            display: block;
+        }
+
+        .notification-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .mark-all-read {
+            font-size: 0.75rem;
+            color: var(--text-gray-500);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .mark-all-read:hover {
+            color: var(--primary-color);
+        }
+
+        .notification-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .notification-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item.unread {
+            background-color: #f0f9ff;
+            border-left: 3px solid #10B981;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .notification-icon-wrapper {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .notification-icon-wrapper.course {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .notification-icon-wrapper.user {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .notification-icon-wrapper.system {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .notification-text {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-default);
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--text-gray-500);
+        }
+
+        .no-notifications {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--text-gray-500);
+            font-size: 0.875rem;
+        }
+
         .logout-btn {
             background-color: var(--primary-color);
             color: white;
@@ -124,6 +295,15 @@
 
         .logout-btn:hover {
             opacity: 0.9;
+        }
+          .student {
+          display: inline-block;
+          padding: 8px 16px;
+          background-color: #f9fafb;;
+          color: #0E1B33;
+          text-decoration: none;
+          border-radius: 6px;
+          transition: background-color 0.3s ease;
         }
 
         /* Form Content */
@@ -159,6 +339,7 @@
         .form-group {
             margin-bottom: 18px;
         }
+       
 
         label {
             display: block;
@@ -340,10 +521,51 @@
                 <button class="mobile-menu-btn" onclick="toggleSidebar()">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h1>Add New Course</h1>
+                <h1>Instructor Dashboard</h1>
             </div>
             @auth
                 <div class="user-info">
+                  <a href="/homepage" class="student">Student</a>
+                    <!-- Made notification container clickable with dropdown -->
+                    <div class="notification-container" onclick="toggleNotifications()" title="Notifications">
+                        <i class="fas fa-bell notification-icon"></i>
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <span class="notification-badge" id="notificationCount">{{ auth()->user()->unreadNotifications->count() }}</span>
+                        @endif
+                        
+                        <!-- Added notification dropdown -->
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                @if(auth()->user()->unreadNotifications->count() > 0)
+                                    <a href="#" class="mark-all-read" onclick="markAllAsRead(event)">Mark all as read</a>
+                                @endif
+                            </div>
+                            <div id="notificationList">
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    <div class="notification-item unread">
+                                        <div class="notification-content">
+                                            <div class="notification-icon-wrapper course">
+                                                <i class="fas fa-question-circle"></i>
+                                            </div>
+                                            <div class="notification-text">
+                                                <div class="notification-title">
+                                                    <strong>New Question:</strong> {{ $notification->data['content'] }}
+                                                </div>
+                                                <div class="notification-time">{{ $notification->created_at->diffForHumans() }}</div>
+                                                <a href="{{ route('instructor.notifications.view', $notification->id) }}" style="font-size: 0.75rem; color: var(--primary-color); text-decoration: none;">View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="no-notifications">
+                                        <i class="fas fa-bell-slash" style="font-size: 2rem; color: var(--text-gray-500); margin-bottom: 0.5rem;"></i>
+                                        <p>No new notifications</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
                     <span>{{ auth()->user()->name }}</span>
                     <form action="/logout" method="POST" style="margin: 0;">
                         @csrf
@@ -357,87 +579,6 @@
                 </div>
             @endauth
         </header>
-
-        <!-- Form Content -->
-        <div class="content-area">
-            <div class="form-card">
-                @auth
-                <h2><i class="fas fa-plus-circle" style="color:var(--primary-color);"></i>Add New Course</h2>
-                @if(auth()->user()->role === 2)
-                <form action="/admin/manage_courses/create" method="POST" enctype="multipart/form-data">
-                @elseif(auth()->user()->role === 3)
-                <form action="/instructor/manage_courses/create" method="POST" enctype="multipart/form-data">
-                @endif
-                    @csrf
-                    <div class="form-group">
-                        <label for="image">Course Image <span class="required">*</span></label>
-                        <input type="file" id="image" name="image" accept="image/*" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Course Title <span class="required">*</span></label>
-                        <input type="text" id="title" name="title" placeholder="Enter course title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Course Description</label>
-                        <textarea id="description" name="description" placeholder="Enter course description"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Category <span class="required">*</span></label>
-                        <select id="category" name="category" required>
-                            <option value="">Select Category</option>
-                            <option value="Web Development">Web Development</option>
-                            <option value="Mobile Development">Mobile Development</option>
-                            <option value="Data Science">Data Science</option>
-                            <option value="Machine Learning">Machine Learning</option>
-                            <option value="Design">Design</option>
-                            <option value="Business">Business</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    @if(auth()->user()->role === 2)
-                    <div class="form-group">
-                        <label for="course_instructor">Course Instructor<span class="required">*</span></label>
-                        <input type="number" id="instructor_id" name="instructor_id"  min="1" required>
-                    </div>
-                    @endif
-
-                    <div class="form-group">
-                        <label for="video_count">Number of Videos <span class="required">*</span></label>
-                        <input type="number" id="video_count" name="video_count"  min="1" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="approx_video_length">Approx Video Length (minutes) <span class="required">*</span></label>
-                        <input type="number" id="approx_video_length" name="approx_video_length"  min="1" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="total_duration">Total Duration (hours) <span class="required">*</span></label>
-                        <input type="number" id="total_duration" name="total_duration"  step="0.1" min="0.1" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="price">Price (৳) <span class="required">*</span></label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="course_prerequisite">Course Prerequisite(If any)</label>
-                        <input type="text" id="prerequisite" name="prerequisite">
-                    </div>
-
-                    <button type="submit"><i class="fas fa-save"></i> Save Course</button>
-                </form>
-                @if(auth()->user()->role === 2)
-                <a class="back-link" href="/admin_panel/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
-                @elseif(auth()->user()->role === 3)
-                <a class="back-link" href="/instructor/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
-                @endif
-                @else
-                <p style="text-align:center;color:#DC2626;">You are not logged in. <a href="/" style="color:var(--primary-color);">Go to Login</a></p>
-                @endauth
-            </div>
-        </div>
     </main>
 
     <script>
@@ -445,6 +586,38 @@
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
         }
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function markAllAsRead(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // This would typically make an AJAX call to mark notifications as read
+            // For now, just hide the badge visually
+            const badge = document.getElementById('notificationCount');
+            if (badge) {
+                badge.style.display = 'none';
+            }
+            
+            const notificationItems = document.querySelectorAll('.notification-item.unread');
+            notificationItems.forEach(item => {
+                item.classList.remove('unread');
+            });
+        }
+
+        // Close notification dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const notificationContainer = document.querySelector('.notification-container');
+            const dropdown = document.getElementById('notificationDropdown');
+            
+            if (!notificationContainer.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
 
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(event) {

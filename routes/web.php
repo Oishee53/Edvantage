@@ -1,31 +1,28 @@
 <?php
 
+use App\Models\Courses;
+use App\Models\Instructor;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\UserQuizController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\UserQuizController;
-use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\VideoProgressController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\ResetPasswordControl;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserProgressController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CertificateController;
-
-use Illuminate\Validation\Rules;
-use App\Models\Courses;
-use Barryvdh\DomPDF\Facade\Pdf;
-
-// routes/web.php
-
-
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\VideoProgressController;
 
 Route::get('/', [LandingController::class, 'showLanding']);
 
@@ -36,7 +33,6 @@ Route::post('/logout', function () {
 
 
 
-Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 
 
@@ -55,17 +51,6 @@ Route::controller(ResetPasswordController::class)->group(function () {
     
 });
 
-
-
-
-
-
-
-
-
-
-
-
 Route::middleware('block-login')->group(function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -77,7 +62,7 @@ Route::post('/guest/cart/add', [CartController::class, 'addToGuestCart'])->name(
 Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
 
-Route::middleware(['auth.custom'])->group(function () {
+Route::middleware(['auth','student'])->group(function () {
 
 Route::get('/homepage', function () {
     $user = auth()->user();
@@ -88,6 +73,7 @@ Route::get('/homepage', function () {
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 Route::get('/courses/enrolled', function () {
     return 'Enrolled courses page coming soon!';
@@ -144,12 +130,15 @@ Route::post('/video-progress/save', [VideoProgressController::class, 'save'])->n
 Route::get('/my-progress', [UserProgressController::class, 'index'])->name('user.progress');
 
 Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory'])->name('purchase.history');
-
-Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])->name('certificate.generate');
-
-
- 
+Route::get('/instructor/signup', function(){
+    return view('Instructor.instructor_signup');
+})->name('ins.signup');
+Route::post('/instructor/signup', [InstructorController::class, 'register'])->name('instructor.register');
+Route::post('instructor/payment_setup', [InstructorController::class, 'savePaymentSetup'])->name('instructor.payout.save');
 
 
 
 });
+
+Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
+    ->name('student.questions.show');

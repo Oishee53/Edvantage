@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Module Management</title>
+  <title>Course Review - {{ $course->title ?? 'Course Title' }}</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -18,11 +18,12 @@
       --text-gray-700: #374151;
       --text-gray-500: #6b7280;
       --border-color: #e5e7eb;
-      --edit-bg: #EDF2FC;
-      --edit-text: #0E1B33;
-      --delete-bg: #FEF2F2;
-      --delete-icon: #DC2626;
-      --green-600: #059669;
+      --success-bg: #F0FDF4;
+      --success-color: #059669;
+      --danger-bg: #FEF2F2;
+      --danger-color: #DC2626;
+      --warning-bg: #FFFBEB;
+      --warning-color: #D97706;
     }
 
     body {
@@ -156,8 +157,8 @@
       padding: 2rem;
     }
 
-    /* Module Info Card */
-    .module-info-card {
+    /* Course Info Card */
+    .course-info-card {
       background-color: var(--card-background);
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -165,72 +166,102 @@
       margin-bottom: 2rem;
     }
 
-    .module-info-title {
-      font-size: 1.5rem;
+    .course-title {
+      font-size: 1.75rem;
       font-weight: 600;
       color: var(--primary-color);
       margin-bottom: 1rem;
     }
 
-    .module-info-details {
-      color: var(--text-gray-600);
-      margin-bottom: 1.5rem;
+    .course-status {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background-color: var(--warning-bg);
+      color: var(--warning-color);
     }
 
-    .module-info-details p {
-      margin: 0.5rem 0;
-    }
-
-    /* Action Cards Grid */
-    .actions-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .action-card {
+    /* Modules Section */
+    .modules-section {
       background-color: var(--card-background);
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       padding: 2rem;
-      text-align: center;
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      margin-bottom: 2rem;
     }
 
-    .action-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    .modules-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
     }
 
-    .action-card-icon {
-      width: 4rem;
-      height: 4rem;
-      background-color: var(--edit-bg);
-      border-radius: 50%;
+    .modules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .module-card {
+      background-color: var(--body-background);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      transition: all 0.2s ease-in-out;
+      text-decoration: none;
+      color: inherit;
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin: 0 auto 1rem;
-      color: var(--primary-color);
-      font-size: 1.5rem;
+      justify-content: space-between;
     }
 
-    .action-card-title {
-      font-size: 1.25rem;
+    .module-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .module-number {
+      font-size: 1.125rem;
       font-weight: 600;
       color: var(--primary-color);
       margin-bottom: 0.5rem;
     }
 
-    .action-card-description {
-      color: var(--text-gray-600);
-      margin-bottom: 1.5rem;
+    .module-description {
       font-size: 0.875rem;
+      color: var(--text-gray-600);
     }
 
-    .action-button {
-      background-color: var(--primary-color);
+    /* Action Buttons Section */
+    .actions-section {
+      background-color: var(--card-background);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .actions-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .actions-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-approve {
+      background-color: var(--success-color);
       color: white;
       border: none;
       padding: 0.75rem 1.5rem;
@@ -238,12 +269,32 @@
       font-weight: 500;
       cursor: pointer;
       transition: opacity 0.2s ease-in-out;
-      text-decoration: none;
-      display: inline-block;
       font-family: 'Montserrat', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .action-button:hover {
+    .btn-approve:hover {
+      opacity: 0.9;
+    }
+
+    .btn-reject {
+      background-color: var(--danger-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s ease-in-out;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-reject:hover {
       opacity: 0.9;
     }
 
@@ -287,6 +338,18 @@
     .login-link:hover {
       text-decoration: underline;
     }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-gray-500);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -298,18 +361,11 @@
       <span></span>
     </div>
     <nav class="sidebar-nav">
-      @if(auth()->user()->role === 2)
-        <a href="/admin_panel">Dashboard</a>
-        <a href="/admin_panel/manage_courses">Manage Course</a>
-        <a href="/admin_panel/manage_user">Manage User</a>
-        <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
-         <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
-      @elseif(auth()->user()->role === 3)
-        <a href="/instructor_homepage">Dashboard</a>
-        <a href="/instructor/manage_courses">Manage Course</a>
-        <a href="/instructor/manage_user">Manage User</a>
-        <a href="/instructor/manage_resources" class="active">Manage Resources</a>
-      @endif
+      <a href="/admin_panel">Dashboard</a>
+      <a href="/admin_panel/manage_courses">Manage Course</a>
+      <a href="/admin_panel/manage_user">Manage User</a>
+      <a href="/admin_panel/manage_resources">Manage Resources</a>
+      <a href="/pending-courses" class="active">Manage Pending Courses</a>
     </nav>
   </aside>
 
@@ -317,7 +373,7 @@
   <div class="main-wrapper">
     <!-- Top bar -->
     <header class="top-bar">
-      <h1 class="top-bar-title">Module Management</h1>
+      <h1 class="top-bar-title">Course Review</h1>
       @auth
         <div class="user-info">
           <span>{{ auth()->user()->name }}</span>
@@ -337,60 +393,67 @@
     <!-- Main Content -->
     <section class="main-content">
       @auth
-        <!-- Module Information Card -->
-        <div class="module-info-card">
-          <h2 class="module-info-title">Module {{ $moduleNumber ?? '1' }} Management</h2>
-          <div class="module-info-details">
-            <p><strong>Course:</strong> {{ $course->title ?? 'Sample Course Title' }}</p>
-            <p><strong>Module Number:</strong> {{ $moduleNumber ?? '1' }}</p>
-            <p><strong>Description:</strong> Manage videos, PDFs, and quizzes for this module</p>
+        <!-- Course Information Card -->
+        <div class="course-info-card">
+          <h2 class="course-title">{{ $course->title ?? 'Sample Course Title' }}</h2>
+          <span class="course-status">Pending Review</span>
+          <div style="margin-top: 1rem; color: var(--text-gray-600);">
+            <p><strong>Instructor:</strong> {{ $course->instructor->name ?? 'John Doe' }}</p>
+            <p><strong>Category:</strong> {{ $course->category ?? 'Programming' }}</p>
+            <p><strong>Price:</strong> ${{ number_format($course->price ?? 99.99, 2) }}</p>
           </div>
         </div>
 
-        <!-- Action Cards -->
-        <div class="actions-grid">
-          <!-- Add Video and PDF Card -->
-          <div class="action-card">
-            <div class="action-card-icon">
-              📹
+        <!-- Modules Section -->
+        <div class="modules-section">
+          <h3 class="modules-title">Course Modules</h3>
+          
+          @if(isset($modules) && count($modules) > 0)
+            <div class="modules-list">
+              @foreach ($modules as $index)
+                <a href="##" class="module-card">
+                  <div>
+                    <div class="module-number">Module {{ $index }}</div>
+                    <div class="module-description">Click to view module content and materials</div>
+                  </div>
+                  <div style="color: var(--text-gray-500);">→</div>
+                </a>
+              @endforeach
             </div>
-            <h3 class="action-card-title">Add Video and PDF</h3>
-            <p class="action-card-description">
-              Upload video content and PDF materials for this module to enhance the learning experience.
-            </p>
-            <a href="/admin_panel/manage_resources/{{ $course->id ?? 1 }}/modules/{{ $moduleNumber ?? 1 }}/edit" class="action-button">
-              Add Content
-            </a>
-          </div>
+          @else
+            <div class="empty-state">
+              <div class="empty-state-icon">📚</div>
+              <p>No modules found for this course</p>
+            </div>
+          @endif
+        </div>
 
-          <!-- Add Quiz Card -->
-          <div class="action-card">
-            <div class="action-card-icon">
-              📝
-            </div>
-            <h3 class="action-card-title">Add Quiz</h3>
-            <p class="action-card-description">
-              Create interactive quizzes to test student understanding and reinforce learning objectives.
-            </p>
-            <a href="{{ route('quiz.create', ['course' => $course->id ?? 1, 'module' => $moduleNumber ?? 1]) }}" class="action-button">
-              Create Quiz
-            </a>
+        <!-- Action Buttons Section -->
+        <div class="actions-section">
+          <h3 class="actions-title">Course Review Actions</h3>
+          <div class="actions-buttons">
+            <form action="{{ route('admin.courses.approve', $course->id ?? 1) }}" method="POST" style="display:inline;">
+              @csrf
+              <button type="submit" class="btn-approve">
+                ✓ Approve Course
+              </button>
+            </form>
+
+            <form action="{{ route('admin.courses.reject', $course->id ?? 1) }}" method="POST" style="display:inline;">
+              @csrf
+              <button type="submit" class="btn-reject">
+                ✗ Reject Course
+              </button>
+            </form>
           </div>
         </div>
 
         <!-- Back Navigation -->
         <div class="back-navigation">
-          @if(auth()->user()->role === 2)
-            <a href="/admin_panel/manage_resources" class="back-link">
-              <span class="back-arrow">←</span>
-              Back to Home Page
-            </a>
-          @elseif(auth()->user()->role === 3)
-            <a href="/instructor/manage_resources" class="back-link">
-              <span class="back-arrow">←</span>
-              Back to Home Page
-            </a>
-          @endif
+          <a href="/instructor_homepage" class="back-link">
+            <span class="back-arrow">←</span>
+            Back to Home Page
+          </a>
         </div>
 
       @else

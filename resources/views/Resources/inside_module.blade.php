@@ -200,25 +200,61 @@
                 }
             });
 
-            player.addEventListener('ended', async function () {
-                try {
-                    await fetch('{{ route("video.progress.save") }}', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({
-                            course_id: {{ $course->id }},
-                            resource_id: {{ $resource->id }},
-                            progress_percent: 100
-                        })
-                    });
-                } catch (error) {
-                    console.error('Failed to save completion:', error);
-                }
+        player.addEventListener('ended', async function () {
+            await fetch('{{ route("video.progress.save") }}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    course_id: {{ $course->id }},
+                    resource_id: {{ $resource->id }},
+                    progress_percent: 100
+                })
             });
         });
-    </script>
+    });
+</script>
+
+</div>
+
+        </div>
+
+     
+    @endif
+    @if($resource->pdf)
+        <div style="margin: 20px 0;">
+            <div><strong>PDF Document</strong></div>
+            <a href="{{ route('secure.pdf.view', ['id' => $resource->id]) }}" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                <button>View PDF</button>
+            </a>
+        </div>
+    @endif
+@else
+    <p><em>Please log in to view the video.</em></p>
+@endif
+
+    @if($quiz)
+        <a href="{{ route('user.quiz.start', ['course' => $course->id, 'module' => $moduleNumber]) }}">
+            <button>Take Quiz</button>
+        </a>
+    @else
+        <p>No quiz available for this module.</p>
+    @endif
+    <form action="{{ route('questions.store') }}" method="POST">
+    @csrf
+    <label for="question">Ask Questions</label>
+    <input type="text" id="question" name="question">
+
+    {{-- Hidden fields --}}
+    <input type="hidden" name="course_id" value="{{ $course->id }}">
+    <input type="hidden" name="module_number" value="{{ $moduleNumber }}">
+
+    <button type="submit">Post</button>
+    </form>
+
 </body>
 </html>

@@ -10,7 +10,7 @@
     /* Custom CSS Variables */
     :root {
       --primary-color:  #0E1B33;
-      --primary-light-hover-bg:#2D336B; 
+      --primary-light-hover-bg: #E3E6F3; 
       --body-background: #f9fafb;
       --card-background: #ffffff;
       --text-default: #333;
@@ -30,7 +30,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 16rem; /* w-64 */
+      width: 17.5rem; /* w-64 */
       background-color: var(--card-background);
       min-height: 100vh;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
@@ -65,7 +65,7 @@
 
     .sidebar-nav a:hover {
       background-color: var(--primary-light-hover-bg); /* Changed hover background */
-      color: var(--card-background); /* Text color on hover */
+      color: #0E1B33;; /* Text color on hover */
     }
 
     /* Main content */
@@ -240,6 +240,7 @@
       <a href="/admin_panel/manage_courses">Manage Course</a>
       <a href="/admin_panel/manage_user">Manage User</a>
       <a href="/admin_panel/manage_resources">Manage Resources</a>
+      <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
     </nav>
   </aside>
   <!-- Main content -->
@@ -274,8 +275,8 @@
         <div class="stat-card-value">{{ $totalStudents ?? 3 }}</div>
       </div>
       <div class="stat-card">
-        <div class="stat-card-label">Total Instructors</div>
-        <div class="stat-card-value">{{ $totalInstructors ?? 4 }}</div>
+        <div class="stat-card-label">Pending Courses</div>
+        <div class="stat-card-value">{{ $pendingCoursesCount ?? 0 }}</div>
       </div>
     </div>
     <!-- Graph -->

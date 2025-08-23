@@ -392,40 +392,68 @@
                     <div class="modules-section-header">
                         <h3 class="modules-section-title">Module List</h3>
                     </div>
-                   <div class="modules-list">
-    @foreach ($modules as $module)
-        <div class="module-item">
-            <div class="module-info">
-                <div class="module-title">Module {{ $module['id'] }}</div>
-                <div class="upload-status">
-                    @if($module['uploaded'])
-                        <div class="status-icon status-uploaded">✓</div>
-                        <div class="status-text">Uploaded</div>
-                    @else
-                        <div class="status-icon status-pending">!</div>
-                        <div class="status-text">Pending</div>
-                    @endif
+                    <div class="modules-list">
+                        @foreach ($modules as $module)
+                            @php
+                                $route = route('module.instructor.create', [
+                                    'course' => $course->id,
+                                    'module' => $module['id']
+                                ]);
+                            @endphp
+
+                          <div class="module-item">
+                            <div class="module-info">
+                                <div class="module-title">Module {{ $module['id'] }}</div>
+                                <div class="upload-status">
+                                    @if($module['uploaded'])
+                                        <div class="status-icon status-uploaded">✓</div>
+                                        <div class="status-text">Uploaded</div>
+                                    @else
+                                        <div class="status-icon status-pending">!</div>
+                                        <div class="status-text">Pending</div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <a href="/instructor/manage_resources/{{ $course->id }}/modules/{{ $module['id'] }}/edit" class="module-link">
+                                @if($module['uploaded'])
+                                    Edit Module
+                                @else
+                                    Upload Resources
+                                @endif
+                            </a>
+                        </div>
+
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-
-            {{-- Role-based link --}}
-            @if(auth()->user()->role === 2)
-                <a href="{{ route('module.create', ['course' => $course->id, 'module' => $module['id']]) }}" class="module-link">
-                    {{ $module['uploaded'] ? 'Edit Module' : 'Upload Resources' }}
-                </a>
-            @elseif(auth()->user()->role === 3)
-                <a href="{{ route('quiz.create', ['course' => $course->id, 'module' => $module['id']]) }}" class="module-link">
-                    {{ $module['uploaded'] ? 'Edit Quiz' : 'Upload Quiz' }}
-                </a>
-            @endif
-        </div>
-    @endforeach
-</div>
-
+                <div class="actions-section">
+                    @if($allUploaded)
+                        <a href="{{ $alreadySubmitted ? '#' : route('instructor.manage_resources', ['course' => $course->id]) }}" 
+                        class="submit-btn" 
+                        id="submit-review-btn">
+                            Submit For Review
+                        </a>
+                    @else
+                        <button class="submit-btn" disabled>
+                            Submit For Review (Upload all modules first)
+                        </button>
+                    @endif
                 </div>
             </section>
         </div>
-        
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const submitBtn = document.getElementById('submit-review-btn');
+            
+            @if($alreadySubmitted)
+                submitBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    alert('This course has already been submitted for review!');
+                });
+            @endif
+        });
+</script>
 
     @else
         <div style="width: 100%; display: flex; align-items: center; justify-content: center; min-height: 100vh;">

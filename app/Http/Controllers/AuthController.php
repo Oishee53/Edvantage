@@ -48,7 +48,8 @@ class AuthController extends Controller
 
      if ($user->role === 2) {
         return redirect('/admin_panel'); // Change to your admin dashboard route
-    } else {
+    }
+    else {
         return redirect('/homepage');
     }
 

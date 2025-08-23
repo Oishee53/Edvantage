@@ -7,11 +7,10 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* Replaced Tailwind CSS with custom CSS variables and styles to match Dashboard theme */
     /* Custom CSS Variables */
     :root {
       --primary-color: #0E1B33;
-      --primary-light-hover-bg: #E3E6F3;
+      --primary-light-hover-bg: #2D336B;
       --body-background: #f9fafb;
       --card-background: #ffffff;
       --text-default: #333;
@@ -75,13 +74,13 @@
     }
 
     .sidebar-nav a:hover {
-      background-color: var(--primary-light-hover-bg);
-      color:  #0E1B33;
+      background-color: #E3E6F3;;
+      color: var(--primary-color);
     }
 
     .sidebar-nav a.active {
-      background-color: var(--primary-light-hover-bg);
-      color: #0E1B33;
+      background-color: #E3E6F3;;
+      color: var(--primary-color);
     }
 
     /* Main Content Wrapper */
@@ -195,8 +194,20 @@
     }
 
     .add-course-button:hover {
-      background-color: var(--primary-color);
+      background-color: #0E1B33;
       color: white;
+    }
+
+    /* Section Headers */
+    .section-header {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin: 2rem 0 1rem 0;
+    }
+
+    .section-header:first-of-type {
+      margin-top: 1rem;
     }
 
     /* Table */
@@ -205,6 +216,7 @@
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       overflow-x: auto;
+      margin-bottom: 2rem;
     }
 
     .courses-table {
@@ -329,6 +341,7 @@
       text-align: center;
       color: var(--text-gray-500);
       font-style: italic;
+      padding: 2rem;
     }
 
     .not-logged-in {
@@ -356,11 +369,10 @@
       <span></span>
     </div>
     <nav class="sidebar-nav">
-      <a href="/admin_panel">Dashboard</a>
-      <a href="/admin_panel/manage_courses" class="active">Manage Course</a>
-      <a href="/admin_panel/manage_user">Manage User</a>
-      <a href="/admin_panel/manage_resources">Manage Resources</a>
-      <a href="/pending-courses">Manage Pending Courses</a>
+      <a href="/instructor_homepage">Dashboard</a>
+      <a href="/instructor/manage_courses" class="active">Manage Course</a>
+      <a href="/instructor/manage_user">Manage User</a>
+      <a href="/instructor/manage_resources">Manage Resources</a>
     </nav>
   </aside>
 
@@ -398,6 +410,7 @@
         </form>
       </div>
 
+      <p class="section-header">Approved Courses</p>
       @if(isset($courses) && $courses->isEmpty())
           <p class="no-courses">No courses available.</p>
       @else
@@ -414,7 +427,6 @@
                       <th>Total Duration</th>
                       <th>Price (৳)</th>
                       <th>Added</th>
-                      <th>Actions</th>
                   </tr>
               </thead>
               <tbody>
@@ -437,6 +449,58 @@
                       <td>{{ $course->total_duration }} hrs</td>
                       <td class="course-price">{{ $course->price }}</td>
                       <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                      
+                  </tr>
+                  @endforeach
+              </tbody>
+          </table>
+      </div>
+      @endif
+
+      <p class="section-header">Pending Courses</p>
+      @if(isset($pendingCourses) && $pendingCourses->isEmpty())
+          <p class="no-courses">No pending courses available.</p>
+      @else
+      <div class="table-wrapper">
+          <table class="courses-table">
+              <thead>
+                  <tr>
+                      <th>Image</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Category</th>
+                      <th>Videos</th>
+                      <th>Video Length</th>
+                      <th>Total Duration</th>
+                      <th>Price (৳)</th>
+                      <th>Added</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @foreach($pendingCourses as $course)
+                  <tr>
+                      <td>
+                          @if($course->image)
+                              <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+                          @else
+                              <span class="no-image-text">No image</span>
+                          @endif
+                      </td>
+                      <td>
+                          <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                      </td>
+                      <td class="course-description">{{ $course->description }}</td>
+                      <td>{{ $course->category }}</td>
+                      <td>{{ $course->video_count }}</td>
+                      <td>{{ $course->approx_video_length }} mins</td>
+                      <td>{{ $course->total_duration }} hrs</td>
+                      <td class="course-price">{{ $course->price }}</td>
+                      <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                      <td class="text-green-600 font-semibold">
+                        {{ \App\Models\CourseNotification::where('pending_course_id', $course->id)->exists() ? 'Submitted' : 'Not Submitted' }}
+                      </td>
                       <td>
                         <div class="actions-container">
                           <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET">

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Upload Resources</title>
+  <title>Manage Modules</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -74,12 +74,12 @@
     }
 
     .sidebar-nav a:hover {
-      background-color: #E3E6F3;;
+      background-color: #E3E6F3;
       color: var(--primary-color);
     }
 
     .sidebar-nav a.active {
-      background-color: #E3E6F3;;
+      background-color: #E3E6F3;
       color: var(--primary-color);
     }
 
@@ -156,92 +156,168 @@
       padding: 2rem;
     }
 
-    /* Added upload form specific styles */
-    .upload-form-container {
+    /* Action Buttons Section */
+    .action-buttons-section {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .add-module-button, .view-modules-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      border: none;
+    }
+
+    .add-module-button {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .add-module-button:hover {
+      background-color: var(--primary-light-hover-bg);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14, 27, 51, 0.3);
+    }
+
+    .view-modules-button {
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      background-color: transparent;
+    }
+
+    .view-modules-button:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+    }
+
+    /* Module Stats Cards */
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background-color: var(--card-background);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .stat-card h3 {
+      margin: 0 0 0.5rem 0;
+      color: var(--text-gray-500);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-card .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    /* Recent Activity Section */
+    .recent-activity {
       background-color: var(--card-background);
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      padding: 2rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      display: block;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-    }
-
-    .file-input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px dashed var(--border-color);
-      border-radius: 0.5rem;
-      background-color: #f9fafb;
-      cursor: pointer;
-      transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-    }
-
-    .file-input:hover {
-      border-color: var(--primary-color);
-      background-color: #f3f4f6;
-    }
-
-    .file-input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(14, 27, 51, 0.2);
-    }
-
-    .upload-button {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 0.75rem 2rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.2s ease-in-out;
-      width: 100%;
-      margin-top: 1rem;
-    }
-
-    .upload-button:hover {
-      opacity: 0.9;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: 500;
-      margin-top: 1.5rem;
-      transition: text-decoration 0.2s ease-in-out;
-    }
-
-    .back-link:hover {
-      text-decoration: underline;
+      overflow: hidden;
     }
 
     .section-header {
       font-size: 1.125rem;
       font-weight: 600;
       color: var(--primary-color);
-      margin: 1rem 0 1.5rem 0;
+      margin: 0 0 1.5rem 0;
+      padding: 1.5rem 1.5rem 0 1.5rem;
+    }
+
+    .activity-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .activity-item {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background-color: var(--edit-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 500;
+      color: var(--text-gray-700);
+      margin: 0 0 0.25rem 0;
+    }
+
+    .activity-time {
+      font-size: 0.875rem;
+      color: var(--text-gray-500);
+      margin: 0;
+    }
+
+    /* Welcome Message */
+    .welcome-message {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light-hover-bg) 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
       text-align: center;
+    }
+
+    .welcome-message h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .welcome-message p {
+      margin: 0;
+      opacity: 0.9;
     }
 
     .not-logged-in {
       text-align: center;
       color: var(--text-gray-700);
+      padding: 2rem;
     }
 
     .login-link {
@@ -264,18 +340,10 @@
       <span></span>
     </div>
     <nav class="sidebar-nav">
-       @if(auth()->user()->role === 2)
-                    <a href="/admin_panel">Dashboard</a>
-                    <a href="/admin_panel/manage_courses">Manage Courses</a>
-                    <a href="/admin_panel/manage_user">Manage Users</a>
-                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
-                     <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
-                @elseif(auth()->user()->role === 3)
-                    <a href="/instructor_homepage">Dashboard</a>
-                    <a href="/instructor/manage_courses">Manage Courses</a>
-                    <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
-                @endif
+      <a href="/instructor_homepage">Dashboard</a>
+      <a href="/instructor/manage_courses">Manage Course</a>
+      <a href="/instructor/manage_user">Manage User</a>
+      <a href="/instructor/manage_resources" class="active">Manage Resources</a>
     </nav>
   </aside>
 
@@ -283,7 +351,7 @@
   <div class="main-wrapper">
     <!-- Top bar -->
     <header class="top-bar">
-      <h1 class="top-bar-title">Upload Resources</h1>
+      <h1 class="top-bar-title">Module Management</h1>
       @auth
         <div class="user-info">
           <span>{{ auth()->user()->name }}</span>
@@ -303,30 +371,38 @@
     <!-- Main Content -->
     <section class="main-content">
       @auth
-        <div class="upload-form-container">
-          <h2 class="section-header">Upload Course Resources</h2>
-          
-          <!-- Replaced basic form with styled upload form -->
-          <form method="POST" action="{{ route('upload.resources', [$course->id, $module_id]) }}" enctype="multipart/form-data">
-            @csrf
-
-            <div class="form-group">
-              <label class="form-label">Upload Video:</label>
-              <input type="file" name="video" accept="video/*" class="file-input">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Upload PDF:</label>
-              <input type="file" name="pdf" accept="application/pdf" class="file-input">
-            </div>
-
-            <button type="submit" class="upload-button">Upload Resources</button>
-          </form>
-
-          <a href="/instructor/manage_resources" class="back-link">
-            ← Back to Manage Resources
+        <!-- Action Buttons -->
+        <div class="action-buttons-section">
+          <a href="/instructor/manage_resources/add" class="add-module-button">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Add New Module
+          </a>
+          <a href="/manage_resources/view" class="view-modules-button">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            View All Modules
           </a>
         </div>
+
+        <!-- Module Statistics -->
+        <div class="stats-section">
+          <div class="stat-card">
+            <h3>Total Modules</h3>
+            <p class="stat-number">{{ $totalModules ?? '0' }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Active Modules</h3>
+            <p class="stat-number">{{ $activeModules ?? '0' }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Draft Modules</h3>
+            <p class="stat-number">{{ $draftModules ?? '0' }}</p>
+          </div>
+        </div>
+
       @else
         <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
       @endauth
