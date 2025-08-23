@@ -23,7 +23,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserProgressController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\VideoProgressController;
-use App\Http\Controllers\ForgotPasswordController;
+
 Route::get('/', [LandingController::class, 'showLanding']);
 
 Route::post('/logout', function () {
@@ -137,11 +137,6 @@ Route::post('/instructor/signup', [InstructorController::class, 'register'])->na
 Route::post('instructor/payment_setup', [InstructorController::class, 'savePaymentSetup'])->name('instructor.payout.save');
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin_panel/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-});
-
-Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
 
 });
 

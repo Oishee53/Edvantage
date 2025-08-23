@@ -15,6 +15,7 @@ return new class extends Migration
     $table->id();
     $table->unsignedBigInteger('course_id');
     $table->integer('module_number'); 
+    $table->integer('total_marks'); 
     $table->string('title');
     $table->text('description')->nullable();
     $table->timestamps();
