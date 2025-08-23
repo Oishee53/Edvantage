@@ -33,6 +33,7 @@ public function store(Request $request, $courseId, $moduleNumber)
         'module_number' => $moduleNumber,
         'title' => $request->title,
         'description' => $request->description,
+        'total_marks' => $request->question_count,
     ]);
 
     // 2. Loop through questions

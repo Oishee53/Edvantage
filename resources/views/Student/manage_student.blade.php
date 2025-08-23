@@ -7,104 +7,429 @@
     <title>User Management</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-    
-    <!-- TailwindCSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     
     <style>
+        /* Custom CSS Variables */
+        :root {
+            --primary-color: #0E1B33;
+            --primary-light-hover-bg: #E3E6F3;
+            --body-background: #f9fafb;
+            --card-background: #ffffff;
+            --text-default: #333;
+            --text-gray-600: #4b5563;
+            --text-gray-700: #374151;
+            --text-gray-500: #6b7280;
+            --border-color: #e5e7eb;
+            --edit-bg: #EDF2FC;
+            --edit-text: #0E1B33;
+            --view-bg: #ECFDF5;
+            --view-icon: #16A34A;
+            --delete-bg: #FEF2F2;
+            --delete-icon: #DC2626;
+            --green-600: #059669;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f9fafb;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--body-background);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar - Matching Dashboard Style */
+        .sidebar {
+            width: 17.5rem;
+            background-color: var(--card-background);
+            min-height: 100vh;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .sidebar-header img {
+            height: 2.5rem;
+        }
+
+        .sidebar-nav {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--primary-color);
+        }
+
+        /* Main Content Wrapper - Matching Dashboard Style */
+        .main-wrapper {
+            margin-left: 17.5rem;
+            flex: 1;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        /* Top bar - Matching Dashboard Style */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .top-bar-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info span {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .logout-button, .login-button, .signup-button {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .logout-button, .signup-button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .logout-button:hover, .signup-button:hover {
+            opacity: 0.9;
+        }
+
+        .login-button {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+        }
+
+        .login-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Page Header Section */
+        .page-header {
+            background-color: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .page-header p {
+            color: var(--text-gray-600);
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        /* Action Cards Grid */
+        .action-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background-color: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            transition: box-shadow 0.2s ease-in-out;
+        }
+
+        .action-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .action-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .action-card-icon {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-card-icon.view {
+            background-color: var(--view-bg);
+            color: var(--view-icon);
+        }
+
+        .action-card-icon.edit {
+            background-color: var(--edit-bg);
+            color: var(--edit-text);
+        }
+
+        .action-card-icon i {
+            font-size: 1.25rem;
+        }
+
+        .action-card-content h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .action-card-content p {
+            color: var(--text-gray-600);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        .action-card-button {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: opacity 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .action-card-button:hover {
+            opacity: 0.9;
+        }
+
+        .action-card-button i {
+            font-size: 0.875rem;
+        }
+
+        /* Stats Grid - Matching Dashboard Style */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-card-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-card-label {
+            color: var(--text-gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-card-icon {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-card-icon.users {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--primary-color);
+        }
+
+        .stat-card-icon.enrolled {
+            background-color: var(--view-bg);
+            color: var(--view-icon);
+        }
+
+        .stat-card-icon.new {
+            background-color: var(--edit-bg);
+            color: var(--edit-text);
+        }
+
+        .stat-card-icon i {
+            font-size: 1.25rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 16rem;
+            }
+            
+            .main-wrapper {
+                margin-left: 16rem;
+            }
+
+            .action-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main-wrapper {
+                margin-left: 0;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0E1B33',
-                        primaryLight: '#E3E6F3',
-                        editBg: '#EDF2FC',
-                        editText: '#0E1B33',
-                        viewBg: '#ECFDF5',
-                        viewIcon: '#16A34A',
-                        deleteBg: '#FEF2F2',
-                        deleteIcon: '#DC2626',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    }
-                },
-            },
-        }
-    </script>
 </head>
-<body class="flex min-h-screen">
-
+<body>
     <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
-        <div class="p-6 flex items-center gap-2">
-            <img src="/image/Edvantage.png" class="h-10" alt="Edvantage Logo">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
-        <nav class="mt-8 flex-1">
-            <a href="/admin_panel" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Dashboard</a>
-            <a href="/admin_panel/manage_courses" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Course</a>
-            <a href="/admin_panel/manage_user" class="block py-3 px-6 text-primary bg-primaryLight font-semibold">Manage User</a>
-            <a href="#" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Resources</a>
+        <nav class="sidebar-nav">
+            <a href="/admin_panel">Dashboard</a>
+            <a href="/admin_panel/manage_courses">Manage Course</a>
+            <a href="/admin_panel/manage_user" class="active">Manage User</a>
+            <a href="/admin_panel/manage_resources">Manage Resources</a>
+            <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
         </nav>
     </aside>
 
-    <!-- Main content -->
-    <main class="flex-1 flex flex-col">
-        <!-- Top bar -->
-        <header class="flex justify-between items-center px-8 py-4 bg-white border-b border-gray-200">
-            <h1 class="text-2xl font-bold text-primary">User Management</h1>
-            @auth
-                <div class="flex items-center space-x-4">
-                    <span class="text-primary font-medium">{{ auth()->user()->name }}</span>
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button class="bg-primary text-white px-3 py-2 rounded hover:bg-opacity-90">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            @else
-                <div class="flex gap-2">
-                    <a href="/login" class="border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLight">Login</a>
-                    <a href="/register" class="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90">Sign Up</a>
-                </div>
-            @endauth
-        </header>
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top bar -->
+            <div class="top-bar">
+                <div class="top-bar-title">User Management</div>
+                @auth
+                    <div class="user-info">
+                        <span>{{ auth()->user()->name }}</span>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            @csrf
+                            <button class="logout-button">Logout</button>
+                        </form>
+                    </div>
+                @else
+                    <div class="auth-buttons">
+                        <a href="/login" class="login-button">Login</a>
+                        <a href="/register" class="signup-button">Sign Up</a>
+                    </div>
+                @endauth
+            </div>
 
-        <!-- Main Content Area -->
-        <section class="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-            <!-- Page Title and Description -->
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-semibold text-primary mb-2">Student Management</h2>
-                <p class="text-gray-600">Manage and view student information and enrollments</p>
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>Student Management</h2>
+                <p>Manage and view student information and enrollments</p>
             </div>
 
             <!-- Action Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="action-cards-grid">
                 <!-- View Enrolled Students Card -->
-                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-viewBg p-3 rounded-lg mr-4">
-                            <i class="fas fa-user-graduate text-viewIcon text-xl"></i>
+                <div class="action-card">
+                    <div class="action-card-header">
+                        <div class="action-card-icon view">
+                            <i class="fas fa-user-graduate"></i>
                         </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-primary">Enrolled Students</h3>
-                            <p class="text-gray-600 text-sm">View students who are enrolled in courses</p>
+                        <div class="action-card-content">
+                            <h3>Enrolled Students</h3>
+                            <p>View students who are enrolled in courses</p>
                         </div>
                     </div>
                     <form action="/admin_panel/manage_user/view_enrolled_student" method="GET">
-                        <button type="submit" class="w-full bg-primary text-white px-4 py-3 rounded-lg hover:bg-opacity-90 transition-colors font-medium flex items-center justify-center gap-2">
+                        <button type="submit" class="action-card-button">
                             <i class="fas fa-eye"></i>
                             View Enrolled Students
                         </button>
@@ -112,18 +437,18 @@
                 </div>
 
                 <!-- View All Students Card -->
-                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-editBg p-3 rounded-lg mr-4">
-                            <i class="fas fa-users text-editText text-xl"></i>
+                <div class="action-card">
+                    <div class="action-card-header">
+                        <div class="action-card-icon edit">
+                            <i class="fas fa-users"></i>
                         </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-primary">All Students</h3>
-                            <p class="text-gray-600 text-sm">View complete list of all registered students</p>
+                        <div class="action-card-content">
+                            <h3>All Students</h3>
+                            <p>View complete list of all registered students</p>
                         </div>
                     </div>
                     <form action="/admin_panel/manage_user/view_all_student" method="GET">
-                        <button type="submit" class="w-full bg-primary text-white px-4 py-3 rounded-lg hover:bg-opacity-90 transition-colors font-medium flex items-center justify-center gap-2">
+                        <button type="submit" class="action-card-button">
                             <i class="fas fa-list"></i>
                             View All Students
                         </button>
@@ -132,45 +457,44 @@
             </div>
 
             <!-- Quick Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <div class="text-gray-600 text-sm">Total Students</div>
-                            <div class="text-2xl font-bold text-primary">{{ $totalStudents ?? 156 }}</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-content">
+                        <div class="stat-card-info">
+                            <div class="stat-card-label">Total Students</div>
+                            <div class="stat-card-value">{{ $totalStudents ?? 156 }}</div>
                         </div>
-                        <div class="bg-primaryLight p-3 rounded-lg">
-                            <i class="fas fa-users text-primary text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <div class="text-gray-600 text-sm">Enrolled Students</div>
-                            <div class="text-2xl font-bold text-primary">{{ $enrolledStudents ?? 89 }}</div>
-                        </div>
-                        <div class="bg-viewBg p-3 rounded-lg">
-                            <i class="fas fa-user-graduate text-viewIcon text-xl"></i>
+                        <div class="stat-card-icon users">
+                            <i class="fas fa-users"></i>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <div class="text-gray-600 text-sm">New This Month</div>
-                            <div class="text-2xl font-bold text-primary">{{ $newStudents ?? 12 }}</div>
+                <div class="stat-card">
+                    <div class="stat-card-content">
+                        <div class="stat-card-info">
+                            <div class="stat-card-label">Enrolled Students</div>
+                            <div class="stat-card-value">{{ $enrolledStudents ?? 89 }}</div>
                         </div>
-                        <div class="bg-editBg p-3 rounded-lg">
-                            <i class="fas fa-user-plus text-editText text-xl"></i>
+                        <div class="stat-card-icon enrolled">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-content">
+                        <div class="stat-card-info">
+                            <div class="stat-card-label">New This Month</div>
+                            <div class="stat-card-value">{{ $newStudents ?? 12 }}</div>
+                        </div>
+                        <div class="stat-card-icon new">
+                            <i class="fas fa-user-plus"></i>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
-
+        </main>
+    </div>
 </body>
 </html>

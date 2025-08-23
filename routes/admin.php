@@ -49,12 +49,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin_panel/manage_courses/edit-list', [CourseController::class,'editList']);
 
-
-    // Manage Resources
-    Route::get('/admin_panel/manage_resources', function () {
-        return view('Resources.manage_resources');
-    });
-    Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
+    Route::get('/admin_panel/manage_resources', [ResourceController::class,'viewCourses']);
     
 
 
