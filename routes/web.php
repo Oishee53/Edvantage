@@ -145,29 +145,10 @@ Route::get('/my-progress', [UserProgressController::class, 'index'])->name('user
 
 Route::get('/purchase-history', [EnrollmentController::class, 'purchaseHistory'])->name('purchase.history');
 
-
-
-
-
-Route::get('/certificate/{userId}/{courseId}/{avgScore}', [CertificateController::class, 'generate1']);
-
-
-  Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])->name('certificate.generate');
+Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])->name('certificate.generate');
 
 
  
-
-Route::get('/certificate/check/{course}', [CertificateController::class, 'check']);
- 
-
-Route::get('/certificate/download/{course}', function ($courseId) {
-    $user = auth()->user();
-    $certificate = \App\Models\Certificate::where('user_id', $user->id)
-        ->where('course_id', $courseId)
-        ->firstOrFail();
-
-    return Storage::download('public/' . $certificate->certificate_path);
-});
 
 
 

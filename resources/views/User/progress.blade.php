@@ -79,19 +79,7 @@
    🎓 Download Certificate
 </a>
 @endif
-
-
-<pre>
-Completion: {{ $progress['completion_percentage'] }}%
-Avg percentage: {{ $progress['average_percentage'] }}
-</pre>
-
-
-
-
-
-
-            </div>
+</div>
         </div>
     @empty
         <p class="text-muted">You are not enrolled in any courses yet.</p>
