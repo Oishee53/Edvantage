@@ -51,17 +51,6 @@ Route::controller(ResetPasswordController::class)->group(function () {
     
 });
 
-
-
-
-
-
-
-
-
-
-
-
 Route::middleware('block-login')->group(function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

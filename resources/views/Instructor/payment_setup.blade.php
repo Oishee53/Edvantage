@@ -28,7 +28,7 @@
       <!-- Cardholder Name -->
       <div>
         <label class="block text-gray-700 font-medium mb-1">Cardholder Name</label>
-        <input type="text" name="cardholder_name" placeholder="As per bank records" required
+        <input type="text" name="card_holder_name" placeholder="As per bank records" required
                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
       </div>
 
@@ -52,12 +52,17 @@
                  class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
       </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Bank Name (Optional)</label>
+        <input type="text" name="bank_name" placeholder="e.g., City Bank, HSBC"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+      </div>
 
       <!-- CVV -->
       <div>
         <label class="block text-gray-700 font-medium mb-1">CVV</label>
         <input type="password" name="cvv" maxlength="3" placeholder="3-digit code" required
-               class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
       </div>
 
       <!-- Submit -->

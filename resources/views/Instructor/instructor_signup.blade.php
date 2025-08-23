@@ -14,15 +14,6 @@
     <form action="{{ route('instructor.register') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
       @csrf
 
-      <!-- Profile Image -->
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Profile Image</label>
-        <input type="file" name="profile_picture" accept="image/*" required
-               class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        @error('profile_image')
-          <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
-      </div>
 
       <!-- Area of Expertise -->
       <div>

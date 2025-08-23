@@ -46,10 +46,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/manage_courses/create', [CourseController::class, 'store']);
     Route::get('/admin_panel/manage_courses/view-list', [CourseController::class, 'viewAll']);
     Route::get('/admin_panel/manage_courses/delete-course', [CourseController::class, 'deleteCourse']);
-    Route::delete('/admin_panel/manage_courses/delete-course/{id}', [CourseController::class, 'destroy']);
+
     Route::get('/admin_panel/manage_courses/edit-list', [CourseController::class,'editList']);
-    Route::get('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'editCourse']);
-    Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'update']);
+
 
     // Manage Resources
     Route::get('/admin_panel/manage_resources', function () {
@@ -103,8 +102,11 @@ Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadControll
         return view('Resources.viewVideo');
     });
     
-
-
+    Route::get('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'editCourse']);
+    Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'update']);
+    Route::delete('/admin_panel/manage_courses/delete-course/{id}', [CourseController::class, 'destroy']);
+        Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
+    Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class, 'store'])->name('quiz.store');
 // ===================
 // Instructor Routes
 // ===================
@@ -120,7 +122,7 @@ Route::get('/instructor/manage_courses', function () {
     $pendingCourses = PendingCourses::where('instructor_id', $instructorId)->get();
     return view('Instructor.instructor_manage_courses', compact('courses','pendingCourses','instructorId'));
 });
- Route::post('/instructor/resources/{course_id}/modules/{module_id}/upload', [PendingCourseController::class, 'handleUpload'])->name('upload.instructor.resources');
+Route::post('/instructor/resources/{course_id}/modules/{module_id}/upload', [PendingCourseController::class, 'handleUpload'])->name('upload.instructor.resources');
 Route::get('/instructor/courses/{course}/modules/{module}/module/create', [PendingCourseController::class, 'addModule'])->name('module.instructor.create');
 
 Route::get('/instructor/manage_resources', function () {

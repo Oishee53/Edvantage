@@ -4,124 +4,122 @@
     <meta charset="UTF-8">
     <title>Add New Course</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Updated font weights to match dashboard exactly (400, 600, 700) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <style>
+        /* Updated CSS variables to match dashboard exactly */
         :root {
-            --primary: #0E1B33;
-            --primary-light: #E3E6F3;
-            --primary-dark: #0A1426;
-            --danger: #DC2626;
-            --bg: #f9fafb;
-            --card-bg: #fff;
-            --card-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
-            --input-border: #E3E6F3;
-            --input-focus: #0E1B33;
-            --sidebar-width: 256px;
+            --primary-color: #0E1B33;
+            --primary-light-hover-bg: #E3E6F3;
+            --body-background: #f9fafb;
+            --card-background: #ffffff;
+            --text-default: #333;
+            --text-gray-600: #4b5563;
+            --text-gray-700: #374151;
+            --text-gray-500: #6b7280;
+            --border-color: #e5e7eb;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 17px; }
+        
+        /* Updated body to use flex layout like dashboard */
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg);
-            color: #1e293b;
-            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--body-background);
+            margin: 0;
             display: flex;
+            min-height: 100vh;
         }
 
-        /* Sidebar Styles */
+        /* Updated sidebar to match dashboard exactly - removed fixed positioning */
         .sidebar {
-            width: var(--sidebar-width);
-            background: white;
-            border-right: 1px solid #e5e7eb;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            z-index: 1000;
+            width: 17.5rem;
+            background-color: var(--card-background);
+            min-height: 100vh;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .sidebar-header {
-            padding: 24px;
+            padding: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #e5e7eb;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.25rem;
         }
 
         .sidebar-header img {
-            height: 40px;
+            height: 2.5rem;
         }
 
+        /* Updated sidebar nav spacing to match dashboard */
         .sidebar-nav {
-            margin-top: 32px;
-            flex: 1;
+            margin-top: 2.5rem;
         }
 
         .sidebar-nav a {
             display: block;
-            padding: 12px 24px;
-            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.2s;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
         }
 
         .sidebar-nav a:hover {
-            background: var(--primary-light);
+            background-color: var(--primary-light-hover-bg);
+            color: #0E1B33;
         }
 
         .sidebar-nav a.active {
-            background: var(--primary-light);
+            background-color: var(--primary-light-hover-bg);
+            color: #0E1B33;
             font-weight: 600;
         }
 
-        /* Main Content */
+        /* Updated main content to use flex-1 like dashboard, removed margin-left */
         .main-content {
-            margin-left: var(--sidebar-width);
             flex: 1;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
         }
 
-        /* Top Header */
+        /* Updated top header to match dashboard top-bar styling */
         .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 32px;
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
         }
 
         .top-header h1 {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-weight: 400;
+            color: var(--primary-color);
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 1rem;
         }
 
         .user-info span {
-            color: var(--primary);
+            color: var(--primary-color);
             font-weight: 500;
         }
 
         .logout-btn {
-            background: var(--primary);
+            background-color: var(--primary-color);
             color: white;
-            padding: 8px 12px;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
-            font-weight: 500;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s ease-in-out;
         }
 
         .logout-btn:hover {
@@ -131,17 +129,16 @@
         /* Form Content */
         .content-area {
             flex: 1;
-            padding: 32px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
         }
 
         .form-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            padding: 32px 32px 28px 32px;
+            background: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
             min-width: 400px;
             max-width: 520px;
             width: 100%;
@@ -149,13 +146,13 @@
         }
 
         .form-card h2 {
-            font-size: 1.1rem;
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 22px;
+            font-size: 1.125rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
             justify-content: center;
         }
 
@@ -168,11 +165,11 @@
             margin-bottom: 6px;
             font-size: 0.9rem;
             font-weight: 600;
-            color: var(--primary);
+            color: var(--primary-color);
         }
 
         .required {
-            color: var(--danger);
+            color: #DC2626;
             font-size: 1em;
         }
 
@@ -184,26 +181,26 @@
             width: 100%;
             padding: 8px 10px;
             border-radius: 8px;
-            border: 1.5px solid var(--input-border);
+            border: 1.5px solid #E3E6F3;
             background: #f8fafc;
             font-size: 0.85rem;
-            color: #222;
+            color: var(--text-default);
             font-family: inherit;
             transition: border 0.18s, box-shadow 0.18s;
             box-shadow: 0 1.5px 8px rgba(14, 27, 51, 0.03);
         }
 
         input[type="file"] {
-            background: #fff;
+            background: var(--card-background);
             font-size: 0.85rem;
         }
 
         input:focus,
         textarea:focus,
         select:focus {
-            border: 1.5px solid var(--input-focus);
-            outline: 2px solid var(--input-focus);
-            background: #fff;
+            border: 1.5px solid #0E1B33;
+            outline: 2px solid #0E1B33;
+            background: var(--card-background);
             box-shadow: 0 0 0 2px rgba(14, 27, 51, 0.07);
         }
 
@@ -216,7 +213,7 @@
             width: 100%;
             padding: 10px 0;
             font-size: 0.9rem;
-            background: var(--primary);
+            background: var(--primary-color);
             color: #fff;
             font-weight: 700;
             border: none;
@@ -234,14 +231,14 @@
 
         button[type="submit"]:hover,
         button[type="submit"]:focus {
-            background: var(--primary-dark);
+            background: #0A1426;
             transform: translateY(-1px) scale(1.01);
         }
 
         .back-link {
             display: inline-block;
             margin-top: 14px;
-            color: var(--primary);
+            color: var(--primary-color);
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 500;
@@ -250,23 +247,36 @@
         }
 
         .back-link:hover {
-            color: var(--primary-dark);
+            color: #0A1426;
             text-decoration: underline;
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
             .sidebar {
-                transform: translateX(-100%);
+                width: 100%;
+                min-height: auto;
+                order: 2;
+                transform: translateY(100%);
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
                 transition: transform 0.3s;
             }
             
             .sidebar.open {
-                transform: translateX(0);
+                transform: translateY(0);
             }
             
             .main-content {
-                margin-left: 0;
+                order: 1;
+                padding: 1rem;
             }
             
             .mobile-menu-btn {
@@ -274,12 +284,12 @@
                 background: none;
                 border: none;
                 font-size: 1.2rem;
-                color: var(--primary);
+                color: var(--primary-color);
                 cursor: pointer;
             }
             
             .form-card {
-                padding: 18px 20px 16px 20px;
+                padding: 1rem;
                 min-width: 0;
                 max-width: 98vw;
                 font-size: 0.85rem;
@@ -289,8 +299,9 @@
             label, input, select, textarea, .back-link { font-size: 0.8rem; }
             button[type="submit"] { font-size: 0.85rem; }
             
-            .content-area {
-                padding: 16px;
+            .top-header {
+                padding: 0;
+                margin-bottom: 1rem;
             }
         }
 
@@ -318,7 +329,6 @@
                 <a href="/instructor/manage_user">Manage User</a>
                 <a href="/instructor/manage_resources">Manage Resources</a>
             @endif
-            
         </nav>
     </aside>
 
@@ -342,8 +352,8 @@
                 </div>
             @else
                 <div style="display: flex; gap: 8px;">
-                    <a href="/login" style="border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 4px; text-decoration: none;">Login</a>
-                    <a href="/register" style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none;">Sign Up</a>
+                    <a href="/login" style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 8px 16px; border-radius: 4px; text-decoration: none;">Login</a>
+                    <a href="/register" style="background: var(--primary-color); color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none;">Sign Up</a>
                 </div>
             @endauth
         </header>
@@ -352,7 +362,7 @@
         <div class="content-area">
             <div class="form-card">
                 @auth
-                <h2><i class="fas fa-plus-circle" style="color:var(--primary);"></i>Add New Course</h2>
+                <h2><i class="fas fa-plus-circle" style="color:var(--primary-color);"></i>Add New Course</h2>
                 @if(auth()->user()->role === 2)
                 <form action="/admin/manage_courses/create" method="POST" enctype="multipart/form-data">
                 @elseif(auth()->user()->role === 3)
@@ -424,7 +434,7 @@
                 <a class="back-link" href="/instructor/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
                 @endif
                 @else
-                <p style="text-align:center;color:#DC2626;">You are not logged in. <a href="/" style="color:#0E1B33;">Go to Login</a></p>
+                <p style="text-align:center;color:#DC2626;">You are not logged in. <a href="/" style="color:var(--primary-color);">Go to Login</a></p>
                 @endauth
             </div>
         </div>
