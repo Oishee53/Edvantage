@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Courses;
 use Illuminate\Http\Request;
+use App\Models\PendingCourses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -91,11 +92,19 @@ public function deleteCourse()
 }
 public function destroy($id)
 {
-    $course = Courses::findOrFail($id);
+    // Try to find in Courses
+    $course = Courses::find($id);
+
+    // If not found, try PendingCourses
+    if (!$course) {
+        $course = PendingCourses::findOrFail($id);
+    }
+
     $course->delete();
-    
+
     return redirect('/admin_panel/manage_courses')->with('success', 'Course deleted successfully');
 }
+
 public function editList()
 {
     $courses = Courses::all();
@@ -103,12 +112,12 @@ public function editList()
 }
 public function editCourse($id)
 {
-    $course = Courses::findOrFail($id);
+    $course = Courses::find($id) ?? PendingCourses::findOrFail($id);
     return view('courses.edit_course', compact('course'));
 }
 public function update(Request $request, $id) 
 {
-    $course = Courses::findOrFail($id);
+    $course = Courses::find($id) ?? PendingCourses::findOrFail($id);
     $request->validate([
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'title' => 'required|string|max:255',
@@ -137,9 +146,13 @@ public function update(Request $request, $id)
         $updateData['image'] = $request->file('image')->store('course_images', 'public');
     }
     $course->update($updateData);
-    
-    return redirect('/admin_panel/manage_courses/edit-list')
-           ->with('success', 'Course updated successfully!');
+    $user = auth()->user();
+    if ($user->role === 2) {
+    return redirect('/admin_panel/manage_courses')
+           ->with('success', 'Course updated successfully!');}
+    elseif ($user->role === 3) {
+    return redirect('/instructor/manage_courses')
+           ->with('success', 'Course updated successfully!');}
 }
 
 

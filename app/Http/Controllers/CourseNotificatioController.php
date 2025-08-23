@@ -18,13 +18,16 @@ class CourseNotificatioController extends Controller
         $course = PendingCourses::findOrFail($courseId);
 
         // create notification entry
-        CourseNotification::create([
-            'pending_course_id' => $course->id,
-            'instructor_id'     => $course->instructor_id,
-            'status'            => 'pending', // not approved yet, just submitted
-            'is_read'           => false,
-        ]);
-
+        CourseNotification::updateOrCreate(
+    [
+        'pending_course_id' => $course->id, // condition to find existing record
+    ],
+    [
+        'instructor_id' => $course->instructor_id,
+        'status'        => 'pending', // not approved yet
+        'is_read'       => false,
+    ]
+);
         return redirect('/instructor_homepage')
                          ->with('success', 'Course submitted for review successfully.');
     }
@@ -68,11 +71,11 @@ class CourseNotificatioController extends Controller
             ]);
 
             // 2. Move resources
-            $pendingResources = PendingResources::where('pending_course_id', $course_id)->get();
+            $pendingResources = PendingResources::where('courseId', $course_id)->get();
 
             foreach ($pendingResources as $res) {
                 Resource::create([
-                    'course_id' => $course->id,
+                    'courseId' => $course->id,
                     'moduleId' => $res->moduleId,
                     'videos' => $res->videos,
                     'pdf' => $res->pdf,
@@ -80,14 +83,14 @@ class CourseNotificatioController extends Controller
             }
 
             // 3. Remove from pending tables
-            PendingResources::where('pending_course_id', $course_id)->delete();
+            PendingResources::where('courseId', $course_id)->delete();
             PendingCourses::findOrFail($course_id)->delete();
 
             // 4. Update course notification
             $notification = CourseNotification::where('pending_course_id', $course_id)->first();
             if ($notification) {
                 $notification->update([
-                    'status' => 'approved',
+                    'status' => 'accepted',
                     'is_read' => false
                 ]);
             }

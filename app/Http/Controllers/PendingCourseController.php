@@ -12,7 +12,11 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class PendingCourseController extends Controller
 {
-    public function store(Request $request)
+ public function create()
+{
+    return view('courses.create_course');
+}
+public function store(Request $request)
 {
     $user = auth()->user();
 
@@ -28,10 +32,6 @@ class PendingCourseController extends Controller
     'price' => 'required|numeric',
     'prerequisite' => 'nullable|string|max:255',
 ];
-
-    if ($user->role === 2) {
-        $rules['instructor_id'] = 'required|exists:users,id';
-    }
 
     $request->validate($rules);
     // Handle image upload
@@ -54,51 +54,53 @@ class PendingCourseController extends Controller
         'instructor_id' => $instructorId,
         'prerequisite' => $request->prerequisite,
     ]);
-   return match($user->role) {
-        2 => redirect('/admin_panel/manage_courses')->with('success', 'Course added successfully!'),
-        3 => redirect('/instructor/manage_courses')->with('success', 'Course added successfully!'),
-        default => redirect('/')->with('info', 'Course added.'),
-    };
+   return redirect('/instructor/manage_courses')->with('success', 'Course added successfully!');
 }
-    public function showModules($course_id)
-    {
+public function showModules($course_id)
+{
     $course = PendingCourses::findOrFail($course_id);
-    $uploadedModules = DB::table('pending_resources')
-    ->where('courseId', $course_id)   // use your actual column name
-    ->pluck('moduleId')
-    ->toArray();
 
-$allUploaded = true;
-for ($i = 1; $i <= $course->video_count; $i++) {
-    if (!in_array($i, $uploadedModules)) {
-        $allUploaded = false;
-        break;
-    }
-   }
-    $modules = range(1, $course->video_count); 
-    return view('Instructor.show_modules', compact('course', 'modules', 'allUploaded'));
+    // Get all module IDs that have at least one resource for this course
+    $uploadedModuleIds = DB::table('pending_resources')
+        ->where('courseId', $course_id)
+        ->pluck('moduleId')        // [2, 4, 4, 7, ...]
+        ->unique()                 // de-dupe
+        ->map(fn ($id) => (int) $id)
+        ->values()
+        ->all();
+
+    $modules = [];
+    $allUploaded = true;
+    $alreadySubmitted = \App\Models\CourseNotification::where('pending_course_id', $course->id)->exists();
+
+    for ($i = 1; $i <= (int) $course->video_count; $i++) {
+        $isUploaded = in_array($i, $uploadedModuleIds, true);
+
+        $modules[] = [
+            'id'       => $i,
+            'uploaded' => $isUploaded,
+        ];
+
+        if (!$isUploaded) {
+            $allUploaded = false;
+        }
     }
 
-    public function editModule($course_id, $module_id){
+    return view('Instructor.show_modules', compact('course', 'modules', 'allUploaded','alreadySubmitted'));
+}
+
+public function editModule($course_id, $module_id){
     $course = PendingCourses::findOrFail($course_id);
+    $moduleExists = PendingResources::where('courseId', $course_id)
+        ->where('moduleId', $module_id)
+        ->exists();
 
     if ($module_id < 1 || $module_id > $course->video_count) {
         abort(404); 
     }
 
-    return view('Instructor.edit_module', compact('course', 'module_id'));
+    return view('Instructor.edit_module', compact('course', 'module_id','moduleExists'));
 }
-public function addModule(Request $request){
-    $courseId = $request->course;
-    $moduleNumber = $request->module;
-
-    $course = PendingCourses::findOrFail($courseId);
-
-    return view('Instructor.module_management', [
-        'course' => $course,
-        'moduleNumber' => $moduleNumber,
-    ]);
-    }
     private function uploadVideoToCloudinary($videoFile, $course_id, $module_id)
     {
         $result = Cloudinary::uploadApi()->upload($videoFile->getRealPath(), [
@@ -225,7 +227,8 @@ public function addModule(Request $request){
             return back()->withErrors(['database' => 'Failed to save resource: ' . $e->getMessage()]);
         }
 
-        return back()->with('success', 'Resources uploaded successfully!');
+        return redirect("/instructor/manage_resources/{$course_id}/modules")
+       ->with('success', 'Resources uploaded successfully!');
     }
  
 }

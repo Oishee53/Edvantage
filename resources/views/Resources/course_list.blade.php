@@ -2,92 +2,424 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Edit Courses</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Custom CSS Variables */
+        :root {
+            --primary-color: #0E1B33;
+            --primary-light-hover-bg: #2D336B;
+            --body-background: #f9fafb;
+            --card-background: #ffffff;
+            --text-default: #333;
+            --text-gray-600: #4b5563;
+            --text-gray-700: #374151;
+            --text-gray-500: #6b7280;
+            --border-color: #e5e7eb;
+            --edit-bg: #EDF2FC;
+            --edit-text: #0E1B33;
+            --delete-bg: #FEF2F2;
+            --delete-icon: #DC2626;
+            --green-600: #059669;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--body-background);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 16rem;
+            background-color: var(--card-background);
+            min-height: 100vh;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .sidebar-header img {
+            height: 2.5rem;
+        }
+
+        .sidebar-nav {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #E3E6F3;
+            color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active {
+            background-color: #E3E6F3;
+            color: var(--primary-color);
+        }
+
+        /* Main Content Wrapper */
+        .main-wrapper {
+            margin-left: 16rem;
+            flex: 1;
+        }
+
+        /* Top bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--card-background);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .top-bar-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info span {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .logout-button, .login-button {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .logout-button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .logout-button:hover {
+            opacity: 0.9;
+        }
+
+        .login-button {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+        }
+
+        .login-button:hover {
+            background-color: var(--primary-light-hover-bg);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 0 1.5rem 0;
+        }
+
+        /* Course Tables */
+        .course-section {
+            background-color: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .course-section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .course-table th {
+            background-color: var(--edit-bg);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-gray-700);
+        }
+
+        .course-table tr:hover {
+            background-color: var(--body-background);
+        }
+
+        .course-table a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .course-table a:hover {
+            color: var(--primary-light-hover-bg);
+            text-decoration: underline;
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-gray-500);
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+            margin-top: 2rem;
+        }
+
+        .back-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+        }
+
+        /* Not logged in state */
+        .not-logged-in {
+            text-align: center;
+            color: var(--text-gray-700);
+            padding: 2rem;
+        }
+
+        .login-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: text-decoration 0.2s ease-in-out;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     @auth
-        <h2>Manage Resources</h2>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="/image/Edvantage.png" alt="Edvantage Logo">
+                <span></span>
+            </div>
+            <nav class="sidebar-nav">
+                @if(auth()->user()->role === 2)
+                    <a href="/admin_panel">Dashboard</a>
+                    <a href="/admin_panel/manage_courses">Manage Courses</a>
+                    <a href="/admin_panel/manage_user">Manage Users</a>
+                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
+                     <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
+                @elseif(auth()->user()->role === 3)
+                    <a href="/instructor_homepage">Dashboard</a>
+                    <a href="/instructor/manage_courses">Manage Courses</a>
+                    <a href="/instructor/manage_user">Manage Users</a>
+                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
+                @endif
+            </nav>
+        </aside>
 
-        {{-- Approved Courses --}}
-        <h3>Approved Courses</h3>
-        @if($courses->isEmpty())
-            <p>No courses available.</p>
-        @else
-            <table border="1" cellpadding="8">
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Videos</th>
-                    <th>Video Length</th>
-                    <th>Total Duration</th>
-                    <th>Price (৳)</th>
-                    <th>Added</th>
-                </tr>
-                @foreach($courses as $course)
-                    <tr>
-                        <td>
-                            <a href="{{ url("/admin_panel/manage_resources/{$course->id}/modules") }}">
-                                {{ $course->title }}
-                            </a>
-                        </td>
-                        <td>{{ $course->description }}</td>
-                        <td>{{ $course->video_count }}</td>
-                        <td>{{ $course->approx_video_length }} mins</td>
-                        <td>{{ $course->total_duration }} hrs</td>
-                        <td>{{ $course->price }}</td>
-                        <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-                    </tr>
-                @endforeach
-            </table>
-        @endif
+        <!-- Main Content Wrapper -->
+        <div class="main-wrapper">
+            <!-- Top bar -->
+            <header class="top-bar">
+                <h1 class="top-bar-title">Manage Resources</h1>
+                <div class="user-info">
+                    <span>{{ auth()->user()->name }}</span>
+                    <form action="/logout" method="POST" style="display: inline;">
+                        @csrf
+                        <button class="logout-button">Logout</button>
+                    </form>
+                </div>
+            </header>
 
-        <br>
-        @if(auth()->user()->role === 3)
-        {{-- Pending Courses --}}
-        <h3>Pending Courses</h3>
-        @if($pendingCourses->isEmpty())
-            <p>No courses available.</p>
-        @else
-            <table border="1" cellpadding="8">
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Videos</th>
-                    <th>Video Length</th>
-                    <th>Total Duration</th>
-                    <th>Price (৳)</th>
-                    <th>Added</th>
-                </tr>
-                @foreach($pendingCourses as $course)
-                    <tr>
-                        <td>
-                            <a href="{{ url("/instructor/manage_resources/{$course->id}/modules") }}">
-                                {{ $course->title }}
-                            </a>
-                        </td>
-                        <td>{{ $course->description }}</td>
-                        <td>{{ $course->video_count }}</td>
-                        <td>{{ $course->approx_video_length }} mins</td>
-                        <td>{{ $course->total_duration }} hrs</td>
-                        <td>{{ $course->price }}</td>
-                        <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-                    </tr>
-                @endforeach
-            </table>
-            @endif
-        @endif
+            <!-- Main Content -->
+            <section class="main-content">
+                <!-- Added modern card-based layout for approved courses section -->
+                <div class="course-section">
+                    <div class="course-section-header">
+                        <h3 class="course-section-title">Approved Courses</h3>
+                    </div>
+                    @if($courses->isEmpty())
+                        <div class="empty-state">
+                            <p>No courses available.</p>
+                        </div>
+                    @else
+                        <table class="course-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Videos</th>
+                                    <th>Video Length</th>
+                                    <th>Total Duration</th>
+                                    <th>Price (৳)</th>
+                                    <th>Added</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($courses as $course)
+                                    <tr>
+                                        <td>
+                                            
+                                            <a href="{{ url("/admin_panel/manage_resources/{$course->id}/modules") }}">
+                                                {{ $course->title }}
+                                            </a>
+                                            
+                                        </td>
+                                        <td>{{ $course->description }}</td>
+                                        <td>{{ $course->video_count }}</td>
+                                        <td>{{ $course->approx_video_length }} mins</td>
+                                        <td>{{ $course->total_duration }} hrs</td>
+                                        <td>{{ $course->price }}</td>
+                                        <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
 
-        <br>
+                @if(auth()->user()->role === 3)
+                    <!-- Added modern card-based layout for pending courses section -->
+                    <div class="course-section">
+                        <div class="course-section-header">
+                            <h3 class="course-section-title">Pending Courses</h3>
+                        </div>
+                        @if($pendingCourses->isEmpty())
+                            <div class="empty-state">
+                                <p>No courses available.</p>
+                            </div>
+                        @else
+                            <table class="course-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Videos</th>
+                                        <th>Video Length</th>
+                                        <th>Total Duration</th>
+                                        <th>Price (৳)</th>
+                                        <th>Added</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($pendingCourses as $course)
+                                        <tr>
+                                            <td>
+                                                <a href="{{ url("/instructor/manage_resources/{$course->id}/modules") }}">
+                                                    {{ $course->title }}
+                                                </a>
+                                            </td>
+                                            <td>{{ $course->description }}</td>
+                                            <td>{{ $course->video_count }}</td>
+                                            <td>{{ $course->approx_video_length }} mins</td>
+                                            <td>{{ $course->total_duration }} hrs</td>
+                                            <td>{{ $course->price }}</td>
+                                            <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                                            <td class="text-green-600 font-semibold">
+                                                {{ \App\Models\CourseNotification::where('pending_course_id', $course->id)->exists() ? 'Submitted' : 'Not Submitted' }}
+                                            </td>                              
+                                        @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>
+                @endif
 
-        {{-- Back links based on role --}}
-        @if(auth()->user()->role === 2)
-            <a href="/admin_panel/manage_resources">← Back to Home Page</a>
-        @elseif(auth()->user()->role === 3)
-            <a href="/instructor/manage_resources">← Back to Home Page</a>
-        @endif
+                <!-- Styled back link with modern button design -->
+                @if(auth()->user()->role === 2)
+                    <a href="/admin_panel/manage_resources" class="back-link">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to Home Page
+                    </a>
+                @elseif(auth()->user()->role === 3)
+                    <a href="/instructor/manage_resources" class="back-link">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to Home Page
+                    </a>
+                @endif
+            </section>
+        </div>
 
     @else
-        <p>You are not logged in. <a href="/">Go to Login</a></p>
+        <!-- Added styled not logged in state -->
+        <div style="width: 100%; display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+            <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
+        </div>
     @endauth
 </body>
 </html>
