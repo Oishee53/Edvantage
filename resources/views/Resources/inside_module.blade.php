@@ -9,7 +9,7 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto px-6 py-8 max-w-5xl">
-        {{-- Updated header to match Edvantage clean design --}}
+        {{-- Header --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8">
             <h1 class="text-2xl font-semibold text-gray-900 mb-3">{{ $course->name }}</h1>
             <div class="flex items-center text-gray-600">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        {{-- Updated message styling to be more subtle --}}
+        {{-- Flash messages --}}
         @if(session('error'))
             <div class="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-xl mb-6 flex items-center">
                 <i class="fas fa-exclamation-triangle mr-3 text-red-500"></i>
@@ -33,7 +33,6 @@
             </div>
         @endif
 
-        {{-- Updated content sections to match clean Edvantage design --}}
         <div class="space-y-6">
             @auth
                 {{-- Video Section --}}
@@ -104,7 +103,7 @@
                     </div>
                 @endif
             @else
-                {{-- Updated login message to match Edvantage style --}}
+                {{-- Guest message --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
                     <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-lock text-gray-400 text-xl"></i>
@@ -143,6 +142,24 @@
                         No quiz available for this module.
                     </div>
                 @endif
+            </div>
+
+            {{-- Ask Questions Form --}}
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <form action="{{ route('questions.store') }}" method="POST">
+                    @csrf
+                    <label for="question" class="block text-gray-700 font-medium mb-2">Ask a Question</label>
+                    <input type="text" id="question" name="question"
+                           class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:ring-2 focus:ring-gray-900 focus:outline-none">
+
+                    {{-- Hidden fields --}}
+                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                    <input type="hidden" name="module_number" value="{{ $moduleNumber }}">
+
+                    <button type="submit" class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg">
+                        Post
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -200,61 +217,21 @@
                 }
             });
 
-        player.addEventListener('ended', async function () {
-            await fetch('{{ route("video.progress.save") }}', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    course_id: {{ $course->id }},
-                    resource_id: {{ $resource->id }},
-                    progress_percent: 100
-                })
+            player.addEventListener('ended', async function () {
+                await fetch('{{ route("video.progress.save") }}', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        course_id: {{ $course->id }},
+                        resource_id: {{ $resource->id }},
+                        progress_percent: 100
+                    })
+                });
             });
         });
-    });
-</script>
-
-</div>
-
-        </div>
-
-     
-    @endif
-    @if($resource->pdf)
-        <div style="margin: 20px 0;">
-            <div><strong>PDF Document</strong></div>
-            <a href="{{ route('secure.pdf.view', ['id' => $resource->id]) }}" 
-               target="_blank" 
-               rel="noopener noreferrer">
-                <button>View PDF</button>
-            </a>
-        </div>
-    @endif
-@else
-    <p><em>Please log in to view the video.</em></p>
-@endif
-
-    @if($quiz)
-        <a href="{{ route('user.quiz.start', ['course' => $course->id, 'module' => $moduleNumber]) }}">
-            <button>Take Quiz</button>
-        </a>
-    @else
-        <p>No quiz available for this module.</p>
-    @endif
-    <form action="{{ route('questions.store') }}" method="POST">
-    @csrf
-    <label for="question">Ask Questions</label>
-    <input type="text" id="question" name="question">
-
-    {{-- Hidden fields --}}
-    <input type="hidden" name="course_id" value="{{ $course->id }}">
-    <input type="hidden" name="module_number" value="{{ $moduleNumber }}">
-
-    <button type="submit">Post</button>
-    </form>
-
+    </script>
 </body>
 </html>

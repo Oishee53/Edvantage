@@ -135,7 +135,7 @@
                                         <span class="quiz-title">{{ $quiz['quiz_title'] }}</span>
                                     </div>
                                     <div class="quiz-score">
-                                        <span class="score-badge">{{ $quiz['score'] }}%</span>
+                                        <span class="score-badge">{{ $quiz['score'] }}</span>
                                     </div>
                                 </div>
                             @endforeach
