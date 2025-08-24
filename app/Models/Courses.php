@@ -39,7 +39,11 @@ class Courses extends Model
         return $this->belongsTo(User::class, 'instructor_id');
     }
 
- 
+ public function ratings()
+{
+    return $this->hasMany(\App\Models\Rating::class, 'course_id');
+}
+
 
 
 }

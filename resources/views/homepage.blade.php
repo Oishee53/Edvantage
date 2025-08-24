@@ -570,9 +570,12 @@
 <body>
     <!-- Place the category bar immediately after the header -->
     <div class="category-bar" style="top:56px; font-weight: 50;">
-        @foreach($uniqueCategories as $category)
-            <a href="#" class="category-link">{{$category}}</a>
-        @endforeach
+       @foreach($uniqueCategories as $category)
+    <a href="{{ route('homepage', ['category' => $category]) }}" 
+       class="category-link {{ request('category') == $category ? 'active' : '' }}">
+        {{$category}}
+    </a>
+@endforeach
     </div>
    <!-- Main Navigation Bar -->
     <header class="header">
@@ -691,33 +694,46 @@
 @endphp
 
 <div class="courses-grid" id="coursesGrid">
-   @if($visibleCourses->isEmpty())
-    <div style="display: flex; justify-content: center; align-items: center; height: 200px; width: 100%;">
-        <p style="font-size: 1.5rem; font-weight: bold; color: #444;">No courses found.</p>
-    </div>
-
+    @if($visibleCourses->isEmpty())
+        <div style="display:flex;justify-content:center;align-items:center;height:200px;width:100%;">
+            <p style="font-size:1.5rem;font-weight:bold;color:#444;">No courses found.</p>
+        </div>
     @else
         @foreach($visibleCourses as $index => $course)
             <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
-                {{-- Course Image --}}
+                {{-- Image --}}
                 @if($course->image)
                     <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
                 @else
                     <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
                 @endif
 
-                {{-- Course Content --}}
                 <div class="course-content">
-                    <h3 class="course-title">{{ $course->title }}</h3>
-
-                    @if(isset($course->category))
+                    <div class="course-title">{{ $course->title }}</div>
+                    <div class="course-category">
                         <span class="course-category-badge">{{ $course->category }}</span>
-                    @endif
-
-                    <div class="course-rating">
-                        <span class="stars">★★★★★</span>
-                        <span class="rating-number">4.8</span>
-                        <span class="rating-count">(120)</span>
+                    </div>
+                    {{-- Rating (read-only) --}}
+                    @php
+                        $avg   = (float)($course->avg_rating ?? 0);
+                        $count = (int)($course->rating_count ?? 0);
+                        $filled = floor($avg);
+                        $half   = ($avg - $filled) >= 0.5;
+                    @endphp
+                    <div class="course-rating" aria-label="Average rating {{ number_format($avg,2) }}">
+                        <div class="stars">
+                            @for($i=1;$i<=5;$i++)
+                                @if($i <= $filled)
+                                    ★
+                                @elseif($half && $i == $filled+1)
+                                    ☆
+                                @else
+                                    <span style="color:#d1d5db;">★</span>
+                                @endif
+                            @endfor
+                        </div>
+                        <span class="rating-number">{{ number_format($avg,2) }}</span>
+                        <span class="rating-count">({{ $count }})</span>
                     </div>
 
                     <div class="course-price">
@@ -745,18 +761,20 @@
                             </form>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> {{-- /.course-content --}}
+            </div> {{-- /.course-card --}}
         @endforeach
     @endif
-</div>
+</div> {{-- /.courses-grid --}}
 
 @if($visibleCourses->count() > 4)
-    <div style="text-align:center; margin-top:2rem;">
+    <div style="text-align:center;margin-top:2rem;">
         <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
     </div>
 @endif
-        </div>
+
+        
+    
     </section>
 <script>
   // Smooth scrolling for navigation links

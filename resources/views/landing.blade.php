@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDVANTAGE - Your Virtual Classroom Redefined</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <style>
         * {
             font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
@@ -408,6 +409,31 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Let Font Awesome use its own font (because of your global !important) */
+.fa, .fas, .far, .fa-solid, .fa-regular,
+.fa-star, .fa-star-half-stroke,
+i[class^="fa-"], i[class*=" fa-"] {
+  font-family: "Font Awesome 6 Free" !important;
+  font-style: normal;
+}
+.fa-solid, .fas { font-weight: 900 !important; }
+.fa-regular, .far { font-weight: 400 !important; }
+
+/* Stars exactly like the screenshot */
+.stars{
+  display:inline-flex;
+  gap:6px;
+  font-size:20px;   /* tweak if you want bigger/smaller */
+  line-height:1;
+}
+.stars .fa-star,
+.stars .fa-star-half-stroke { color:#f59e0b; } /* orange */
+.stars .fa-star.gray { color:#d1d5db; }        /* light gray */
+
+/* Numbers like screenshot */
+.rating-number{ color:#f59e0b; font-weight:700; margin-left:6px; }
+.rating-count{ color:#9ca3af; margin-left:4px; }
+
     </style>
 </head>
 <body>
@@ -481,11 +507,29 @@
                         @if(isset($course->category))
                             <span class="course-category-badge">{{ $course->category }}</span>
                         @endif
-                        <div class="course-rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="rating-number">4.8</span>
-                            <span class="rating-count">(120)</span>
-                        </div>
+                       @php
+    $avg   = round((float)($course->avg_rating ?? 0), 2);
+    $count = (int)($course->rating_count ?? 0);
+    $filled = floor($avg);
+    $hasHalf = ($avg - $filled) >= 0.5;
+@endphp
+
+<div class="course-rating" aria-label="Average rating {{ number_format($avg,2) }}">
+    <span class="stars">
+        @for ($i = 1; $i <= 5; $i++)
+            @if ($i <= $filled)
+                <i class="fa-solid fa-star"></i>
+            @elseif ($hasHalf && $i == $filled + 1)
+                <i class="fa-solid fa-star-half-stroke"></i>
+            @else
+                <i class="fa-regular fa-star" style="color:#d1d5db;"></i>
+            @endif
+        @endfor
+    </span>
+    <span class="rating-number">{{ number_format($avg, 2) }}</span>
+    <span class="rating-count">({{ $count }})</span>
+</div>
+
                         <div class="course-price">
                             <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
                         </div>

@@ -26,20 +26,20 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\VideoProgressController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RatingController;
+// make the landing page addressable by name
 Route::get('/', [LandingController::class, 'showLanding']);
 
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect()->route('landing'); // ✅ redirect to landing page
-})->name('logout');
+
+
 
 
 
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 // at least define index so route('admin.courses.index') works
-Route::get('/courses', [AdminCourseController::class, 'index'])->name('courses.index');
-
+Route::get('/admin_panel/manage_courses', [AdminCourseController::class, 'index'])
+        ->name('admin.courses.index');
 
 // ----------------------------- Forget Password --------------------------//
 Route::controller(ForgotPasswordController::class)->group(function () {
@@ -160,6 +160,10 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
 
+});
+Route::middleware('auth')->group(function () {
+    Route::post('/courses/{course}/rate', [RatingController::class, 'store'])->name('courses.rate');
+    Route::post('/courses/{course}/rate/skip', [RatingController::class, 'skip'])->name('courses.rate.skip'); // optional
 });
 
 Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
