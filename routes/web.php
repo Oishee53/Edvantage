@@ -28,6 +28,8 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RatingController;
 // make the landing page addressable by name
+use App\Http\Controllers\CertificateController;
+
 Route::get('/', [LandingController::class, 'showLanding']);
 
 
@@ -55,17 +57,6 @@ Route::controller(ResetPasswordController::class)->group(function () {
     Route::post('reset-password', 'updatePassword')->name('password.update');
     
 });
-
-
-
-
-
-
-
-
-
-
-
 
 Route::middleware('block-login')->group(function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -159,6 +150,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
+
+Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])
+        ->name('certificate.generate');
 
 });
 Route::middleware('auth')->group(function () {

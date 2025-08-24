@@ -69,5 +69,14 @@ class User extends Authenticatable
         return $this->hasOne(Instructor::class);
     }
 
+public function videoProgress() {
+    return $this->hasMany(VideoProgress::class);
+}
+
+public function quizSubmissions() {
+    return $this->hasMany(QuizSubmission::class);
+}
+
+
 
 }

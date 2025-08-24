@@ -22,7 +22,7 @@ class Courses extends Model
     
  public function resources()
     {
-    return $this->hasMany(Resource::class, 'courseId');
+        return $this->hasMany(Resource::class, 'courseId', 'id');
     }
 
     public function students()
@@ -30,11 +30,17 @@ class Courses extends Model
     return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
 }
 
-    public function enrollments()
+   public function enrollments()
     {
-    return $this->hasMany(Enrollment::class, 'course_id');
+        return $this->hasMany(Enrollment::class, 'course_id', 'id');
     }
-    public function instructor()
+
+public function quizzes()
+    {
+        return $this->hasMany(Quiz::class, 'course_id', 'id');
+    }
+
+ public function instructor()
     {
         return $this->belongsTo(User::class, 'instructor_id');
     }
@@ -46,4 +52,12 @@ class Courses extends Model
 
 
 
+     protected static function booted()
+    {
+        static::deleting(function ($course) {
+            $course->modules()->delete();
+            $course->resources()->delete();
+            $course->enrollments()->delete(); // optional
+        });
+    }
 }

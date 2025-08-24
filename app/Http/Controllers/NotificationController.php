@@ -11,10 +11,6 @@ class NotificationController extends Controller
 {
     $notification = auth()->user()->notifications()->find($id);
 
-    if ($notification) {
-        $notification->markAsRead(); // ✅ This updates `read_at`
-    }
-
     // Redirect or show the related question
     return redirect()->route('instructor.questions.show', $notification->data['question_id']);
 }
