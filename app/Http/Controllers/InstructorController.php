@@ -2,19 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Instructor;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class InstructorController extends Controller
 {
+   public function viewInstructorHomepage()
+{
+    $approvedCourses = DB::table('courses')
+        ->where('instructor_id', Auth::id())
+        ->get();
+
+    $rejectedCourses = DB::table('course_notifications')
+        ->where('status', 'rejected')
+        ->where('instructor_id', Auth::id())
+        ->get();
+
+    $pendingCourses = DB::table('course_notifications')
+        ->where('status', 'pending')
+        ->where('instructor_id', Auth::id())
+        ->get();
+
+    $totalEarnings = DB::table('enrollments')
+        ->join('courses', 'enrollments.course_id', '=', 'courses.id')
+        ->where('courses.instructor_id', Auth::id())
+        ->sum(DB::raw('courses.price * 0.7'));
+
+    // Attach students to each approved course
+    $coursesWithStudents = $approvedCourses->map(function($course) {
+        $students = DB::table('enrollments')
+            ->join('users', 'enrollments.user_id', '=', 'users.id')
+            ->where('enrollments.course_id', $course->id)
+            ->select(
+                'users.id',
+                'users.name',
+                'users.email',
+                'enrollments.created_at as enroll_date'
+            )
+            ->get();
+
+        $course->students = $students;
+        $course->student_count = $students->count();
+        return $course;
+    });
+
+    // ✅ Return the view after mapping, not inside
+    return view('Instructor.instructor_homepage', compact(
+        'coursesWithStudents',
+        'rejectedCourses',
+        'pendingCourses',
+        'totalEarnings'
+    ));
+}
+
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'expertise' => 'required|string|max:255',
+            'area_of_expertise' => 'required|string|max:255',
             'qualification' => 'required|string|max:255',
             'video_editing_skill' => 'required|string',
             'target_audience' => 'required|string',
@@ -40,10 +88,6 @@ class InstructorController extends Controller
             'cvv' => 'required|digits:3',
             'bank_name' => 'nullable|string|max:255',
         ]);
-
-        // Map "cardholder_name" to match DB column "card_holder_name"
-        $validatedPayment['card_holder_name'] = $validatedPayment['card_holder_name'];
-        unset($validatedPayment['card_holder_name']);
 
         // Merge expiry month/year into single field
         $validatedPayment['expiry_date'] = $validatedPayment['expiry_month'] . '/' . $validatedPayment['expiry_year'];
@@ -76,4 +120,15 @@ class InstructorController extends Controller
 
         return redirect('/instructor_homepage')->with('success', 'Instructor account created successfully!');
     }
+    public function destroy($student_id)
+{
+    $user = User::findOrFail($student_id);
+
+    if ($user->role == User::ROLE_INSTRUCTOR) {
+        $user->role = User::ROLE_USER; // ✅ update role in the model
+        $user->save(); // ✅ save the change
+    }
+    return redirect()->back()->with('success', 'Student unenrolled successfully.');
+}
+
 }

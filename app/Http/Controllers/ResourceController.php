@@ -38,15 +38,17 @@ public function showModules($course_id)
     $course = Courses::findOrFail($course_id);
 
     $user = auth()->user();
-    $uploadedModuleIds = collect();
+
+    $quizModules = collect();
+    $resourceModules = collect();
 
     if ($user->role === 3) {
         // Students: only check quizzes
-        $uploadedModuleIds = DB::table('quizzes')
+        $quizModules = DB::table('quizzes')
             ->where('course_id', $course_id)
             ->pluck('module_number');
     } elseif ($user->role === 2) {
-        // Instructors/Admins: check both quizzes and resources
+        // Instructors/Admins: check both quizzes and resources separately
         $quizModules = DB::table('quizzes')
             ->where('course_id', $course_id)
             ->pluck('module_number');
@@ -54,29 +56,25 @@ public function showModules($course_id)
         $resourceModules = DB::table('resources')
             ->where('courseId', $course_id)
             ->pluck('moduleId');
-
-        $uploadedModuleIds = $quizModules
-            ->intersect($resourceModules)
-            ->unique();
     }
 
     // Normalize IDs to integers
-    $uploadedModuleIds = $uploadedModuleIds
-        ->map(fn($id) => (int) $id)
-        ->values()
-        ->all();
+    $quizModules     = $quizModules->map(fn($id) => (int) $id)->values()->all();
+    $resourceModules = $resourceModules->map(fn($id) => (int) $id)->values()->all();
 
-    // Build modules with upload status
+    // Build modules with separate upload status
     $modules = [];
     for ($i = 1; $i <= (int) $course->video_count; $i++) {
         $modules[] = [
-            'id'       => $i,
-            'uploaded' => in_array($i, $uploadedModuleIds, true),
+            'id'        => $i,
+            'quiz'      => in_array($i, $quizModules, true),
+            'resource'  => in_array($i, $resourceModules, true),
         ];
     }
 
     return view('Resources.show_modules', compact('course', 'modules'));
 }
+
 
 
 
@@ -95,10 +93,44 @@ public function addModule(Request $request){
 
     $course = Courses::findOrFail($courseId);
 
+    // Check if this module has a quiz
+    $hasQuiz = DB::table('quizzes')
+        ->where('course_id', $courseId)
+        ->where('module_number', $moduleNumber)
+        ->exists();
+
+    // Check if this module has a resource
+    $hasResource = DB::table('resources')
+        ->where('courseId', $courseId)
+        ->where('moduleId', $moduleNumber)
+        ->exists();
+
     return view('Resources.module_management', [
         'course' => $course,
         'moduleNumber' => $moduleNumber,
+        'quiz' => $hasQuiz,
+        'resource' => $hasResource,
     ]);
-    }
+}
+
+
+    public function showInsideModule($courseId, $moduleNumber)
+{
+    $resource = Resource::where('courseId', $courseId)->where('moduleId', $moduleNumber)->firstOrFail();
+    $course = Courses::findOrFail($courseId);
+    $quiz = Quiz::where('course_id', $courseId)
+                ->where('module_number', $moduleNumber)
+                ->first();
+    $questions = $quiz ? $quiz->questions : collect();
+
+    return view('Admin.inside_module', [
+        'course' => $course,
+        'quiz' => $quiz,
+        'questions' => $questions,
+        'moduleNumber' => $moduleNumber,
+        'resource' => $resource,
+    ]);
+}
+
  
 }

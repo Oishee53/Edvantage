@@ -307,8 +307,7 @@
             @elseif(auth()->user() && auth()->user()->role === 3)
                 <a href="/instructor_homepage">Dashboard</a>
                 <a href="/instructor/manage_courses">Manage Course</a>
-                <a href="/instructor/manage_user">Manage User</a>
-                <a href="/instructor/manage_resources">Manage Resources</a>
+                <a href="/instructor/manage_resources/add">Manage Resources</a>
             @endif
         </nav>
   </aside>

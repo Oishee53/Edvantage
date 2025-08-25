@@ -102,12 +102,6 @@ Route::post('/make-payment', [PaymentController::class, 'makePayment'])->name('m
 Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
-Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
-    ->name('secure.pdf.view')
-    ->middleware('auth');
-
-
-
 Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
@@ -147,3 +141,6 @@ Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'g
 
 Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
     ->name('student.questions.show');
+Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
+    ->name('secure.pdf.view')
+    ->middleware('auth');

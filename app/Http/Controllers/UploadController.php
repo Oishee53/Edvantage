@@ -136,6 +136,8 @@ class UploadController extends Controller
             return back()->withErrors(['database' => 'Failed to save resource: ' . $e->getMessage()]);
         }
 
-        return back()->with('success', 'Resources uploaded successfully!');
+         return redirect()->route('modules.show', ['course_id' => $courseId])
+           ->with('success', 'Quiz and questions created successfully!');
+
     }
 } 

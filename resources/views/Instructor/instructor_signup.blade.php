@@ -18,7 +18,7 @@
       <!-- Area of Expertise -->
       <div>
         <label class="block text-gray-700 font-medium mb-1">Area of Expertise</label>
-        <input type="text" name="expertise" placeholder="e.g., Web Development, Data Science" value="{{ old('expertise') }}" required
+        <input type="text" name="area_of_expertise" placeholder="e.g., Web Development, Data Science" value="{{ old('expertise') }}" required
                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         @error('expertise')
           <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
