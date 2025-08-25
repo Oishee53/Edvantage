@@ -95,8 +95,6 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      background-color: var(--card-background);
-      border-bottom: 1px solid var(--border-color);
     }
 
     .top-bar-title {
@@ -216,20 +214,28 @@
       opacity: 0.9;
     }
 
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: 500;
-      margin-top: 1.5rem;
-      transition: text-decoration 0.2s ease-in-out;
-    }
+   /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+        }
 
-    .back-link:hover {
-      text-decoration: underline;
-    }
+        .back-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+        }
 
     .section-header {
       font-size: 1.125rem;
@@ -314,8 +320,8 @@
             <button type="submit" class="upload-button">Upload Resources</button>
           </form>
 
-          <a href="/instructor/manage_resources" class="back-link">
-            ← Back to Manage Resources
+          <a href="javascript:history.back()" class="back-link">
+                    Back
           </a>
         </div>
       @else

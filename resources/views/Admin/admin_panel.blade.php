@@ -288,60 +288,37 @@
         <canvas id="enrollmentsChart" height="100"></canvas>
       </div>
     </div>
-    <!-- Contact List -->
-    <div class="contact-list-container">
-      <div class="contact-list-title">Contact List</div>
-      <table class="contact-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Course</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b">
-            <td>John Smith</td>
-            <td>john@example.com</td>
-            <td>React Development</td>
-            <td><a href="#" class="action-link">View Details</a></td>
-          </tr>
-          <tr class="border-b">
-            <td>Sarah Johnson</td>
-            <td>sarah@example.com</td>
-            <td>Laravel Framework</td>
-            <td><a href="#" class="action-link">View Details</a></td>
-          </tr>
-          <tr>
-            <td>Mike Chen</td>
-            <td>mike@example.com</td>
-            <td>Database Design</td>
-            <td><a href="#" class="action-link">View Details</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </main>
-  <script>
-    const ctx = document.getElementById('enrollmentsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [{
-          label: 'Student Enrollments',
-          data: [120, 150, 180, 100, 90, 160],
-          backgroundColor: '#0E1B33' /* Matches --primary-color */
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: { beginAtZero: true }
+<script>
+  const monthlyData = @json($monthlyData); // comes from controller
+
+  const ctx = document.getElementById('enrollmentsChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+               'Jul','Aug','Sep','Oct','Nov','Dec'],
+      datasets: [{
+        label: 'Student Enrollments',
+        data: monthlyData,   // <-- dynamic data here
+        backgroundColor: '#0E1B33'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          min: 0,
+          max: 20,      // optional (remove if you want auto scale)
+          ticks: {
+            stepSize: 2 // optional
+          }
         }
       }
-    });
-  </script>
+    }
+  });
+</script>
+
 </body>
 </html>

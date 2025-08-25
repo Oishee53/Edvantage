@@ -345,7 +345,6 @@
             border: 2px solid var(--primary-color);
             border-radius: 0.375rem;
             transition: all 0.2s ease-in-out;
-            margin-top: 2rem;
             font-size: 0.875rem;
         }
 
@@ -459,7 +458,7 @@
                     <a href="/instructor_homepage">Dashboard</a>
                     <a href="/instructor/manage_courses">Manage Courses</a>
                     <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
+                    <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
                 @endif
             </nav>
         </aside>
@@ -598,10 +597,7 @@
 
                 <!-- Back Link -->
                 <a href="javascript:history.back()" class="back-link">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                    </svg>
-                    Back to Resources
+                    Back 
                 </a>
             </main>
         </div>

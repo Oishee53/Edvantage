@@ -31,6 +31,8 @@
             --delete-bg: #FEF2F2;
             --delete-icon: #DC2626;
             --green-600: #059669;
+            --instructor-bg: #FEF3C7;
+            --instructor-icon: #D97706;
         }
 
         body {
@@ -50,6 +52,7 @@
             position: fixed;
             left: 0;
             top: 0;
+            z-index: 1000;
         }
 
         .sidebar-header {
@@ -95,6 +98,7 @@
         .main-wrapper {
             margin-left: 17.5rem;
             flex: 1;
+            width: calc(100% - 17.5rem);
         }
 
         .main-content {
@@ -229,6 +233,11 @@
             color: var(--edit-text);
         }
 
+        .action-card-icon.instructor {
+            background-color: var(--instructor-bg);
+            color: var(--instructor-icon);
+        }
+
         .action-card-icon i {
             font-size: 1.25rem;
         }
@@ -333,6 +342,11 @@
             color: var(--edit-text);
         }
 
+        .stat-card-icon.instructors {
+            background-color: var(--instructor-bg);
+            color: var(--instructor-icon);
+        }
+
         .stat-card-icon i {
             font-size: 1.25rem;
         }
@@ -345,20 +359,27 @@
             
             .main-wrapper {
                 margin-left: 16rem;
+                width: calc(100% - 16rem);
             }
 
             .action-cards-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                display: none;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
             }
             
             .main-wrapper {
                 margin-left: 0;
+                width: 100%;
             }
             
             .main-content {
@@ -366,7 +387,29 @@
             }
 
             .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .action-cards-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 0.5rem;
             }
         }
     </style>
@@ -420,9 +463,6 @@
                 <!-- View Enrolled Students Card -->
                 <div class="action-card">
                     <div class="action-card-header">
-                        <div class="action-card-icon view">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
                         <div class="action-card-content">
                             <h3>Enrolled Students</h3>
                             <p>View students who are enrolled in courses</p>
@@ -430,7 +470,7 @@
                     </div>
                     <form action="/admin_panel/manage_user/view_enrolled_student" method="GET">
                         <button type="submit" class="action-card-button">
-                            <i class="fas fa-eye"></i>
+                            <i class="fas fa-list"></i>
                             View Enrolled Students
                         </button>
                     </form>
@@ -439,9 +479,6 @@
                 <!-- View All Students Card -->
                 <div class="action-card">
                     <div class="action-card-header">
-                        <div class="action-card-icon edit">
-                            <i class="fas fa-users"></i>
-                        </div>
                         <div class="action-card-content">
                             <h3>All Students</h3>
                             <p>View complete list of all registered students</p>
@@ -451,6 +488,22 @@
                         <button type="submit" class="action-card-button">
                             <i class="fas fa-list"></i>
                             View All Students
+                        </button>
+                    </form>
+                </div>
+
+                <!-- View All Instructors Card -->
+                <div class="action-card">
+                    <div class="action-card-header">
+                        <div class="action-card-content">
+                            <h3>Instructors</h3>
+                            <p>View all users who registered as instructors</p>
+                        </div>
+                    </div>
+                    <form action="/admin_panel/manage_user/view_all_instructors" method="GET">
+                        <button type="submit" class="action-card-button">
+                            <i class="fas fa-list"></i>
+                            View All Instructors
                         </button>
                     </form>
                 </div>
@@ -481,15 +534,14 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="stat-card">
                     <div class="stat-card-content">
                         <div class="stat-card-info">
-                            <div class="stat-card-label">New This Month</div>
-                            <div class="stat-card-value">{{ $newStudents ?? 12 }}</div>
+                            <div class="stat-card-label">Total Instructors</div>
+                            <div class="stat-card-value">{{ $totalInstructors ?? 24 }}</div>
                         </div>
-                        <div class="stat-card-icon new">
-                            <i class="fas fa-user-plus"></i>
+                        <div class="stat-card-icon instructors">
+                            <i class="fas fa-chalkboard-teacher"></i>
                         </div>
                     </div>
                 </div>

@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <title>Instructor Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <!-- Updated font weights to match dashboard exactly (400, 600, 700) -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <style>
-        /* Updated CSS variables to match dashboard exactly */
         :root {
             --primary-color: #0E1B33;
             --primary-light-hover-bg: #E3E6F3;
@@ -16,14 +14,16 @@
             --card-background: #ffffff;
             --text-default: #333;
             --text-gray-600: #4b5563;
-            --text-gray-700: #374151;
             --text-gray-500: #6b7280;
             --border-color: #e5e7eb;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+            --info-color: #3B82F6;
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        /* Updated body to use flex layout like dashboard */
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--body-background);
@@ -32,483 +32,46 @@
             min-height: 100vh;
         }
 
-        /* Updated sidebar to match dashboard exactly - removed fixed positioning */
         .sidebar {
             width: 17.5rem;
             background-color: var(--card-background);
             min-height: 100vh;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
         }
 
-        .sidebar-header {
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
+        .sidebar-header { padding: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: var(--primary-color); font-weight: 700; font-size: 1.25rem; }
+        .sidebar-header img { height: 2.5rem; }
 
-        .sidebar-header img {
-            height: 2.5rem;
-        }
+        .sidebar-nav { margin-top: 2.5rem; }
+        .sidebar-nav a { display: block; padding: 0.75rem 1.5rem; color: var(--primary-color); text-decoration: none; font-weight: 500; transition: 0.2s; }
+        .sidebar-nav a:hover, .sidebar-nav a.active { background-color: var(--primary-light-hover-bg); color: var(--primary-color); font-weight: 500; }
 
-        /* Updated sidebar nav spacing to match dashboard */
-        .sidebar-nav {
-            margin-top: 2.5rem;
-        }
+        .main-content { flex: 1; padding: 2rem; display: flex; flex-direction: column; }
 
-        .sidebar-nav a {
-            display: block;
-            padding: 0.75rem 1.5rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-        }
+        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .top-header h1 { font-size: 1.5rem; font-weight: 400; color: var(--primary-color); }
+        .user-info { display: flex; align-items: center; gap: 1rem; }
+        .user-info span { color: var(--primary-color); font-weight: 500; }
+        .student { display: inline-block; padding: 8px 16px; background-color: #f9fafb; color: #0E1B33; text-decoration: none; border-radius: 6px; transition: 0.3s; }
 
-        .sidebar-nav a:hover {
-            background-color: var(--primary-light-hover-bg);
-            color: #0E1B33;
-        }
+        .logout-btn { background-color: var(--primary-color); color: white; padding: 0.5rem 0.75rem; border-radius: 0.25rem; border: none; cursor: pointer; transition: 0.2s; }
+        .logout-btn:hover { opacity: 0.9; }
 
-        .sidebar-nav a.active {
-            background-color: var(--primary-light-hover-bg);
-            color: #0E1B33;
-            font-weight: 600;
-        }
-
-        /* Updated main content to use flex-1 like dashboard, removed margin-left */
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Updated top header to match dashboard top-bar styling */
-        .top-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .top-header h1 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--primary-color);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-info span {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        /* Added notification icon and badge styling */
-        .notification-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        .notification-container:hover {
-            background-color: var(--primary-light-hover-bg);
-        }
-
-        .notification-icon {
-            font-size: 1.25rem;
-            color: var(--primary-color);
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            background: linear-gradient(135deg, #10B981, #34D399);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.125rem 0.375rem;
-            border-radius: 9999px;
-            min-width: 1.25rem;
-            height: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.8;
-                transform: scale(1.05);
-            }
-        }
-
-        /* Added notification dropdown styling */
-        .notification-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--card-background);
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            width: 320px;
-            max-height: 400px;
-            overflow-y: auto;
-            z-index: 1000;
-            border: 1px solid var(--border-color);
-            display: none;
-        }
-
-        .notification-dropdown.show {
-            display: block;
-        }
-
-        .notification-header {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .notification-header h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin: 0;
-        }
-
-        .mark-all-read {
-            font-size: 0.75rem;
-            color: var(--text-gray-500);
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .mark-all-read:hover {
-            color: var(--primary-color);
-        }
-
-        .notification-item {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #f3f4f6;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        .notification-item:hover {
-            background-color: #f9fafb;
-        }
-
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-
-        .notification-item.unread {
-            background-color: #f0f9ff;
-            border-left: 3px solid #10B981;
-        }
-
-        .notification-content {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-        }
-
-        .notification-icon-wrapper {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.875rem;
-            flex-shrink: 0;
-        }
-
-        .notification-icon-wrapper.course {
-            background-color: #dbeafe;
-            color: #1d4ed8;
-        }
-
-        .notification-icon-wrapper.user {
-            background-color: #dcfce7;
-            color: #16a34a;
-        }
-
-        .notification-icon-wrapper.system {
-            background-color: #fef3c7;
-            color: #d97706;
-        }
-
-        .notification-text {
-            flex: 1;
-        }
-
-        .notification-title {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text-default);
-            margin-bottom: 0.25rem;
-        }
-
-        .notification-time {
-            font-size: 0.75rem;
-            color: var(--text-gray-500);
-        }
-
-        .no-notifications {
-            padding: 2rem 1rem;
-            text-align: center;
-            color: var(--text-gray-500);
-            font-size: 0.875rem;
-        }
-
-        .logout-btn {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.25rem;
-            border: none;
-            cursor: pointer;
-            transition: opacity 0.2s ease-in-out;
-        }
-
-        .logout-btn:hover {
-            opacity: 0.9;
-        }
-          .student {
-          display: inline-block;
-          padding: 8px 16px;
-          background-color: #f9fafb;;
-          color: #0E1B33;
-          text-decoration: none;
-          border-radius: 6px;
-          transition: background-color 0.3s ease;
-        }
-
-        /* Form Content */
-        .content-area {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .form-card {
-            background: var(--card-background);
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            min-width: 400px;
-            max-width: 520px;
-            width: 100%;
-            font-size: 0.9rem;
-        }
-
-        .form-card h2 {
-            font-size: 1.125rem;
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-       
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .required {
-            color: #DC2626;
-            font-size: 1em;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="file"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1.5px solid #E3E6F3;
-            background: #f8fafc;
-            font-size: 0.85rem;
-            color: var(--text-default);
-            font-family: inherit;
-            transition: border 0.18s, box-shadow 0.18s;
-            box-shadow: 0 1.5px 8px rgba(14, 27, 51, 0.03);
-        }
-
-        input[type="file"] {
-            background: var(--card-background);
-            font-size: 0.85rem;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border: 1.5px solid #0E1B33;
-            outline: 2px solid #0E1B33;
-            background: var(--card-background);
-            box-shadow: 0 0 0 2px rgba(14, 27, 51, 0.07);
-        }
-
-        textarea {
-            min-height: 56px;
-            resize: vertical;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            padding: 10px 0;
-            font-size: 0.9rem;
-            background: var(--primary-color);
-            color: #fff;
-            font-weight: 700;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(14, 27, 51, 0.07);
-            transition: background 0.2s, transform 0.18s;
-            margin-top: 10px;
-            letter-spacing: 0.2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        button[type="submit"]:hover,
-        button[type="submit"]:focus {
-            background: #0A1426;
-            transform: translateY(-1px) scale(1.01);
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 14px;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-align: center;
-            transition: color 0.18s;
-        }
-
-        .back-link:hover {
-            color: #0A1426;
-            text-decoration: underline;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-                order: 2;
-                transform: translateY(100%);
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                z-index: 1000;
-                transition: transform 0.3s;
-            }
-            
-            .sidebar.open {
-                transform: translateY(0);
-            }
-            
-            .main-content {
-                order: 1;
-                padding: 1rem;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-                background: none;
-                border: none;
-                font-size: 1.2rem;
-                color: var(--primary-color);
-                cursor: pointer;
-            }
-            
-            .form-card {
-                padding: 1rem;
-                min-width: 0;
-                max-width: 98vw;
-                font-size: 0.85rem;
-            }
-            
-            .form-card h2 { font-size: 1rem; }
-            label, input, select, textarea, .back-link { font-size: 0.8rem; }
-            button[type="submit"] { font-size: 0.85rem; }
-            
-            .top-header {
-                padding: 0;
-                margin-bottom: 1rem;
-            }
-        }
-
-        .mobile-menu-btn {
-            display: none;
-        }
+        /* Modal and courses styles omitted for brevity - same as your previous CSS */
+        .student { display: inline-block; padding: 8px 16px; background-color: #f9fafb; color: #0E1B33; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease; } /* Dashboard Content Styles */ .dashboard-content { flex: 1; } .welcome-section { color: var(--primary-color); padding: 2rem; border-radius: 1rem; margin-bottom: 2rem; box-shadow: 0 10px 25px -1px rgba(115, 118, 125, 0.3); } .welcome-title { font-size: 1.75rem; font-weight: 500; margin-bottom: 0.5rem; } .welcome-subtitle { font-size: 1rem; opacity: 0.9; } .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; } .stat-card { background: var(--card-background); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; position: relative; overflow: hidden; } .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 1rem 1rem 0 0; } .stat-card.approved::before { background: linear-gradient(90deg, var(--success-color), #34D399); } .stat-card.pending::before { background: linear-gradient(90deg, var(--warning-color), #FBBF24); } .stat-card.rejected::before { background: linear-gradient(90deg, var(--error-color), #F87171); } .stat-card.earnings::before { background: linear-gradient(90deg, var(--info-color), #60A5FA); } .stat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); } .stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; } .stat-icon { width: 3rem; height: 3rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; } .stat-icon.approved { background: rgba(16, 185, 129, 0.1); color: var(--success-color); } .stat-icon.pending { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); } .stat-icon.rejected { background: rgba(239, 68, 68, 0.1); color: var(--error-color); } .stat-icon.earnings { background: rgba(59, 130, 246, 0.1); color: var(--info-color); } .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.25rem; } .stat-label { font-size: 0.875rem; color: var(--text-gray-600); font-weight: 500; text-transform: uppercase; letter-spacing: 0.025em; } .stat-trend { font-size: 0.75rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.25rem; } .stat-trend.positive { color: var(--success-color); } .stat-trend.negative { color: var(--error-color); } .courses-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; } .section-card { background: var(--card-background); border-radius: 1rem; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); } .section-title { font-size: 1.25rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; } .course-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.75rem; margin-bottom: 0.75rem; transition: all 0.2s ease; cursor: pointer; } .course-item:hover { border-color: var(--primary-color); box-shadow: 0 4px 12px rgba(14, 27, 51, 0.1); } .course-info h4 { font-size: 1rem; font-weight: 600; color: var(--primary-color); margin-bottom: 0.25rem; } .course-info p { font-size: 0.875rem; color: var(--text-gray-600); } .course-students { display: flex; align-items: center; gap: 0.5rem; background: var(--primary-light-hover-bg); padding: 0.5rem 1rem; border-radius: 2rem; color: var(--primary-color); font-weight: 600; font-size: 0.875rem; } .earnings-breakdown { background: var(--card-background); border-radius: 1rem; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); } .earnings-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-color); } .earnings-item:last-child { border-bottom: none; } .earnings-course { font-weight: 500; color: var(--primary-color); } .earnings-amount { font-weight: 600; color: var(--success-color); font-size: 1.1rem; } .total-earnings { background: linear-gradient(135deg, var(--success-color), #34D399); color: white; padding: 1rem; border-radius: 0.75rem; margin-top: 1rem; text-align: center; } .total-earnings h3 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; } /* Modal Styles */ .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2000; backdrop-filter: blur(4px); } .modal.show { display: flex; align-items: center; justify-content: center; } .modal-content { background: var(--card-background); border-radius: 1rem; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); } .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); } .modal-title { font-size: 1.5rem; font-weight: 600; color: var(--primary-color); } .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-gray-500); padding: 0.5rem; border-radius: 50%; transition: all 0.2s ease; } .close-btn:hover { background: var(--primary-light-hover-bg); color: var(--primary-color); } .student-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.75rem; margin-bottom: 0.75rem; transition: all 0.2s ease; } .student-item:hover { border-color: var(--primary-color); box-shadow: 0 4px 12px rgba(14, 27, 51, 0.1); } .student-avatar { width: 3rem; height: 3rem; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), #2D336B); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.25rem; } .student-details h4 { font-size: 1rem; font-weight: 600; color: var(--primary-color); margin-bottom: 0.25rem; } .student-details p { font-size: 0.875rem; color: var(--text-gray-600); } .student-progress { margin-left: auto; text-align: right; } .progress-bar { width: 100px; height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; } .progress-fill { height: 100%; background: linear-gradient(90deg, var(--success-color), #34D399); border-radius: 4px; transition: width 0.3s ease; } .progress-text { font-size: 0.75rem; color: var(--text-gray-600); font-weight: 500; } .mobile-menu-btn { display: none; } /* Mobile Responsive */ @media (max-width: 1024px) { .courses-section { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } } @media (max-width: 768px) { body { flex-direction: column; } .sidebar { width: 100%; min-height: auto; order: 2; transform: translateY(100%); position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; transition: transform 0.3s; } .sidebar.open { transform: translateY(0); } .main-content { order: 1; padding: 1rem; } .mobile-menu-btn { display: block; background: none; border: none; font-size: 1.2rem; color: var(--primary-color); cursor: pointer; } .welcome-section { padding: 1.5rem; } .welcome-title { font-size: 1.5rem; } .stats-grid { grid-template-columns: 1fr; } .stat-card { padding: 1.5rem; } .stat-value { font-size: 2rem; } .section-card { padding: 1.5rem; } .top-header { padding: 0; margin-bottom: 1rem; } .modal-content { padding: 1.5rem; width: 95%; } }
     </style>
 </head>
 <body>
+
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
         <nav class="sidebar-nav">
-            @if(auth()->user() && auth()->user()->role === 2)
-                <a href="/admin_panel">Dashboard</a>
-                <a href="/admin_panel/manage_courses">Manage Courses</a>
-                <a href="/admin_panel/manage_courses" class="active">Manage Courses</a>
-                <a href="/admin_panel/manage_user">Manage User</a>
-                <a href="/admin_panel/manage_resources">Manage Resources</a>
-            @elseif(auth()->user() && auth()->user()->role === 3)
-                <a href="/instructor_homepage">Dashboard</a>
-                <a href="/instructor/manage_courses">Manage Course</a>
-                <a href="/instructor/manage_resources/add">Manage Resources</a>
-            @endif
+            <a href="/instructor_homepage" class="active">Dashboard</a>
+            <a href="/instructor/manage_courses">Manage Courses</a>
+            <a href="/instructor/manage_resources/add">Manage Resources</a>
         </nav>
     </aside>
 
@@ -522,112 +85,137 @@
                 </button>
                 <h1>Instructor Dashboard</h1>
             </div>
-            @auth
-                <div class="user-info">
-                  <a href="/homepage" class="student">Student</a>
-                    <!-- Made notification container clickable with dropdown -->
-                    <div class="notification-container" onclick="toggleNotifications()" title="Notifications">
-                        <i class="fas fa-bell notification-icon"></i>
-                        @if(auth()->user()->unreadNotifications->count() > 0)
-                            <span class="notification-badge" id="notificationCount">{{ auth()->user()->unreadNotifications->count() }}</span>
-                        @endif
-                        
-                        <!-- Added notification dropdown -->
-                        <div class="notification-dropdown" id="notificationDropdown">
-                            <div class="notification-header">
-                                <h3>Notifications</h3>
-                                @if(auth()->user()->unreadNotifications->count() > 0)
-                                    <a href="#" class="mark-all-read" onclick="markAllAsRead(event)">Mark all as read</a>
-                                @endif
-                            </div>
-                            <div id="notificationList">
-                                @forelse(auth()->user()->unreadNotifications as $notification)
-                                    <div class="notification-item unread">
-                                        <div class="notification-content">
-                                            <div class="notification-icon-wrapper course">
-                                                <i class="fas fa-question-circle"></i>
-                                            </div>
-                                            <div class="notification-text">
-                                                <div class="notification-title">
-                                                    <strong>New Question:</strong> {{ $notification->data['content'] }}
-                                                </div>
-                                                <div class="notification-time">{{ $notification->created_at->diffForHumans() }}</div>
-                                                <a href="{{ route('instructor.notifications.view', $notification->id) }}" style="font-size: 0.75rem; color: var(--primary-color); text-decoration: none;">View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="no-notifications">
-                                        <i class="fas fa-bell-slash" style="font-size: 2rem; color: var(--text-gray-500); margin-bottom: 0.5rem;"></i>
-                                        <p>No new notifications</p>
-                                    </div>
-                                @endforelse
-                            </div>
+            <div class="user-info">
+                <a href="/homepage" class="student">Student View</a>
+                <span>{{ Auth::user()->name }}</span>
+                <form action="/logout" method="POST" style="margin:0;">
+                    @csrf
+                    <button class="logout-btn">Logout</button>
+                </form>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h2 class="welcome-title">Welcome back, {{ Auth::user()->name }}!</h2>
+                <p class="welcome-subtitle">Here's what's happening with your courses today</p>
+            </div>
+
+            <!-- Statistics Grid -->
+            <div class="stats-grid">
+                <div class="stat-card approved">
+                    <div class="stat-value">{{ isset($approvedCourses)?count($approvedCourses):0 }}</div>
+                    <div class="stat-label">Approved Courses</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-value">{{isset($pendingCourses)? count($pendingCourses):0 }}</div>
+                    <div class="stat-label">Pending Courses</div>
+                </div>
+                <div class="stat-card rejected">
+                    <div class="stat-value">{{ isset($rejectedCourses)?count($rejectedCourses):0 }}</div>
+                    <div class="stat-label">Rejected Courses</div>
+                </div>
+                <div class="stat-card earnings">
+                    <div class="stat-value">৳{{ $totalEarnings }}</div>
+                    <div class="stat-label">Total Earnings</div>
+                </div>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="courses-section">
+                <div class="section-card">
+                    <h3 class="section-title">Courses</h3>
+                    @foreach($coursesWithStudents as $course)
+                    <div class="course-item" onclick="showStudents('{{ $course->title }}', '{{ $course->id }}')">
+                        <div class="course-info">
+                            <h4>{{ $course->title }}</h4>
+                            <p>{{ $course->description }}</p>
+                        </div>
+                        <div class="course-students">
+                            <i class="fas fa-users"></i> {{ $course->student_count }}
                         </div>
                     </div>
-                    <span>{{ auth()->user()->name }}</span>
-                    <form action="/logout" method="POST" style="margin: 0;">
-                        @csrf
-                        <button class="logout-btn">Logout</button>
-                    </form>
+                    @endforeach
                 </div>
-            @else
-                <div style="display: flex; gap: 8px;">
-                    <a href="/login" style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 8px 16px; border-radius: 4px; text-decoration: none;">Login</a>
-                    <a href="/register" style="background: var(--primary-color); color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none;">Sign Up</a>
+            </div>
+        </div>
+
+        <!-- Student Modal -->
+        <div class="modal" id="studentsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalTitle">Course Students</h3>
+                    <button class="close-btn" onclick="closeModal()">&times;</button>
                 </div>
-            @endauth
-        </header>
+                <div id="studentsContent"></div>
+            </div>
+        </div>
     </main>
 
+    <!-- Dynamic JS -->
     <script>
+        const courseStudents = @json(
+            $coursesWithStudents->mapWithKeys(function($course) {
+                return [$course->id => $course->students];
+            })
+        );
+
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
+            document.getElementById('sidebar').classList.toggle('open');
         }
 
-        function toggleNotifications() {
-            const dropdown = document.getElementById('notificationDropdown');
-            dropdown.classList.toggle('show');
-        }
+        function showStudents(courseName, courseId) {
+            const modal = document.getElementById('studentsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const studentsContent = document.getElementById('studentsContent');
+            
+            modalTitle.textContent = `${courseName} - Students`;
+            const students = courseStudents[courseId] || [];
+            let studentsHTML = '';
 
-        function markAllAsRead(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            // This would typically make an AJAX call to mark notifications as read
-            // For now, just hide the badge visually
-            const badge = document.getElementById('notificationCount');
-            if (badge) {
-                badge.style.display = 'none';
-            }
-            
-            const notificationItems = document.querySelectorAll('.notification-item.unread');
-            notificationItems.forEach(item => {
-                item.classList.remove('unread');
+            students.forEach(student => {
+                const initials = student.name.split(' ').map(n => n[0]).join('');
+                const enrollDate = new Date(student.enroll_date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: '2-digit',
+                    year: 'numeric'
+                });
+                studentsHTML += `
+                    <div class="student-item">
+                        <div class="student-avatar">${initials}</div>
+                        <div class="student-details">
+                            <h4>${student.name}</h4>
+                            <p>${student.email}</p>
+                            <p style="font-size:0.75rem;color:var(--text-gray-500)">Enrolled: ${enrollDate}</p>
+                        </div>
+                        <div class="student-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${student.progress}%"></div>
+                            </div>
+                            <div class="progress-text">${student.progress}% Complete</div>
+                        </div>
+                    </div>
+                `;
             });
+
+            if(students.length === 0){
+                studentsHTML = '<p style="text-align:center;color:var(--text-gray-500);padding:2rem;">No students enrolled yet.</p>';
+            }
+
+            studentsContent.innerHTML = studentsHTML;
+            modal.classList.add('show');
         }
 
-        // Close notification dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const notificationContainer = document.querySelector('.notification-container');
-            const dropdown = document.getElementById('notificationDropdown');
-            
-            if (!notificationContainer.contains(event.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
+        function closeModal() {
+            document.getElementById('studentsModal').classList.remove('show');
+        }
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(event.target) && 
-                !menuBtn.contains(event.target)) {
-                sidebar.classList.remove('open');
-            }
+        document.addEventListener('click', function(event){
+            const modal = document.getElementById('studentsModal');
+            if(event.target === modal) closeModal();
         });
     </script>
 </body>

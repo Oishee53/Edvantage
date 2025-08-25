@@ -283,7 +283,7 @@
             border-radius: 0.5rem;
         }
 
-        /* Back Link */
+         /* Back Link */
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -295,7 +295,6 @@
             border: 2px solid var(--primary-color);
             border-radius: 0.375rem;
             transition: all 0.2s ease-in-out;
-            margin-top: 2rem;
             font-size: 0.875rem;
         }
 
@@ -513,9 +512,13 @@
                         </div>
                     </div>
                 @endif
+                <a href="javascript:history.back()" class="back-link">
+                    Back
+                </a>
+
             </main>
         </div>
-
+        
     @else
         <!-- Not logged in state -->
         <div class="not-logged-in-container">

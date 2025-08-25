@@ -449,23 +449,6 @@
                         @endif
                     </div>
                 @endif
-
-                <!-- Back Link -->
-                @if(auth()->user()->role === 2)
-                    <a href="/admin_panel/manage_resources" class="back-link">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                        Back to Home Page
-                    </a>
-                @elseif(auth()->user()->role === 3)
-                    <a href="/instructor/manage_resources/add" class="back-link">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                        Back to Home Page
-                    </a>
-                @endif
             </main>
         </div>
 

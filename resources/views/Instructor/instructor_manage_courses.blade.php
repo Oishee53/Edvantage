@@ -10,7 +10,7 @@
     /* Custom CSS Variables */
     :root {
       --primary-color: #0E1B33;
-      --primary-light-hover-bg: #2D336B;
+      --primary-light-hover-bg: #E3E6F3;
       --body-background: #f9fafb;
       --card-background: #ffffff;
       --text-default: #333;
@@ -23,6 +23,8 @@
       --delete-bg: #FEF2F2;
       --delete-icon: #DC2626;
       --green-600: #059669;
+      --success-color: #059669;
+      --warning-color: #f59e0b;
     }
 
     body {
@@ -33,9 +35,9 @@
       min-height: 100vh;
     }
 
-    /* Sidebar */
+    /* Sidebar - Matching Dashboard Style */
     .sidebar {
-      width: 16rem;
+      width: 17.5rem;
       background-color: var(--card-background);
       min-height: 100vh;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -74,29 +76,32 @@
     }
 
     .sidebar-nav a:hover {
-      background-color: #E3E6F3;;
+      background-color: var(--primary-light-hover-bg);
       color: var(--primary-color);
     }
 
     .sidebar-nav a.active {
-      background-color: #E3E6F3;;
+      background-color: var(--primary-light-hover-bg);
       color: var(--primary-color);
     }
 
-    /* Main Content Wrapper */
+    /* Main Content Wrapper - Matching Dashboard Style */
     .main-wrapper {
-      margin-left: 15rem;
+      margin-left: 17.5rem;
       flex: 1;
     }
 
-    /* Top bar */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    /* Top bar - Matching Dashboard Style */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      background-color: var(--card-background);
-      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 2rem;
     }
 
     .top-bar-title {
@@ -123,7 +128,7 @@
       cursor: pointer;
       text-decoration: none;
       font-weight: 500;
-      transition: opacity 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
     }
 
     .logout-button, .signup-button {
@@ -142,7 +147,7 @@
     }
 
     .login-button:hover {
-      background-color: var(--primary-light-hover-bg);
+      background-color: var(--primary-color);
       color: white;
     }
 
@@ -151,59 +156,63 @@
       gap: 0.5rem;
     }
 
-    /* Main Content */
-    .main-content {
-      padding: 2rem;
-    }
-
     /* Search and Add Section */
     .search-add-section {
+      background-color: var(--card-background);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
     }
 
     .search-input {
       flex: 1;
-      border: 1px solid #d1d5db;
-      border-radius: 0.25rem;
-      padding: 0.5rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 0.375rem;
+      padding: 0.75rem 1rem;
       outline: none;
       transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      font-size: 0.875rem;
     }
 
     .search-input:focus {
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(14, 27, 51, 0.2);
+      box-shadow: 0 0 0 3px rgba(14, 27, 51, 0.1);
     }
 
     .add-course-button {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      border: 1px solid var(--primary-color);
-      color: var(--primary-color);
-      background-color: transparent;
-      padding: 0.5rem 1rem;
-      border-radius: 0.25rem;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
       text-decoration: none;
       font-weight: 500;
-      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-      margin-left: auto;
+      transition: all 0.2s ease-in-out;
+      border: none;
+      cursor: pointer;
+      font-size: 0.875rem;
     }
 
     .add-course-button:hover {
-      background-color: #0E1B33;
-      color: white;
+      background-color: #1a2645;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
     }
 
     /* Section Headers */
     .section-header {
-      font-size: 1.125rem;
+      font-size: 1.25rem;
       font-weight: 600;
       color: var(--primary-color);
       margin: 2rem 0 1rem 0;
+      padding-left: 0.5rem;
+      border-left: 4px solid var(--primary-color);
     }
 
     .section-header:first-of-type {
@@ -215,31 +224,40 @@
       background-color: var(--card-background);
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      overflow-x: auto;
+      overflow: hidden;
       margin-bottom: 2rem;
     }
 
     .courses-table {
-      min-width: 100%;
+      width: 100%;
       font-size: 0.875rem;
       color: var(--text-gray-700);
       border-collapse: collapse;
     }
 
     .courses-table thead {
-      color: var(--text-gray-500);
-      border-bottom: 1px solid var(--border-color);
+      background-color: var(--edit-bg);
+      color: var(--primary-color);
     }
 
     .courses-table th {
-      padding: 0.75rem 1.5rem;
+      padding: 1rem 1.5rem;
       text-align: left;
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .courses-table td {
       padding: 1rem 1.5rem;
       border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .courses-table tbody tr:hover {
+      background-color: var(--body-background);
     }
 
     .courses-table tbody tr:last-child td {
@@ -250,19 +268,20 @@
       width: 6rem;
       height: 4rem;
       object-fit: cover;
-      border-radius: 0.375rem;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     .course-title-link {
       color: var(--primary-color);
-      font-weight: 500;
+      font-weight: 600;
       text-decoration: none;
-      transition: text-decoration 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
     }
 
     .course-title-link:hover {
       text-decoration: underline;
+      color: #1a2645;
     }
 
     .course-description {
@@ -270,42 +289,64 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: var(--text-gray-600);
     }
 
     .course-price {
-      color: var(--green-600);
+      color: var(--success-color);
       font-weight: 700;
+      font-size: 1rem;
     }
 
     .no-image-text {
-      color: #9ca3af;
+      color: var(--text-gray-500);
       font-style: italic;
+      font-size: 0.75rem;
+    }
+
+    .status-submitted {
+      color: var(--success-color);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-not-submitted {
+      color: var(--warning-color);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     /* Action Buttons */
     .actions-container {
       display: flex;
       gap: 0.5rem;
+      align-items: center;
     }
 
     .edit-button {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       background-color: var(--edit-bg);
       color: var(--edit-text);
-      padding: 0.25rem 0.75rem;
-      border-radius: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
       font-weight: 500;
       font-size: 0.75rem;
       border: none;
       cursor: pointer;
       text-decoration: none;
-      transition: background-color 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
     }
 
     .edit-button:hover {
       background-color: #dbeafe;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(14, 27, 51, 0.1);
     }
 
     .delete-button {
@@ -314,21 +355,23 @@
       justify-content: center;
       background-color: var(--delete-bg);
       color: var(--delete-icon);
-      width: 1.75rem;
-      height: 1.75rem;
-      border-radius: 0.5rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.375rem;
       border: none;
       cursor: pointer;
-      transition: background-color 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
     }
 
     .delete-button:hover {
       background-color: #fee2e2;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
     }
 
     .edit-icon, .delete-icon {
-      width: 0.75rem;
-      height: 0.75rem;
+      width: 0.875rem;
+      height: 0.875rem;
     }
 
     .delete-icon {
@@ -341,27 +384,90 @@
       text-align: center;
       color: var(--text-gray-500);
       font-style: italic;
-      padding: 2rem;
+      padding: 3rem 2rem;
+      background-color: var(--card-background);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      margin-bottom: 2rem;
+    }
+
+    /* Not logged in state */
+    .not-logged-in-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: var(--body-background);
     }
 
     .not-logged-in {
       text-align: center;
       color: var(--text-gray-700);
+      padding: 2rem;
+      background-color: var(--card-background);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .login-link {
       color: var(--primary-color);
       text-decoration: none;
       transition: text-decoration 0.2s ease-in-out;
+      font-weight: 500;
     }
 
     .login-link:hover {
       text-decoration: underline;
     }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 16rem;
+      }
+      
+      .main-wrapper {
+        margin-left: 16rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      
+      .main-wrapper {
+        margin-left: 0;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+
+      .search-add-section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+      }
+
+      .courses-table {
+        min-width: 800px;
+      }
+    }
+
+    /* Icons */
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
   </style>
 </head>
 <body>
-
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
@@ -370,48 +476,52 @@
     </div>
     <nav class="sidebar-nav">
       <a href="/instructor_homepage">Dashboard</a>
-      <a href="/instructor/manage_courses">Manage Course</a>
+      <a href="/instructor/manage_courses" class="active">Manage Course</a>
       <a href="/instructor/manage_resources/add">Manage Resources</a>
     </nav>
   </aside>
 
   <!-- Main Content Wrapper -->
   <div class="main-wrapper">
-    <!-- Top bar -->
-    <header class="top-bar">
-      <h1 class="top-bar-title">Manage Courses</h1>
-      @auth
-        <div class="user-info">
-          <span>{{ auth()->user()->name }}</span>
-          <form action="/logout" method="POST">
-            @csrf
-            <button class="logout-button">Logout</button>
-          </form>
-        </div>
-      @else
-        <div class="auth-buttons">
-          <a href="/login" class="login-button">Login</a>
-          <a href="/register" class="signup-button">Sign Up</a>
-        </div>
-      @endauth
-    </header>
-
     <!-- Main Content -->
-    <section class="main-content">
+    <main class="main-content">
+      <!-- Top bar -->
+      <div class="top-bar">
+        <div class="top-bar-title">Manage Courses</div>
+        @auth
+          <div class="user-info">
+            <span>{{ auth()->user()->name }}</span>
+            <form action="/logout" method="POST" style="display: inline;">
+              @csrf
+              <button class="logout-button">Logout</button>
+            </form>
+          </div>
+        @else
+          <div class="auth-buttons">
+            <a href="/login" class="login-button">Login</a>
+            <a href="/register" class="signup-button">Sign Up</a>
+          </div>
+        @endauth
+      </div>
+
       @auth
+      <!-- Search and Add Section -->
       <div class="search-add-section">
         <input type="text" placeholder="Search courses..." class="search-input" />
-
         <form action="/manage_courses/add" method="GET">
           <button type="submit" class="add-course-button">
+            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
             Add Course
           </button>
         </form>
       </div>
 
+      <!-- Approved Courses Section -->
       <p class="section-header">Approved Courses</p>
       @if(isset($courses) && $courses->isEmpty())
-          <p class="no-courses">No courses available.</p>
+          <div class="no-courses">No courses available.</div>
       @else
       <div class="table-wrapper">
           <table class="courses-table">
@@ -448,7 +558,6 @@
                       <td>{{ $course->total_duration }} hrs</td>
                       <td class="course-price">{{ $course->price }}</td>
                       <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-                      
                   </tr>
                   @endforeach
               </tbody>
@@ -456,9 +565,10 @@
       </div>
       @endif
 
+      <!-- Pending Courses Section -->
       <p class="section-header">Pending Courses</p>
       @if(isset($pendingCourses) && $pendingCourses->isEmpty())
-          <p class="no-courses">No pending courses available.</p>
+          <div class="no-courses">No pending courses available.</div>
       @else
       <div class="table-wrapper">
           <table class="courses-table">
@@ -497,15 +607,20 @@
                       <td>{{ $course->total_duration }} hrs</td>
                       <td class="course-price">{{ $course->price }}</td>
                       <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-                      <td class="text-green-600 font-semibold">
-                        {{ \App\Models\CourseNotification::where('pending_course_id', $course->id)->exists() ? 'Submitted' : 'Not Submitted' }}
+                      <td>
+                        @if(\App\Models\CourseNotification::where('pending_course_id', $course->id)->exists())
+                          <span class="status-submitted">Submitted</span>
+                        @else
+                          <span class="status-not-submitted">Not Submitted</span>
+                        @endif
                       </td>
                       <td>
                         <div class="actions-container">
                           <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET">
                             <button type="submit" class="edit-button">
                               <svg class="edit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l5-5m-5 5v5h5m-5-5H4m5 0L4 20l5-5"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                               </svg>
                               Edit
                             </button>
@@ -515,7 +630,7 @@
                             @method('DELETE')
                             <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this course?');">
                               <svg class="delete-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-3h4a1 1 0 011 1v1H9V5a1 1 0 011-1z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                               </svg>
                             </button>
                           </form>
@@ -527,11 +642,15 @@
           </table>
       </div>
       @endif
-      @else
-      <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
-      @endauth
-    </section>
-  </div>
 
+      @else
+      <div class="not-logged-in-container">
+        <div class="not-logged-in">
+          <p>You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
+        </div>
+      </div>
+      @endauth
+    </main>
+  </div>
 </body>
 </html>

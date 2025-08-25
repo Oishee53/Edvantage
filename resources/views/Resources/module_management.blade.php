@@ -35,7 +35,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 16rem;
+      width: 18rem;
       background-color: var(--card-background);
       min-height: 100vh;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -85,7 +85,7 @@
 
     /* Main Content Wrapper */
     .main-wrapper {
-      margin-left: 15rem;
+      margin-left: 17.5rem;
       flex: 1;
     }
 
@@ -95,8 +95,6 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      background-color: var(--card-background);
-      border-bottom: 1px solid var(--border-color);
     }
 
     .top-bar-title {
@@ -255,20 +253,28 @@
       padding: 1.5rem;
     }
 
-    .back-link {
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.2s ease-in-out;
-    }
+    /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+        }
 
-    .back-link:hover {
-      color: var(--text-gray-700);
-    }
-
+        .back-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+        }
     .back-arrow {
       font-size: 1.25rem;
     }
@@ -387,19 +393,9 @@
         </div>
 
         <!-- Back Navigation -->
-        <div class="back-navigation">
-          @if(auth()->user()->role === 2)
-            <a href="/admin_panel/manage_resources" class="back-link">
-              <span class="back-arrow">←</span>
-              Back to Home Page
-            </a>
-          @elseif(auth()->user()->role === 3)
-            <a href="/instructor/manage_resources" class="back-link">
-              <span class="back-arrow">←</span>
-              Back to Home Page
-            </a>
-          @endif
-        </div>
+        <a href="javascript:history.back()" class="back-link">
+            Back
+          </a>
 
       @else
         <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>

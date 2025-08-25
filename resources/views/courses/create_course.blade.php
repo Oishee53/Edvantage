@@ -34,7 +34,11 @@
 
         /* Updated sidebar to match dashboard exactly - removed fixed positioning */
         .sidebar {
-            width: 17.5rem;
+            @if(auth()->user() && auth()->user()->role === 2)
+                width: 17.5rem;
+            @elseif(auth()->user() && auth()->user()->role === 3)
+                width: 15rem;
+            @endif
             background-color: var(--card-background);
             min-height: 100vh;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);

@@ -7,199 +7,650 @@
     <title>Enrolled Students</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-    
-    <!-- TailwindCSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     
     <style>
+        /* Custom CSS Variables */
+        :root {
+            --primary-color: #0E1B33;
+            --primary-light-hover-bg: #E3E6F3;
+            --body-background: #f9fafb;
+            --card-background: #ffffff;
+            --text-default: #333;
+            --text-gray-600: #4b5563;
+            --text-gray-700: #374151;
+            --text-gray-500: #6b7280;
+            --border-color: #e5e7eb;
+            --edit-bg: #EDF2FC;
+            --edit-text: #0E1B33;
+            --view-bg: #ECFDF5;
+            --view-icon: #16A34A;
+            --delete-bg: #FEF2F2;
+            --delete-icon: #DC2626;
+            --green-600: #059669;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--body-background);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar - Matching Dashboard Style */
+        .sidebar {
+            width: 17.5rem;
+            background-color: var(--card-background);
+            min-height: 100vh;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .sidebar-header img {
+            height: 2.5rem;
+        }
+
+        .sidebar-nav {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--primary-color);
+        }
+
+        /* Main Content Wrapper */
+        .main-wrapper {
+            margin-left: 17.5rem;
+            flex: 1;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        /* Top bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-bar-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--primary-color);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+            font-size: 0.875rem;
+            margin-top:1rem;
+            
+        }
+
+        .back-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info span {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .logout-button, .login-button, .signup-button {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .logout-button, .signup-button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .logout-button:hover, .signup-button:hover {
+            opacity: 0.9;
+        }
+
+        .login-button {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+        }
+
+        .login-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Page Header Section */
+        .page-header {
+            background-color: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-header-icon {
+            background-color: var(--view-bg);
+            color: var(--view-icon);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-header-icon i {
+            font-size: 1.25rem;
+        }
+
+        .page-header-text h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .page-header-text p {
+            color: var(--text-gray-600);
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        /* Course Cards */
+        .courses-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .course-card {
+            background-color: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.2s ease-in-out;
+            overflow: hidden;
+        }
+
+        .course-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .course-card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .course-card-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .course-card-info h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .course-card-stats {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .course-card-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .course-card-body {
+            padding: 1.5rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .empty-state-icon {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--text-gray-500);
+            padding: 1rem;
+            border-radius: 50%;
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state-icon i {
+            font-size: 1.5rem;
+        }
+
+        .empty-state h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-gray-700);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .empty-state p {
+            color: var(--text-gray-500);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        /* Students Table */
+        .students-table-container {
+            overflow-x: auto;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .students-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.875rem;
+        }
+
+        .students-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .students-table tr:hover {
             background-color: #f9fafb;
         }
-    </style>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0E1B33',
-                        primaryLight: '#E3E6F3',
-                        editBg: '#EDF2FC',
-                        editText: '#0E1B33',
-                        viewBg: '#ECFDF5',
-                        viewIcon: '#16A34A',
-                        deleteBg: '#FEF2F2',
-                        deleteIcon: '#DC2626',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    }
-                },
-            },
-        }
-    </script>
-</head>
-<body class="flex min-h-screen">
 
+        .student-id-badge {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--primary-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .student-avatar {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .student-name {
+            font-weight: 500;
+            color: var(--text-gray-700);
+        }
+
+        .student-email, .student-phone {
+            color: var(--text-gray-600);
+            font-size: 0.875rem;
+        }
+
+        .unenroll-button {
+            background-color: var(--delete-bg);
+            color: var(--delete-icon);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .unenroll-button:hover {
+            background-color: #fca5a5;
+        }
+
+        /* No Courses State */
+        .no-courses-state {
+            background-color: var(--card-background);
+            padding: 3rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .no-courses-icon {
+            background-color: var(--primary-light-hover-bg);
+            color: var(--text-gray-500);
+            padding: 1.5rem;
+            border-radius: 50%;
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .no-courses-icon i {
+            font-size: 2rem;
+        }
+
+        .no-courses-state h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-gray-700);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .no-courses-state p {
+            color: var(--text-gray-500);
+            margin: 0 0 1.5rem 0;
+        }
+
+        .create-course-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .create-course-button:hover {
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 16rem;
+            }
+            
+            .main-wrapper {
+                margin-left: 16rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main-wrapper {
+                margin-left: 0;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+
+            .students-table-container {
+                overflow-x: scroll;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .top-bar-left {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
     <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
-        <div class="p-6 flex items-center gap-2">
-            <img src="/image/Edvantage.png" class="h-10" alt="Edvantage Logo">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
-        <nav class="mt-8 flex-1">
-            <a href="/admin_panel/dashboard" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Dashboard</a>
-            <a href="/admin_panel/manage_courses" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Course</a>
-            <a href="/admin_panel/manage_user" class="block py-3 px-6 text-primary bg-primaryLight font-semibold">Manage User</a>
-            <a href="/admin_panel/manage_resources" class="block py-3 px-6 text-primary hover:bg-primaryLight font-semibold">Manage Resources</a>
+        <nav class="sidebar-nav">
+            <a href="/admin_panel/dashboard">Dashboard</a>
+            <a href="/admin_panel/manage_courses">Manage Course</a>
+            <a href="/admin_panel/manage_user" class="active">Manage User</a>
+            <a href="/admin_panel/manage_resources">Manage Resources</a>
         </nav>
     </aside>
 
-    <!-- Main content -->
-    <main class="flex-1 flex flex-col">
-        <!-- Top bar -->
-        <header class="flex justify-between items-center px-8 py-4 bg-white border-b border-gray-200">
-            <div class="flex items-center gap-4">
-                <h1 class="text-2xl font-bold text-primary">Enrolled Students</h1>
-                <a href="/admin_panel/manage_user" class="text-sm text-primary hover:underline flex items-center gap-1">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to User Management
-                </a>
-            </div>
-            @auth
-                <div class="flex items-center space-x-4">
-                    <span class="text-primary font-medium">{{ auth()->user()->name }}</span>
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button class="bg-primary text-white px-3 py-2 rounded hover:bg-opacity-90">
-                            Logout
-                        </button>
-                    </form>
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top bar -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <div class="top-bar-title">Enrolled Students</div>
                 </div>
-            @else
-                <div class="flex gap-2">
-                    <a href="/login" class="border border-primary text-primary px-4 py-2 rounded hover:bg-primaryLight">Login</a>
-                    <a href="/register" class="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90">Sign Up</a>
-                </div>
-            @endauth
-        </header>
-
-        <!-- Main Content Area -->
-        <section class="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-            <!-- Page Header -->
-            <div class="bg-white p-6 rounded-lg shadow">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="bg-viewBg p-2 rounded-lg">
-                        <i class="fas fa-user-graduate text-viewIcon text-lg"></i>
+                @auth
+                    <div class="user-info">
+                        <span>{{ auth()->user()->name }}</span>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            @csrf
+                            <button class="logout-button">Logout</button>
+                        </form>
                     </div>
-                    <h2 class="text-xl font-semibold text-primary">Enrolled Students Per Course</h2>
-                </div>
-                <p class="text-gray-600">View and manage students enrolled in each course</p>
+                @else
+                    <div class="auth-buttons">
+                        <a href="/login" class="login-button">Login</a>
+                        <a href="/register" class="signup-button">Sign Up</a>
+                    </div>
+                @endauth
             </div>
 
-            <!-- Course Cards -->
-            @foreach($courses as $course)
-                <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
-                    <!-- Course Header -->
-                    <div class="bg-primary text-white p-4 rounded-t-lg">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-lg font-semibold">{{ $course->title }}</h3>
-                                <div class="flex items-center gap-4 mt-1 text-sm opacity-90">
-                                    <span class="flex items-center gap-1">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <div class="page-header-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="page-header-text">
+                        <h2>Enrolled Students Per Course</h2>
+                        <p>View and manage students enrolled in each course</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Container -->
+            <div class="courses-container">
+                @foreach($courses as $course)
+                    <div class="course-card">
+                        <div class="course-card-header">
+                            <div class="course-card-header-content">
+                                <div class="course-card-info">
+                                    <h3>{{ $course->title }}</h3>
+                                    <div class="course-card-stats">
                                         <i class="fas fa-users"></i>
-                                        {{ $course->students->count() }} Students Enrolled
-                                    </span>
+                                        <span>{{ $course->students->count() }} Students Enrolled</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                                <span class="text-sm font-medium">{{ $course->students->count() }}</span>
+                                <div class="course-card-badge">{{ $course->students->count() }}</div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Course Content -->
-                    <div class="p-6">
-                        @if($course->students->isEmpty())
-                            <div class="text-center py-8">
-                                <div class="bg-gray-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                                    <i class="fas fa-user-slash text-gray-400 text-xl"></i>
+                        <div class="course-card-body">
+                            @if($course->students->isEmpty())
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <i class="fas fa-user-slash"></i>
+                                    </div>
+                                    <h4>No students enrolled in this course</h4>
+                                    <p>Students will appear here once they enroll</p>
                                 </div>
-                                <p class="text-gray-500 font-medium">No students enrolled in this course</p>
-                                <p class="text-gray-400 text-sm mt-1">Students will appear here once they enroll</p>
-                            </div>
-                        @else
-                            <!-- Students Table -->
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full">
-                                    <thead>
-                                        <tr class="border-b border-gray-200">
-                                            <th class="text-left py-3 px-4 font-semibold text-primary">Student ID</th>
-                                            <th class="text-left py-3 px-4 font-semibold text-primary">Name</th>
-                                            <th class="text-left py-3 px-4 font-semibold text-primary">Email</th>
-                                            <th class="text-left py-3 px-4 font-semibold text-primary">Phone</th>
-                                            <th class="text-left py-3 px-4 font-semibold text-primary">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($course->students as $student)
-                                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                                                <td class="py-3 px-4 text-gray-700">
-                                                    <span class="bg-primaryLight text-primary px-2 py-1 rounded text-sm font-medium">
-                                                        #{{ $student->id }}
-                                                    </span>
-                                                </td>
-                                                <td class="py-3 px-4">
-                                                    <div class="flex items-center gap-3">
-                                                        <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-medium">
-                                                            {{ strtoupper(substr($student->name, 0, 1)) }}
-                                                        </div>
-                                                        <span class="font-medium text-gray-900">{{ $student->name }}</span>
-                                                    </div>
-                                                </td>
-                                                <td class="py-3 px-4 text-gray-700">{{ $student->email }}</td>
-                                                <td class="py-3 px-4 text-gray-700">{{ $student->phone }}</td>
-                                                <td class="py-3 px-4">
-                                                    <form action="/admin_panel/manage_user/unenroll_student/{{$course->id}}/{{$student->id}}" method="POST" class="inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" 
-                                                                class="bg-deleteBg text-deleteIcon px-3 py-1 rounded text-sm font-medium hover:bg-red-100 transition-colors flex items-center gap-1"
-                                                                onclick="return confirm('Are you sure you want to unenroll {{ $student->name }} from {{ $course->title }}?')">
-                                                            <i class="fas fa-user-minus text-xs"></i>
-                                                            Unenroll
-                                                        </button>
-                                                    </form>
-                                                </td>
+                            @else
+                                <div class="students-table-container">
+                                    <table class="students-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Student ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Action</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
+                                        </thead>
+                                        <tbody>
+                                            @foreach($course->students as $student)
+                                                <tr>
+                                                    <td>
+                                                        <span class="student-id-badge">#{{ $student->id }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="student-info">
+                                                            <div class="student-avatar">{{ strtoupper(substr($student->name, 0, 1)) }}</div>
+                                                            <span class="student-name">{{ $student->name }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="student-email">{{ $student->email }}</td>
+                                                    <td class="student-phone">{{ $student->phone }}</td>
+                                                    <td>
+                                                        <form action="/admin_panel/manage_user/unenroll_student/{{$course->id}}/{{$student->id}}" method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="unenroll-button" onclick="return confirm('Are you sure you want to unenroll {{ $student->name }} from {{ $course->title }}?')">
+                                                                <i class="fas fa-user-minus"></i>
+                                                                Unenroll
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
 
-            @if($courses->isEmpty())
-                <div class="bg-white p-12 rounded-lg shadow text-center">
-                    <div class="bg-gray-100 p-6 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
-                        <i class="fas fa-book-open text-gray-400 text-2xl"></i>
+                @if($courses->isEmpty())
+                    <div class="no-courses-state">
+                        <div class="no-courses-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>No Courses Available</h3>
+                        <p>There are no courses created yet.</p>
+                        <a href="/admin_panel/manage_courses" class="create-course-button">
+                            <i class="fas fa-plus"></i>
+                            Create Course
+                        </a>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">No Courses Available</h3>
-                    <p class="text-gray-500 mb-4">There are no courses created yet.</p>
-                    <a href="/admin_panel/manage_courses" class="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90 inline-flex items-center gap-2">
-                        <i class="fas fa-plus"></i>
-                        Create Course
-                    </a>
-                </div>
-            @endif
-        </section>
-    </main>
-
+                @endif
+            </div>
+            <a href="/admin_panel/manage_user" class="back-link">
+                 Back
+            </a>
+        </main>
+    </div>
 </body>
 </html>
