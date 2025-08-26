@@ -236,54 +236,7 @@
       max-width: 1200px;
       margin: 0 auto;
     }
-    .page-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .page-title {
-    flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-    }
-  
-
-    .page-subtitle {
-      font-size: 1.1rem;
-      color: #5f6368;
-      margin-bottom: 2rem;
-    }
-    /* Stats Cards - Updated colors */
-    .stats-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-    .stat-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      border: 1px solid #dadce0;
-      transition: all 0.3s ease;
-    }
-    .stat-card:hover {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
-    }
-    .stat-number {
-      font-size: 1.5rem;
-      font-weight: 400;
-      color: #0E1B33;
-      margin-bottom: 0.5rem;
-    }
-    .stat-label {
-      color: #5f6368;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+   
     /* Courses Container - Updated colors */
     .courses-container {
       background: white;
@@ -528,7 +481,7 @@
                         <a href="{{ route('courses.enrolled') }}"><i class="fa-solid fa-graduation-cap icon"></i> My Courses</a>
                         <a href="{{ route('user.progress') }}"><i class="fa-solid fa-chart-line icon"></i> My Progress</a>
                         <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
-                        <a href="/purchase_history"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
+                        <a href="{{ route('purchase.history') }}"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
                         <div class="separator"></div>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fa-solid fa-right-from-bracket icon"></i> Logout
@@ -546,27 +499,7 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Page Header -->
-    <div class="page-header">
-      <br>
-      <h1 class="page-title">Learning Dashboard</h1>
-      <p class="page-subtitle">Track your progress and continue your professional development</p>
-    </div>
-    <!-- Stats Cards -->
-    <div class="stats-container">
-      <div class="stat-card">
-        <div class="stat-number">{{ $enrolledCourses->count() }}</div> 
-        <div class="stat-label">Courses Enrolled</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">{{ $completedCourses ?? 0 }}</div>
-        <div class="stat-label">Completed</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">{{ $totalHours ?? '24' }}h</div>
-        <div class="stat-label">Learning Hours</div>
-      </div>
-    </div>
+  
     <!-- Courses Container -->
     <div class="courses-container">
       <h2 class="courses-title">My Courses</h2>

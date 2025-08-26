@@ -14,45 +14,36 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        .certificate {
-            background: #fff;
-            width: 100%;
-            max-width: 800px;
-            min-height: 600px;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            margin: 0 auto;
-        }
+.certificate-wrapper {
+  width: 900px;        /* pick your certificate width */
+  height: 650px;       /* pick your certificate height */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
 
-        /* Decorative border */
-        .certificate::before {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-            border: 3px solid;
-            border-image: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c) 1;
-            border-radius: 10px;
-            z-index: 1;
-        }
+.certificate {
+  width: 100%;
+  height: 100%;
+  background: #faf9f6; /* off-white */
+  border-radius: 15px;
+  padding: 40px 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+      
 
         /* Background pattern */
         .certificate::after {
@@ -101,38 +92,17 @@
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
-        .logo::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-        }
-
-        .logo::after {
-            content: '🎓';
-            position: relative;
-            z-index: 2;
-            font-size: 24px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    
 
         .company-name {
-            font-size: 24px;
+            font-size: 30px;
             font-weight: 600;
             color: #2d3748;
         }
 
         .certificate-title {
             font-family: 'Playfair Display', serif;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: #2d3748;
             margin-bottom: 8px;
@@ -281,29 +251,29 @@
         }
 
         .corner-decoration.top-left {
-            top: 30px;
-            left: 30px;
+            top: 35px;
+            left: 35px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 0 0 60px 0;
         }
 
         .corner-decoration.top-right {
-            top: 30px;
-            right: 30px;
+            top: 35px;
+            right: 35px;
             background: linear-gradient(225deg, #f093fb, #f5576c);
             border-radius: 0 0 0 60px;
         }
 
         .corner-decoration.bottom-left {
-            bottom: 30px;
-            left: 30px;
+            bottom: 35px;
+            left: 35px;
             background: linear-gradient(45deg, #4facfe, #00f2fe);
             border-radius: 0 60px 0 0;
         }
 
         .corner-decoration.bottom-right {
-            bottom: 30px;
-            right: 30px;
+            bottom: 35px;
+            right: 35px;
             background: linear-gradient(315deg, #fa709a, #fee140);
             border-radius: 60px 0 0 0;
         }
@@ -311,16 +281,20 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             body {
-                padding: 10px;
+                padding: 10px 5px;
+            }
+            
+            .certificate-wrapper {
+                padding: 20px;
             }
             
             .certificate {
-                padding: 25px;
+                padding: 30px 25px;
                 border-radius: 10px;
             }
             
             .certificate-title {
-                font-size: 28px;
+                font-size: 24px;
             }
             
             .recipient-name {
@@ -350,15 +324,15 @@
 
         @media (max-width: 480px) {
             .certificate {
-                padding: 20px;
+                padding: 25px 20px;
             }
             
             .company-name {
-                font-size: 20px;
+                font-size: 24px;
             }
             
             .certificate-title {
-                font-size: 24px;
+                font-size: 22px;
             }
             
             .recipient-name {
@@ -381,61 +355,73 @@
                 margin: 0;
             }
             
+            .certificate-wrapper {
+                box-shadow: none;
+                border-radius: 0;
+                background: white;
+                padding: 0;
+                max-width: none;
+            }
+            
             .certificate {
                 box-shadow: none;
                 border-radius: 0;
                 width: 100%;
                 min-height: 100vh;
-                padding: 40px;
+                padding: 60px 40px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="certificate">
-        <div class="decorative-elements">
-            <div class="corner-decoration top-left"></div>
-            <div class="corner-decoration top-right"></div>
-            <div class="corner-decoration bottom-left"></div>
-            <div class="corner-decoration bottom-right"></div>
-        </div>
-
-        <div class="content">
-            <div class="header">
-                <div class="logo-section">
-                    <div class="logo"></div>
-                    <div class="company-name">Edvantage Learning</div>
-                </div>
-                <h1 class="certificate-title">Certificate of Completion</h1>
-                <p class="certificate-subtitle">Professional Achievement Award</p>
+    <div class="certificate-wrapper">
+        <div class="certificate">
+            <div class="decorative-elements">
+                <div class="corner-decoration top-left"></div>
+                <div class="corner-decoration top-right"></div>
+                <div class="corner-decoration bottom-left"></div>
+                <div class="corner-decoration bottom-right"></div>
             </div>
 
-            <div class="main-content">
-                <p class="awarded-text">This certificate is proudly awarded to</p>
-                
-                <h2 class="recipient-name">{{ $user->name }}</h2>
-                
-                <p class="completion-text">
-                    For successfully completing all course requirements and demonstrating 
-                    exceptional dedication in mastering the comprehensive curriculum of
-                </p>
-                
-                <h3 class="course-name">"{{ $course->title }}"</h3>
-                
-                <div class="score-badge">
-                    Final Score: {{ round($avgScore) }}%
+            <div class="content">
+                <div class="header">
+                    <div class="logo-section">
+                        <div class="logo"></div>
+                        <div class="company-name">{{ $company_name ?? 'Edvantage' }}</div>
+                    </div>
+                    <h1 class="certificate-title">Certificate of Completion</h1>
+                    <p class="certificate-subtitle">Professional Achievement Award</p>
                 </div>
-            </div>
 
-            <div class="footer">
-                <div class="date-section">
-                    <div class="date-label">Date of Completion</div>
-                    <div class="date">{{ date('F j, Y') }}</div>
+                <div class="main-content">
+                    <p class="awarded-text">This certificate is proudly awarded to</p>
+                    
+                    <h2 class="recipient-name">{{ $user->name ?? $student_name ?? 'Student Name' }}</h2>
+                    
+                    <p class="completion-text">
+                        For successfully completing all course requirements and demonstrating 
+                        exceptional dedication in mastering the comprehensive curriculum of
+                    </p>
+                    
+                    <h3 class="course-name">"{{ $course->title ?? $course_name ?? 'Course Title' }}"</h3>
+                    
+                    @if(isset($avgScore) || isset($score))
+                    <div class="score-badge">
+                        Final Score: {{ round($avgScore ?? $score) }}%
+                    </div>
+                    @endif
                 </div>
-                
-                <div class="signature-section">
-                    <div class="signature-line"></div>
-                    <div class="signature-label">Director of Education</div>
+
+                <div class="footer">
+                    <div class="date-section">
+                        <div class="date-label">Date of Completion</div>
+                        <div class="date">{{ $completion_date ?? date('F j, Y') }}</div>
+                    </div>
+                    
+                    <div class="signature-section">
+                        <div class="signature-line"></div>
+                        <div class="signature-label">{{ $signature_title ?? 'Director of Education' }}</div>
+                    </div>
                 </div>
             </div>
         </div>
