@@ -14,34 +14,37 @@
         }
 
         body {
-  margin: 0;
-  padding: 0;
-  background: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+            font-family: 'Inter', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.certificate-wrapper {
-  width: 900px;        /* pick your certificate width */
-  height: 650px;       /* pick your certificate height */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
+        .certificate-wrapper {
+            max-width: 700px;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
 
-.certificate {
-  width: 100%;
-  height: 100%;
-  background: #faf9f6; /* off-white */
-  border-radius: 15px;
-  padding: 40px 35px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+        .certificate {
+            background: #fff;
+            width: 100%;
+            min-height: 500px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 35px;
+        }
 
       
 
@@ -281,7 +284,8 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             body {
-                padding: 10px 5px;
+                padding: 20px 10px;
+                margin-left: -60px; 
             }
             
             .certificate-wrapper {
@@ -353,6 +357,8 @@
                 background: white;
                 padding: 0;
                 margin: 0;
+                 width: 100%;
+                 height: 100%;
             }
             
             .certificate-wrapper {
