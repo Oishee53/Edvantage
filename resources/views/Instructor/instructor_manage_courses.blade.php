@@ -33,6 +33,7 @@
       margin: 0;
       display: flex;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* Sidebar - Matching Dashboard Style */
@@ -89,11 +90,15 @@
     .main-wrapper {
       margin-left: 17.5rem;
       flex: 1;
+      max-width: calc(100vw - 17.5rem);
+      overflow-x: hidden;
     }
 
     .main-content {
       flex: 1;
       padding: 2rem;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     /* Top bar - Matching Dashboard Style */
@@ -102,6 +107,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .top-bar-title {
@@ -157,31 +164,7 @@
     }
 
     /* Search and Add Section */
-    .search-add-section {
-      background-color: var(--card-background);
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
 
-    .search-input {
-      flex: 1;
-      border: 1px solid var(--border-color);
-      border-radius: 0.375rem;
-      padding: 0.75rem 1rem;
-      outline: none;
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      font-size: 0.875rem;
-    }
-
-    .search-input:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(14, 27, 51, 0.1);
-    }
 
     .add-course-button {
       display: inline-flex;
@@ -197,6 +180,8 @@
       border: none;
       cursor: pointer;
       font-size: 0.875rem;
+      white-space: nowrap;
+      margin-left: 50rem;
     }
 
     .add-course-button:hover {
@@ -226,13 +211,20 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       overflow: hidden;
       margin-bottom: 2rem;
+      max-width: 100%;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      max-width: 100%;
     }
 
     .courses-table {
       width: 100%;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       color: var(--text-gray-700);
       border-collapse: collapse;
+      min-width: 900px;
     }
 
     .courses-table thead {
@@ -241,19 +233,21 @@
     }
 
     .courses-table th {
-      padding: 1rem 1.5rem;
+      padding: 0.75rem 1rem;
       text-align: left;
       font-weight: 600;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
     }
 
     .courses-table td {
-      padding: 1rem 1.5rem;
+      padding: 0.75rem 1rem;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
+      font-size: 0.8rem;
     }
 
     .courses-table tbody tr:hover {
@@ -264,9 +258,22 @@
       border-bottom: none;
     }
 
+    /* Column width optimization */
+    .courses-table th:nth-child(1), .courses-table td:nth-child(1) { width: 80px; } /* Image */
+    .courses-table th:nth-child(2), .courses-table td:nth-child(2) { width: 150px; } /* Title */
+    .courses-table th:nth-child(3), .courses-table td:nth-child(3) { width: 180px; } /* Description */
+    .courses-table th:nth-child(4), .courses-table td:nth-child(4) { width: 100px; } /* Category */
+    .courses-table th:nth-child(5), .courses-table td:nth-child(5) { width: 70px; } /* Videos */
+    .courses-table th:nth-child(6), .courses-table td:nth-child(6) { width: 90px; } /* Video Length */
+    .courses-table th:nth-child(7), .courses-table td:nth-child(7) { width: 90px; } /* Total Duration */
+    .courses-table th:nth-child(8), .courses-table td:nth-child(8) { width: 80px; } /* Price */
+    .courses-table th:nth-child(9), .courses-table td:nth-child(9) { width: 110px; } /* Added */
+    .courses-table th:nth-child(10), .courses-table td:nth-child(10) { width: 80px; } /* Status */
+    .courses-table th:nth-child(11), .courses-table td:nth-child(11) { width: 120px; } /* Actions */
+
     .course-image {
-      width: 6rem;
-      height: 4rem;
+      width: 4rem;
+      height: 3rem;
       object-fit: cover;
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -277,6 +284,11 @@
       font-weight: 600;
       text-decoration: none;
       transition: all 0.2s ease-in-out;
+      display: block;
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .course-title-link:hover {
@@ -285,7 +297,7 @@
     }
 
     .course-description {
-      max-width: 20rem;
+      max-width: 170px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -295,19 +307,19 @@
     .course-price {
       color: var(--success-color);
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
     .no-image-text {
       color: var(--text-gray-500);
       font-style: italic;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
     }
 
     .status-submitted {
       color: var(--success-color);
       font-weight: 600;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -315,7 +327,7 @@
     .status-not-submitted {
       color: var(--warning-color);
       font-weight: 600;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -323,20 +335,20 @@
     /* Action Buttons */
     .actions-container {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.375rem;
       align-items: center;
     }
 
     .edit-button {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.25rem;
       background-color: var(--edit-bg);
       color: var(--edit-text);
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.375rem;
+      padding: 0.375rem 0.5rem;
+      border-radius: 0.25rem;
       font-weight: 500;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       border: none;
       cursor: pointer;
       text-decoration: none;
@@ -355,9 +367,9 @@
       justify-content: center;
       background-color: var(--delete-bg);
       color: var(--delete-icon);
-      width: 2rem;
-      height: 2rem;
-      border-radius: 0.375rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.25rem;
       border: none;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
@@ -370,13 +382,13 @@
     }
 
     .edit-icon, .delete-icon {
-      width: 0.875rem;
-      height: 0.875rem;
+      width: 0.75rem;
+      height: 0.75rem;
     }
 
     .delete-icon {
-      width: 1rem;
-      height: 1rem;
+      width: 0.875rem;
+      height: 0.875rem;
     }
 
     /* No courses message */
@@ -421,6 +433,12 @@
       text-decoration: underline;
     }
 
+    /* Icons */
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
+
     /* Responsive Design */
     @media (max-width: 1024px) {
       .sidebar {
@@ -429,6 +447,21 @@
       
       .main-wrapper {
         margin-left: 16rem;
+        max-width: calc(100vw - 16rem);
+      }
+
+      .courses-table {
+        font-size: 0.75rem;
+        min-width: 800px;
+      }
+
+      .courses-table th, .courses-table td {
+        padding: 0.5rem 0.75rem;
+      }
+
+      .course-image {
+        width: 3.5rem;
+        height: 2.5rem;
       }
     }
 
@@ -439,6 +472,7 @@
       
       .main-wrapper {
         margin-left: 0;
+        max-width: 100vw;
       }
       
       .main-content {
@@ -451,19 +485,65 @@
         gap: 1rem;
       }
 
-      .table-wrapper {
-        overflow-x: auto;
+      .search-input {
+        min-width: auto;
       }
 
       .courses-table {
-        min-width: 800px;
+        font-size: 0.7rem;
+        min-width: 700px;
+      }
+
+      .courses-table th, .courses-table td {
+        padding: 0.375rem 0.5rem;
+      }
+
+      .course-description, .course-title-link {
+        max-width: 100px;
+      }
+
+      .course-image {
+        width: 3rem;
+        height: 2.25rem;
+      }
+
+      .edit-button {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.375rem;
+      }
+
+      .delete-button {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .edit-icon, .delete-icon {
+        width: 0.625rem;
+        height: 0.625rem;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .user-info {
+        justify-content: space-between;
       }
     }
 
-    /* Icons */
-    .icon {
-      width: 16px;
-      height: 16px;
+    @media (max-width: 480px) {
+      .courses-table {
+        min-width: 600px;
+      }
+
+      .course-description, .course-title-link {
+        max-width: 80px;
+      }
+
+      .courses-table th:nth-child(2), .courses-table td:nth-child(2) { width: 100px; }
+      .courses-table th:nth-child(3), .courses-table td:nth-child(3) { width: 100px; }
+      .courses-table th:nth-child(11), .courses-table td:nth-child(11) { width: 90px; }
     }
   </style>
 </head>
@@ -507,12 +587,8 @@
       @auth
       <!-- Search and Add Section -->
       <div class="search-add-section">
-        <input type="text" placeholder="Search courses..." class="search-input" />
         <form action="/manage_courses/add" method="GET">
           <button type="submit" class="add-course-button">
-            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-            </svg>
             Add Course
           </button>
         </form>
@@ -524,44 +600,46 @@
           <div class="no-courses">No courses available.</div>
       @else
       <div class="table-wrapper">
-          <table class="courses-table">
-              <thead>
-                  <tr>
-                      <th>Image</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Category</th>
-                      <th>Videos</th>
-                      <th>Video Length</th>
-                      <th>Total Duration</th>
-                      <th>Price (৳)</th>
-                      <th>Added</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach($courses as $course)
-                  <tr>
-                      <td>
-                          @if($course->image)
-                              <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
-                          @else
-                              <span class="no-image-text">No image</span>
-                          @endif
-                      </td>
-                      <td>
-                          <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
-                      </td>
-                      <td class="course-description">{{ $course->description }}</td>
-                      <td>{{ $course->category }}</td>
-                      <td>{{ $course->video_count }}</td>
-                      <td>{{ $course->approx_video_length }} mins</td>
-                      <td>{{ $course->total_duration }} hrs</td>
-                      <td class="course-price">{{ $course->price }}</td>
-                      <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-                  </tr>
-                  @endforeach
-              </tbody>
-          </table>
+          <div class="table-scroll">
+              <table class="courses-table">
+                  <thead>
+                      <tr>
+                          <th>Image</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Videos</th>
+                          <th>Video Length</th>
+                          <th>Total Duration</th>
+                          <th>Price (৳)</th>
+                          <th>Added</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($courses as $course)
+                      <tr>
+                          <td>
+                              @if($course->image)
+                                  <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+                              @else
+                                  <span class="no-image-text">No image</span>
+                              @endif
+                          </td>
+                          <td>
+                              <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                          </td>
+                          <td class="course-description">{{ $course->description }}</td>
+                          <td>{{ $course->category }}</td>
+                          <td>{{ $course->video_count }}</td>
+                          <td>{{ $course->approx_video_length }} mins</td>
+                          <td>{{ $course->total_duration }} hrs</td>
+                          <td class="course-price">{{ $course->price }}</td>
+                          <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                      </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
       </div>
       @endif
 
@@ -571,75 +649,77 @@
           <div class="no-courses">No pending courses available.</div>
       @else
       <div class="table-wrapper">
-          <table class="courses-table">
-              <thead>
-                  <tr>
-                      <th>Image</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Category</th>
-                      <th>Videos</th>
-                      <th>Video Length</th>
-                      <th>Total Duration</th>
-                      <th>Price (৳)</th>
-                      <th>Added</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach($pendingCourses as $course)
-                  <tr>
-                      <td>
-                          @if($course->image)
-                              <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
-                          @else
-                              <span class="no-image-text">No image</span>
-                          @endif
-                      </td>
-                      <td>
-                          <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
-                      </td>
-                      <td class="course-description">{{ $course->description }}</td>
-                      <td>{{ $course->category }}</td>
-                      <td>{{ $course->video_count }}</td>
-                      <td>{{ $course->approx_video_length }} mins</td>
-                      <td>{{ $course->total_duration }} hrs</td>
-                      <td class="course-price">{{ $course->price }}</td>
-                      <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-                      <td>
-                        @if(\App\Models\CourseNotification::where('pending_course_id', $course->id)->exists())
-                          <span class="status-submitted">Submitted</span>
-                        @else
-                          <span class="status-not-submitted">Not Submitted</span>
-                        @endif
-                      </td>
-                      <td>
-                        <div class="actions-container">
-                          <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET">
-                            <button type="submit" class="edit-button">
-                              <svg class="edit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                              </svg>
-                              Edit
-                            </button>
-                          </form>
-                          <form action="/admin_panel/manage_courses/delete-course/{{ $course->id }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this course?');">
-                              <svg class="delete-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                              </svg>
-                            </button>
-                          </form>
-                        </div>
-                      </td>
-                  </tr>
-                  @endforeach
-              </tbody>
-          </table>
+          <div class="table-scroll">
+              <table class="courses-table">
+                  <thead>
+                      <tr>
+                          <th>Image</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Videos</th>
+                          <th>Video Length</th>
+                          <th>Total Duration</th>
+                          <th>Price (৳)</th>
+                          <th>Added</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($pendingCourses as $course)
+                      <tr>
+                          <td>
+                              @if($course->image)
+                                  <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+                              @else
+                                  <span class="no-image-text">No image</span>
+                              @endif
+                          </td>
+                          <td>
+                              <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                          </td>
+                          <td class="course-description">{{ $course->description }}</td>
+                          <td>{{ $course->category }}</td>
+                          <td>{{ $course->video_count }}</td>
+                          <td>{{ $course->approx_video_length }} mins</td>
+                          <td>{{ $course->total_duration }} hrs</td>
+                          <td class="course-price">{{ $course->price }}</td>
+                          <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                          <td>
+                            @if(\App\Models\CourseNotification::where('pending_course_id', $course->id)->exists())
+                              <span class="status-submitted">Submitted</span>
+                            @else
+                              <span class="status-not-submitted">Not Submitted</span>
+                            @endif
+                          </td>
+                          <td>
+                            <div class="actions-container">
+                              <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET">
+                                <button type="submit" class="edit-button">
+                                  <svg class="edit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                  </svg>
+                                  Edit
+                                </button>
+                              </form>
+                              <form action="/admin_panel/manage_courses/delete-course/{{ $course->id }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this course?');">
+                                  <svg class="delete-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                  </svg>
+                                </button>
+                              </form>
+                            </div>
+                          </td>
+                      </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
       </div>
       @endif
 
