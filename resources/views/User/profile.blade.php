@@ -283,7 +283,6 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 30px;
         }
 
         .btn {
@@ -322,50 +321,6 @@
 
         .btn-link:hover {
             color: #475569;
-        }
-
-        /* Stats Section in Sidebar - Updated colors */
-        .stats-section {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .stats-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .stats-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .stat-item {
-            background: #e7edf4;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border-left: 4px solid #0E1B33;
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: 700;
-            color: #0E1B33;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         /* Right Main Content */
@@ -601,33 +556,12 @@
                 gap: 15px;
             }
 
-            .stats-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-
-            .stat-item {
-                padding: 12px;
-            }
-
-            .stat-number {
-                font-size: 20px;
-            }
-
             .nav-buttons {
                 flex-direction: column;
             }
 
             .btn {
                 justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
             }
         }
 
@@ -716,25 +650,6 @@
                     Update profile visibility
                 </button>
             </div>
-
-            <!-- Stats Section -->
-            <div class="stats-section">
-                <h3 class="stats-title">Learning Progress</h3>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Courses Enrolled</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Certificates Earned</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Hours Learned</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Main Content -->
@@ -746,10 +661,6 @@
                         <i class="fas fa-user-circle"></i>
                         Personal Information
                     </h2>
-                    <button class="add-button">
-                        <i class="fas fa-edit"></i>
-                        Edit Profile
-                    </button>
                 </div>
                 <p class="section-description">
                     Manage your personal information and account details. Keep your profile up to date to get the most out of your learning experience.
@@ -836,18 +747,7 @@
 
             <!-- Navigation Actions -->
             <div class="content-section">
-                <div class="navigation-actions">
-                    <h3>Quick Navigation</h3>
-                    <div class="nav-buttons">
-                        <a href="#" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i>
-                            Back to Dashboard
-                        </a>
-                        <a href="/login" method="POST" class="btn btn-primary">
-                            <i class="fas fa-book"></i>
-                            Browse All Courses
-                        </a>
-                    </div>
+                
                 </div>
             </div>
         </div>

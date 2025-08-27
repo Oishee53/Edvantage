@@ -107,7 +107,7 @@
             <!-- Statistics Grid -->
             <div class="stats-grid">
                 <div class="stat-card approved">
-                    <div class="stat-value">{{ isset($approvedCourses)?count($approvedCourses):0 }}</div>
+                    <div class="stat-value">{{ isset($approvedCourses)? count($approvedCourses):0 }}</div>
                     <div class="stat-label">Approved Courses</div>
                 </div>
                 <div class="stat-card pending">
@@ -115,7 +115,7 @@
                     <div class="stat-label">Pending Courses</div>
                 </div>
                 <div class="stat-card rejected">
-                    <div class="stat-value">{{ isset($rejectedCourses)?count($rejectedCourses):0 }}</div>
+                    <div class="stat-value">{{ isset($rejectedCourses)? count($rejectedCourses):0 }}</div>
                     <div class="stat-label">Rejected Courses</div>
                 </div>
                 <div class="stat-card earnings">
