@@ -31,6 +31,7 @@
       margin: 0;
       display: flex;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* Sidebar - Matching Dashboard Style */
@@ -87,11 +88,15 @@
     .main-wrapper {
       margin-left: 17.5rem;
       flex: 1;
+      max-width: calc(100vw - 17.5rem);
+      overflow-x: hidden;
     }
 
     .main-content {
       flex: 1;
       padding: 2rem;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     /* Top bar - Matching Dashboard Style */
@@ -100,6 +105,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .top-bar-title {
@@ -153,34 +160,6 @@
       display: flex;
       gap: 0.5rem;
     }
-
-    /* Search and Add Section */
-    .search-add-section {
-      background-color: var(--card-background);
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .search-input {
-      flex: 1;
-      border: 1px solid var(--border-color);
-      border-radius: 0.375rem;
-      padding: 0.75rem 1rem;
-      outline: none;
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      font-size: 0.875rem;
-    }
-
-    .search-input:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(14, 27, 51, 0.1);
-    }
-
     .add-course-button {
       display: flex;
       align-items: center;
@@ -195,6 +174,9 @@
       cursor: pointer;
       transition: opacity 0.2s ease-in-out;
       font-size: 0.875rem;
+      white-space: nowrap;
+      margin-left: auto;
+      margin-bottom: 1rem;
     }
 
     .add-course-button:hover {
@@ -208,6 +190,7 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       overflow: hidden;
       margin-bottom: 2rem;
+      max-width: 100%;
     }
 
     .table-header {
@@ -225,30 +208,33 @@
 
     .table-wrapper {
       overflow-x: auto;
+      max-width: 100%;
     }
 
     .courses-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
+      min-width: 800px;
     }
 
     .courses-table th {
       background-color: var(--body-background);
       color: var(--text-gray-500);
       font-weight: 500;
-      padding: 0.75rem 1rem;
+      padding: 0.5rem 0.75rem;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       white-space: nowrap;
     }
 
     .courses-table td {
-      padding: 0.75rem 1rem;
+      padding: 0.5rem 0.75rem;
       border-bottom: 1px solid var(--border-color);
       color: var(--text-gray-700);
       vertical-align: middle;
+      font-size: 0.8rem;
     }
 
     .courses-table tbody tr:hover {
@@ -260,8 +246,8 @@
     }
 
     .course-image {
-      width: 4rem;
-      height: 3rem;
+      width: 3rem;
+      height: 2.25rem;
       object-fit: cover;
       border-radius: 0.375rem;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
@@ -272,6 +258,11 @@
       font-weight: 500;
       text-decoration: none;
       transition: text-decoration 0.2s ease-in-out;
+      display: block;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .course-title-link:hover {
@@ -279,7 +270,7 @@
     }
 
     .course-description {
-      max-width: 15rem;
+      max-width: 120px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -293,27 +284,39 @@
     .no-image-text {
       color: var(--text-gray-500);
       font-style: italic;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
     }
+
+    /* Compact table columns */
+    .courses-table th:nth-child(1), .courses-table td:nth-child(1) { width: 60px; } /* Image */
+    .courses-table th:nth-child(2), .courses-table td:nth-child(2) { width: 130px; } /* Title */
+    .courses-table th:nth-child(3), .courses-table td:nth-child(3) { width: 130px; } /* Description */
+    .courses-table th:nth-child(4), .courses-table td:nth-child(4) { width: 80px; } /* Category */
+    .courses-table th:nth-child(5), .courses-table td:nth-child(5) { width: 60px; } /* Videos */
+    .courses-table th:nth-child(6), .courses-table td:nth-child(6) { width: 80px; } /* Video Length */
+    .courses-table th:nth-child(7), .courses-table td:nth-child(7) { width: 80px; } /* Total Duration */
+    .courses-table th:nth-child(8), .courses-table td:nth-child(8) { width: 70px; } /* Price */
+    .courses-table th:nth-child(9), .courses-table td:nth-child(9) { width: 90px; } /* Added */
+    .courses-table th:nth-child(10), .courses-table td:nth-child(10) { width: 110px; } /* Actions */
 
     /* Action Buttons */
     .actions-container {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.25rem;
       justify-content: flex-start;
     }
 
     .edit-button {
       display: flex;
       align-items: center;
-      gap: 0.375rem;
+      gap: 0.25rem;
       background-color: var(--edit-bg);
       color: var(--edit-text);
-      padding: 0.375rem 0.75rem;
-      border-radius: 0.375rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
       font-weight: 500;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       border: none;
       cursor: pointer;
       text-decoration: none;
@@ -330,9 +333,9 @@
       justify-content: center;
       background-color: var(--delete-bg);
       color: var(--delete-icon);
-      width: 2rem;
-      height: 2rem;
-      border-radius: 0.375rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.25rem;
       border: none;
       cursor: pointer;
       transition: background-color 0.2s ease-in-out;
@@ -343,13 +346,13 @@
     }
 
     .edit-icon, .delete-icon {
-      width: 0.875rem;
-      height: 0.875rem;
+      width: 0.75rem;
+      height: 0.75rem;
     }
 
     .delete-icon {
-      width: 1rem;
-      height: 1rem;
+      width: 0.875rem;
+      height: 0.875rem;
     }
 
     /* Empty state */
@@ -384,6 +387,16 @@
       
       .main-wrapper {
         margin-left: 16rem;
+        max-width: calc(100vw - 16rem);
+      }
+
+      .courses-table {
+        font-size: 0.75rem;
+        min-width: 700px;
+      }
+
+      .courses-table th, .courses-table td {
+        padding: 0.375rem 0.5rem;
       }
     }
 
@@ -394,6 +407,7 @@
       
       .main-wrapper {
         margin-left: 0;
+        max-width: 100vw;
       }
       
       .main-content {
@@ -403,25 +417,69 @@
       .search-add-section {
         flex-direction: column;
         align-items: stretch;
+        gap: 0.75rem;
       }
-      
-      .actions-container {
-        flex-direction: column;
-        gap: 0.25rem;
+
+      .search-input {
+        min-width: auto;
       }
       
       .courses-table {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
+        min-width: 600px;
       }
       
       .courses-table th,
       .courses-table td {
-        padding: 0.5rem;
+        padding: 0.25rem 0.375rem;
       }
       
-      .course-description {
-        max-width: 10rem;
+      .course-description, .course-title-link {
+        max-width: 80px;
       }
+
+      .course-image {
+        width: 2.5rem;
+        height: 1.875rem;
+      }
+
+      .edit-button {
+        font-size: 0.65rem;
+        padding: 0.125rem 0.375rem;
+      }
+
+      .delete-button {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .edit-icon, .delete-icon {
+        width: 0.625rem;
+        height: 0.625rem;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .user-info {
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .courses-table {
+        min-width: 500px;
+      }
+
+      .course-description, .course-title-link {
+        max-width: 60px;
+      }
+
+      .courses-table th:nth-child(2), .courses-table td:nth-child(2) { width: 80px; }
+      .courses-table th:nth-child(3), .courses-table td:nth-child(3) { width: 80px; }
+      .courses-table th:nth-child(10), .courses-table td:nth-child(10) { width: 80px; }
     }
   </style>
 </head>
@@ -467,12 +525,8 @@
       @auth
         <!-- Search and Add Section -->
         <div class="search-add-section">
-          <input type="text" placeholder="Search courses..." class="search-input" />
           <form action="/manage_courses/add" method="GET" style="display: inline;">
             <button type="submit" class="add-course-button">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-              </svg>
               Add Course
             </button>
           </form>
