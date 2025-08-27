@@ -10,7 +10,7 @@
         /* Custom CSS Variables */
         :root {
             --primary-color: #0E1B33;
-            --primary-light-hover-bg: #2D336B;
+            --primary-light-hover-bg: #E3E6F3;
             --body-background: #f9fafb;
             --card-background: #ffffff;
             --text-default: #333;
@@ -33,9 +33,9 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* Sidebar - Matching Dashboard Style */
         .sidebar {
-            width: 16rem;
+            width: 17.5rem;
             background-color: var(--card-background);
             min-height: 100vh;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -74,29 +74,32 @@
         }
 
         .sidebar-nav a:hover {
-            background-color: #E3E6F3;
+            background-color: var(--primary-light-hover-bg);
             color: var(--primary-color);
         }
 
         .sidebar-nav a.active {
-            background-color: #E3E6F3;
+            background-color: var(--primary-light-hover-bg);
             color: var(--primary-color);
         }
 
-        /* Main Content Wrapper */
+        /* Main Content Wrapper - Matching Dashboard Style */
         .main-wrapper {
-            margin-left: 16rem;
+            margin-left: 17.5rem;
             flex: 1;
         }
 
-        /* Top bar */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        /* Top bar - Matching Dashboard Style */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
-            background-color: var(--card-background);
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
         }
 
         .top-bar-title {
@@ -142,13 +145,8 @@
         }
 
         .login-button:hover {
-            background-color: var(--primary-light-hover-bg);
+            background-color: var(--primary-color);
             color: white;
-        }
-
-        /* Main Content */
-        .main-content {
-            padding: 2rem;
         }
 
         /* Section Headers */
@@ -159,7 +157,7 @@
             margin: 0 0 1.5rem 0;
         }
 
-        /* Course Tables */
+        /* Course Tables - Enhanced Card Style */
         .course-section {
             background-color: var(--card-background);
             border-radius: 0.5rem;
@@ -171,10 +169,11 @@
         .course-section-header {
             padding: 1.5rem;
             border-bottom: 1px solid var(--border-color);
+            background-color: var(--edit-bg);
         }
 
         .course-section-title {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             font-weight: 600;
             color: var(--primary-color);
             margin: 0;
@@ -183,37 +182,54 @@
         .course-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.875rem;
         }
 
         .course-table th {
-            background-color: var(--edit-bg);
-            color: var(--primary-color);
-            font-weight: 600;
-            padding: 1rem;
+            background-color: var(--body-background);
+            color: var(--text-gray-500);
+            font-weight: 500;
+            padding: 0.75rem 1rem;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
         }
 
         .course-table td {
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-gray-700);
+            vertical-align: middle;
         }
 
-        .course-table tr:hover {
+        .course-table tbody tr:hover {
             background-color: var(--body-background);
+        }
+
+        .course-table tbody tr:last-child td {
+            border-bottom: none;
         }
 
         .course-table a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
         }
 
         .course-table a:hover {
-            color: var(--primary-light-hover-bg);
             text-decoration: underline;
+        }
+
+        /* Status Styling */
+        .status-submitted {
+            color: var(--green-600);
+            font-weight: 600;
+        }
+
+        .status-not-submitted {
+            color: var(--text-gray-500);
+            font-weight: 500;
         }
 
         /* Empty State */
@@ -221,9 +237,10 @@
             padding: 3rem;
             text-align: center;
             color: var(--text-gray-500);
+            font-size: 0.875rem;
         }
 
-        /* Back Link */
+        /* Back Link - Matching Dashboard Button Style */
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -236,6 +253,7 @@
             border-radius: 0.375rem;
             transition: all 0.2s ease-in-out;
             margin-top: 2rem;
+            font-size: 0.875rem;
         }
 
         .back-link:hover {
@@ -261,6 +279,40 @@
         .login-link:hover {
             text-decoration: underline;
         }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 16rem;
+            }
+            
+            .main-wrapper {
+                margin-left: 16rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main-wrapper {
+                margin-left: 0;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .course-table {
+                font-size: 0.75rem;
+            }
+            
+            .course-table th,
+            .course-table td {
+                padding: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -281,29 +333,28 @@
                 @elseif(auth()->user()->role === 3)
                     <a href="/instructor_homepage">Dashboard</a>
                     <a href="/instructor/manage_courses">Manage Courses</a>
-                    <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
+                    <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
                 @endif
             </nav>
         </aside>
 
         <!-- Main Content Wrapper -->
         <div class="main-wrapper">
-            <!-- Top bar -->
-            <header class="top-bar">
-                <h1 class="top-bar-title">Manage Resources</h1>
-                <div class="user-info">
-                    <span>{{ auth()->user()->name }}</span>
-                    <form action="/logout" method="POST" style="display: inline;">
-                        @csrf
-                        <button class="logout-button">Logout</button>
-                    </form>
-                </div>
-            </header>
-
             <!-- Main Content -->
-            <section class="main-content">
-                <!-- Added modern card-based layout for approved courses section -->
+            <main class="main-content">
+                <!-- Top bar -->
+                <div class="top-bar">
+                    <div class="top-bar-title">Manage Resources</div>
+                    <div class="user-info">
+                        <span>{{ auth()->user()->name }}</span>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            @csrf
+                            <button class="logout-button">Logout</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Approved Courses Section -->
                 <div class="course-section">
                     <div class="course-section-header">
                         <h3 class="course-section-title">Approved Courses</h3>
@@ -329,11 +380,9 @@
                                 @foreach($courses as $course)
                                     <tr>
                                         <td>
-                                            
                                             <a href="{{ url("/admin_panel/manage_resources/{$course->id}/modules") }}">
                                                 {{ $course->title }}
                                             </a>
-                                            
                                         </td>
                                         <td>{{ $course->description }}</td>
                                         <td>{{ $course->video_count }}</td>
@@ -349,7 +398,7 @@
                 </div>
 
                 @if(auth()->user()->role === 3)
-                    <!-- Added modern card-based layout for pending courses section -->
+                    <!-- Pending Courses Section -->
                     <div class="course-section">
                         <div class="course-section-header">
                             <h3 class="course-section-title">Pending Courses</h3>
@@ -386,37 +435,25 @@
                                             <td>{{ $course->total_duration }} hrs</td>
                                             <td>{{ $course->price }}</td>
                                             <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
-                                            <td class="text-green-600 font-semibold">
-                                                {{ \App\Models\CourseNotification::where('pending_course_id', $course->id)->exists() ? 'Submitted' : 'Not Submitted' }}
-                                            </td>                              
-                                        @endforeach
+                                            <td>
+                                                @if(\App\Models\CourseNotification::where('pending_course_id', $course->id)->exists())
+                                                    <span class="status-submitted">Submitted</span>
+                                                @else
+                                                    <span class="status-not-submitted">Not Submitted</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         @endif
                     </div>
                 @endif
-
-                <!-- Styled back link with modern button design -->
-                @if(auth()->user()->role === 2)
-                    <a href="/admin_panel/manage_resources" class="back-link">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                        Back to Home Page
-                    </a>
-                @elseif(auth()->user()->role === 3)
-                    <a href="/instructor/manage_resources" class="back-link">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                        Back to Home Page
-                    </a>
-                @endif
-            </section>
+            </main>
         </div>
 
     @else
-        <!-- Added styled not logged in state -->
+        <!-- Not logged in state -->
         <div style="width: 100%; display: flex; align-items: center; justify-content: center; min-height: 100vh;">
             <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
         </div>

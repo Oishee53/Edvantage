@@ -96,7 +96,7 @@ class CourseNotificatioController extends Controller
             }
         });
 
-        return redirect()->back()->with('success', 'Course approved and moved to main courses.');
+        return redirect('/pending-courses')->with('success', 'Course approved and moved to main courses.');
     }
 
     // Reject a course
@@ -119,7 +119,7 @@ class CourseNotificatioController extends Controller
             }
         });
 
-        return redirect('/instructor_homepage');
+        return redirect('/pending-courses');
     }
 
 }

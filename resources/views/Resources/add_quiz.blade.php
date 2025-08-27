@@ -35,7 +35,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 16rem;
+      width: 18rem;
       background-color: var(--card-background);
       min-height: 100vh;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -83,11 +83,34 @@
       color: var(--primary-color);
     }
 
+
     /* Main Content Wrapper */
     .main-wrapper {
-      margin-left: 15rem;
+      margin-left: 17.5rem;
       flex: 1;
     }
+    /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 2.75rem;
+            border-radius: 0.25rem;
+            border: 2px solid var(--primary-color);
+            transition: all 0.2s ease-in-out;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .back-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+        }
 
     /* Top bar */
     .top-bar {
@@ -95,8 +118,6 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      background-color: var(--card-background);
-      border-bottom: 1px solid var(--border-color);
     }
 
     .top-bar-title {
@@ -326,11 +347,19 @@
       <span></span>
     </div>
     <nav class="sidebar-nav">
-      <a href="/instructor_homepage">Dashboard</a>
-      <a href="/instructor/manage_courses" >Manage Course</a>
-      <a href="/instructor/manage_user">Manage User</a>
-      <a href="/instructor/manage_resources" class="active">Manage Resources</a>
-    </nav>
+                @if(auth()->user()->role === 2)
+                    <a href="/admin_panel">Dashboard</a>
+                    <a href="/admin_panel/manage_courses">Manage Courses</a>
+                    <a href="/admin_panel/manage_user">Manage Users</a>
+                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
+                    <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
+                @elseif(auth()->user()->role === 3)
+                    <a href="/instructor_homepage">Dashboard</a>
+                    <a href="/instructor/manage_courses">Manage Courses</a>
+                    <a href="/instructor/manage_user">Manage Users</a>
+                    <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
+                @endif
+            </nav>
   </aside>
 
   <!-- Main Content Wrapper -->
@@ -393,6 +422,10 @@
 
             <button type="submit" class="btn-primary">Create Quiz</button>
           </form>
+          <a href="javascript:history.back()" class="back-link">
+            Back
+          </a>
+
         </div>
 
         <script>

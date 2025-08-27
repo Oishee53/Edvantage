@@ -230,5 +230,20 @@ public function editModule($course_id, $module_id){
         return redirect("/instructor/manage_resources/{$course_id}/modules")
        ->with('success', 'Resources uploaded successfully!');
     }
+
+    public function showInsideModule($courseId, $moduleNumber)
+{
+    $resource = PendingResources::where('courseId', $courseId)->where('moduleId', $moduleNumber)->firstOrFail();
+    $course = PendingCourses::findOrFail($courseId);
+
+    return view('Instructor.view_pending_resources', [
+        'course' => $course,
+        'moduleNumber' => $moduleNumber,
+        'resource' => $resource,
+    ]);
+}
+
+
+
  
 }

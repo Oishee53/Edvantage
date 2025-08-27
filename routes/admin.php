@@ -5,6 +5,7 @@ use App\Models\Resource;
 use MuxPhp\Models\Upload;
 use App\Models\Enrollment;
 use App\Models\PendingCourses;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PendingCourseController;
 use App\Http\Controllers\CourseNotificatioController;
@@ -30,13 +32,7 @@ Route::post('/logout', [AdminController::class, 'logout']);
 Route::middleware(['auth', 'admin'])->group(function () {
 
     // Admin Dashboard
-    Route::get('/admin_panel', function () {
-        $totalStudents = User::where('role', 2)->count();
-        $totalCourses = Courses::count();
-        $totalEarn = Enrollment::with('course')->get()->sum('course.price'); 
-        return view('Admin.admin_panel', compact('totalStudents','totalCourses','totalEarn'));
-    });
-
+    Route::get('/admin_panel', [AdminController::class, 'viewAdminDashboard']);
     // Manage Courses
     Route::get('/admin_panel/manage_courses', function () {
         $courses = Courses::all();
@@ -49,20 +45,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin_panel/manage_courses/edit-list', [CourseController::class,'editList']);
 
-
-    // Manage Resources
-    Route::get('/admin_panel/manage_resources', function () {
-        return view('Resources.manage_resources');
-    });
-    Route::get('/admin_panel/manage_resources/add', [ResourceController::class,'viewCourses']);
+    Route::get('/admin_panel/manage_resources', [ResourceController::class,'viewCourses']);
     
 
 
     // Manage Users
-    Route::get('/admin_panel/manage_user', function () {
-        return view('Student.manage_student');
-    });
+    Route::get('/admin_panel/manage_user', [StudentController::class, 'manageUsers']);
     Route::get('/admin_panel/manage_user/view_enrolled_student', [StudentController::class, 'enrolledStudents']);
+    Route::get('/admin_panel/manage_user/unenroll_instructor/{instructor_id}', [InstructorController::class, 'destroy']);
     Route::get('/admin_panel/manage_user/view_all_student', [StudentController::class, 'allStudents']);
     Route::delete('/admin_panel/manage_user/unenroll_student/{course_id}/{student_id}', [StudentController::class, 'destroy']);
 
@@ -84,6 +74,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::post('/submitted-courses/{course}/reject', [CourseNotificatioController::class, 'reject'])
         ->name('admin.courses.reject');
+    Route::get('/admin_panel/manage_user/view_all_instructors', [StudentController::class, 'allInstructors']);
 
 });
 
@@ -110,9 +101,8 @@ Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadControll
 // ===================
 // Instructor Routes
 // ===================
-Route::get('/instructor_homepage', function () {
-    return view('Instructor.instructor_homepage');
-});
+Route::get('/instructor_homepage', [InstructorController::class, 'viewInstructorHomepage'])
+    ->middleware('auth');
 Route::post('/instructor/manage_courses/create', [PendingCourseController::class, 'store']);
 Route::get('/instructor/manage_resources/{course_id}/modules', [PendingCourseController::class, 'showModules']);
 Route::get('/instructor/manage_resources/{course_id}/modules/{module_id}/edit', [PendingCourseController::class, 'editModule']);
@@ -145,3 +135,8 @@ Route::post('/instructor/questions/{id}/answer', [QuestionController::class, 'an
     ->name('instructor.answer');
 Route::get('/instructor/{course}/manage_resources', [CourseNotificatioController::class, 'sendNotification'])
     ->name('instructor.manage_resources');
+
+Route::get('/view_pending_resources/{courseId}/{moduleNumber}', [PendingCourseController::class, 'showInsideModule'])
+     ->name('view.pending.resources');
+     
+Route::get('/view/inside-module/{courseId}/{moduleNumber}', [ResourceController::class, 'showInsideModule'])->name('inside.module2');

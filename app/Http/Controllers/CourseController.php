@@ -58,7 +58,7 @@ public function store(Request $request)
         $imagePath = $request->file('image')->store('course_images', 'public');
     }
     // Determine instructor ID
-    $instructorId = $user->role === 2 ? $request->input('instructor_id') : $user->id;
+    $instructorId = $user->id;
 
     // Create the course
     Courses::create([
