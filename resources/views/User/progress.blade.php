@@ -9,7 +9,7 @@
     </div>
 @endif
 
-@section('content')
+
 
 <!-- Main Navigation Header -->
 <header class="main-header">
@@ -128,233 +128,218 @@
         </section>
 
     {{-- Courses Section --}}
-    <div class="courses-section">
-        <h2 class="section-title">
-            <i class="fas fa-graduation-cap me-2"></i>
-            Your Courses
-        </h2>
+<div class="courses-section">
+    <h2 class="section-title">
+        <i class="fas fa-graduation-cap me-2"></i>
+        Your Courses
+    </h2>
 
-        @forelse($courseProgress as $progress)
-            @php
-                // Preload some course/rating data (ideally from controller)
-                $course = \App\Models\Courses::select('id','title','avg_rating','rating_count')
-                            ->find($progress['course_id']);
+    @forelse($courseProgress as $progress)
+        @php
+            $course = \App\Models\Courses::select('id','title','avg_rating','rating_count')
+                        ->find($progress['course_id']);
 
-                $myRating = \App\Models\Rating::where('course_id', $progress['course_id'])
-                            ->where('user_id', auth()->id())
-                            ->first();
+            $myRating = \App\Models\Rating::where('course_id', $progress['course_id'])
+                        ->where('user_id', auth()->id())
+                        ->first();
 
-                $dismissed = class_exists(\App\Models\RatingDismissal::class)
-                    ? \App\Models\RatingDismissal::where('course_id', $progress['course_id'])
-                        ->where('user_id', auth()->id())->exists()
-                    : false;
+            $dismissed = class_exists(\App\Models\RatingDismissal::class)
+                ? \App\Models\RatingDismissal::where('course_id', $progress['course_id'])
+                    ->where('user_id', auth()->id())->exists()
+                : false;
 
-                $collapseId = 'course'.$progress['course_id'];
-            @endphp
+            $collapseId = 'course'.$progress['course_id'];
+        @endphp
 
-            <div class="course-card">
-                <div class="course-header">
-                    <div class="course-info">
-                        <h4 class="course-title">
-                            <a data-bs-toggle="collapse"
-                               href="#{{ $collapseId }}"
-                               class="course-link"
-                               aria-expanded="false"
-                               aria-controls="{{ $collapseId }}">
-                                {{ $progress['course_name'] }}
-                                <i class="fas fa-chevron-down collapse-icon"></i>
-                            </a>
-                        </h4>
-                        <div class="course-meta">
-                            <span class="video-count">
-                                <i class="fas fa-play-circle me-1"></i>
-                                {{ $progress['completed_videos'] }} / {{ $progress['total_videos'] }} videos
-                            </span>
-                        </div>
-
-                        <div class="course-body">
-                            <h3 class="course-title">{{ $progress['course_name'] }}</h3>
-                            
-                            <div class="course-stats">
-                                <div class="stat">
-                                    <i class="fas fa-play-circle"></i>
-                                    <span>{{ $progress['completed_videos'] }}/{{ $progress['total_videos'] }} Videos</span>
-                                </div>
-                                @if(count($progress['quiz_marks']) > 0)
-                                    <div class="stat">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        <span>{{ count($progress['quiz_marks']) }} Quizzes</span>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: {{ $progress['completion_percentage'] }}%"></div>
-                            </div>
-
-                            <div class="course-actions">
-                                <button class="btn-primary" onclick="toggleDetails('{{ $progress['course_id'] }}')">
-                                    <i class="fas fa-eye"></i>
-                                    View Details
-                                </button>
-                                
-                                @if($progress['completion_percentage'] == 100 && $progress['average_percentage'] >= 70)
-                                    <a href="{{ route('certificate.generate', [
-                                        'userId' => auth()->id(),
-                                        'courseId' => $progress['course_id'],
-                                    ]) }}" 
-                                    class="btn-secondary" target="_blank">
-                                        <i class="fas fa-download"></i>
-                                        Certificate
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="course-details" id="details-{{ $progress['course_id'] }}" style="display: none;">
-                            <div class="details-header">
-                                <h4><i class="fas fa-chart-bar"></i> Quiz Performance</h4>
-                            </div>
-                            @if(count($progress['quiz_marks']) > 0)
-                                <div class="quiz-list">
-                                    @foreach($progress['quiz_marks'] as $quiz)
-                                        <div class="quiz-item">
-                                            <div class="quiz-info">
-                                                <span class="quiz-name">{{ $quiz['quiz_title'] }}</span>
-                                            </div>
-                                            <div class="quiz-score">{{ $quiz['score'] }}</div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @else
-                                <div class="no-quizzes">
-                                    <i class="fas fa-info-circle"></i>
-                                    <p>No quiz results available yet</p>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                @empty
-                    <div class="empty-state">
-                        <div class="empty-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h3>No Courses Enrolled</h3>
-                        <p>Start your learning journey by enrolling in your first course</p>
-                        <a href="/courses" class="btn-primary">
-                            <i class="fas fa-search"></i>
-                            Browse Courses
+        <div class="course-card">
+            <div class="course-header">
+                <div class="course-info">
+                    <h4 class="course-title">
+                        <a data-bs-toggle="collapse"
+                           href="#{{ $collapseId }}"
+                           class="course-link"
+                           aria-expanded="false"
+                           aria-controls="{{ $collapseId }}">
+                            {{ $progress['course_name'] }}
+                            <i class="fas fa-chevron-down collapse-icon"></i>
                         </a>
+                    </h4>
+
+                    <div class="course-meta">
+                        <span class="video-count">
+                            <i class="fas fa-play-circle me-1"></i>
+                            {{ $progress['completed_videos'] }} / {{ $progress['total_videos'] }} videos
+                        </span>
                     </div>
-                @endforelse
+                </div>
             </div>
-        </section>
-                {{-- Progress Bar --}}
-                <div class="progress-section">
-                    <div class="progress-info">
-                        <span class="progress-label">Progress</span>
-                        <span class="progress-percentage">{{ $progress['completion_percentage'] }}%</span>
+
+            <div class="course-body">
+                <h3 class="course-title">{{ $progress['course_name'] }}</h3>
+
+                <div class="course-stats">
+                    <div class="stat">
+                        <i class="fas fa-play-circle"></i>
+                        <span>{{ $progress['completed_videos'] }}/{{ $progress['total_videos'] }} Videos</span>
                     </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" style="width: {{ $progress['completion_percentage'] }}%;">
-                            <div class="progress-bar-glow"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Rating block --}}
-                <div class="px-4 pb-3 d-flex justify-content-between align-items-center">
-                    <small class="text-muted">
-                        Avg: {{ number_format($course->avg_rating ?? 0, 2) }}
-                        ({{ $course->rating_count ?? 0 }} reviews)
-                    </small>
-                </div>
-
-                @if(!$myRating && !$dismissed)
-                    <form method="POST" action="{{ route('courses.rate', $progress['course_id']) }}" class="px-4 pb-4">
-                        @csrf
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div class="star-input">
-                                @for($i = 5; $i >= 1; $i--)
-                                    <input type="radio"
-                                           id="rate-{{ $progress['course_id'] }}-{{ $i }}"
-                                           name="score"
-                                           value="{{ $i }}"
-                                           required>
-                                    <label for="rate-{{ $progress['course_id'] }}-{{ $i }}">★</label>
-                                @endfor
-                            </div>
-                            <span class="text-muted small">Rate this course</span>
-                        </div>
-
-                        <textarea name="comment" rows="2" class="form-control mb-2"
-                                  placeholder="(Optional) Say something..."></textarea>
-
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-primary">Submit</button>
-                            <button type="submit"
-                                    form="skip-form-{{ $progress['course_id'] }}"
-                                    class="btn btn-light border">
-                                Skip
-                            </button>
-                        </div>
-                    </form>
-
-                    {{-- Skip form --}}
-                    <form id="skip-form-{{ $progress['course_id'] }}" method="POST"
-                          action="{{ route('courses.rate.skip', $progress['course_id']) }}">
-                        @csrf
-                    </form>
-                @else
-                    @if($myRating)
-                        <div class="mt-2 small text-success px-4 pb-4">
-                            You rated: <strong>{{ $myRating->score }}/5</strong>
-                            @if($myRating->comment) • “{{ $myRating->comment }}” @endif
-                        </div>
-                    @endif
-                @endif
-
-                {{-- Collapsible Quiz Section --}}
-                <div class="collapse quiz-section" id="{{ $collapseId }}">
-                    <div class="quiz-header">
-                        <h6><i class="fas fa-clipboard-list me-2"></i>Quiz Results</h6>
-                    </div>
-
                     @if(count($progress['quiz_marks']) > 0)
-                        <div class="quiz-list">
-                            @foreach($progress['quiz_marks'] as $quiz)
-                                <div class="quiz-item">
-                                    <div class="quiz-info">
-                                        <span class="quiz-title">{{ $quiz['quiz_title'] }}</span>
-                                    </div>
-                                    <div class="quiz-score">
-                                        <span class="score-badge">{{ $quiz['score'] }}</span>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="no-quizzes">
-                            <i class="fas fa-info-circle me-2"></i>
-                            No quizzes taken yet for this course.
+                        <div class="stat">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>{{ count($progress['quiz_marks']) }} Quizzes</span>
                         </div>
                     @endif
                 </div>
-            </div>
-        @empty
-            <div class="empty-state">
-                <div class="empty-icon">
-                    <i class="fas fa-book-open"></i>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ $progress['completion_percentage'] }}%"></div>
                 </div>
-                <h3>No Courses Yet</h3>
-                <p>You haven't enrolled in any courses yet. Start your learning journey today!</p>
-                <a href="/courses" class="btn-primary">
-                    <i class="fas fa-search me-1"></i>
-                    Browse Courses
-                </a>
+
+                <div class="course-actions">
+                    <button class="btn-primary" onclick="toggleDetails('{{ $progress['course_id'] }}')">
+                        <i class="fas fa-eye"></i>
+                        View Details
+                    </button>
+
+                    @if($progress['completion_percentage'] == 100 && $progress['average_percentage'] >= 70)
+                        <a href="{{ route('certificate.generate', [
+                            'userId' => auth()->id(),
+                            'courseId' => $progress['course_id'],
+                        ]) }}" class="btn-secondary" target="_blank">
+                            <i class="fas fa-download"></i>
+                            Certificate
+                        </a>
+                    @endif
+                </div>
             </div>
-        @endforelse
-    </div>
+
+            <div class="course-details" id="details-{{ $progress['course_id'] }}" style="display:none;">
+                <div class="details-header">
+                    <h4><i class="fas fa-chart-bar"></i> Quiz Performance</h4>
+                </div>
+                @if(count($progress['quiz_marks']) > 0)
+                    <div class="quiz-list">
+                        @foreach($progress['quiz_marks'] as $quiz)
+                            <div class="quiz-item">
+                                <div class="quiz-info">
+                                    <span class="quiz-name">{{ $quiz['quiz_title'] }}</span>
+                                </div>
+                                <div class="quiz-score">{{ $quiz['score'] }}</div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="no-quizzes">
+                        <i class="fas fa-info-circle"></i>
+                        <p>No quiz results available yet</p>
+                    </div>
+                @endif
+            </div>
+
+            {{-- Progress summary (if you really want a second bar section) --}}
+            <div class="progress-section">
+                <div class="progress-info">
+                    <span class="progress-label">Progress</span>
+                    <span class="progress-percentage">{{ $progress['completion_percentage'] }}%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: {{ $progress['completion_percentage'] }}%;">
+                        <div class="progress-bar-glow"></div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Rating block --}}
+            <div class="px-4 pb-3 d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    Avg: {{ number_format($course->avg_rating ?? 0, 2) }}
+                    ({{ $course->rating_count ?? 0 }} reviews)
+                </small>
+            </div>
+
+            @if(!$myRating && !$dismissed)
+                <form method="POST" action="{{ route('courses.rate', $progress['course_id']) }}" class="px-4 pb-4">
+                    @csrf
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="star-input">
+                            @for($i = 5; $i >= 1; $i--)
+                                <input type="radio"
+                                       id="rate-{{ $progress['course_id'] }}-{{ $i }}"
+                                       name="score"
+                                       value="{{ $i }}"
+                                       required>
+                                <label for="rate-{{ $progress['course_id'] }}-{{ $i }}">★</label>
+                            @endfor
+                        </div>
+                        <span class="text-muted small">Rate this course</span>
+                    </div>
+
+                    <textarea name="comment" rows="2" class="form-control mb-2"
+                              placeholder="(Optional) Say something..."></textarea>
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary">Submit</button>
+                        <button type="submit"
+                                form="skip-form-{{ $progress['course_id'] }}"
+                                class="btn btn-light border">
+                            Skip
+                        </button>
+                    </div>
+                </form>
+
+                <form id="skip-form-{{ $progress['course_id'] }}" method="POST"
+                      action="{{ route('courses.rate.skip', $progress['course_id']) }}">
+                    @csrf
+                </form>
+            @else
+                @if($myRating)
+                    <div class="mt-2 small text-success px-4 pb-4">
+                        You rated: <strong>{{ $myRating->score }}/5</strong>
+                        @if($myRating->comment) • “{{ $myRating->comment }}” @endif
+                    </div>
+                @endif
+            @endif
+
+            {{-- Collapsible Quiz Section (Bootstrap collapse) --}}
+            <div class="collapse quiz-section" id="{{ $collapseId }}">
+                <div class="quiz-header">
+                    <h6><i class="fas fa-clipboard-list me-2"></i>Quiz Results</h6>
+                </div>
+
+                @if(count($progress['quiz_marks']) > 0)
+                    <div class="quiz-list">
+                        @foreach($progress['quiz_marks'] as $quiz)
+                            <div class="quiz-item">
+                                <div class="quiz-info">
+                                    <span class="quiz-title">{{ $quiz['quiz_title'] }}</span>
+                                </div>
+                                <div class="quiz-score">
+                                    <span class="score-badge">{{ $quiz['score'] }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="no-quizzes">
+                        <i class="fas fa-info-circle me-2"></i>
+                        No quizzes taken yet for this course.
+                    </div>
+                @endif
+            </div>
+        </div> {{-- /.course-card --}}
+    @empty
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <h3>No Courses Enrolled</h3>
+            <p>Start your learning journey by enrolling in your first course</p>
+            <a href="/courses" class="btn-primary">
+                <i class="fas fa-search"></i>
+                Browse Courses
+            </a>
+        </div>
+    @endforelse
+
 </div>
 
 <script>

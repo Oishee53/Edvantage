@@ -689,18 +689,19 @@
             <!-- Show only one row of courses and add a "Load More" button -->
       @php
     $visibleCourses = $courses->filter(function($course) {
-        return !auth()->user()->enrolledCourses->contains($course->id);
+        return !auth()->check() || !auth()->user()->enrolledCourses->contains('id', $course->id);
     });
 @endphp
 
+
 <div class="courses-grid" id="coursesGrid">
-    @if($visibleCourses->isEmpty())
-        <div style="display:flex;justify-content:center;align-items:center;height:200px;width:100%;">
-            <p style="font-size:1.5rem;font-weight:bold;color:#444;">No courses found.</p>
-        </div>
-    @else
-        @foreach($visibleCourses as $index => $course)
-            <div class="course-card" style="{{ $index >= 4 ? 'display:none;' : '' }}">
+  @if($visibleCourses->isEmpty())
+    <div style="display:flex;justify-content:center;align-items:center;height:200px;width:100%;">
+      <p style="font-size:1.5rem;font-weight:bold;color:#444;">No courses found.</p>
+    </div>
+  @else
+    @foreach($visibleCourses as $course)
+      <div class="course-card" style="{{ $loop->index >= 4 ? 'display:none;' : '' }}">
                 {{-- Image --}}
                 @if($course->image)
                     <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
@@ -809,6 +810,23 @@
       window.location.href = "{{ route('wishlist.all') }}";
     }
   @endif
+    // Load More functionality
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const cards = document.querySelectorAll('#coursesGrid .course-card');
+        let visible = 4;
+        const increment = 4;
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                let shown = 0;
+                for (let i = visible; i < cards.length && shown < increment; i++, shown++) {
+                    cards[i].style.display = '';
+                }
+                visible += increment;
+                if (visible >= cards.length) {
+                    loadMoreBtn.style.display = 'none';
+                }
+            });
+        }
 </script>
 
 
