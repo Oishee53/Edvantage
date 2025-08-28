@@ -56,7 +56,6 @@ public function quizzes()
      protected static function booted()
     {
         static::deleting(function ($course) {
-        //   $course->modules()->delete();
             $course->resources()->delete();
             $course->enrollments()->delete(); // optional
         });

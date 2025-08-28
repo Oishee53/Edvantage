@@ -47,17 +47,11 @@ public function store(Request $request)
     'price' => 'required|numeric',
     'prerequisite' => 'nullable|string|max:255',
 ];
-
-    if ($user->role === 2) {
-        $rules['instructor_id'] = 'required|exists:users,id';
-    }
-
     $request->validate($rules);
     // Handle image upload
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('course_images', 'public');
     }
-    // Determine instructor ID
     $instructorId = $user->id;
 
     // Create the course
