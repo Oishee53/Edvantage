@@ -32,6 +32,8 @@ public function show($id)
     $course->avg_rating   = round((float)($course->ratings_avg_score ?? 0), 2);
     $course->rating_count = (int)($course->ratings_count ?? 0);
 
+    // Load course with instructor
+    $course = Courses::with('instructor')->findOrFail($id);
     $user = auth()->user();
     return view('courses.course_details', compact('course','user'));
 }

@@ -10,10 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
    public function up(): void
-{
-    Schema::table('quizzes', function (Blueprint $table) {
+{   
+    if (!Schema::hasColumn('quizzes', 'total_marks')){
+ Schema::table('quizzes', function (Blueprint $table) {
         $table->integer('total_marks')->default(0);
     });
+
+}
+   
 }
 
 public function down(): void

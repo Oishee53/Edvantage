@@ -27,23 +27,32 @@ class QuizController extends Controller
 
 public function store(Request $request, $courseId, $moduleNumber)
 {
-    // 1. Create quiz
-    $quiz = Quiz::create([
-        'course_id' => $courseId,
-        'module_number' => $moduleNumber,
-        'title' => $request->title,
-        'description' => $request->description,
-        'total_marks' => $request->question_count,
-    ]);
+    // 1. Check if a quiz already exists for this course & module
+    $quiz = Quiz::updateOrCreate(
+        [
+            'course_id' => $courseId,
+            'module_number' => $moduleNumber,
+        ],
+        [
+            'title' => $request->title,
+            'description' => $request->description,
+            'total_marks' => $request->question_count,
+        ]
+    );
 
-    // 2. Loop through questions
+    // 2. Delete old questions & options 
+    $quiz->questions()->each(function ($q) {
+        $q->options()->delete();
+        $q->delete();
+    });
+
+    // 3. Add new questions and options
     foreach ($request->questions as $qIndex => $qData) {
         $question = Question::create([
             'quiz_id' => $quiz->id,
             'question_text' => $qData['text'],
         ]);
 
-        // 3. Loop through options
         foreach ($qData['options'] as $optIndex => $optData) {
             Option::create([
                 'question_id' => $question->id,
@@ -53,9 +62,9 @@ public function store(Request $request, $courseId, $moduleNumber)
         }
     }
 
-  return redirect()->route('modules.show', ['course_id' => $courseId])
-    ->with('success', 'Quiz and questions created successfully!');
-
+    return redirect()->route('modules.show', ['course_id' => $courseId])
+        ->with('success', 'Quiz updated successfully!');
 }
+
 
 }

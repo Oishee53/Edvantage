@@ -971,7 +971,7 @@ i[class^="fa-"], i[class*=" fa-"] {
                     <ul class="prerequisites-list">
                         <li>
                             <i class="fa-solid fa-code prereq-icon"></i>
-                            <span>Basic understanding of programming concepts (variables, functions, loops)</span>
+                            <span>{{ $course->prerequisites }}</span>
                         </li>
                     </ul>
                 </div>
