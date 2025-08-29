@@ -23,10 +23,19 @@ public function viewCourses()
 
 public function show($id)
 {
-    $course = Courses::findOrFail($id);
+    $course = Courses::query()
+        ->withAvg('ratings', 'score')   // ->ratings_avg_score
+        ->withCount('ratings')          // ->ratings_count
+        ->findOrFail($id);
+
+    // normalize for the blade
+    $course->avg_rating   = round((float)($course->ratings_avg_score ?? 0), 2);
+    $course->rating_count = (int)($course->ratings_count ?? 0);
+
     $user = auth()->user();
     return view('courses.course_details', compact('course','user'));
 }
+
  public function create()
 {
     return view('courses.create_course');

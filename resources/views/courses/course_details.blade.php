@@ -10,11 +10,19 @@
         * {
             font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        i[class^="fa-"], i[class*=" fa-"] {
-            font-family: "Font Awesome 6 Free" !important;
-            font-style: normal;
-            font-weight: 900 !important;
-        }
+        /* Let FA control weights so regular (outline) stars work */
+i[class^="fa-"], i[class*=" fa-"] {
+  font-family: "Font Awesome 6 Free" !important;
+  font-style: normal;
+}
+/* explicit weights */
+.fa-solid, .fas   { font-weight: 900 !important; }
+.fa-regular, .far { font-weight: 400 !important; }
+/* optional colors */
+.fa-solid.fa-star,
+.fa-solid.fa-star-half-stroke { color:#f59e0b; }
+.fa-regular.fa-star            { color:#d1d5db; }
+
         * {
             margin: 0;
             padding: 0;
@@ -893,12 +901,30 @@
     <div class="course-hero-flex" style="margin-top: 56px;">
         <div class="course-hero-left">
             <h1 class="course-title">{{ $course->title }}</h1>
-            <div class="course-meta">
-                <!-- Example: rating, enrolled, etc. -->
-                <span class="stars">★★★★★</span>
-                <span class="rating-number">4.8</span>
-                <span class="rating-count">(120)</span>
-            </div>
+           @php
+    $avg    = (float)($course->avg_rating ?? 0);
+    $count  = (int)($course->rating_count ?? 0);
+    $filled = floor($avg);
+    $half   = ($avg - $filled) >= 0.5 ? 1 : 0;
+    $empty  = 5 - $filled - $half;
+@endphp
+
+<div class="course-meta" aria-label="Average rating {{ number_format($avg,2) }} out of 5" style="display:flex;align-items:center;gap:8px;">
+    <span class="stars" style="display:inline-flex;gap:6px;font-size:20px;line-height:1;">
+        @for ($i = 0; $i < $filled; $i++)
+            <i class="fa-solid fa-star" style="color:#f59e0b;"></i>
+        @endfor
+        @if ($half)
+            <i class="fa-solid fa-star-half-stroke" style="color:#f59e0b;"></i>
+        @endif
+        @for ($i = 0; $i < $empty; $i++)
+            <i class="fa-regular fa-star" style="color:#d1d5db;"></i>
+        @endfor
+    </span>
+    <span class="rating-number" style="color:#f59e0b;font-weight:700;">{{ number_format($avg,2) }}</span>
+    <span class="rating-count" style="color:#9ca3af;">({{ $count }})</span>
+</div>
+
             <div class="course-description">
                 {{ $course->description }}
             </div>

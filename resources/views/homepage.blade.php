@@ -10,11 +10,21 @@
        * {
             font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        i[class^="fa-"], i[class*=" fa-"] {
-            font-family: "Font Awesome 6 Free" !important;
-            font-style: normal;
-            font-weight: 900 !important;
-        }
+        /* Let Font Awesome pick the correct weights */
+.fa, .fas, .far, .fa-solid, .fa-regular,
+.fa-star, .fa-star-half-stroke,
+i[class^="fa-"], i[class*=" fa-"] {
+  font-family: "Font Awesome 6 Free" !important;
+  font-style: normal;
+}
+.fa-solid, .fas   { font-weight: 900 !important; }  /* filled */
+.fa-regular, .far { font-weight: 400 !important; }  /* outline */
+
+/* (optional) star colors */
+.fa-solid.fa-star,
+.fa-solid.fa-star-half-stroke { color:#f59e0b; }
+.fa-regular.fa-star            { color:#d1d5db; }
+
         * {
             margin: 0;
             padding: 0;
@@ -650,6 +660,7 @@
         <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
         <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
         <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+        <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Popular</option>
         
     </select>
 </form>
@@ -714,28 +725,32 @@
                     <div class="course-category">
                         <span class="course-category-badge">{{ $course->category }}</span>
                     </div>
-                    {{-- Rating (read-only) --}}
-                    @php
-                        $avg   = (float)($course->avg_rating ?? 0);
-                        $count = (int)($course->rating_count ?? 0);
-                        $filled = floor($avg);
-                        $half   = ($avg - $filled) >= 0.5;
-                    @endphp
-                    <div class="course-rating" aria-label="Average rating {{ number_format($avg,2) }}">
-                        <div class="stars">
-                            @for($i=1;$i<=5;$i++)
-                                @if($i <= $filled)
-                                    ★
-                                @elseif($half && $i == $filled+1)
-                                    ☆
-                                @else
-                                    <span style="color:#d1d5db;">★</span>
-                                @endif
-                            @endfor
-                        </div>
-                        <span class="rating-number">{{ number_format($avg,2) }}</span>
-                        <span class="rating-count">({{ $count }})</span>
-                    </div>
+                 {{-- Rating (read-only) --}}
+@php
+    $avg    = (float)($course->avg_rating ?? 0);   // always numeric
+    $count  = (int)($course->rating_count ?? 0);
+    $filled = floor($avg);
+    $half   = ($avg - $filled) >= 0.5 ? 1 : 0;
+    $empty  = 5 - $filled - $half;
+@endphp
+
+<div class="course-rating" aria-label="Average rating {{ number_format($avg,2) }} out of 5">
+    <div class="stars">
+        @for ($i = 0; $i < $filled; $i++)
+            <i class="fa-solid fa-star"></i>
+        @endfor
+        @if ($half)
+            <i class="fa-solid fa-star-half-stroke"></i>
+        @endif
+        @for ($i = 0; $i < $empty; $i++)
+            <i class="fa-regular fa-star"></i>
+        @endfor
+    </div>
+    <span class="rating-number">{{ number_format($avg,2) }}</span>
+    <span class="rating-count">({{ $count }})</span>
+</div>
+
+
 
                     <div class="course-price">
                         <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}

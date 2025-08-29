@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Rating;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Resource;
 
@@ -45,10 +45,11 @@ public function quizzes()
         return $this->belongsTo(User::class, 'instructor_id');
     }
 
- public function ratings()
+public function ratings()
 {
-    return $this->hasMany(\App\Models\Rating::class, 'course_id');
+    return $this->hasMany(Rating::class, 'course_id', 'id');
 }
+
 
 
 

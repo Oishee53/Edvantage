@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->unique(['course_id','user_id']); // one rating per student per course
-            $table->index(['course_id','score']);
+           
         });
 
         Schema::table('courses', function (Blueprint $table) {

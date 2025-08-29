@@ -483,7 +483,7 @@ i[class^="fa-"], i[class*=" fa-"] {
         <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
         <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
         <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
-        
+         <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Popular</option>
     </select>
 </form>
       </div>
@@ -507,26 +507,27 @@ i[class^="fa-"], i[class*=" fa-"] {
                         @if(isset($course->category))
                             <span class="course-category-badge">{{ $course->category }}</span>
                         @endif
-                       @php
-    $avg   = round((float)($course->avg_rating ?? 0), 2);
-    $count = (int)($course->rating_count ?? 0);
-    $filled = floor($avg);
-    $hasHalf = ($avg - $filled) >= 0.5;
+                      @php
+    $avg    = $course->avg_rating;                 // float|null from controller
+    $count  = (int)($course->rating_count ?? 0);
+    $filled = floor($avg ?? 0);
+    $half   = ($avg !== null && ($avg - $filled) >= 0.5) ? 1 : 0;
+    $empty  = 5 - $filled - $half;
 @endphp
 
-<div class="course-rating" aria-label="Average rating {{ number_format($avg,2) }}">
+<div class="course-rating" aria-label="Average rating {{ $avg ? number_format($avg,1) : '—' }} out of 5">
     <span class="stars">
-        @for ($i = 1; $i <= 5; $i++)
-            @if ($i <= $filled)
-                <i class="fa-solid fa-star"></i>
-            @elseif ($hasHalf && $i == $filled + 1)
-                <i class="fa-solid fa-star-half-stroke"></i>
-            @else
-                <i class="fa-regular fa-star" style="color:#d1d5db;"></i>
-            @endif
+        @for ($i = 0; $i < $filled; $i++)
+            <i class="fa-solid fa-star"></i>
+        @endfor
+        @if ($half)
+            <i class="fa-solid fa-star-half-stroke"></i>
+        @endif
+        @for ($i = 0; $i < $empty; $i++)
+            <i class="fa-regular fa-star" style="color:#d1d5db;"></i>
         @endfor
     </span>
-    <span class="rating-number">{{ number_format($avg, 2) }}</span>
+    <span class="rating-number">{{ $avg ? number_format($avg,1) : '—' }}</span>
     <span class="rating-count">({{ $count }})</span>
 </div>
 

@@ -27,7 +27,7 @@ use App\Http\Controllers\VideoProgressController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RatingController;
-// make the landing page addressable by name
+
 use App\Http\Controllers\CertificateController;
 
 Route::get('/', [LandingController::class, 'showLanding']);
@@ -124,6 +124,15 @@ Route::view('/about-us', 'about')->name('about');
 Route::view('/contact-us', 'contact')->name('contact');
 
 
+Route::middleware('auth')->group(function () {
+    Route::post('/courses/{course}/rate', [RatingController::class, 'store'])
+        ->name('ratings.store');
+
+    Route::post('/courses/{course}/rate/skip', [RatingController::class, 'skip'])
+        ->name('ratings.skip');
+});
+
+
 
 Route::post('/video-progress/save', [VideoProgressController::class, 'save'])->name('video.progress.save');
 
@@ -149,10 +158,7 @@ Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'g
         ->name('certificate.generate');
 
 });
-Route::middleware('auth')->group(function () {
-    Route::post('/courses/{course}/rate', [RatingController::class, 'store'])->name('courses.rate');
-    Route::post('/courses/{course}/rate/skip', [RatingController::class, 'skip'])->name('courses.rate.skip'); // optional
-});
+
 
 Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
     ->name('student.questions.show');

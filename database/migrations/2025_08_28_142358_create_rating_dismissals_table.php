@@ -1,4 +1,5 @@
 <?php
+
 // database/migrations/2025_08_23_000001_create_rating_dismissals_table.php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

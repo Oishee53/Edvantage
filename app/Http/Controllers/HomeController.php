@@ -25,10 +25,13 @@ class HomeController extends Controller
     }
 
     switch ($sort) {
-        case 'price_asc':  $coursesQuery->orderBy('price', 'asc');  break;
-        case 'price_desc': $coursesQuery->orderBy('price', 'desc'); break;
-        default:           $coursesQuery->orderBy('created_at', 'desc');
-    }
+    case 'price_asc':  $coursesQuery->orderBy('price', 'asc');  break;
+    case 'price_desc': $coursesQuery->orderBy('price', 'desc'); break;
+    case 'popular':    $coursesQuery->orderBy('ratings_avg_score','desc')
+                                    ->orderBy('ratings_count','desc'); break;
+    default:           $coursesQuery->orderBy('created_at', 'desc');
+}
+
 
     $courses = $coursesQuery->get();
 

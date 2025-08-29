@@ -200,15 +200,17 @@
                         View Details
                     </button>
 
-                    @if($progress['completion_percentage'] == 100 && $progress['average_percentage'] >= 70)
-                        <a href="{{ route('certificate.generate', [
-                            'userId' => auth()->id(),
-                            'courseId' => $progress['course_id'],
-                        ]) }}" class="btn-secondary" target="_blank">
-                            <i class="fas fa-download"></i>
-                            Certificate
-                        </a>
-                    @endif
+                   @if($progress['completion_percentage'] == 100 && $progress['average_percentage'] >= 70)
+    <a href="{{ route('certificate.generate', [
+        'userId' => auth()->id(),
+        'courseId' => $progress['course_id'],
+    ]) }}" class="btn-secondary" target="_blank">
+        <i class="fas fa-download"></i>
+        Certificate
+    </a>
+@endif
+
+
                 </div>
             </div>
 
@@ -249,55 +251,79 @@
             </div>
 
             {{-- Rating block --}}
-            <div class="px-4 pb-3 d-flex justify-content-between align-items-center">
-                <small class="text-muted">
-                    Avg: {{ number_format($course->avg_rating ?? 0, 2) }}
-                    ({{ $course->rating_count ?? 0 }} reviews)
-                </small>
+<div class="px-4 pb-3 d-flex justify-content-between align-items-center">
+    <small class="text-muted">
+        Avg: {{ number_format($course->avg_rating ?? 0, 2) }}
+        ({{ $course->rating_count ?? 0 }} reviews)
+    </small>
+</div>
+
+@if(!$myRating && !$dismissed)
+    <form method="POST" action="{{ route('ratings.store', $progress['course_id']) }}" class="px-4 pb-4">
+        @csrf
+
+        <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="rating" id="rate-{{ $progress['course_id'] }}">
+  @for ($i = 5; $i >= 1; $i--)
+    <input
+      type="radio"
+      id="star-{{ $progress['course_id'] }}-{{ $i }}"
+      name="stars"
+      value="{{ $i }}"
+      {{ old('stars') == $i ? 'checked' : '' }}
+      required
+    >
+    <label for="star-{{ $progress['course_id'] }}-{{ $i }}">★</label>
+  @endfor
+</div>
+
+
+            <span class="text-muted small">Rate this course</span>
+        </div>
+
+        <textarea name="review"                            {{-- CHANGED from comment --}}
+                  rows="2"
+                  class="form-control mb-2"
+                  placeholder="(Optional) Say something...">{{ old('review') }}</textarea>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary">Submit</button>
+
+            {{-- Skip uses a separate form --}}
+            <button type="submit"
+                    form="skip-form-{{ $progress['course_id'] }}"
+                    class="btn btn-light border">
+                Skip
+            </button>
+        </div>
+
+        {{-- Inline validation errors (optional) --}}
+        @if ($errors->any())
+            <div class="alert alert-danger mt-2">
+                @foreach ($errors->all() as $e)
+                    <div>{{ $e }}</div>
+                @endforeach
             </div>
+        @endif
 
-            @if(!$myRating && !$dismissed)
-                <form method="POST" action="{{ route('courses.rate', $progress['course_id']) }}" class="px-4 pb-4">
-                    @csrf
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <div class="star-input">
-                            @for($i = 5; $i >= 1; $i--)
-                                <input type="radio"
-                                       id="rate-{{ $progress['course_id'] }}-{{ $i }}"
-                                       name="score"
-                                       value="{{ $i }}"
-                                       required>
-                                <label for="rate-{{ $progress['course_id'] }}-{{ $i }}">★</label>
-                            @endfor
-                        </div>
-                        <span class="text-muted small">Rate this course</span>
-                    </div>
+        @if (session('success'))
+            <div class="alert alert-success mt-2">{{ session('success') }}</div>
+        @endif
+    </form>
 
-                    <textarea name="comment" rows="2" class="form-control mb-2"
-                              placeholder="(Optional) Say something..."></textarea>
+    <form id="skip-form-{{ $progress['course_id'] }}" method="POST"
+          action="{{ route('ratings.skip', $progress['course_id']) }}">   {{-- CHANGED route name --}}
+        @csrf
+    </form>
+@else
+    @if($myRating)
+        <div class="mt-2 small text-success px-4 pb-4">
+            You rated: <strong>{{ $myRating->score }}/5</strong>
+            @if($myRating->comment) • “{{ $myRating->comment }}” @endif
+        </div>
+    @endif
+@endif
 
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary">Submit</button>
-                        <button type="submit"
-                                form="skip-form-{{ $progress['course_id'] }}"
-                                class="btn btn-light border">
-                            Skip
-                        </button>
-                    </div>
-                </form>
-
-                <form id="skip-form-{{ $progress['course_id'] }}" method="POST"
-                      action="{{ route('courses.rate.skip', $progress['course_id']) }}">
-                    @csrf
-                </form>
-            @else
-                @if($myRating)
-                    <div class="mt-2 small text-success px-4 pb-4">
-                        You rated: <strong>{{ $myRating->score }}/5</strong>
-                        @if($myRating->comment) • “{{ $myRating->comment }}” @endif
-                    </div>
-                @endif
-            @endif
 
             {{-- Collapsible Quiz Section (Bootstrap collapse) --}}
             <div class="collapse quiz-section" id="{{ $collapseId }}">
@@ -364,6 +390,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+
 
 <style>
 /* Import Font Awesome and Montserrat */
@@ -837,6 +865,37 @@ i[class^="fa-"], i[class*=" fa-"] {
     color: white;
     flex: 1;
 }
+/* Click-to-fill star rating (no JS) */
+.rating{
+  display:inline-flex;
+  flex-direction: row-reverse;      /* so “~ label” selects stars to the left */
+  gap:6px;
+  vertical-align: middle;
+}
+.rating input{
+  position:absolute;
+  left:-9999px;                     /* hide radios */
+}
+.rating label{
+  cursor:pointer;
+  font-size:22px;
+  line-height:1;
+  color:#d1d5db;                    /* blank (gray) */
+  user-select:none;
+  transition:color .15s ease;
+}
+
+/* Hover preview */
+.rating label:hover,
+.rating label:hover ~ label{
+  color:#f59e0b;                    /* gold on hover */
+}
+
+/* Persist after click */
+.rating input:checked ~ label{
+  color:#f59e0b;                    /* gold when selected */
+}
+
 
 .btn-primary:hover {
     background: #1e293b;
@@ -1055,6 +1114,7 @@ i[class^="fa-"], i[class*=" fa-"] {
     .search-input {
         width: 200px;
     }
+    .star-input label{ pointer-events:auto; }
     .dashboard-container { padding: 1rem; }
     .header-content { flex-direction: column; text-align: center; }
     .stats-grid { grid-template-columns: 1fr; }
@@ -1062,4 +1122,5 @@ i[class^="fa-"], i[class*=" fa-"] {
     .user-welcome { justify-content: center; }
 }
 </style>
+
 @endsection
