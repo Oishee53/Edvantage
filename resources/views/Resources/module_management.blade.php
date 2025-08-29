@@ -384,9 +384,9 @@
             </p>
             <a href="{{ route('quiz.create', ['course' => $course->id ?? 1, 'module' => $moduleNumber ?? 1]) }}" class="action-button">
               @if($quiz)
-              Create Quiz
+              Edit Quiz
               @else
-               Edit Quiz
+               Create Quiz
               @endif
             </a>
           </div>

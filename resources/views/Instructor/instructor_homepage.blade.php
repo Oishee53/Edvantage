@@ -547,7 +547,10 @@
             <!-- Statistics Grid -->
            <div class="stats-grid">
                 <div class="stat-card approved">
-                    <div class="stat-value">{{ count($approvedCourses?? []) }}</div>
+
+                    <div class="stat-value">{{ isset($approvedCourses)? count($approvedCourses):0 }}</div>
+
+
                     <div class="stat-label">Approved Courses</div>
                 </div>
 
@@ -557,7 +560,10 @@
                 </div>
 
                 <div class="stat-card rejected">
-                    <div class="stat-value">{{ count($rejectedCourses ?? []) }}</div>
+
+                    <div class="stat-value">{{ isset($rejectedCourses)? count($rejectedCourses):0 }}</div>
+
+
                     <div class="stat-label">Rejected Courses</div>
                 </div>
 

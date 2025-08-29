@@ -23,10 +23,12 @@ public function viewCourses()
 
 public function show($id)
 {
-    $course = Courses::findOrFail($id);
+    // Load course with instructor
+    $course = Courses::with('instructor')->findOrFail($id);
     $user = auth()->user();
     return view('courses.course_details', compact('course','user'));
 }
+
  public function create()
 {
     return view('courses.create_course');

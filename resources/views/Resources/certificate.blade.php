@@ -14,36 +14,40 @@
         }
 
         body {
-  margin: 0;
-  padding: 0;
-  background: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+            margin: 0;
+            padding: 10px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
 
-.certificate-wrapper {
-  width: 900px;        /* pick your certificate width */
-  height: 650px;       /* pick your certificate height */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
+        .certificate-wrapper {
+            width: 850px;
+            height: 550px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.certificate {
-  width: 100%;
-  height: 100%;
-  background: #faf9f6; /* off-white */
-  border-radius: 15px;
-  padding: 40px 35px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-      
+        .certificate {
+            width: 100%;
+            height: 100%;
+            background: #faf9f6;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
         /* Background pattern */
         .certificate::after {
@@ -58,6 +62,7 @@
                 radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at 40% 70%, rgba(245, 87, 108, 0.05) 0%, transparent 50%);
             z-index: 0;
+            border-radius: 15px; /* Match certificate border radius */
         }
 
         .content {
@@ -65,18 +70,19 @@
             z-index: 2;
             text-align: center;
             width: 100%;
-            max-width: 700px;
+            max-width: 650px;
+            margin: 0 auto;
         }
 
         .header {
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         .logo-section {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .logo {
@@ -91,8 +97,6 @@
             position: relative;
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
-
-    
 
         .company-name {
             font-size: 30px;
@@ -118,7 +122,11 @@
         }
 
         .main-content {
-            margin-bottom: 30px;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .awarded-text {
@@ -157,7 +165,7 @@
             color: #4a5568;
             line-height: 1.6;
             margin-bottom: 20px;
-            max-width: 500px;
+            max-width: 600px; /* Increased width for more spacing */
             margin-left: auto;
             margin-right: auto;
         }
@@ -176,8 +184,8 @@
         .score-badge {
             display: inline-block;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 6px 18px;
+            color: 2c2e30ff; 
+            padding: 8px 20px; /* Slightly increased padding */
             border-radius: 25px;
             font-weight: 600;
             font-size: 14px;
@@ -187,21 +195,35 @@
         .footer {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: flex-start;
             border-top: 1px solid #e2e8f0;
-            padding-top: 20px;
+            padding-top: 15px;
             width: 100%;
+            margin-top: auto;
         }
 
-        .date-section {
+        .left-section {
             text-align: left;
             flex: 1;
         }
 
+        .certificate-id {
+            font-size: 12px; 
+            color: #9b9998ff; 
+            font-family: 'Playfair Display', serif; 
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .date-section {
+            text-align: left;
+        }
+
         .date-label {
             font-size: 12px;
-            color: #718096;
+            color: #667b9aff;
             text-transform: uppercase;
+            font-weight: 600;
             letter-spacing: 1px;
             margin-bottom: 5px;
         }
@@ -279,18 +301,29 @@
         }
 
         /* Responsive adjustments */
+        @media (max-width: 968px) {
+            .certificate-wrapper {
+                width: 95%;
+                max-width: 900px;
+            }
+        }
+
         @media (max-width: 768px) {
             body {
-                padding: 10px 5px;
+                padding: 20px 10px;
             }
             
             .certificate-wrapper {
-                padding: 20px;
+                width: 100%;
+                height: auto;
+                min-height: 500px;
+                padding: 15px;
             }
             
             .certificate {
                 padding: 30px 25px;
                 border-radius: 10px;
+                height: auto;
             }
             
             .certificate-title {
@@ -309,6 +342,7 @@
                 flex-direction: column;
                 gap: 15px;
                 text-align: center;
+                margin-top: 20px;
             }
             
             .date-section,
@@ -353,6 +387,7 @@
                 background: white;
                 padding: 0;
                 margin: 0;
+                min-height: auto;
             }
             
             .certificate-wrapper {
@@ -361,13 +396,14 @@
                 background: white;
                 padding: 0;
                 max-width: none;
+                width: 100%;
+                height: auto;
             }
             
             .certificate {
                 box-shadow: none;
                 border-radius: 0;
                 width: 100%;
-                min-height: 100vh;
                 padding: 60px 40px;
             }
         }
@@ -386,8 +422,7 @@
             <div class="content">
                 <div class="header">
                     <div class="logo-section">
-                        <div class="logo"></div>
-                        <div class="company-name">{{ $company_name ?? 'Edvantage' }}</div>
+                       <div class="company-name">{{ $company_name ?? 'Edvantage' }}</div>
                     </div>
                     <h1 class="certificate-title">Certificate of Completion</h1>
                     <p class="certificate-subtitle">Professional Achievement Award</p>
@@ -404,18 +439,18 @@
                     </p>
                     
                     <h3 class="course-name">"{{ $course->title ?? $course_name ?? 'Course Title' }}"</h3>
-                    
-                    @if(isset($avgScore) || isset($score))
                     <div class="score-badge">
-                        Final Score: {{ round($avgScore ?? $score) }}%
+                        Final Score: {{ $certificate->average_score}}%
                     </div>
-                    @endif
                 </div>
 
                 <div class="footer">
-                    <div class="date-section">
-                        <div class="date-label">Date of Completion</div>
-                        <div class="date">{{ $completion_date ?? date('F j, Y') }}</div>
+                    <div class="left-section">
+                        <div class="certificate-id">Certificate ID: {{ $certificate->certificate_id }}</div>
+                        <div class="date-section">
+                            <div class="date-label">Date of Completion</div>
+                            <div class="date">{{ $completion_date ?? date('F j, Y') }}</div>
+                        </div>
                     </div>
                     
                     <div class="signature-section">
