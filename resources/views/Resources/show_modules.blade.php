@@ -480,25 +480,30 @@
                 </div>
 
                 <!-- Course Header -->
-                <div class="course-header">
-                    <h2>Course Modules</h2>
-                    <div class="course-title">{{ $course->title }}</div>
-                    
-                    @php
-                        $uploadedCount = collect($modules)->where('uploaded', true)->count();
-                        $totalModules = count($modules);
-                        $progressPercentage = $totalModules > 0 ? ($uploadedCount / $totalModules) * 100 : 0;
-                    @endphp
-                    
-                    <div class="progress-section">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: {{ $progressPercentage }}%"></div>
-                        </div>
-                        <div class="progress-text">
-                            {{ $uploadedCount }} of {{ $totalModules }} modules completed ({{ number_format($progressPercentage, 1) }}%)
-                        </div>
-                    </div>
-                </div>
+                @php
+    $totalModules = count($modules);
+
+    if(auth()->user()->role === 3) {
+        // Students → Only quizzes count
+        $completed = collect($modules)->where('quiz', true)->count();
+    } else {
+        // Instructors/Admins → Both quiz + resource must be true
+        $completed = collect($modules)->filter(fn($m) => $m['quiz'] && $m['resource'])->count();
+    }
+
+    $progressPercentage = $totalModules > 0 
+        ? round(($completed / $totalModules) * 100, 1) 
+        : 0;
+@endphp
+
+<div class="progress-section">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ $progressPercentage }}%"></div>
+    </div>
+    <div class="progress-text">
+        {{ $completed }} of {{ $totalModules }} modules completed ({{ $progressPercentage }}%)
+    </div>
+</div>
 
                 <!-- Modules Section -->
                 <div class="modules-section">
