@@ -626,7 +626,7 @@
                               @endif
                           </td>
                           <td>
-                              <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                              <a href="" class="course-title-link">{{ $course->title }}</a>
                           </td>
                           <td class="course-description">{{ $course->description }}</td>
                           <td>{{ $course->category }}</td>
@@ -643,6 +643,84 @@
       </div>
       @endif
 
+      <!-- Pending Courses Section -->
+      <p class="section-header">Unsubmiited Courses</p>
+      @if(isset($notSubmittedCourses) && $notSubmittedCourses->isEmpty())
+          <div class="no-courses">No courses available.</div>
+      @else
+      <div class="table-wrapper">
+          <div class="table-scroll">
+              <table class="courses-table">
+                  <thead>
+                      <tr>
+                          <th>Image</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Videos</th>
+                          <th>Video Length</th>
+                          <th>Total Duration</th>
+                          <th>Price (৳)</th>
+                          <th>Added</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($notSubmittedCourses as $course)
+                      <tr>
+                          <td>
+                              @if($course->image)
+                                  <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
+                              @else
+                                  <span class="no-image-text">No image</span>
+                              @endif
+                          </td>
+                          <td>
+                              <a href="/instructor/manage_resources/{{$course->id}}/modules" class="course-title-link">{{ $course->title }}</a>
+                          </td>
+                          <td class="course-description">{{ $course->description }}</td>
+                          <td>{{ $course->category }}</td>
+                          <td>{{ $course->module }}</td>
+                          <td class="course-price">{{ $course->price }}</td>
+                          <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                          <td>
+                            @if(\App\Models\CourseNotification::where('pending_course_id', $course->id)->exists())
+                              <span class="status-submitted">Submitted</span>
+                            @else
+                              <span class="status-not-submitted">Not Submitted</span>
+                            @endif
+                          </td>
+                          <td>
+                            <div class="actions-container">
+                              <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET">
+                                <button type="submit" class="edit-button">
+                                  <svg class="edit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                  </svg>
+                                  Edit
+                                </button>
+                              </form>
+                              <form action="/admin_panel/manage_courses/delete-course/{{ $course->id }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this course?');">
+                                  <svg class="delete-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                  </svg>
+                                </button>
+                              </form>
+                            </div>
+                          </td>
+                      </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      @endif
+      
       <!-- Pending Courses Section -->
       <p class="section-header">Pending Courses</p>
       @if(isset($pendingCourses) && $pendingCourses->isEmpty())
@@ -667,7 +745,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach($pendingCourses as $course)
+                      @foreach($pending as $course)
                       <tr>
                           <td>
                               @if($course->image)
@@ -677,7 +755,7 @@
                               @endif
                           </td>
                           <td>
-                              <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                              <a href="/instructor/manage_resources/{{$course->id}}/modules" class="course-title-link">{{ $course->title }}</a>
                           </td>
                           <td class="course-description">{{ $course->description }}</td>
                           <td>{{ $course->category }}</td>

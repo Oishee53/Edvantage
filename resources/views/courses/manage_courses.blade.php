@@ -523,15 +523,6 @@
       </div>
 
       @auth
-        <!-- Search and Add Section -->
-        <div class="search-add-section">
-          <form action="/manage_courses/add" method="GET" style="display: inline;">
-            <button type="submit" class="add-course-button">
-              Add Course
-            </button>
-          </form>
-        </div>
-
         <!-- Courses Table -->
         <div class="table-container">
           <div class="table-header">

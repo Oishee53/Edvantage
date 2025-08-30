@@ -12,83 +12,6 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class PendingCourseController extends Controller
 {
- public function create()
-{
-    return view('courses.create_course');
-}
-public function store(Request $request)
-{
-    $user = auth()->user();
-
-    // Validation rules
-    $rules = [
-    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    'title' => 'required',
-    'description' => 'nullable',
-    'category' => 'required|string',
-    'video_count' => 'required|integer',
-    'approx_video_length' => 'required|integer',
-    'total_duration' => 'required|numeric',
-    'price' => 'required|numeric',
-    'prerequisite' => 'nullable|string|max:255',
-];
-
-    $request->validate($rules);
-    // Handle image upload
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('course_images', 'public');
-    }
-    // Determine instructor ID
-    $instructorId = $user->role === 2 ? $request->input('instructor_id') : $user->id;
-
-    // Create the course
-    PendingCourses::create([
-        'image' => $imagePath ?? null,
-        'title' => $request->title,
-        'description' => $request->description,
-        'category' => $request->category,
-        'video_count' => $request->video_count,
-        'approx_video_length' => $request->approx_video_length,
-        'total_duration' => $request->total_duration,
-        'price' => $request->price,
-        'instructor_id' => $instructorId,
-        'prerequisite' => $request->prerequisite,
-    ]);
-   return redirect('/instructor/manage_courses')->with('success', 'Course added successfully!');
-}
-public function showModules($course_id)
-{
-    $course = PendingCourses::findOrFail($course_id);
-
-    // Get all module IDs that have at least one resource for this course
-    $uploadedModuleIds = DB::table('pending_resources')
-        ->where('courseId', $course_id)
-        ->pluck('moduleId')        // [2, 4, 4, 7, ...]
-        ->unique()                 // de-dupe
-        ->map(fn ($id) => (int) $id)
-        ->values()
-        ->all();
-
-    $modules = [];
-    $allUploaded = true;
-    $alreadySubmitted = \App\Models\CourseNotification::where('pending_course_id', $course->id)->exists();
-
-    for ($i = 1; $i <= (int) $course->video_count; $i++) {
-        $isUploaded = in_array($i, $uploadedModuleIds, true);
-
-        $modules[] = [
-            'id'       => $i,
-            'uploaded' => $isUploaded,
-        ];
-
-        if (!$isUploaded) {
-            $allUploaded = false;
-        }
-    }
-
-    return view('Instructor.show_modules', compact('course', 'modules', 'allUploaded','alreadySubmitted'));
-}
-
 public function editModule($course_id, $module_id){
     $course = PendingCourses::findOrFail($course_id);
     $moduleExists = PendingResources::where('courseId', $course_id)
@@ -217,7 +140,6 @@ public function editModule($course_id, $module_id){
         try {
             $resource = PendingResources::updateOrCreate(
                 ['courseId' => $course_id, 'moduleId' => $module_id], // conditions to find existing record
-                $data // data to update or create with
             );
             
             Log::info('Resource saved successfully:', ['resource' => $resource->toArray()]);

@@ -15,14 +15,15 @@ class InstructorController extends Controller
 {
     $approvedCourses = DB::table('courses')
         ->where('instructor_id', Auth::id())
+        ->where('status', 'approved')
         ->get();
 
-    $rejectedCourses = DB::table('course_notifications')
+    $rejectedCourses = DB::table('courses')
         ->where('status', 'rejected')
         ->where('instructor_id', Auth::id())
         ->get();
 
-    $pendingCourses = DB::table('course_notifications')
+    $pendingCourses = DB::table('courses')
         ->where('status', 'pending')
         ->where('instructor_id', Auth::id())
         ->get();

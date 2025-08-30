@@ -36,43 +36,16 @@ class ResourceController extends Controller
 public function showModules($course_id)
 {
     $course = Courses::findOrFail($course_id);
-
-    $user = auth()->user();
-
-    $quizModules = collect();
-    $resourceModules = collect();
-
-    if ($user->role === 3) {
-        // Students: only check quizzes
-        $quizModules = DB::table('quizzes')
-            ->where('course_id', $course_id)
-            ->pluck('module_number');
-    } elseif ($user->role === 2) {
-        // Instructors/Admins: check both quizzes and resources separately
-        $quizModules = DB::table('quizzes')
-            ->where('course_id', $course_id)
-            ->pluck('module_number');
-
-        $resourceModules = DB::table('resources')
-            ->where('courseId', $course_id)
-            ->pluck('moduleId');
-    }
-
-    // Normalize IDs to integers
-    $quizModules     = $quizModules->map(fn($id) => (int) $id)->values()->all();
-    $resourceModules = $resourceModules->map(fn($id) => (int) $id)->values()->all();
-
-    // Build modules with separate upload status
+    $user   = auth()->user();
+    $moduleCount = $course->module;
     $modules = [];
-    for ($i = 1; $i <= (int) $course->video_count; $i++) {
-        $modules[] = [
-            'id'        => $i,
-            'quiz'      => in_array($i, $quizModules, true),
-            'resource'  => in_array($i, $resourceModules, true),
-        ];
+    
+    for ($i = 1; $i <= $moduleCount; $i++) {
+        $modules[] = ['id' => $i];
     }
 
-    return view('Resources.show_modules', compact('course', 'modules'));
+
+    return view('Resources.show_modules', compact('course','modules'));
 }
 
 

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\moduleController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\QuestionController;
@@ -39,7 +40,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return view('courses.manage_courses', compact('courses'));
     });
     
-    Route::post('/admin/manage_courses/create', [CourseController::class, 'store']);
+
     Route::get('/admin_panel/manage_courses/view-list', [CourseController::class, 'viewAll']);
     Route::get('/admin_panel/manage_courses/delete-course', [CourseController::class, 'deleteCourse']);
 
@@ -104,14 +105,27 @@ Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadControll
 Route::get('/instructor_homepage', [InstructorController::class, 'viewInstructorHomepage'])
     ->middleware('auth');
 Route::post('/instructor/manage_courses/create', [PendingCourseController::class, 'store']);
-Route::get('/instructor/manage_resources/{course_id}/modules', [PendingCourseController::class, 'showModules']);
+Route::get('/instructor/manage_resources/{course_id}/modules', [ResourceController::class, 'showModules']);
 Route::get('/instructor/manage_resources/{course_id}/modules/{module_id}/edit', [PendingCourseController::class, 'editModule']);
 Route::get('/instructor/manage_courses', function () {
     $instructorId = auth()->user()->id;
-    $courses = Courses::where('instructor_id', $instructorId)->get();
-    $pendingCourses = PendingCourses::where('instructor_id', $instructorId)->get();
-    return view('Instructor.instructor_manage_courses', compact('courses','pendingCourses','instructorId'));
+
+    // Approved courses
+    $courses = Courses::where('instructor_id', $instructorId)
+        ->where('status', 'approved')
+        ->get();
+
+    // Pending courses
+    $notSubmittedCourses = Courses::where('instructor_id', $instructorId)
+        ->where('status', 'not submitted')
+        ->get();
+    $pendingCourses = Courses::where('instructor_id', $instructorId)
+        ->where('status', 'pending')
+        ->get();
+
+    return view('Instructor.instructor_manage_courses', compact('courses', 'pendingCourses','notSubmittedCourses', 'instructorId'));
 });
+
 Route::post('/instructor/resources/{course_id}/modules/{module_id}/upload', [PendingCourseController::class, 'handleUpload'])->name('upload.instructor.resources');
 Route::get('/instructor/courses/{course}/modules/{module}/module/create', [PendingCourseController::class, 'addModule'])->name('module.instructor.create');
 
@@ -140,3 +154,7 @@ Route::get('/view_pending_resources/{courseId}/{moduleNumber}', [PendingCourseCo
      ->name('view.pending.resources');
      
 Route::get('/view/inside-module/{courseId}/{moduleNumber}', [ResourceController::class, 'showInsideModule'])->name('inside.module2');
+
+Route::post('/admin/manage_courses/create', [CourseController::class, 'store']);
+Route::post('/modules/{course}/{module}/store', [moduleController::class, 'store'])
+    ->name('modules.store');

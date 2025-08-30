@@ -18,14 +18,13 @@ class CourseNotificatioController extends Controller
         $course = PendingCourses::findOrFail($courseId);
 
         // create notification entry
-        CourseNotification::updateOrCreate(
+        Courses::updateOrCreate(
     [
-        'pending_course_id' => $course->id, // condition to find existing record
+        'courseId' => $course->id, // condition to find existing record
     ],
     [
         'instructor_id' => $course->instructor_id,
-        'status'        => 'pending', // not approved yet
-        'is_read'       => false,
+        'status'        => 'pending'
     ]
 );
         return redirect('/instructor_homepage')
@@ -33,11 +32,11 @@ class CourseNotificatioController extends Controller
     }
      public function index()
     {
-        $pendingCourses = CourseNotification::where('status', 'pending')->get();
+        $pendingCourses = Courses::where('status', 'pending')->get();
 
         return view('admin.pending_courses', compact('pendingCourses'));
     }
-    public function review(PendingCourses $course)
+    public function review(Courses $course)
 {
     // Load all modules + their resources
     $modules = $course->modules()->with('materials')->get();
@@ -46,7 +45,7 @@ class CourseNotificatioController extends Controller
 }
  public function show_modules($course_id)
     {
-    $course = PendingCourses::findOrFail($course_id);
+    $course = Courses::findOrFail($course_id);
 
     $modules = range(1, $course->video_count); 
     return view('Admin.show_modules', compact('course', 'modules'));
@@ -71,7 +70,7 @@ class CourseNotificatioController extends Controller
             ]);
 
             // 2. Move resources
-            $pendingResources = PendingResources::where('courseId', $course_id)->get();
+            $pendingResources = Resources::where('courseId', $course_id)->get();
 
             foreach ($pendingResources as $res) {
                 Resource::create([
@@ -87,11 +86,10 @@ class CourseNotificatioController extends Controller
             PendingCourses::findOrFail($course_id)->delete();
 
             // 4. Update course notification
-            $notification = CourseNotification::where('pending_course_id', $course_id)->first();
+            $notification = COurses::where('courseId', $course_id)->first();
             if ($notification) {
                 $notification->update([
-                    'status' => 'accepted',
-                    'is_read' => false
+                    'status' => 'accepted'
                 ]);
             }
         });
@@ -110,7 +108,7 @@ class CourseNotificatioController extends Controller
             PendingCourses::findOrFail($course_id)->delete();
 
             // 3. Update course notification
-            $notification = CourseNotification::where('pending_course_id', $course_id)->first();
+            $notification = Courses::where('courseId', $course_id)->first();
             if ($notification) {
                 $notification->update([
                     'status' => 'rejected',

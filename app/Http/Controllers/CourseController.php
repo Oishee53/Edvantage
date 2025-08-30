@@ -39,41 +39,35 @@ public function store(Request $request)
 
     // Validation rules
     $rules = [
-    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    'title' => 'required',
-    'description' => 'nullable',
-    'category' => 'required|string',
-    'video_count' => 'required|integer',
-    'approx_video_length' => 'required|integer',
-    'total_duration' => 'required|numeric',
-    'price' => 'required|numeric',
-    'prerequisite' => 'nullable|string|max:255',
-];
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'category' => 'required|string|max:255',
+        'module' => 'required|integer|min:1',
+        'price' => 'required|numeric|min:0',
+    ];
+
     $request->validate($rules);
+
     // Handle image upload
+    $imagePath = null;
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('course_images', 'public');
     }
-    $instructorId = $user->id;
 
-    // Create the course
+    // Create the course with default status "not submitted"
     Courses::create([
-        'image' => $imagePath ?? null,
+        'image' => $imagePath,
         'title' => $request->title,
         'description' => $request->description,
         'category' => $request->category,
-        'video_count' => $request->video_count,
-        'approx_video_length' => $request->approx_video_length,
-        'total_duration' => $request->total_duration,
+        'module' => $request->module,
         'price' => $request->price,
-        'instructor_id' => $instructorId,
-        'prerequisite' => $request->prerequisite,
+        'status' => 'not submitted', // default for new courses
+        'instructor_id' => $user->id,
     ]);
-   return match($user->role) {
-        2 => redirect('/admin_panel/manage_courses')->with('success', 'Course added successfully!'),
-        3 => redirect('/instructor/manage_courses')->with('success', 'Course added successfully!'),
-        default => redirect('/')->with('info', 'Course added.'),
-    };
+
+    return redirect()->back()->with('success', 'Course added successfully!');
 }
 
 public function viewAll()
