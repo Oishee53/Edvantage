@@ -55,7 +55,8 @@ class InstructorController extends Controller
         'coursesWithStudents',
         'rejectedCourses',
         'pendingCourses',
-        'totalEarnings'
+        'totalEarnings',
+        'approvedCourses'
     ));
 }
 

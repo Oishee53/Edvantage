@@ -30,7 +30,9 @@ class AdminController extends Controller
     $totalCourses = Courses::count();
 
     // Total earnings (sum of enrolled courses' price)
-    $totalEarn = Enrollment::with('course')->get()->sum('course.price');
+    $totalEarn = Enrollment::join('courses', 'enrollments.course_id', '=', 'courses.id')
+    ->sum(DB::raw('courses.price * 0.3'));
+
 
     // Unique students who enrolled
 
