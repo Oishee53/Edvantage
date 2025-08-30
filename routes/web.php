@@ -102,7 +102,7 @@ Route::post('/make-payment', [PaymentController::class, 'makePayment'])->name('m
 Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
 
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
-Route::get('/my-courses', [EnrollmentController::class, 'userEnrolledCourses'])->name('courses.enrolled');
+
 Route::get('/my-courses/{courseId}', [EnrollmentController::class, 'viewCourseModules'])->name('user.course.modules');
 Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::class, 'viewModuleResource'])->name('user.module.resource');
 Route::get('/inside-module/{courseId}/{moduleNumber}', [EnrollmentController::class, 'showInsideModule'])->name('inside.module');
@@ -133,14 +133,14 @@ Route::post('/instructor/signup', [InstructorController::class, 'register'])->na
 Route::post('instructor/payment_setup', [InstructorController::class, 'savePaymentSetup'])->name('instructor.payout.save');
 
 Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
-
-Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])
-        ->name('certificate.generate');
-
-});
-
 Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
     ->name('student.questions.show');
 Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
-    ->name('secure.pdf.view')
-    ->middleware('auth');
+    ->name('secure.pdf.view');
+
+
+});
+
+Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])
+        ->name('certificate.generate');
+Route::get('/verify-certificate/{certificate_id}', [CertificateController::class, 'verify'])->name('certificate.verify');

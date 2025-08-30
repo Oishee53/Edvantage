@@ -13,10 +13,25 @@ use App\Models\QuizSubmission;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Models\Certificates;
 
 class CertificateController extends Controller
 {
-   public function generate($userId, $courseId)
+public function verify($certificate_id)
+{
+    $certificate = Certificate::with(['user', 'course'])
+        ->where('certificate_id', $certificate_id)
+        ->first();
+
+    return view('certificate.verify', compact('certificate', 'certificate_id'));
+}
+
+
+
+
+
+
+public function generate($userId, $courseId)
 {
     $user = auth()->user();
 

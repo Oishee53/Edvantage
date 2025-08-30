@@ -241,7 +241,7 @@
 
         .signature-line {
             width: 100%;
-            max-width: 200px;
+            max-width: 160px;
             height: 1px;
             background: #cbd5e0;
             margin-bottom: 8px;
@@ -444,20 +444,30 @@
                     </div>
                 </div>
 
-                <div class="footer">
-                    <div class="left-section">
-                        <div class="certificate-id">Certificate ID: {{ $certificate->certificate_id }}</div>
-                        <div class="date-section">
-                            <div class="date-label">Date of Completion</div>
-                            <div class="date">{{ $completion_date ?? date('F j, Y') }}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="signature-section">
-                        <div class="signature-line"></div>
-                        <div class="signature-label">{{ $signature_title ?? 'Director of Education' }}</div>
-                    </div>
-                </div>
+            <div class="footer">
+    <div class="left-section">
+        <div class="certificate-id">Certificate ID: {{ $certificate->certificate_id }}</div>
+        <div class="date-section">
+            <div class="date-label">Issued on</div>
+            <div class="date">{{ $completion_date ?? date('F j, Y') }}</div>
+        </div>
+        
+        <!-- Move verification to bottom-left corner -->
+        <div class="verification-section" style="margin-top: 15px;">
+            <div class="verification-text" style="font-size: 10px; color: #718096; margin-bottom: 3px; font-weight: 500;">
+                Verify online:
+            </div>
+            <div class="verification-url" style="font-size: 9px; color: #667eea; font-family: 'Courier New', monospace; font-weight: 600; word-break: break-all; max-width: 200px;">
+                {{ url('/verify-certificate/' . $certificate->certificate_id) }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="signature-section">
+        <div class="signature-line"></div>
+        <div class="signature-label">{{ $signature_title ?? 'Chairman,Edvantage' }}</div>
+    </div>
+</div>
             </div>
         </div>
     </div>
