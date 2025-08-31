@@ -549,17 +549,16 @@
 </head>
 <body>
   <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <img src="/image/Edvantage.png" alt="Edvantage Logo">
-      <span></span>
-    </div>
-    <nav class="sidebar-nav">
-      <a href="/instructor_homepage">Dashboard</a>
-      <a href="/instructor/manage_courses" class="active">Manage Course</a>
-      <a href="/instructor/manage_resources/add">Manage Resources</a>
-    </nav>
-  </aside>
+ <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="/image/Edvantage.png" alt="Edvantage Logo">
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/instructor_homepage">Dashboard</a>
+            <a href="/instructor/manage_courses" class="active">Manage Courses</a>
+        </nav>
+    </aside>
 
   <!-- Main Content Wrapper -->
   <div class="main-wrapper">
@@ -613,6 +612,7 @@
                           <th>Total Duration</th>
                           <th>Price (৳)</th>
                           <th>Added</th>
+                          <th>Action</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -626,7 +626,7 @@
                               @endif
                           </td>
                           <td>
-                              <a href="" class="course-title-link">{{ $course->title }}</a>
+                              <a href="/instructor/manage_resources/{{$course->id}}/modules" class="course-title-link">{{ $course->title }}</a>
                           </td>
                           <td class="course-description">{{ $course->description }}</td>
                           <td>{{ $course->category }}</td>
@@ -635,6 +635,19 @@
                           <td>{{ $course->total_duration }} hrs</td>
                           <td class="course-price">{{ $course->price }}</td>
                           <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
+                          <td>
+                            <div class="actions-container">
+                              <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET">
+                                <button type="submit" class="edit-button">
+                                  <svg class="edit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                  </svg>
+                                  Edit
+                                </button>
+                              </form>
+                            </div>
+                          </td>
                       </tr>
                       @endforeach
                   </tbody>
@@ -643,7 +656,8 @@
       </div>
       @endif
 
-      <!-- Pending Courses Section -->
+    
+
       <p class="section-header">Unsubmiited Courses</p>
       @if(isset($notSubmittedCourses) && $notSubmittedCourses->isEmpty())
           <div class="no-courses">No courses available.</div>
@@ -657,9 +671,7 @@
                           <th>Title</th>
                           <th>Description</th>
                           <th>Category</th>
-                          <th>Videos</th>
-                          <th>Video Length</th>
-                          <th>Total Duration</th>
+                          <th>Module</th>
                           <th>Price (৳)</th>
                           <th>Added</th>
                           <th>Status</th>
@@ -685,11 +697,7 @@
                           <td class="course-price">{{ $course->price }}</td>
                           <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
                           <td>
-                            @if(\App\Models\CourseNotification::where('pending_course_id', $course->id)->exists())
-                              <span class="status-submitted">Submitted</span>
-                            @else
                               <span class="status-not-submitted">Not Submitted</span>
-                            @endif
                           </td>
                           <td>
                             <div class="actions-container">
@@ -735,9 +743,7 @@
                           <th>Title</th>
                           <th>Description</th>
                           <th>Category</th>
-                          <th>Videos</th>
-                          <th>Video Length</th>
-                          <th>Total Duration</th>
+                          <th>Module</th>
                           <th>Price (৳)</th>
                           <th>Added</th>
                           <th>Status</th>
@@ -745,7 +751,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach($pending as $course)
+                      @foreach($pendingCourses as $course)
                       <tr>
                           <td>
                               @if($course->image)
@@ -755,21 +761,15 @@
                               @endif
                           </td>
                           <td>
-                              <a href="/instructor/manage_resources/{{$course->id}}/modules" class="course-title-link">{{ $course->title }}</a>
+                              <a href="{{ route('admin.courses.review', $course->id) }}" class="course-title-link">{{ $course->title }}</a>
                           </td>
                           <td class="course-description">{{ $course->description }}</td>
                           <td>{{ $course->category }}</td>
-                          <td>{{ $course->video_count }}</td>
-                          <td>{{ $course->approx_video_length }} mins</td>
-                          <td>{{ $course->total_duration }} hrs</td>
+                          <td>{{ $course->module }}</td>
                           <td class="course-price">{{ $course->price }}</td>
                           <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
                           <td>
-                            @if(\App\Models\CourseNotification::where('pending_course_id', $course->id)->exists())
-                              <span class="status-submitted">Submitted</span>
-                            @else
-                              <span class="status-not-submitted">Not Submitted</span>
-                            @endif
+                              <span class="status-submitted">Pending</span>
                           </td>
                           <td>
                             <div class="actions-container">

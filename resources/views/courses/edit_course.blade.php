@@ -303,11 +303,9 @@
                 <a href="/admin_panel/manage_courses">Manage Courses</a>
                 <a href="/admin_panel/manage_courses" class="active">Manage Courses</a>
                 <a href="/admin_panel/manage_user">Manage User</a>
-                <a href="/admin_panel/manage_resources">Manage Resources</a>
             @elseif(auth()->user() && auth()->user()->role === 3)
                 <a href="/instructor_homepage">Dashboard</a>
                 <a href="/instructor/manage_courses">Manage Course</a>
-                <a href="/instructor/manage_resources/add">Manage Resources</a>
             @endif
         </nav>
   </aside>
@@ -375,20 +373,9 @@
         </div>
 
         <div class="form-group">
-          <label for="video_count" class="form-label">Number of Videos <span class="required">*</span></label>
-          <input type="number" id="video_count" name="video_count" value="{{ old('video_count', $course->video_count) }}" min="1" required class="form-input" />
+          <label for="video_count" class="form-label">Number of Modules <span class="required">*</span></label>
+          <input type="number" id="module" name="module" value="{{ old('video_count', $course->video_count) }}" min="1" required class="form-input" />
         </div>
-
-        <div class="form-group">
-          <label for="approx_video_length" class="form-label">Approx. Video Length (minutes) <span class="required">*</span></label>
-          <input type="number" id="approx_video_length" name="approx_video_length" value="{{ old('approx_video_length', $course->approx_video_length) }}" min="1" required class="form-input" />
-        </div>
-
-        <div class="form-group">
-          <label for="total_duration" class="form-label">Total Duration (hours) <span class="required">*</span></label>
-          <input type="number" id="total_duration" name="total_duration" value="{{ old('total_duration', $course->total_duration) }}" step="0.1" min="0.1" required class="form-input" />
-        </div>
-
         <div class="form-group">
           <label for="price" class="form-label">Price (৳) <span class="required">*</span></label>
           <input type="number" id="price" name="price" value="{{ old('price', $course->price) }}" step="0.1" min="0" required class="form-input" />

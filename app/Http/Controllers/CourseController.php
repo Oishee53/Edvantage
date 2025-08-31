@@ -75,47 +75,29 @@ public function viewAll()
     $courses = Courses::all();
     return view('courses.view_all_courses', compact('courses'));
 }
-public function deleteCourse()
-{
-    $courses = Courses::all();
-    return view('courses.delete_course', compact('courses'));
-}
 public function destroy($id)
 {
     // Try to find in Courses
     $course = Courses::find($id);
-
-    // If not found, try PendingCourses
-    if (!$course) {
-        $course = PendingCourses::findOrFail($id);
-    }
-
     $course->delete();
 
     return redirect('/admin_panel/manage_courses')->with('success', 'Course deleted successfully');
 }
 
-public function editList()
-{
-    $courses = Courses::all();
-    return view('courses.course_list', compact('courses'));
-}
 public function editCourse($id)
 {
-    $course = Courses::find($id) ?? PendingCourses::findOrFail($id);
+    $course = Courses::find($id);
     return view('courses.edit_course', compact('course'));
 }
 public function update(Request $request, $id) 
 {
-    $course = Courses::find($id) ?? PendingCourses::findOrFail($id);
+    $course = Courses::find($id);
     $request->validate([
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'category' => 'required|string',
-        'video_count' => 'required|integer|min:1',
-        'approx_video_length' => 'required|integer|min:1',
-        'total_duration' => 'required|numeric|min:0.1',
+        'module' => 'required|integer|min:1',
         'price' => 'required|numeric|min:0',
     ]);
     
@@ -123,9 +105,7 @@ public function update(Request $request, $id)
         'title' => $request->title,
         'description' => $request->description,
         'category' => $request->category,
-        'video_count' => $request->video_count,
-        'approx_video_length' => $request->approx_video_length,
-        'total_duration' => $request->total_duration,
+        'module' => $request->module,
         'price' => $request->price,
     ];
     
@@ -137,12 +117,8 @@ public function update(Request $request, $id)
     }
     $course->update($updateData);
     $user = auth()->user();
-    if ($user->role === 2) {
-    return redirect('/admin_panel/manage_courses')
-           ->with('success', 'Course updated successfully!');}
-    elseif ($user->role === 3) {
-    return redirect('/instructor/manage_courses')
-           ->with('success', 'Course updated successfully!');}
+    redirect('/instructor/manage_courses')
+           ->with('success', 'Course updated successfully!');
 }
 
 

@@ -71,7 +71,13 @@ class moduleController extends Controller
                     ],
                     $resourceData
                 );
-
+                Courses::updateOrCreate(
+                    ['id' => $course_id], // condition
+                    array_merge(          // update values
+                        $resourceData,
+                        ['status' => 'not submitted']
+                )
+);
                 Log::info('Resource saved:', $resource->toArray());
             } // ✅ CLOSE foreach properly
 
@@ -79,6 +85,9 @@ class moduleController extends Controller
             if ($request->has('module_questions') && !empty($request->module_questions)) {
                 $this->createModuleQuiz($request, $course_id, $module_id);
             }
+
+            return redirect()->route('modules.show', ['course_id' => $course_id])
+                ->with('success', 'Module saved successfully!');
 
         } catch (\Exception $e) {
             Log::error('Module save failed:', ['error' => $e->getMessage()]);

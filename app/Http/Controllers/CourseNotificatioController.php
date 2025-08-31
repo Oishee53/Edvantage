@@ -9,27 +9,27 @@ use App\Models\PendingCourses;
 use App\Models\PendingResources;
 use App\Models\CourseNotification;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\editCourseNotification;
+use App\Notifications\rejectCourseNotification;
+use App\Notifications\approveCourseNotification;
 
 class CourseNotificatioController extends Controller
 {
      public function sendNotification($courseId)
-    {
-        // find course
-        $course = PendingCourses::findOrFail($courseId);
+{
+    // find course
+    $course = Courses::findOrFail($courseId);
 
-        // create notification entry
-        Courses::updateOrCreate(
-    [
-        'courseId' => $course->id, // condition to find existing record
-    ],
-    [
-        'instructor_id' => $course->instructor_id,
-        'status'        => 'pending'
-    ]
-);
-        return redirect('/instructor_homepage')
-                         ->with('success', 'Course submitted for review successfully.');
-    }
+    // update status
+    Courses::where('id', $course->id)->update([
+        'status' => 'pending'
+    ]);
+
+    // (optional) create notification entry in another table if needed
+    return redirect('/instructor_homepage')
+        ->with('success', 'Course submitted for review successfully.');
+}
+
      public function index()
     {
         $pendingCourses = Courses::where('status', 'pending')->get();
@@ -43,81 +43,82 @@ class CourseNotificatioController extends Controller
 
     return view('admin.submitted_courses.review', compact('course', 'modules'));
 }
- public function show_modules($course_id)
+    public function show_modules($course_id)
     {
     $course = Courses::findOrFail($course_id);
 
-    $modules = range(1, $course->video_count); 
-    return view('Admin.show_modules', compact('course', 'modules'));
+    $modules = range(1, $course->module);
+    $user = auth()->user(); 
+    return view('Admin.show_modules', compact('course', 'modules','user'));
     }
-      public function approve($course_id)
-    {
-        DB::transaction(function () use ($course_id) {
-            $pendingCourse = PendingCourses::findOrFail($course_id);
+    public function approve($course_id)
+{
+    $course = Courses::findOrFail($course_id); // get the model
+    $course->status = 'approved';
+    $course->save();
 
-            // 1. Move pending course to courses table
-            $course = Courses::create([
-                'image' => $pendingCourse->image,
-                'title' =>  $pendingCourse->title,
-                'description' => $pendingCourse->description,
-                'category' => $pendingCourse->category,
-                'video_count' => $pendingCourse->video_count,
-                'approx_video_length' => $pendingCourse->approx_video_length,
-                'total_duration' => $pendingCourse->total_duration,
-                'price' => $pendingCourse->price,
-                'instructor_id' => $pendingCourse->instructor_id,
-                
-            ]);
+    $instructor = $course->instructor; // now works
 
-            // 2. Move resources
-            $pendingResources = Resources::where('courseId', $course_id)->get();
-
-            foreach ($pendingResources as $res) {
-                Resource::create([
-                    'courseId' => $course->id,
-                    'moduleId' => $res->moduleId,
-                    'videos' => $res->videos,
-                    'pdf' => $res->pdf,
-                ]);
-            }
-
-            // 3. Remove from pending tables
-            PendingResources::where('courseId', $course_id)->delete();
-            PendingCourses::findOrFail($course_id)->delete();
-
-            // 4. Update course notification
-            $notification = COurses::where('courseId', $course_id)->first();
-            if ($notification) {
-                $notification->update([
-                    'status' => 'accepted'
-                ]);
-            }
-        });
-
-        return redirect('/pending-courses')->with('success', 'Course approved and moved to main courses.');
+    // Send approval notification (optional)
+    if ($instructor) {
+        $instructor->notify(new approveCourseNotification($course));
     }
+
+    return redirect('/pending-courses')->with('success', 'Course approved and moved to main courses.');
+}
 
     // Reject a course
-    public function reject($course_id)
-    {
-        DB::transaction(function () use ($course_id) {
-            // 1. Delete pending resources
-            PendingResources::where('courseId', $course_id)->delete();
+   public function reject(Request $request, $course_id)
+{
+    $request->validate([
+        'rejection_message' => 'required|string|max:1000',
+    ]);
+    $resources = Resource::where('courseId', $course_id)->get();
 
-            // 2. Delete pending course
-            PendingCourses::findOrFail($course_id)->delete();
-
-            // 3. Update course notification
-            $notification = Courses::where('courseId', $course_id)->first();
-            if ($notification) {
-                $notification->update([
-                    'status' => 'rejected',
-                    'is_read' => true
-                ]);
-            }
-        });
-
-        return redirect('/pending-courses');
+    foreach ($resources as $resource) {
+        $resource->delete();
     }
 
+
+    DB::transaction(function () use ($course_id, $request) {
+        // Find course
+        $course = Courses::findOrFail($course_id);
+        
+        // Update status
+        $course->update([
+            'status' => 'rejected',
+        ]);
+
+        // Notify instructor
+        $instructor = $course->instructor; // fetch related User model
+        if ($instructor) {
+            $instructor->notify(new rejectCourseNotification(
+                $course, 
+                $request->rejection_message
+            ));
+        }
+    });
+
+    return redirect('/pending-courses')
+        ->with('success', 'Course has been rejected and instructor has been notified.');
+}
+public function askForEdit(Request $request, Courses $course)
+{
+    $request->validate([
+        'edit_message' => 'required|string|max:1000'
+    ]);
+     $course->update([
+            'status' => 'not submitted',
+        ]);
+    
+    
+    // Send notification to instructor
+    $course->instructor->notify(new editCourseNotification(
+        $course,
+        $request->edit_message,
+        auth()->user()->name
+    ));
+    
+    return redirect()->back()->with('success', 'Edit request sent to instructor successfully!');
+}
 }

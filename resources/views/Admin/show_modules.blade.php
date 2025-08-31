@@ -24,6 +24,8 @@
       --danger-color: #DC2626;
       --warning-bg: #FFFBEB;
       --warning-color: #D97706;
+      --info-bg: #EFF6FF;
+      --info-color: #2563EB;
     }
 
     body {
@@ -296,6 +298,142 @@
       opacity: 0.9;
     }
 
+    .btn-ask-edit {
+      background-color: var(--info-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s ease-in-out;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-ask-edit:hover {
+      opacity: 0.9;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: var(--card-background);
+      border-radius: 0.75rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      max-width: 32rem;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 1.5rem 0;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-gray-500);
+      padding: 0.25rem;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--text-gray-700);
+    }
+
+    .form-group {
+      padding: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-gray-700);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 0.375rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.875rem;
+      color: var(--text-gray-700);
+      background-color: var(--card-background);
+      resize: vertical;
+      min-height: 120px;
+      box-sizing: border-box;
+    }
+
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(14, 27, 51, 0.1);
+    }
+
+    .form-textarea::placeholder {
+      color: var(--text-gray-500);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .btn-cancel {
+      background-color: transparent;
+      color: var(--text-gray-600);
+      border: 1px solid var(--border-color);
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn-cancel:hover {
+      background-color: var(--body-background);
+      color: var(--text-gray-700);
+    }
+
     /* Back Navigation */
     .back-navigation {
       background-color: var(--card-background);
@@ -304,27 +442,27 @@
       padding: 1.5rem;
     }
 
-  /* Back Link */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.75rem 1.5rem;
-            border: 2px solid var(--primary-color);
-            border-radius: 0.375rem;
-            transition: all 0.2s ease-in-out;
-            font-size: 0.875rem;
-        }
+    /* Back Link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid var(--primary-color);
+      border-radius: 0.375rem;
+      transition: all 0.2s ease-in-out;
+      font-size: 0.875rem;
+    }
 
-        .back-link:hover {
-            background-color: var(--primary-color);
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
-        }
+    .back-link:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+    }
 
     .back-arrow {
       font-size: 1.25rem;
@@ -367,11 +505,23 @@
       <span></span>
     </div>
     <nav class="sidebar-nav">
-      <a href="/admin_panel">Dashboard</a>
-      <a href="/admin_panel/manage_courses">Manage Course</a>
-      <a href="/admin_panel/manage_user">Manage User</a>
-      <a href="/admin_panel/manage_resources">Manage Resources</a>
-      <a href="/pending-courses" class="active">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
+      @if($user->role ==2)
+        <a href="/admin_panel">Dashboard</a>
+          @if($course->status==='pending')
+        <a href="/admin_panel/manage_courses">Manage Course</a>
+          @else
+        <a href="/admin_panel/manage_courses" class='active'>Manage Course</a>
+          @endif
+        <a href="/admin_panel/manage_user">Manage User</a>
+          @if($course->status==='pending')
+        <a href="/pending-courses" class="active">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
+          @else
+        <a href="/pending-courses" >Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
+          @endif
+      @else
+      <a href="/instructor_homepage">Dashboard</a>
+      <a href="/instructor/manage_courses" class='active'>Manage Course</a>
+      @endif
     </nav>
   </aside>
 
@@ -379,7 +529,11 @@
   <div class="main-wrapper">
     <!-- Top bar -->
     <header class="top-bar">
+      @if($course->status==='pending')
       <h1 class="top-bar-title">Course Review</h1>
+      @else
+      <h1 class="top-bar-title">Course Overview</h1>
+      @endif
       @auth
         <div class="user-info">
           <span>{{ auth()->user()->name }}</span>
@@ -402,7 +556,9 @@
         <!-- Course Information Card -->
         <div class="course-info-card">
           <h2 class="course-title">{{ $course->title ?? 'Sample Course Title' }}</h2>
+           @if($course->status === 'pending')
           <span class="course-status">Pending Review</span>
+          @endif
           <div style="margin-top: 1rem; color: var(--text-gray-600);">
             <p><strong>Instructor:</strong> {{ $course->instructor->name ?? 'John Doe' }}</p>
             <p><strong>Category:</strong> {{ $course->category ?? 'Programming' }}</p>
@@ -433,7 +589,7 @@
             </div>
           @endif
         </div>
-
+       @if($course->status === 'pending' && $user->role ==2)
         <!-- Action Buttons Section -->
         <div class="actions-section">
           <h3 class="actions-title">Course Review Actions</h3>
@@ -445,24 +601,137 @@
               </button>
             </form>
 
-            <form action="{{ route('admin.courses.reject', $course->id ?? 1) }}" method="POST" style="display:inline;">
-              @csrf
-              <button type="submit" class="btn-reject">
-                ✗ Reject Course
-              </button>
-            </form>
+            <button type="button" class="btn-ask-edit" onclick="openEditModal()">
+              ✏️ Ask for Edit
+            </button>
+
+            <button type="button" class="btn-reject" onclick="openRejectModal()">
+              ✗ Reject Course
+            </button>
           </div>
         </div>
 
-          <a href="/pending-courses" class="back-link">
+        <!-- Ask for Edit Modal -->
+        <div id="editModal" class="modal-overlay">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Request Course Edits</h3>
+              <button type="button" class="modal-close" onclick="closeEditModal()">×</button>
+            </div>
+            
+            <form action="{{ route('admin.courses.ask-edit', $course->id) }}" method="POST">
+              @csrf
+              <div class="form-group">
+                <label for="edit_message" class="form-label">Edit Request Message</label>
+                <textarea 
+                    id="edit_message" 
+                    name="edit_message" 
+                    class="form-textarea" 
+                    rows="6" 
+                    placeholder="Please specify what changes need to be made to the course. Be detailed about the areas that need improvement..."
+                    required></textarea>
+              </div>
+
+              <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="btn-ask-edit">Send Edit Request</button>
+              </div>
+            </form>
+          </div>
+        </div>
+            
+        <!-- Rejection Modal -->
+        <div id="rejectModal" class="modal-overlay">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Reject Course</h3>
+              <button type="button" class="modal-close" onclick="closeRejectModal()">×</button>
+            </div>
+            
+            <form action="{{ route('admin.courses.reject', $course->id) }}" method="POST">
+              @csrf
+              <div class="form-group">
+                <label for="rejection_message" class="form-label">Reason for Rejection</label>
+                <textarea 
+                    id="rejection_message" 
+                    name="rejection_message" 
+                    class="form-textarea" 
+                    rows="5" 
+                    placeholder="Please provide a detailed reason for rejecting this course..."
+                    required></textarea>
+              </div>
+
+              <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeRejectModal()">Cancel</button>
+                <button type="submit" class="btn-reject">Send Rejection</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        @endif
+
+        <!-- Back Navigation -->
+        <div class="back-navigation">
+          <a href="javascript:history.back()" class="back-link">
+            <span class="back-arrow">←</span>
             Back
           </a>
+        </div>
 
       @else
         <p class="not-logged-in">You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
       @endauth
     </section>
   </div>
+
+  <script>
+    // Edit Modal Functions
+    function openEditModal() {
+      document.getElementById('editModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Clear the form
+      document.getElementById('edit_message').value = '';
+    }
+
+    // Reject Modal Functions
+    function openRejectModal() {
+      document.getElementById('rejectModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRejectModal() {
+      document.getElementById('rejectModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Clear the form
+      document.getElementById('rejection_message').value = '';
+    }
+
+    // Close modals when clicking outside
+    document.getElementById('editModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeEditModal();
+      }
+    });
+
+    document.getElementById('rejectModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeRejectModal();
+      }
+    });
+
+    // Close modals with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeEditModal();
+        closeRejectModal();
+      }
+    });
+  </script>
 
 </body>
 </html>

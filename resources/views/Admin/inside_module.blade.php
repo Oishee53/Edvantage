@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Module Resources</title>
+    <title>{{ $moduleName }} - {{ $course->title }}</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
@@ -24,6 +24,8 @@
             --delete-icon: #DC2626;
             --green-600: #059669;
             --success-bg: #4CAF50;
+            --warning-bg: #FFF3CD;
+            --warning-color: #856404;
         }
 
         body {
@@ -34,15 +36,17 @@
             min-height: 100vh;
         }
 
-        /* Sidebar - Matching Dashboard Style */
+        /* Sidebar */
         .sidebar {
-            width: 17.5rem;
-            background-color: var(--card-background);
-            min-height: 100vh;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             position: fixed;
-            left: 0;
             top: 0;
+            left: 0;
+            width: 17.5rem;
+            height: 100vh;
+            background-color: var(--card-background);
+            border-right: 1px solid var(--border-color);
+            z-index: 1000;
+            overflow-y: auto;
         }
 
         .sidebar-header {
@@ -53,6 +57,7 @@
             color: var(--primary-color);
             font-weight: 700;
             font-size: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .sidebar-header img {
@@ -84,18 +89,20 @@
             color: var(--primary-color);
         }
 
-        /* Main Content Wrapper - Matching Dashboard Style */
+        /* Main Content Wrapper */
         .main-wrapper {
             margin-left: 17.5rem;
             flex: 1;
+            width: calc(100% - 17.5rem);
         }
 
         .main-content {
             flex: 1;
             padding: 2rem;
+            max-width: 100%;
         }
 
-        /* Top bar - Matching Dashboard Style */
+        /* Top bar */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -120,7 +127,7 @@
             font-weight: 500;
         }
 
-        .logout-button, .login-button {
+        .logout-button {
             padding: 0.5rem 0.75rem;
             border-radius: 0.25rem;
             border: none;
@@ -128,9 +135,6 @@
             text-decoration: none;
             font-weight: 500;
             transition: opacity 0.2s ease-in-out;
-        }
-
-        .logout-button {
             background-color: var(--primary-color);
             color: white;
         }
@@ -139,93 +143,106 @@
             opacity: 0.9;
         }
 
-        .login-button {
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            background-color: transparent;
-        }
-
-        .login-button:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        /* Alert Messages */
-        .alert {
-            background-color: var(--success-bg);
-            color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-
         /* Course Info Section */
         .course-info {
             background-color: var(--card-background);
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
+            padding: 2rem;
             margin-bottom: 2rem;
         }
 
         .course-info h2 {
             color: var(--primary-color);
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 600;
             margin: 0 0 0.5rem 0;
         }
 
         .module-info {
             color: var(--text-gray-600);
-            font-size: 1rem;
+            font-size: 1.125rem;
             margin: 0;
         }
 
-        /* Resource Section */
-        .resource-section {
+        /* Lectures Section */
+        .lectures-section {
             background-color: var(--card-background);
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
+            padding: 2rem;
             margin-bottom: 2rem;
         }
 
-        .resource-section-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--edit-bg);
-        }
-
-        .resource-section-title {
-            font-size: 1.125rem;
+        .lectures-title {
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--primary-color);
-            margin: 0;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .resource-content {
+        .lecture-card {
+            background-color: var(--body-background);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
             padding: 1.5rem;
-        }
-
-        .resource-item {
             margin-bottom: 1.5rem;
+            transition: all 0.2s ease-in-out;
         }
 
-        .resource-item:last-child {
-            margin-bottom: 0;
+        .lecture-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        .resource-label {
+        .lecture-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .lecture-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .lecture-number {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .lecture-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .content-item {
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            background-color: var(--card-background);
+        }
+
+        .content-label {
             font-weight: 600;
             color: var(--text-gray-700);
             margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.875rem;
         }
 
         /* Buttons */
@@ -233,7 +250,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             border-radius: 0.375rem;
             border: none;
             cursor: pointer;
@@ -295,10 +312,72 @@
         }
 
         /* Quiz Section */
+        .quiz-section {
+            background-color: var(--card-background);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
         .quiz-info {
             color: var(--text-gray-600);
             font-style: italic;
             margin: 0;
+        }
+
+        .quiz-details {
+            background-color: var(--body-background);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .meta-item {
+            font-size: 0.875rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: var(--text-gray-700);
+        }
+
+        .meta-value {
+            color: var(--text-gray-600);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-gray-500);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
         /* Back Link */
@@ -323,48 +402,36 @@
             box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
         }
 
-        /* Not logged in state */
-        .not-logged-in-container {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: var(--body-background);
-        }
-
-        .not-logged-in {
-            text-align: center;
-            color: var(--text-gray-700);
-            padding: 2rem;
-            background-color: var(--card-background);
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .login-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: text-decoration 0.2s ease-in-out;
-            font-weight: 500;
-        }
-
-        .login-link:hover {
-            text-decoration: underline;
-        }
-
         /* Icons */
         .icon {
             width: 20px;
             height: 20px;
         }
 
-        /* Empty State */
-        .empty-state {
-            padding: 3rem;
-            text-align: center;
-            color: var(--text-gray-500);
-            font-size: 0.875rem;
+        /* Alert Messages */
+        .alert {
+            background-color: var(--warning-bg);
+            color: var(--warning-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            border: 1px solid #F59E0B20;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
         }
 
         /* Responsive Design */
@@ -375,50 +442,141 @@
             
             .main-wrapper {
                 margin-left: 16rem;
+                width: calc(100% - 16rem);
             }
         }
 
         @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
             .sidebar {
-                display: none;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
             }
             
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
             .main-wrapper {
                 margin-left: 0;
+                width: 100%;
             }
             
             .main-content {
                 padding: 1rem;
+                padding-top: 4rem; /* Account for mobile menu button */
             }
-            
-            .course-info, .resource-content {
+
+            .lecture-content {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .top-bar-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 0.5rem;
+                padding-top: 4rem;
+            }
+
+            .course-info,
+            .lectures-section,
+            .quiz-section {
                 padding: 1rem;
+            }
+
+            .lecture-card {
+                padding: 1rem;
+            }
+
+            .lecture-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Overlay for mobile menu */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-overlay.open {
+                display: block;
             }
         }
     </style>
 </head>
 <body>
     @auth
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="closeMobileMenu()"></div>
+
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <img src="/image/Edvantage.png" alt="Edvantage Logo">
                 <span></span>
             </div>
-            <nav class="sidebar-nav">
-                @if(auth()->user()->role === 2)
-                    <a href="/admin_panel">Dashboard</a>
-                    <a href="/admin_panel/manage_courses">Manage Courses</a>
-                    <a href="/admin_panel/manage_user">Manage Users</a>
-                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
-                    <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
-                @elseif(auth()->user()->role === 3)
-                    <a href="/instructor_homepage">Dashboard</a>
-                    <a href="/instructor/manage_courses">Manage Courses</a>
-                    <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
-                @endif
-            </nav>
+            <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="/image/Edvantage.png" alt="Edvantage Logo">
+      <span></span>
+    </div>
+    <nav class="sidebar-nav">
+      @if($user->role ==2)
+        <a href="/admin_panel">Dashboard</a>
+          @if($course->status==='pending')
+        <a href="/admin_panel/manage_courses">Manage Course</a>
+          @else
+        <a href="/admin_panel/manage_courses" class='active'>Manage Course</a>
+          @endif
+        <a href="/admin_panel/manage_user">Manage User</a>
+          @if($course->status==='pending')
+        <a href="/pending-courses" class="active">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
+          @else
+        <a href="/pending-courses" >Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
+          @endif
+      @else
+      <a href="/instructor_homepage">Dashboard</a>
+      <a href="/instructor/manage_courses" class='active'>Manage Course</a>
+      @endif
+    </nav>
+  </aside>
+
         </aside>
 
         <!-- Main Content Wrapper -->
@@ -427,7 +585,11 @@
             <main class="main-content">
                 <!-- Top bar -->
                 <div class="top-bar">
-                    <div class="top-bar-title">Module Resources</div>
+                    @if($course->status=='pending' && $user->role==2)
+                    <div class="top-bar-title">Module Content Review</div>
+                    @else
+                    <div class="top-bar-title">Module Content Overview</div>
+                    @endif
                     <div class="user-info">
                         <span>{{ auth()->user()->name }}</span>
                         <form action="/logout" method="POST" style="display: inline;">
@@ -446,129 +608,132 @@
 
                 <!-- Course Information -->
                 <div class="course-info">
-                    <h2>Module Resources for Course: {{ $course->name }}</h2>
-                    <p class="module-info">Module Number: {{ $moduleNumber }}</p>
+                    <h2>{{ $course->title }}</h2>
+                    <p class="module-info">{{ $moduleName }} (Module {{ $moduleNumber }})</p>
                 </div>
 
-                <!-- Video Content Section -->
-                @if($resource->videos)
-                    <div class="resource-section">
-                        <div class="resource-section-header">
-                            <h3 class="resource-section-title">
-                                <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                                </svg>
-                                Video Content
-                            </h3>
-                        </div>
-                        <div class="resource-content">
-                            <div class="resource-item">
-                                <div class="resource-label">
-                                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polygon points="10,8 16,12 10,16 10,8"></polygon>
-                                    </svg>
-                                    Interactive Video Lesson
+                <!-- Lectures Section -->
+                <div class="lectures-section">
+                    <h3 class="lectures-title">
+                        <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        Module Lectures
+                    </h3>
+
+                    @if($resources && count($resources) > 0)
+                        @foreach($resources as $index => $resource)
+                            <div class="lecture-card">
+                                <div class="lecture-header">
+                                    <h4 class="lecture-title">{{ $resource->lectureName }}</h4>
+                                    <span class="lecture-number">Lecture {{ $resource->lectureNumber }}</span>
                                 </div>
-                                <button class="btn btn-primary" onclick="toggleVideo()">
-                                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                    </svg>
-                                    View Video
-                                </button>
                                 
-                                <div id="videoPlayer" class="video-container">
-                                    <mux-player 
-                                        id="mux-player"
-                                        playback-id="{{ $resource->videos }}"
-                                        stream-type="on-demand"
-                                        controls
-                                        style="width: 100%; max-width: 720px;">
-                                    </mux-player>
+                                <div class="lecture-content">
+                                    <!-- Video Content -->
+                                    <div class="content-item">
+                                        <div class="content-label">
+                                            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                                            </svg>
+                                            Video Content
+                                        </div>
+                                        @if($resource->videos)
+                                            <button class="btn btn-primary" onclick="toggleVideo('video{{ $resource->lectureNumber }}')">
+                                                <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                                </svg>
+                                                Play Video
+                                            </button>
+                                            <div id="video{{ $resource->lectureNumber }}" class="video-container">
+                                                <mux-player 
+                                                    id="mux-player-{{ $resource->lectureNumber }}" 
+                                                    playback-id="{{ $resource->videos }}" 
+                                                    stream-type="on-demand" 
+                                                    controls 
+                                                    style="width: 100%; max-width: 720px;">
+                                                </mux-player>
+                                            </div>
+                                        @else
+                                            <p style="color: var(--text-gray-500); font-size: 0.875rem; margin: 0;">No video available</p>
+                                        @endif
+                                    </div>
+
+                                    <!-- PDF Content -->
+                                    <div class="content-item">
+                                        <div class="content-label">
+                                            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                <polyline points="14,2 14,8 20,8"></polyline>
+                                            </svg>
+                                            Course Materials
+                                        </div>
+                                        @if($resource->pdf)
+                                            <a href="{{ $resource->pdf }}" target="_blank" class="btn btn-outline">
+                                                <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                                View PDF
+                                            </a>
+                                        @else
+                                            <p style="color: var(--text-gray-500); font-size: 0.875rem; margin: 0;">No PDF available</p>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📚</div>
+                            <p>No lectures found for this module</p>
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
 
-                <!-- PDF Content Section -->
-                @if($resource->pdf)
-                    <div class="resource-section">
-                        <div class="resource-section-header">
-                            <h3 class="resource-section-title">
+                <!-- Module Quiz Section -->
+                <div class="quiz-section">
+                    <div class="quiz-header">
+                        <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="quiz-title">Module Assessment</h3>
+                    </div>
+
+                    @if($quiz)
+                        <div class="quiz-details">
+                            <div class="quiz-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Title:</span>
+                                    <span class="meta-value">{{ $quiz->title }}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Questions:</span>
+                                    <span class="meta-value">{{ $questions->count() }} Questions</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Total Marks:</span>
+                                    <span class="meta-value">{{ $quiz->total_marks }} Points</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Description:</span>
+                                    <span class="meta-value">{{ $quiz->description ?: 'No description provided' }}</span>
+                                </div>
+                            </div>
+
+                            <a href="/admin/quiz/{{ $quiz->id }}/review" class="btn btn-success">
                                 <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14,2 14,8 20,8"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                                    <polyline points="10,9 9,9 8,9"></polyline>
+                                    <path d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                                 </svg>
-                                Course Materials
-                            </h3>
+                                Review Quiz Questions ({{ $questions->count() }})
+                            </a>
                         </div>
-                        <div class="resource-content">
-                            <div class="resource-item">
-                                <div class="resource-label">
-                                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                        <polyline points="14,2 14,8 20,8"></polyline>
-                                    </svg>
-                                    PDF Document
-                                </div>
-                                <a href="{{ route('secure.pdf.view', ['id' => $resource->id]) }}" 
-                                   target="_blank"
-                                   rel="noopener noreferrer" 
-                                   class="btn btn-outline">
-                                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    View PDF
-                                </a>
-                            </div>
+                    @else
+                        <div class="quiz-details">
+                            <p class="quiz-info">No quiz available for this module.</p>
                         </div>
-                    </div>
-                @endif
-
-                <!-- Quiz Section -->
-                <div class="resource-section">
-                    <div class="resource-section-header">
-                        <h3 class="resource-section-title">
-                            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M9 11H3v4h6m1 0V9a2 2 0 0 1 2-2h2"></path>
-                                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
-                                <path d="M8.5 8.5a2.5 2.5 0 0 1 0-5"></path>
-                            </svg>
-                            Module Assessment
-                        </h3>
-                    </div>
-                    <div class="resource-content">
-                        <div class="resource-item">
-                            @if($quiz)
-                                <div class="resource-label">
-                                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    Quiz Available
-                                </div>
-                                <a href="#" class="btn btn-success">
-                                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-                                    </svg>
-                                    View Quiz
-                                </a>
-                            @else
-                                <div class="resource-label">
-                                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    Quiz Status
-                                </div>
-                                <p class="quiz-info">No quiz available for this module.</p>
-                            @endif
-                        </div>
-                    </div>
+                    @endif
                 </div>
 
                 <!-- Back Link -->
@@ -580,63 +745,87 @@
 
     @else
         <!-- Not logged in state -->
-        <div class="not-logged-in-container">
-            <div class="not-logged-in">
-                <p><em>Please log in to access course material</em></p>
-                <a href="/" class="login-link">Go to Login</a>
+        <div style="width: 100%; display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: var(--body-background);">
+            <div style="text-align: center; color: var(--text-gray-700); padding: 2rem; background-color: var(--card-background); border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                <p>You are not logged in. <a href="/" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Go to Login</a></p>
             </div>
         </div>
     @endauth
 
     <!-- Mux Player Script -->
     <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
-
     <script>
-        function toggleVideo() {
-            const playerWrapper = document.getElementById('videoPlayer');
-            const player = document.getElementById('mux-player');
-            playerWrapper.style.display = (playerWrapper.style.display === 'none') ? 'block' : 'none';
+        function toggleVideo(videoId) {
+            const videoContainer = document.getElementById(videoId);
+            const isVisible = videoContainer.style.display !== 'none';
+            
+            // Hide all other videos first
+            document.querySelectorAll('.video-container').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            // Toggle the selected video
+            if (!isVisible) {
+                videoContainer.style.display = 'block';
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const player = document.getElementById('mux-player');
-            if (!player) return;
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
 
-            let lastSavedProgress = 0;
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
 
-            player.addEventListener('timeupdate', async function () {
-                const progressPercent = (player.currentTime / player.duration) * 100;
+        // Video progress tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            const players = document.querySelectorAll('mux-player');
+            
+            players.forEach((player, index) => {
+                if (!player) return;
 
-                if (progressPercent - lastSavedProgress >= 10) {
-                    lastSavedProgress = progressPercent;
+                let lastSavedProgress = 0;
 
-                    await fetch('{{ route("video.progress.save") }}', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({
-                            course_id: {{ $course->id }},
-                            resource_id: {{ $resource->id }},
-                            progress_percent: progressPercent
-                        })
-                    });
-                }
-            });
+                player.addEventListener('timeupdate', async function() {
+                    const progressPercent = (player.currentTime / player.duration) * 100;
+                    
+                    if (progressPercent - lastSavedProgress >= 10) {
+                        lastSavedProgress = progressPercent;
+                        
+                        // Save progress to your backend
+                        try {
+                            await fetch('/api/video-progress', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                                },
+                                body: JSON.stringify({
+                                    course_id: {{ $course->id }},
+                                    module_id: {{ $moduleNumber }},
+                                    lecture_number: player.id.split('-').pop(),
+                                    progress_percent: progressPercent
+                                })
+                            });
+                        } catch (error) {
+                            console.log('Progress save failed:', error);
+                        }
+                    }
+                });
 
-            player.addEventListener('ended', async function () {
-                await fetch('{{ route("video.progress.save") }}', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    body: JSON.stringify({
-                        course_id: {{ $course->id }},
-                        resource_id: {{ $resource->id }},
-                        progress_percent: 100
-                    })
+                player.addEventListener('ended', async function() {
+                    console.log(`Lecture ${player.id} completed`);
+                    // Handle video completion
                 });
             });
         });

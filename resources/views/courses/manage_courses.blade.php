@@ -494,7 +494,6 @@
       <a href="/admin_panel">Dashboard</a>
       <a href="/admin_panel/manage_courses" class="active">Manage Course</a>
       <a href="/admin_panel/manage_user">Manage User</a>
-      <a href="/admin_panel/manage_resources">Manage Resources</a>
       <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
     </nav>
   </aside>
@@ -542,9 +541,7 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Category</th>
-                    <th>Videos</th>
-                    <th>Video Length</th>
-                    <th>Total Duration</th>
+                    <th>Modules</th>
                     <th>Price (৳)</th>
                     <th>Added</th>
                     <th>Actions</th>
@@ -561,27 +558,19 @@
                         @endif
                       </td>
                       <td>
-                        <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                        <a href="{{ route('admin.courses.review', $course->id) }}" class="course-title-link">
+                          <div class="course-title">{{ $course->title }}</div>
+                        </a>
                       </td>
                       <td>
                         <div class="course-description">{{ $course->description }}</div>
                       </td>
                       <td>{{ $course->category }}</td>
-                      <td>{{ $course->video_count }}</td>
-                      <td>{{ $course->approx_video_length }} mins</td>
-                      <td>{{ $course->total_duration }} hrs</td>
+                      <td>{{ $course->module }}</td>
                       <td class="course-price">{{ $course->price }}</td>
                       <td>{{ $course->created_at->format('Y-m-d H:i') }}</td>
                       <td>
                         <div class="actions-container">
-                          <form action="/admin/manage_courses/courses/{{ $course->id }}/edit" method="GET" style="display: inline;">
-                            <button type="submit" class="edit-button">
-                              <svg class="edit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                              </svg>
-                              Edit
-                            </button>
-                          </form>
                           <form action="/admin_panel/manage_courses/delete-course/{{ $course->id }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')

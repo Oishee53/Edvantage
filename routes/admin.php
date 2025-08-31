@@ -68,8 +68,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/mux-upload-url', [UploadController::class, 'getUploadUrl'])->name('mux.direct.upload.url');
     Route::get('/pending-courses', [CourseNotificatioController::class, 'index'])
         ->name('admin.pending_courses');
-    Route::get('/submitted-courses/{course}/review', [CourseNotificatioController::class, 'show_modules'])
-        ->name('admin.courses.review');
+   
         Route::post('/submitted-courses/{course}/approve', [CourseNotificatioController::class, 'approve'])
         ->name('admin.courses.approve');
 
@@ -147,10 +146,10 @@ Route::post('/instructor/questions/{id}/reject', [QuestionController::class, 're
 
 Route::post('/instructor/questions/{id}/answer', [QuestionController::class, 'answer'])
     ->name('instructor.answer');
-Route::get('/instructor/{course}/manage_resources', [CourseNotificatioController::class, 'sendNotification'])
+Route::post('/instructor/{course}/manage_resources', [CourseNotificatioController::class, 'sendNotification'])
     ->name('instructor.manage_resources');
 
-Route::get('/view_pending_resources/{courseId}/{moduleNumber}', [PendingCourseController::class, 'showInsideModule'])
+Route::get('/view_pending_resources/{courseId}/{moduleNumber}', [ResourceController::class, 'showInsideModule'])
      ->name('view.pending.resources');
      
 Route::get('/view/inside-module/{courseId}/{moduleNumber}', [ResourceController::class, 'showInsideModule'])->name('inside.module2');
@@ -158,3 +157,7 @@ Route::get('/view/inside-module/{courseId}/{moduleNumber}', [ResourceController:
 Route::post('/admin/manage_courses/create', [CourseController::class, 'store']);
 Route::post('/modules/{course}/{module}/store', [moduleController::class, 'store'])
     ->name('modules.store');
+ Route::get('/submitted-courses/{course}/review', [CourseNotificatioController::class, 'show_modules'])
+        ->name('admin.courses.review');
+Route::get('/instructor/rejected_courses', [InstructorController::class, 'showRejectedCourses'])->name('rejected.course.show');
+Route::post('/admin/courses/{course}/ask-edit', [CourseNotificatioController::class, 'askForEdit'])->name('admin.courses.ask-edit');

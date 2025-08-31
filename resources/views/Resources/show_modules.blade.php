@@ -508,9 +508,7 @@
         </div>
         <nav class="sidebar-nav">
             <a href="/instructor_homepage">Dashboard</a>
-            <a href="/instructor/manage_courses">Manage Courses</a>
-            <a href="/instructor/manage_user">Manage Users</a>
-            <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
+            <a href="/instructor/manage_courses" class="active">Manage Courses</a>
         </nav>
     </aside>
 
@@ -531,15 +529,27 @@
 
             <!-- Course Header -->
             <div class="course-header">
-                <h2>Sample Course Title</h2>
+                <h2>{{$course->title}}</h2>
                 <div class="course-title">Course Modules Management</div>
             </div>
 
+<!-- Module Forms -->
 <!-- Module Forms -->
 @foreach ($modules as $index => $module)
 <div class="module-form-container">
     <div class="module-form-header">
         <h3 class="module-form-title">Module {{ $index + 1 }}</h3>
+        <span>
+            Resource: 
+            @if($module['resource_uploaded'])
+                <a href="/view_pending_resources/{{$course->id}}/{{ $module['id'] }}" 
+                    class="status-link" style="color: green; text-decoration: none; font-weight: 500;">
+                        ✅ Uploaded
+                </a>
+            @else
+                <span style="color: red;">❌ Not Uploaded</span>
+            @endif
+        </span>
         <button type="button" class="toggle-btn" onclick="toggleModule({{ $index }})">
             Toggle Form
         </button>
@@ -625,8 +635,17 @@
 </div>
 @endforeach
 
-    </div>
+    <form action="/instructor/{{$course->id}}/manage_resources" method="POST" style="margin-top: 2rem;">
+        @csrf
+        @if($allModulesCompleted)
+            <button type="submit" class="submit-btn" style="background-color: var(--primary-color);">
+                🚀 Submit Course for Approval
+            </button>
+        @endif
+    </form>
 
+</div>
+    
     <script>
         // Toggle module form visibility
         function toggleModule(moduleIndex) {

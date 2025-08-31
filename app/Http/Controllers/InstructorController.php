@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instructor;
 use App\Models\User;
+use App\Models\Courses;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 
 class InstructorController extends Controller
 {
@@ -45,11 +46,14 @@ class InstructorController extends Controller
                 'enrollments.created_at as enroll_date'
             )
             ->get();
-
+        
         $course->students = $students;
         $course->student_count = $students->count();
         return $course;
     });
+    $instructor = auth()->user();
+    $unreadNotifications = $instructor->unreadNotifications;  
+    $allNotifications = $instructor->notifications;
 
     // ✅ Return the view after mapping, not inside
     return view('Instructor.instructor_homepage', compact(
@@ -57,7 +61,9 @@ class InstructorController extends Controller
         'rejectedCourses',
         'pendingCourses',
         'totalEarnings',
-        'approvedCourses'
+        'approvedCourses',
+        'unreadNotifications', 
+        'allNotifications'
     ));
 }
 
@@ -132,5 +138,27 @@ class InstructorController extends Controller
     }
     return redirect()->back()->with('success', 'Student unenrolled successfully.');
 }
+public function showRejectedCourses()
+{
+    // Fetch all rejected courses
+    $rejectedCourses = Courses::where('status', 'rejected')->get();
+
+    // Attach rejection reason from notifications
+    foreach ($rejectedCourses as $course) {
+        $notification = DB::table('notifications')
+            ->where('type', 'App\\Notifications\\rejectCourseNotification')
+            ->whereJsonContains('data->course_id', $course->id)
+            ->latest()
+            ->first();
+
+        $course->rejection_message = $notification 
+            ? json_decode($notification->data)->rejection_message ?? 'No reason provided'
+            : 'No reason provided';
+    }
+
+    return view('instructor.rejected_course_details', compact('rejectedCourses'));
+}
+
+
 
 }
