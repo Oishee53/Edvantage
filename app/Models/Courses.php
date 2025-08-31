@@ -4,47 +4,70 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Resource;
+use App\Models\Enrollment;
+use App\Models\Quiz;
+use App\Models\User;
 
 class Courses extends Model
 {
     protected $table = 'courses';
+
+    // Updated fillable fields
     protected $fillable = [
         'image',
         'title',
         'description',
         'category',
-        'video_count',
-        'approx_video_length',
-        'total_duration',
+        'module',       // new
         'price',
+        'status',       // new
         'instructor_id'
     ];
-    
- public function resources()
+
+    /**
+     * A course has many resources
+     */
+    public function resources()
     {
         return $this->hasMany(Resource::class, 'courseId', 'id');
     }
 
+    /**
+     * A course belongs to many students
+     */
     public function students()
-{
-    return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
-}
+    {
+        return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
+    }
 
-   public function enrollments()
+    /**
+     * A course has many enrollments
+     */
+    public function enrollments()
     {
         return $this->hasMany(Enrollment::class, 'course_id', 'id');
     }
 
-public function quizzes()
+    /**
+     * A course has many quizzes
+     */
+    public function quizzes()
     {
         return $this->hasMany(Quiz::class, 'course_id', 'id');
     }
 
- public function instructor()
+    /**
+     * A course belongs to an instructor
+     */
+    public function instructor()
     {
         return $this->belongsTo(User::class, 'instructor_id');
     }
-     protected static function booted()
+
+    /**
+     * Delete related resources and enrollments when a course is deleted
+     */
+    protected static function booted()
     {
         static::deleting(function ($course) {
             $course->resources()->delete();

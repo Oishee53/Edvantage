@@ -321,17 +321,8 @@
             <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
         <nav class="sidebar-nav">
-            @if(auth()->user() && auth()->user()->role === 2)
-                <a href="/admin_panel">Dashboard</a>
-                <a href="/admin_panel/manage_courses">Manage Courses</a>
-                <a href="/admin_panel/manage_courses" class="active">Manage Courses</a>
-                <a href="/admin_panel/manage_user">Manage User</a>
-                <a href="/admin_panel/manage_resources">Manage Resources</a>
-            @elseif(auth()->user() && auth()->user()->role === 3)
                 <a href="/instructor_homepage">Dashboard</a>
                 <a href="/instructor/manage_courses">Manage Course</a>
-                <a href="/instructor/manage_resources/add">Manage Resources</a>
-            @endif
         </nav>
     </aside>
 
@@ -365,25 +356,25 @@
         <div class="content-area">
             <div class="form-card">
                 @auth
-                <h2><i class="fas fa-plus-circle" style="color:var(--primary-color);"></i>Add New Course</h2>
-                @if(auth()->user()->role === 2)
-                <form action="/admin/manage_courses/create" method="POST" enctype="multipart/form-data">
-                @elseif(auth()->user()->role === 3)
-                <form action="/instructor/manage_courses/create" method="POST" enctype="multipart/form-data">
-                @endif
+                <h2><i class="fas fa-plus-circle" style="color:var(--primary-color);"></i> Add New Course</h2>
+                    <form action="/admin/manage_courses/create" method="POST" enctype="multipart/form-data">
                     @csrf
+
                     <div class="form-group">
                         <label for="image">Course Image <span class="required">*</span></label>
                         <input type="file" id="image" name="image" accept="image/*" required>
                     </div>
+
                     <div class="form-group">
                         <label for="title">Course Title <span class="required">*</span></label>
                         <input type="text" id="title" name="title" placeholder="Enter course title" required>
                     </div>
+
                     <div class="form-group">
                         <label for="description">Course Description</label>
                         <textarea id="description" name="description" placeholder="Enter course description"></textarea>
                     </div>
+
                     <div class="form-group">
                         <label for="category">Category <span class="required">*</span></label>
                         <select id="category" name="category" required>
@@ -398,41 +389,29 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="video_count">Number of Videos <span class="required">*</span></label>
-                        <input type="number" id="video_count" name="video_count"  min="1" required>
-                    </div>
 
                     <div class="form-group">
-                        <label for="approx_video_length">Approx Video Length (minutes) <span class="required">*</span></label>
-                        <input type="number" id="approx_video_length" name="approx_video_length"  min="1" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="total_duration">Total Duration (hours) <span class="required">*</span></label>
-                        <input type="number" id="total_duration" name="total_duration"  step="0.1" min="0.1" required>
+                        <label for="module">Number of Modules <span class="required">*</span></label>
+                        <input type="number" id="module" name="module" min="1" value="1" required>
                     </div>
 
                     <div class="form-group">
                         <label for="price">Price (৳) <span class="required">*</span></label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" required>
+                        <input type="number" id="price" name="price" step="0.01" min="0" value="0" required>
                     </div>
-                    <div class="form-group">
-                        <label for="course_prerequisite">Course Prerequisite(If any)</label>
-                        <input type="text" id="prerequisite" name="prerequisite">
-                    </div>
-
                     <button type="submit"><i class="fas fa-save"></i> Save Course</button>
                 </form>
-                @if(auth()->user()->role === 2)
-                <a class="back-link" href="/admin_panel/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
-                @elseif(auth()->user()->role === 3)
-                <a class="back-link" href="/instructor/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
-                @endif
+
+
+                    <a class="back-link" href="/instructor/manage_courses"><i class="fas fa-arrow-left"></i> Back to Manage Courses</a>
+
                 @else
-                <p style="text-align:center;color:#DC2626;">You are not logged in. <a href="/" style="color:var(--primary-color);">Go to Login</a></p>
+                    <p style="text-align:center;color:#DC2626;">
+                        You are not logged in. <a href="/" style="color:var(--primary-color);">Go to Login</a>
+                    </p>
                 @endauth
             </div>
+
         </div>
     </main>
 

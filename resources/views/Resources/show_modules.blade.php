@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Modules - {{ $course->title }}</title>
+    <title>Course Modules - Course Title</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
@@ -160,35 +160,8 @@
             margin-bottom: 1.5rem;
         }
 
-        .progress-section {
-            margin-top: 1.5rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: var(--edit-bg);
-            border-radius: 5px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success-color) 0%, #10b981 100%);
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-text {
-            font-size: 0.875rem;
-            color: var(--text-gray-600);
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        /* Modules Section */
-        .modules-section {
+        /* Module Form Styles */
+        .module-form-container {
             background-color: var(--card-background);
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -196,141 +169,245 @@
             margin-bottom: 2rem;
         }
 
-        .modules-section-header {
+        .module-form-header {
             padding: 1.5rem;
             border-bottom: 1px solid var(--border-color);
             background-color: var(--edit-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .modules-section-title {
+        .module-form-title {
             font-size: 1.25rem;
             font-weight: 600;
             color: var(--primary-color);
             margin: 0;
         }
 
-        .modules-list {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .module-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        .module-item:last-child {
-            border-bottom: none;
-        }
-
-        .module-item:hover {
-            background-color: var(--body-background);
-        }
-
-        .module-info {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            flex: 1;
-        }
-
-        .module-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .upload-status {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .status-row {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .status-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-            flex-shrink: 0;
-        }
-
-        .status-uploaded {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        .status-pending {
-            background-color: var(--warning-color);
-            color: white;
-        }
-
-        .status-text {
-            font-size: 0.875rem;
-            color: var(--text-gray-600);
-            font-weight: 500;
-        }
-
-        /* Module Actions */
-        .module-actions {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            border-radius: 0.375rem;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.875rem;
-            transition: all 0.2s ease-in-out;
-            border: 2px solid transparent;
-            cursor: pointer;
-        }
-
-        .btn-view {
-            background-color: var(--success-color);
-            color: white;
-            border-color: var(--success-color);
-        }
-
-        .btn-view:hover {
-            background-color: #047857;
-            border-color: #047857;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
-        }
-
-        .btn-primary {
+        .toggle-btn {
             background-color: var(--primary-color);
             color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .toggle-btn:hover {
+            opacity: 0.9;
+        }
+
+        .module-form-content {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .module-form-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease-in-out;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(14, 27, 51, 0.2);
+        }
+
+        .form-input-small {
+            width: auto;
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .lectures-container {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .lecture-section {
+            background-color: var(--body-background);
+            border-radius: 0.375rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .lecture-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-input {
+            padding: 0.5rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 0.375rem;
+            background-color: var(--card-background);
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .file-input:hover {
             border-color: var(--primary-color);
         }
 
-        .btn-primary:hover {
-            background-color: #1a2645;
-            border-color: #1a2645;
+        .file-input input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            background: transparent;
+            font-size: 0.875rem;
+        }
+
+        /* Quiz Section Styles */
+        .quiz-section {
+            background-color: #f8fafc;
+            border-radius: 0.375rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .add-quiz-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .add-quiz-btn:hover {
+            opacity: 0.9;
+        }
+
+        .quiz-form {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .quiz-form.active {
+            display: block;
+        }
+
+        .question-section {
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--card-background);
+        }
+
+        .question-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background-color: #fafbfc;
+            border-radius: 0.25rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .option-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0.25rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .radio-input {
+            margin: 0;
+        }
+
+        .radio-label {
+            font-size: 0.875rem;
+            color: var(--text-gray-600);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #047857;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(14, 27, 51, 0.2);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
 
         /* Back Link */
@@ -385,12 +462,6 @@
             text-decoration: underline;
         }
 
-        /* Icons */
-        .icon {
-            width: 16px;
-            height: 16px;
-        }
-
         /* Responsive Design */
         @media (max-width: 1024px) {
             .sidebar {
@@ -415,22 +486,12 @@
                 padding: 1rem;
             }
 
-            .module-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
+            .form-row {
+                grid-template-columns: 1fr;
             }
 
-            .module-info {
-                width: 100%;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .module-actions {
-                width: 100%;
-                justify-content: flex-start;
+            .file-upload-group {
+                grid-template-columns: 1fr;
             }
 
             .course-header {
@@ -440,180 +501,291 @@
     </style>
 </head>
 <body>
-    @auth
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <img src="/image/Edvantage.png" alt="Edvantage Logo">
-                <span></span>
-            </div>
-            <nav class="sidebar-nav">
-                @if(auth()->user()->role === 2)
-                    <a href="/admin_panel">Dashboard</a>
-                    <a href="/admin_panel/manage_courses">Manage Courses</a>
-                    <a href="/admin_panel/manage_user">Manage Users</a>
-                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
-                    <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
-                @elseif(auth()->user()->role === 3)
-                    <a href="/instructor_homepage">Dashboard</a>
-                    <a href="/instructor/manage_courses">Manage Courses</a>
-                    <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
-                @endif
-            </nav>
-        </aside>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="/image/Edvantage.png" alt="Edvantage Logo">
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/instructor_homepage">Dashboard</a>
+            <a href="/instructor/manage_courses" class="active">Manage Courses</a>
+        </nav>
+    </aside>
 
-        <!-- Main Content Wrapper -->
-        <div class="main-wrapper">
-            <!-- Main Content -->
-            <main class="main-content">
-                <!-- Top bar -->
-                <div class="top-bar">
-                    <div class="top-bar-title">Course Modules</div>
-                    <div class="user-info">
-                        <span>{{ auth()->user()->name }}</span>
-                        <form action="/logout" method="POST" style="display: inline;">
-                            @csrf
-                            <button class="logout-button">Logout</button>
-                        </form>
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top bar -->
+            <div class="top-bar">
+                <div class="top-bar-title">Course Modules</div>
+                <div class="user-info">
+                    <span>Instructor Name</span>
+                    <form action="/logout" method="POST" style="display: inline;">
+                        <button class="logout-button">Logout</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Course Header -->
+            <div class="course-header">
+                <h2>{{$course->title}}</h2>
+                <div class="course-title">Course Modules Management</div>
+            </div>
+
+<!-- Module Forms -->
+<!-- Module Forms -->
+@foreach ($modules as $index => $module)
+<div class="module-form-container">
+    <div class="module-form-header">
+        <h3 class="module-form-title">Module {{ $index + 1 }}</h3>
+        <span>
+            Resource: 
+            @if($module['resource_uploaded'])
+                <a href="/view_pending_resources/{{$course->id}}/{{ $module['id'] }}" 
+                    class="status-link" style="color: green; text-decoration: none; font-weight: 500;">
+                        ✅ Uploaded
+                </a>
+            @else
+                <span style="color: red;">❌ Not Uploaded</span>
+            @endif
+        </span>
+        <button type="button" class="toggle-btn" onclick="toggleModule({{ $index }})">
+            Toggle Form
+        </button>
+    </div>
+    <div class="module-form-content active" id="module-{{ $index }}">
+        <form action="{{ route('modules.store', ['course' => $course->id, 'module' => $module['id']]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <!-- Module Basic Info -->
+            <div class="form-group">
+                <label for="module_name_{{ $index }}" class="form-label">Module Name</label>
+                <input type="text" 
+                       id="module_name_{{ $index }}" 
+                       name="module_name" 
+                       class="form-input" 
+                       placeholder="Enter module name"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="lecture_count_{{ $index }}" class="form-label">Number of Lectures</label>
+                <select id="lecture_count_{{ $index }}" 
+                        name="lecture_count" 
+                        class="form-select"
+                        onchange="generateLectures({{ $index }}, this.value)"
+                        required>
+                    <option value="">Select number of lectures</option>
+                    @for ($i = 1; $i <= 10; $i++)
+                        <option value="{{ $i }}">{{ $i }} Lecture{{ $i > 1 ? 's' : '' }}</option>
+                    @endfor
+                </select>
+            </div>
+
+            <!-- Dynamic Lectures Container -->
+            <div id="lectures-container-{{ $index }}" class="lectures-container" style="display: none;">
+                <h4 class="lecture-title">Lecture Details</h4>
+                <div id="lectures-list-{{ $index }}">
+                    <!-- Lectures will be generated here -->
+                </div>
+            </div>
+
+            <!-- Module Quiz Section -->
+            <div class="quiz-section" style="margin-top: 2rem;">
+                <div class="quiz-header">
+                    <h5 class="quiz-title">Module {{ $index + 1 }} Quiz</h5>
+                    <button type="button" class="add-quiz-btn" onclick="toggleModuleQuiz({{ $index }})">
+                        Add Quiz
+                    </button>
+                </div>
+                
+                <div id="module-quiz-form-{{ $index }}" class="quiz-form">
+                    <div class="form-group">
+                        <label class="form-label">Quiz Title:</label>
+                        <input type="text" name="module_quiz_title" class="form-input" placeholder="Enter quiz title">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Quiz Description:</label>
+                        <textarea name="module_quiz_description" class="form-input" rows="3" placeholder="Enter quiz description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Number of Questions:</label>
+                        <input type="number" 
+                               id="module_question_count_{{ $index }}" 
+                               name="module_question_count" 
+                               class="form-input form-input-small" 
+                               min="1" 
+                               max="20" 
+                               value="5" 
+                               onchange="generateModuleQuestions({{ $index }}, this.value)">
+                    </div>
+
+                    <div id="module-questions-section-{{ $index }}">
+                        <!-- Questions will be generated here -->
                     </div>
                 </div>
+            </div>
 
-                <!-- Course Header -->
-                @php
-    $totalModules = count($modules);
-
-    if(auth()->user()->role === 3) {
-        // Students → Only quizzes count
-        $completed = collect($modules)->where('quiz', true)->count();
-    } else {
-        // Instructors/Admins → Both quiz + resource must be true
-        $completed = collect($modules)->filter(fn($m) => $m['quiz'] && $m['resource'])->count();
-    }
-
-    $progressPercentage = $totalModules > 0 
-        ? round(($completed / $totalModules) * 100, 1) 
-        : 0;
-@endphp
-
-<div class="progress-section">
-    <div class="progress-bar">
-        <div class="progress-fill" style="width: {{ $progressPercentage }}%"></div>
-    </div>
-    <div class="progress-text">
-        {{ $completed }} of {{ $totalModules }} modules completed ({{ $progressPercentage }}%)
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Save Module</button>
+        </form>
     </div>
 </div>
+@endforeach
 
-                <!-- Modules Section -->
-                <div class="modules-section">
-                    <div class="modules-section-header">
-                        <h3 class="modules-section-title">Module List</h3>
+    <form action="/instructor/{{$course->id}}/manage_resources" method="POST" style="margin-top: 2rem;">
+        @csrf
+        @if($allModulesCompleted)
+            <button type="submit" class="submit-btn" style="background-color: var(--primary-color);">
+                🚀 Submit Course for Approval
+            </button>
+        @endif
+    </form>
+
+</div>
+    
+    <script>
+        // Toggle module form visibility
+        function toggleModule(moduleIndex) {
+            const content = document.getElementById(`module-${moduleIndex}`);
+            content.classList.toggle('active');
+        }
+
+        // Generate lecture fields dynamically
+        function generateLectures(moduleIndex, lectureCount) {
+            const container = document.getElementById(`lectures-container-${moduleIndex}`);
+            const lecturesList = document.getElementById(`lectures-list-${moduleIndex}`);
+            
+            if (lectureCount === '') {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'block';
+            lecturesList.innerHTML = '';
+
+            for (let i = 1; i <= lectureCount; i++) {
+                const lectureSection = document.createElement('div');
+                lectureSection.className = 'lecture-section';
+                lectureSection.innerHTML = `
+                    <div class="lecture-title">Lecture ${i}</div>
+                    
+                    <div class="form-group">
+                        <label for="lecture_name_${moduleIndex}_${i}" class="form-label">Lecture Name</label>
+                        <input type="text" 
+                               id="lecture_name_${moduleIndex}_${i}" 
+                               name="lectures[${i-1}][name]" 
+                               class="form-input" 
+                               placeholder="Enter lecture ${i} name"
+                               required>
                     </div>
-                    <div class="modules-list">
-                        @foreach ($modules as $module)
-                            <div class="module-item">
-                                <div class="module-info">
-                                    <div>
-                                        <div class="module-title">Module {{ $module['id'] }}</div>
-                                    </div>
-                                    <div class="upload-status">
-                                        @if(auth()->user()->role === 3)
-                                            <div class="status-row">
-                                                @if($module['quiz'])
-                                                    <div class="status-icon status-uploaded">✓</div>
-                                                    <div class="status-text">Quiz Uploaded</div>
-                                                @else
-                                                    <div class="status-icon status-pending">!</div>
-                                                    <div class="status-text">Quiz Pending</div>
-                                                @endif
-                                            </div>
-                                        @elseif(auth()->user()->role === 2)
-                                            <div class="status-row">
-                                                @if($module['quiz'])
-                                                    <div class="status-icon status-uploaded">✓</div>
-                                                    <div class="status-text">Quiz Uploaded</div>
-                                                @else
-                                                    <div class="status-icon status-pending">!</div>
-                                                    <div class="status-text">Quiz Pending</div>
-                                                @endif
-                                            </div>
-                                            <div class="status-row">
-                                                @if($module['resource'])
-                                                    <div class="status-icon status-uploaded">✓</div>
-                                                    <div class="status-text">Resource Uploaded</div>
-                                                @else
-                                                    <div class="status-icon status-pending">!</div>
-                                                    <div class="status-text">Resource Pending</div>
-                                                @endif
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                
-                                <div class="module-actions">
-                                    <a href="{{ route('inside.module2', ['courseId' => $course->id, 'moduleNumber' => $module['id']]) }}" 
-                                       class="btn btn-view">
-                                        <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                        View
-                                    </a>
-                                    
-                                    @if(auth()->user()->role === 2)
-                                        <a href="{{ route('module.create', ['course' => $course->id, 'module' => $module['id']]) }}" 
-                                           class="btn btn-primary">
-                                            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                @if($module['resource'] || $module['quiz'])
-                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                                @else
-                                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                                    <polyline points="14,2 14,8 20,8"></polyline>
-                                                    <line x1="12" y1="18" x2="12" y2="12"></line>
-                                                    <line x1="9" y1="15" x2="15" y2="15"></line>
-                                                @endif
-                                            </svg>
-                                            {{ $module['resource'] || $module['quiz'] ? 'Edit Resources' : 'Upload Resources' }}
-                                        </a>
-                                    @elseif(auth()->user()->role === 3)
-                                        <a href="{{ route('quiz.create', ['course' => $course->id, 'module' => $module['id']]) }}" 
-                                           class="btn btn-primary">
-                                            <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                @if($module['quiz'])
-                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                                @else
-                                                    <path d="M9 11H3v4h6m1 0V9a2 2 0 0 1 2-2h2"></path>
-                                                    <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
-                                                    <line x1="12" y1="18" x2="12" y2="12"></line>
-                                                    <line x1="9" y1="15" x2="15" y2="15"></line>
-                                                @endif
-                                            </svg>
-                                            {{ $module['quiz'] ? 'Edit Quiz' : 'Upload Quiz' }}
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
+
+                    <div class="file-upload-group">
+                        <div class="file-input">
+                            <label for="video_${moduleIndex}_${i}" class="form-label">Video Upload</label>
+                            <input type="file" 
+                                   id="video_${moduleIndex}_${i}" 
+                                   name="lectures[${i-1}][video]" 
+                                   accept="video/*">
+                        </div>
+                        
+                        <div class="file-input">
+                            <label for="pdf_${moduleIndex}_${i}" class="form-label">PDF Upload</label>
+                            <input type="file" 
+                                   id="pdf_${moduleIndex}_${i}" 
+                                   name="lectures[${i-1}][pdf]" 
+                                   accept=".pdf">
+                        </div>
                     </div>
-                </div>
+                `;
+                lecturesList.appendChild(lectureSection);
+            }
+        }
 
-                <!-- Back Link -->
-                <a href="javascript:history.back()" class="back-link">
-                    Back 
-                </a>
-            </main>
-        </div>
+        // Toggle module quiz form
+        function toggleModuleQuiz(moduleIndex) {
+            const quizForm = document.getElementById(`module-quiz-form-${moduleIndex}`);
+            quizForm.classList.toggle('active');
+            
+            // Generate default questions if not already generated
+            const questionsSection = document.getElementById(`module-questions-section-${moduleIndex}`);
+            if (quizForm.classList.contains('active') && questionsSection.innerHTML === '') {
+                generateModuleQuestions(moduleIndex, 5);
+            }
+        }
 
-    @else
-        <!-- Not logged in state -->
-        <div class="not-logged-in-container">
-            <div class="not-logged-in">
-                <p>You are not logged in. <a href="/" class="login-link">Go to Login</a></p>
-            </div>
-        </div>
-    @endauth
+        // Generate module quiz questions
+        function generateModuleQuestions(moduleIndex, questionCount) {
+            const container = document.getElementById(`module-questions-section-${moduleIndex}`);
+            if (!container) return;
+            
+            container.innerHTML = '';
+
+            for (let q = 1; q <= questionCount; q++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-section';
+                questionDiv.innerHTML = `
+                    <h4 class="question-title">Question ${q}</h4>
+                    <div class="form-group">
+                        <label class="form-label">Question Text:</label>
+                        <input type="text" name="module_questions[${q-1}][text]" class="form-input" placeholder="Enter question ${q}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Number of Options:</label>
+                        <input type="number" 
+                               id="option_count_${moduleIndex}_${q}"
+                               name="module_questions[${q-1}][option_count]" 
+                               class="form-input form-input-small" 
+                               min="2" 
+                               max="6" 
+                               value="4" 
+                               onchange="generateModuleOptions(${moduleIndex}, ${q}, this.value)">
+                    </div>
+
+                    <div id="module-options-${moduleIndex}-${q}">
+                        <!-- Options will be generated here -->
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+                generateModuleOptions(moduleIndex, q, 4); // Default 4 options
+            }
+        }
+
+        // Generate options for module quiz questions
+        function generateModuleOptions(moduleIndex, questionIndex, optionCount) {
+            const optContainer = document.getElementById(`module-options-${moduleIndex}-${questionIndex}`);
+            if (!optContainer) return;
+            
+            optContainer.innerHTML = '';
+
+            for (let o = 1; o <= optionCount; o++) {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option-group';
+                optionDiv.innerHTML = `
+                    <input type="text" 
+                           name="module_questions[${questionIndex-1}][options][${o-1}][text]" 
+                           class="option-input" 
+                           placeholder="Option ${o}" 
+                           required>
+                    <input type="radio" 
+                           name="module_questions[${questionIndex-1}][correct]" 
+                           value="${o-1}" 
+                           class="radio-input" 
+                           id="correct_${moduleIndex}_${questionIndex}_${o}"
+                           required>
+                    <label class="radio-label" for="correct_${moduleIndex}_${questionIndex}_${o}">Correct</label>
+                `;
+                optContainer.appendChild(optionDiv);
+            }
+        }
+
+        // Initialize the first module as expanded on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded - Module forms ready');
+        });
+    </script>
 </body>
 </html>

@@ -351,13 +351,11 @@
                     <a href="/admin_panel">Dashboard</a>
                     <a href="/admin_panel/manage_courses">Manage Courses</a>
                     <a href="/admin_panel/manage_user">Manage Users</a>
-                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
                     <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
                 @elseif(auth()->user()->role === 3)
                     <a href="/instructor_homepage">Dashboard</a>
                     <a href="/instructor/manage_courses">Manage Courses</a>
                     <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
                 @endif
             </nav>
   </aside>

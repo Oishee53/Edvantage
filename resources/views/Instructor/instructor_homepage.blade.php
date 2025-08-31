@@ -431,6 +431,87 @@
         .mobile-menu-btn {
             display: none;
         }
+        .notifications {
+    position: relative;
+}
+
+        .notif-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: 600;
+        }
+
+        .notif-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 2.5rem;
+            width: 320px;
+            background: var(--card-background);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .notif-dropdown.show {
+            display: block;
+        }
+
+        .notif-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mark-read {
+            font-size: 0.75rem;
+            color: var(--info-color);
+            cursor: pointer;
+        }
+
+        .notif-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .notif-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+            color: var(--text-gray-600);
+        }
+        .notif-item.unread {
+            background: var(--primary-light-hover-bg);
+            font-weight: 600;
+        }
+        .notif-item:last-child {
+            border-bottom: none;
+        }
+        .notif-time {
+            font-size: 0.7rem;
+            color: var(--text-gray-500);
+        }
+
 
         /* Mobile Responsive */
         @media (max-width: 1024px) {
@@ -511,9 +592,9 @@
         <nav class="sidebar-nav">
             <a href="/instructor_homepage" class="active">Dashboard</a>
             <a href="/instructor/manage_courses">Manage Courses</a>
-            <a href="/instructor/manage_resources/add">Manage Resources</a>
         </nav>
     </aside>
+    
 
     <!-- Main Content -->
     <main class="main-content">
@@ -533,6 +614,31 @@
                     <button class="logout-btn">Logout</button>
                 </form>
             </div>
+        <div class="notifications">
+            <button class="notif-btn" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                @if(count($unreadNotifications) > 0)
+                    <span class="notif-badge">{{ count($unreadNotifications) }}</span>
+                @endif
+            </button>
+
+    <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-header">
+            Notifications
+            
+        </div>
+        <div class="notif-list">
+            @foreach ($unreadNotifications as $notification)
+                <li>
+                    {{ $notification->data['message'] ?? 'No message' }}
+                    (Type: {{ $notification->data['type'] ?? 'N/A' }})
+                </li>
+            @endforeach
+
+        </div>
+    </div>
+</div>
+
         </header>
 
         <!-- Dashboard Content -->
@@ -559,13 +665,12 @@
                     <div class="stat-label">Pending Courses</div>
                 </div>
 
-                <div class="stat-card rejected">
-
-                    <div class="stat-value">{{ isset($rejectedCourses)? count($rejectedCourses):0 }}</div>
-
-
-                    <div class="stat-label">Rejected Courses</div>
-                </div>
+                
+                    <div class="stat-card rejected" onclick="window.location='{{ route('rejected.course.show') }}'">
+                        <div class="stat-value">{{ isset($rejectedCourses) ? count($rejectedCourses) : 0 }}</div>
+                        <div class="stat-label">Rejected Courses</div>
+                    </div>
+                
 
                 <div class="stat-card earnings">
                     <div class="stat-value">৳{{ $totalEarnings ?? 0 }}</div>
@@ -660,6 +765,17 @@
             const modal = document.getElementById('studentsModal');
             if(event.target === modal) closeModal();
         });
+        function toggleNotifications() {
+    document.getElementById('notifDropdown').classList.toggle('show');
+}
+
+    // Close when clicking outside
+    document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('notifDropdown');
+        if (!e.target.closest('.notifications')) {
+            dropdown.classList.remove('show');
+        }
+    });
     </script>
 </body>
 </html>

@@ -250,7 +250,6 @@
             <a href="/admin_panel">Dashboard</a>
             <a href="/admin_panel/manage_courses">Manage Course</a>
             <a href="/admin_panel/manage_user">Manage User</a>
-            <a href="/admin_panel/manage_resources">Manage Resources</a>
             <a href="/pending-courses" class="active">
                 Manage Pending Courses ({{ count($pendingCourses) }})
             </a>
@@ -296,7 +295,7 @@
                 <tbody>
                     @forelse($pendingCourses as $notification)
                         <tr>
-                            <td>{{ $notification->pending_course_id }}</td>
+                            <td>{{ $notification->courseId }}</td>
                             <td>{{ $notification->instructor_id }}</td>
                             <td>
                                 <span class="status-badge status-pending">
@@ -304,8 +303,8 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('admin.courses.review', $notification->pending_course_id) }}" class="action-link">
-                                    View Resources
+                                <a href="{{ route('admin.courses.review', $notification->id) }}" class="btn btn-primary">
+                                   Review Course
                                 </a>
                             </td>
                         </tr>
