@@ -43,6 +43,26 @@ public function addToGuestCart(Request $request)
 }
 
 
+
+public function removeFromGuestCart(Request $request) 
+{
+    $courseId = $request->input('course_id');
+    
+    // Get current guest cart (array of course IDs)
+    $cart = session()->get('guest_cart', []);
+    
+    // Remove the course ID from the array
+    $cart = array_filter($cart, function($id) use ($courseId) {
+        return $id != $courseId;
+    });
+    
+    // Re-index array to avoid gaps and update session
+    session()->put('guest_cart', array_values($cart));
+    
+    return redirect()->back()->with('success', 'Course removed from cart');
+}
+
+
 public function showCart()
 {
     if (auth()->check()) {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\Courses;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +25,7 @@ class AuthController extends Controller
     }
 
     // Handle login submission
-    public function login(Request $request)
+public function login(Request $request)
 {
     $request->validate([
         'email' => 'required|email',
@@ -33,31 +35,56 @@ class AuthController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-    $user = Auth::user();
+        $user = Auth::user();
 
-    // Sync guest cart if available
-    if (session()->has('guest_cart')) {
-        foreach (session('guest_cart') as $courseId) {
-            Cart::firstOrCreate([
-                'user_id' => $user->id,
-                'course_id' => $courseId,
-            ]);
+        // Sync guest cart if available
+        if (session()->has('guest_cart')) {
+            $guestCart = session('guest_cart', []);
+            
+            foreach ($guestCart as $courseId) {
+                // Validate courseId is not null and is numeric
+                if ($courseId && is_numeric($courseId)) {
+                    // Check if course exists in database
+                    $course = Courses::find($courseId);
+                    
+                    if ($course) {
+                        // Check if user is already enrolled in this course
+                        $alreadyEnrolled = Enrollment::where('user_id', $user->id)
+                            ->where('course_id', $courseId)
+                            ->exists();
+                        
+                        // Check if course is already in user's cart
+                        $alreadyInCart = Cart::where('user_id', $user->id)
+                            ->where('course_id', $courseId)
+                            ->exists();
+                        
+                        // Only add to cart if not enrolled and not already in cart
+                        if (!$alreadyEnrolled && !$alreadyInCart) {
+                            Cart::create([
+                                'user_id' => $user->id,
+                                'course_id' => $courseId,
+                            ]);
+                        }
+                    }
+                }
+            }
+            
+            // Clear guest cart after processing
+            session()->forget('guest_cart');
         }
-        session()->forget('guest_cart');
+
+        // Redirect based on user role
+        if ($user->role === 2) {
+            return redirect('/admin_panel');
+        } else {
+            return redirect('/homepage');
+        }
     }
 
-     if ($user->role === 2) {
-        return redirect('/admin_panel'); // Change to your admin dashboard route
-    }
-    else {
-        return redirect('/homepage');
-    }
-
-
-}
-
-
-    return back()->with('error', 'Invalid email or password.');
+    // Login failed
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->withInput($request->only('email'));
 }
 
     

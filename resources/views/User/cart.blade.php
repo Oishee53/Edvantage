@@ -650,6 +650,16 @@
 
                                         <div class="course-price"><span class="taka-symbol">৳</span>{{ number_format($course->price, 2) }}</div>
                                         <!-- Remove button for guest cart (optional, needs extra logic) -->
+                    <form action="{{ route('guest.cart.remove') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                    <button type="submit" class="remove-btn">Remove</button>
+                </form>
+
+
+
+
+
                                     </div>
                                 </li>
                             @endforeach

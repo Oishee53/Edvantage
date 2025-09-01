@@ -517,37 +517,7 @@
                    
                 </ul>
             </nav>
-            <div class="top-icons">
-                <a href="/wishlist" class="icon-button" title="Wishlist">
-                    <i class="fa-solid fa-heart"></i>
-                </a>
-                <a href="/cart" class="icon-button" title="Shopping Cart">
-                    <i class="fa-solid fa-shopping-bag"></i>
-                </a>
-                <div class="user-menu">
-                    <button class="user-menu-button" title="User Menu">
-                        <i class="fa-solid fa-user-circle"></i>
-                    </button>
-                    <div class="user-dropdown">
-                        <a href="/profile"><i class="fa-solid fa-user icon"></i> My Profile</a>
-                        <a href="{{ route('courses.enrolled') }}"><i class="fa-solid fa-graduation-cap icon"></i> My Courses</a>
-                        <a href="{{ route('user.progress') }}"><i class="fa-solid fa-chart-line icon"></i> My Progress</a>
-                        <a href="{{ route('login') }}"><i class="fa-solid fa-book-open icon"></i> Course Catalog</a>
-                        <a href="{{ route('purchase.history') }}"><i class="fa-solid fa-receipt icon"></i> Purchase History</a>
-                    
-                        <div class="separator"></div>
-                        <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fa-solid fa-right-from-bracket icon"></i> Logout
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Hidden logout form -->
-            <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                @csrf
-            </form>
-            
-        </div>
+           
     </header>
 
     <!-- Main Content -->
@@ -649,10 +619,13 @@
                                     <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
                                         Details
                                     </a>
-                                    <form method="POST" action="{{ route('cart.add', $course->id) }}" style="display: inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-cart">Add to Cart</button>
-                                    </form>
+                                     @guest
+                            <form method="POST" action="{{ route('cart.guest.add') }}">
+                                @csrf
+                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                <button type="submit" class="btn btn-cart">Add to Cart</button>
+                            </form>
+                            @endguest
                                 </div>
                             </div>
                         </div>
