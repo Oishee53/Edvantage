@@ -102,6 +102,15 @@
             background: #475569;
             border: 2px solid #475569;
         }
+        .btn.btn-cart {
+            background: #0E1B33;
+            color: white;
+            border: 4px solid #0E1B33; /* Increased border size */
+        }
+        .btn.btn-cart:hover {
+            background: #475569;
+            border:4px solid #475569;
+        }
         .top-icons {
             display: flex;
             align-items: center;
@@ -294,174 +303,128 @@
             margin-bottom: 2rem;
         }
         
-        /* Course Grid */
+        /* Course Grid - Matching first blade exactly */
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem 0.5rem;
             margin-top: 2rem;
         }
         .course-card {
             background: #fff;
-            border-radius: 12px;
+            border-radius: 5px;
             overflow: hidden;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #c4c6ca;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            height: 380px;
-            transition: all 0.3s ease;
+            height: 340px;
+            width: 280px;
+            transition: box-shadow 0.2s;
             position: relative;
+            margin: 0 auto;
+            box-sizing: border-box;
+            text-align: left;
         }
         .course-card:hover {
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
-            border-color: #0E1B33;
-            transform: translateY(-4px);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+            border: #0E1B33 1.3px solid;
         }
         .course-image {
             width: 100%;
-            height: 180px;
+            height: 160px;
             object-fit: cover;
+            border-bottom: 1px solid #f1f1f1;
         }
         .course-content {
-            padding: 1.25rem;
+            padding: 10px 12px 8px 12px;
             display: flex;
             flex-direction: column;
-            flex: 1;
+            flex: 1 1 auto;
+            min-height: 0;
         }
         .course-title {
             font-size: 1.1rem;
             font-weight: 700;
             color: #1a1a1a;
-            line-height: 1.4;
-            margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            line-height: 1.3;
+            min-height: 2.4em;
             overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .course-category {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 4px;
         }
         .course-category-badge {
             display: inline-block;
-            background: #f1f5f9;
+            background: #dcdcdd;
             color: #0E1B33;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 500;
             border-radius: 16px;
-            padding: 4px 12px;
-            margin-bottom: 0.75rem;
-        }
-        .course-instructor {
-            font-size: 0.9rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-        .course-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            font-size: 0.85rem;
-            color: #6b7280;
+            padding: 3px 14px;
+            margin: 4px -10 6px 0;
+            border: none;
+            cursor: default;
         }
         .course-rating {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            margin-bottom: 2px;
         }
         .stars {
             color: #f59e0b;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            letter-spacing: 1px;
         }
         .rating-number {
+            font-size: 0.95rem;
             font-weight: 600;
             color: #f59e0b;
         }
-        .course-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0E1B33;
-            margin-top: auto;
-            margin-bottom: 1rem;
+        .rating-count {
+            font-size: 0.85rem;
+            color: #9ca3af;
         }
-        .taka-bold {
-            font-weight: 800;
+        .course-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-top: 0;
+            margin-bottom: 2px;
         }
         .course-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.75rem;
+            gap: 6px;
+            margin-top: auto;
+        }
+        .taka-bold {
+            font-weight: 790;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
         }
         .btn-details {
             flex: 1;
             background: #f3f4f6;
             color: #374151;
             text-align: center;
-            padding: 0.5rem;
-            border-radius: 6px;
+            padding: 6px 4px;
+            border-radius: 4px;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 11px;
             font-weight: 600;
             transition: all 0.3s ease;
-            border: 1px solid #d1d5db;
+            border: #bebfc0 1px solid;
         }
         .btn-details:hover {
             background: #ffffff;
-            border-color: #0E1B33;
-            color: #0E1B33;
-        }
-        .btn-icon-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            font-size: 1rem;
-            color: white;
-            background: #0E1B33;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-icon-action:hover {
-            background: #475569;
-            transform: scale(1.1);
-        }
-        .action-icons-group {
-            display: flex;
-            gap: 8px;
-        }
-        
-        /* Pagination */
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 3rem;
-        }
-        .pagination {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        .pagination a, .pagination span {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #374151;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .pagination a:hover {
-            background: #f3f4f6;
-            border-color: #0E1B33;
-        }
-        .pagination .active span {
-            background: #0E1B33;
-            color: white;
-            border-color: #0E1B33;
+            border: #bebfc0 1px solid;
         }
         
         /* Search Highlights */
@@ -487,7 +450,28 @@
             color: #475569;
         }
         
-        /* Responsive */
+        /* Section Title - Matching first blade */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+        .section-title p {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+        
+        /* Responsive Design - Matching first blade */
+        @media (max-width: 1200px) {
+            .courses-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -496,13 +480,17 @@
                 width: 250px;
             }
             .courses-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1.5rem;
+                grid-template-columns: repeat(2, 1fr);
             }
             .search-stats {
                 flex-direction: column;
                 gap: 1rem;
                 align-items: flex-start;
+            }
+        }
+        @media (max-width: 480px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -616,6 +604,23 @@
 
             <!-- Search Results -->
             @if($courses->count() > 0)
+                <div class="section-title">
+                    <h2>
+                        @if(isset($searchTerm) && $searchTerm)
+                            Search Results
+                        @else
+                            Featured Courses
+                        @endif
+                    </h2>
+                    <p>
+                        @if(isset($searchTerm) && $searchTerm)
+                            Courses matching your search criteria
+                        @else
+                            Discover our most popular courses designed to help you achieve your learning goals
+                        @endif
+                    </p>
+                </div>
+                
                 <div class="courses-grid">
                     @foreach($courses as $course)
                         @if(!auth()->user()->enrolledCourses->contains($course->id))
@@ -624,36 +629,21 @@
                             @if($course->image)
                                 <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="course-image">
                             @else
-                                <img src="https://via.placeholder.com/300x180/0E1B33/FFFFFF?text=Course+Image" alt="{{ $course->title }}" class="course-image">
+                                <img src="https://via.placeholder.com/300x140?text=Course+Image" alt="{{ $course->title }}" class="course-image">
                             @endif
                             
                             <!-- Course Content -->
                             <div class="course-content">
                                 <h3 class="course-title">{{ $course->title }}</h3>
                                 
-                                @if($course->category)
+                                @if(isset($course->category))
                                     <span class="course-category-badge">{{ $course->category }}</span>
                                 @endif
                                 
-                                @if($course->instructor)
-                                    <div class="course-instructor">
-                                        <i class="fa-solid fa-chalkboard-teacher"></i>
-                                        {{ $course->instructor->name }}
-                                    </div>
-                                @endif
-                                
-                                <div class="course-stats">
-                                    <div class="course-rating">
-                                        <span class="stars">★★★★★</span>
-                                        <span class="rating-number">4.8</span>
-                                        <span>({{ $course->video_count ?? 0 }} videos)</span>
-                                    </div>
-                                    @if($course->total_duration)
-                                        <div class="course-duration">
-                                            <i class="fa-solid fa-clock"></i>
-                                            {{ $course->total_duration }}
-                                        </div>
-                                    @endif
+                                <div class="course-rating">
+                                    <span class="stars">★★★★★</span>
+                                    <span class="rating-number">4.8</span>
+                                    <span class="rating-count">(120)</span>
                                 </div>
                                 
                                 <div class="course-price">
@@ -662,22 +652,12 @@
                                 
                                 <div class="course-actions">
                                     <a href="{{ route('courses.details', $course->id) }}" class="btn-details">
-                                        View Details
+                                        Details
                                     </a>
-                                    <div class="action-icons-group">
-                                        <form method="POST" action="{{ route('wishlist.add', $course->id) }}" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" class="btn-icon-action" title="Add to Wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                            </button>
-                                        </form>
-                                        <form method="POST" action="{{ route('cart.add', $course->id) }}" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" class="btn-icon-action" title="Add to Cart">
-                                                <i class="fa-solid fa-shopping-cart"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <form method="POST" action="{{ route('cart.add', $course->id) }}" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-cart">Add to Cart</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -130,18 +130,27 @@
             color: #8b8b8d;
         }
         .search-form {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            margin-right: 1rem;
-        }
-        .search-input {
-            width: 400px;
-            padding: 0.5rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 24px;
-            font-size: 1rem;
-        }
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    position: relative;
+}
+
+.search-input {
+    width: 400px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 24px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #0E1B33;
+    box-shadow: 0 0 0 3px rgba(14, 27, 51, 0.1);
+}
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -422,9 +431,14 @@
             <a href="/" class="logo">
                 <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <form class="search-form" action="" method="GET">
-                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
-            </form>
+            <form class="search-form" action="{{ route('guest.courses.search') }}" method="GET">
+    <input type="text" 
+           name="search" 
+           placeholder="What do you want to learn?" 
+           class="search-input"
+           value="{{ request('search') }}"
+           autocomplete="off">
+    </form>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
@@ -511,6 +525,21 @@
         </div>
     </section>
     <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('.search-input');
+    const searchForm = document.querySelector('.search-form');
+    
+    // Submit on Enter key
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (this.value.trim().length > 0) {
+                searchForm.submit();
+            }
+        }
+    });
+});
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {

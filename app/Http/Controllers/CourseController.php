@@ -100,7 +100,7 @@ public function destroy($id)
 
     return redirect('/admin_panel/manage_courses')->with('success', 'Course deleted successfully');
 }
-public function search(Request $request)
+public function logged_in_search(Request $request)
 {
     $searchTerm = $request->get('search');
     $user = auth()->user();
@@ -116,8 +116,31 @@ public function search(Request $request)
     
     $uniqueCategories = Courses::distinct()->pluck('category');
 
-    return view('user.search_results', compact('courses', 'user', 'searchTerm', 'uniqueCategories'));
+    return view('user.logged_in_search_results', compact('courses', 'user', 'searchTerm', 'uniqueCategories'));
 }
+
+public function guest_user_search(Request $request)
+{
+    $searchTerm = $request->get('search');
+    
+    
+    if (empty($searchTerm)) {
+        return redirect()->route('home');
+    }
+    
+    $courses = Courses::where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('description', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('category', 'LIKE', "%{$searchTerm}%")
+                    ->paginate(12);
+    
+    $uniqueCategories = Courses::distinct()->pluck('category');
+
+    return view('user.guest_user_search_results', compact('courses', 'searchTerm', 'uniqueCategories'));
+}
+
+
+
+
 public function editList()
 {
     $courses = Courses::all();

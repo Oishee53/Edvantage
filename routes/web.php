@@ -83,7 +83,7 @@ Route::get('/courses/enrolled', function () {
 
 Route::get('/courses',[CourseController::class, 'viewCourses'])->name('courses.all');;
 
-
+Route::get('/search', [CourseController::class, 'logged_in_search'])->name('courses.search');
 
 
 
@@ -108,7 +108,7 @@ Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::cl
 Route::get('/inside-module/{courseId}/{moduleNumber}', [EnrollmentController::class, 'showInsideModule'])->name('inside.module');
 
 
-Route::get('/search', [CourseController::class, 'search'])->name('courses.search');
+
 
 // Show quiz start page for a module
 Route::get('/user/courses/{course}/modules/{module}/quiz', [UserQuizController::class, 'startQuiz'])->name('user.quiz.start');
@@ -144,3 +144,5 @@ Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
 Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])
         ->name('certificate.generate');
 Route::get('/verify-certificate/{certificate_id}', [CertificateController::class, 'verify'])->name('certificate.verify');
+
+Route::get('/guest/search', [CourseController::class, 'guest_user_search'])->name('guest.courses.search');
