@@ -201,19 +201,6 @@
             background: #e5e7eb;
             margin: 8px 0;
         }
-        .search-form {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            margin-right: 1rem;
-        }
-        .search-input {
-            width: 400px;
-            padding: 0.5rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 24px;
-            font-size: 1rem;
-        }
         /* Username styling */
         .username {
             margin-left: 1.5rem;
@@ -247,9 +234,6 @@
             <a href="/" class="logo">
                 <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <form class="search-form" action="" method="GET">
-                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
-            </form>
         </div>
     </header>
 
