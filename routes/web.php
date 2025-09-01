@@ -108,7 +108,7 @@ Route::get('/my-courses/{courseId}/module/{moduleId}', [EnrollmentController::cl
 Route::get('/inside-module/{courseId}/{moduleNumber}', [EnrollmentController::class, 'showInsideModule'])->name('inside.module');
 
 
-
+Route::get('/search', [CourseController::class, 'search'])->name('courses.search');
 
 // Show quiz start page for a module
 Route::get('/user/courses/{course}/modules/{module}/quiz', [UserQuizController::class, 'startQuiz'])->name('user.quiz.start');
