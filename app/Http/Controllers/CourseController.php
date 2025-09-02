@@ -151,14 +151,10 @@ public function markAsReadNotification($id)
 
         if ($notification) {
             $notification->markAsRead();
-            return response()->json([
-                'success' => true,
-                'message' => 'Notification marked as read.'
-            ]);
+           return redirect('/instructor_homepage');
         }
 
-        return redirect('/instructor_homepage')
-            ->with('success', 'Notification marked as read.');
+        
     }
 
 
