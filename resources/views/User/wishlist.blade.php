@@ -555,9 +555,14 @@
             <a href="/" class="logo">
                 <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <form class="search-form" action="" method="GET">
-                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
-            </form>
+            <form class="search-form" action="{{ route('courses.search') }}" method="GET">
+    <input type="text" 
+           name="search" 
+           placeholder="What do you want to learn?" 
+           class="search-input"
+           value="{{ request('search') }}"
+           autocomplete="off">
+          </form>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>
@@ -671,7 +676,7 @@
                     <div class="empty-icon"><i class="fa-solid fa-heart"></i></div>
                     <h3>Your wishlist is empty</h3>
                     <p>Start building your learning journey by adding courses to your wishlist. You can save courses for later and get notified about price changes.</p>
-                    <a href="{{ route('courses.all') }}" class="browse-btn">Browse Courses</a>
+                    <a href="{{ route('login') }}" class="browse-btn">Browse Courses</a>
                 </div>
             @endif
         </div>

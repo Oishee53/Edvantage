@@ -21,7 +21,7 @@ class PaymentController extends Controller
     $user = auth()->user();
     $amount = $request->amount;
 
-    // ✅ STEP 1: Get course details from cart
+    //  Get course details from cart
     $cartItems = Cart::where('user_id', $user->id)->get();
 
     $courseDetails = $cartItems->map(function ($item) {
@@ -29,9 +29,9 @@ class PaymentController extends Controller
             'title' => $item->course->title,
             'unit_price' => $item->course->price,
         ];
-    })->values()->toArray(); // ✅ Convert to clean array
+    })->values()->toArray(); 
 
-    // ✅ STEP 2: Send data to fake payment API
+    //  Send data to fake payment API
     $response = Http::post('http://localhost:5100/api/v1/payment/card', [
         'amount' => $amount,
         'card_type' => $request->card_type,
@@ -43,17 +43,20 @@ class PaymentController extends Controller
         'customer_email' => $user->email,
         'app_name' => 'Edvantage',
         'service' => 'Course Purchase',
-        'courses' => $courseDetails, // ✅ Correct key and data format
-        'total' => $amount, // ✅ Also send total if needed by Node.js
+        'courses' => $courseDetails, 
+        'total' => $amount, 
     ]);
 
-    // ✅ STEP 3: Handle response
+    //  Handle response
     if ($response->successful()) {
         // Perform Enrollment
         $enrollmentController = new EnrollmentController();
         $enrollmentController->checkout();
 
-        return redirect('/homepage')->with('success', 'Payment successful! You are enrolled in your selected courses.');
+       return view('user.purchase_success', [
+    'user' => $user, // pass the logged-in user
+])->with('success', 'Payment successful! You are enrolled in your selected courses.');
+
     } else {
         return redirect()->route('checkout')->with('error', 'Payment failed. Please try again.');
     }
