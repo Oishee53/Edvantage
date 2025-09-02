@@ -227,15 +227,7 @@
       color: var(--text-dark);
     }
 
-    .filter-dropdown {
-      padding: 10px 20px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      background: white;
-    }
+    
         /* Courses Section */
         .courses-section {
             padding: 5rem 0;
@@ -465,13 +457,7 @@
     <!-- Section Header -->
       <div class="section-header">
         <h2 class="section-title"></h2>
-        <select class="filter-dropdown">
-          <option>Filter Courses</option>
-          <option>Newest First</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-          <option>Most Popular</option>
-        </select>
+        
       </div>
     <!-- Courses Section -->
     <section class="courses-section" id="courses">
@@ -493,11 +479,7 @@
                         @if(isset($course->category))
                             <span class="course-category-badge">{{ $course->category }}</span>
                         @endif
-                        <div class="course-rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="rating-number">4.8</span>
-                            <span class="rating-count">(120)</span>
-                        </div>
+                       
                         <div class="course-price">
                             <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
                         </div>

@@ -464,15 +464,20 @@
   </style>
 </head>
 <body>
-  <!-- Main Navigation Bar - Updated to match homepage exactly -->
+
     <header class="header">
         <div class="nav-container">
             <a href="/" class="logo">
                 <img src="/image/Edvantage.png" alt="EDVANTAGE Logo" style="height:40px; vertical-align:middle;">
             </a>
-            <form class="search-form" action="" method="GET">
-                <input type="text" name="q" placeholder="What do you want to learn?" class="search-input">
-            </form>
+           <form class="search-form" action="{{ route('courses.search') }}" method="GET">
+    <input type="text" 
+           name="search" 
+           placeholder="What do you want to learn?" 
+           class="search-input"
+           value="{{ request('search') }}"
+           autocomplete="off">
+          </form>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#about">About Us</a></li>

@@ -140,6 +140,429 @@
         .icon-button:active {
             transform: translateY(0);
         }
+        
+        /* Notification Button Styles */
+        .notification-button {
+            position: relative;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .notification-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+            min-width: 320px;
+            max-width: 400px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-button:hover .notification-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .notification-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            background: #f8fafc;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .notification-header h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0;
+        }
+        
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s ease;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+        
+        .notification-rejected {
+            border-left: 4px solid #dc2626;
+        }
+        
+        .notification-answered {
+            border-left: 4px solid #16a34a;
+        }
+        
+        .notification-content {
+            margin-bottom: 8px;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        
+        .notification-text {
+            color: #64748b;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+        
+        .notification-instructor {
+            color: #6b7280;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+        
+        .notification-action {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #0E1B33;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        .notification-action:hover {
+            background: #475569;
+            color: white;
+        }
+        
+        .no-notifications {
+            padding: 40px 20px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        
+        .no-notifications i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .user-menu-button {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #0E1B33 0%, #475569 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(14, 27, 51, 0.3);
+        }
+        .user-menu-button:hover {
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(14, 27, 51, 0.4);
+        }
+        .user-menu-button:active {
+            transform: translateY(0);
+        }
+        .user-menu-button i {
+            font-size: 1rem;
+        }
+        .user-menu {
+            position: relative;
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+        .user-menu:hover .user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #374151;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .user-dropdown a:last-child {
+            border-bottom: none;
+        }
+        .user-dropdown a:hover {
+            background: #f8fafc;
+            color: #0E1B33;
+        }
+        .user-dropdown .icon {
+            margin-right: 12px;
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+            color: #0E1B33;
+        }
+        .user-dropdown .separator {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 8px 0;
+        }
+        .category-bar {
+            background: #0E1B33;
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 0 0.25rem 0;
+            position: fixed;
+            width: 100%;
+            top: 56px;
+            z-index: 999;
+            border: none;
+            box-shadow: 0 12px 32px 0 rgba(0,0,0,0.22), 0 2px 8px 0 rgba(0,0,0,0.12);
+        }
+        .category-link {
+            font-family: 'Montserrat', sans-serif;
+            color: white ;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            margin-right: 1rem;
+            margin-left: 1rem;
+        }
+        .category-link:hover {
+            color: #8b8b8d;
+        }
+       .search-form {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    position: relative;
+}
+
+.search-input {
+    width: 400px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 24px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #0E1B33;
+    box-shadow: 0 0 0 3px rgba(14, 27, 51, 0.1);
+}
+        /* Username styling */
+        .username {
+            margin-left: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        /* Notification Button Styles */
+        .notification-button {
+            position: relative;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .notification-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+            min-width: 320px;
+            max-width: 400px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-button:hover .notification-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .notification-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            background: #f8fafc;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .notification-header h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0;
+        }
+        
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s ease;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+        
+        .notification-rejected {
+            border-left: 4px solid #dc2626;
+        }
+        
+        .notification-answered {
+            border-left: 4px solid #16a34a;
+        }
+        
+        .notification-content {
+            margin-bottom: 8px;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        
+        .notification-text {
+            color: #64748b;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+        
+        .notification-instructor {
+            color: #6b7280;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+        
+        .notification-action {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #0E1B33;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        .notification-action:hover {
+            background: #475569;
+            color: white;
+        }
+        
+        .no-notifications {
+            padding: 40px 20px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        
+        .no-notifications i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
         .user-menu-button {
             width: 44px;
             height: 44px;
@@ -348,15 +771,7 @@
       color: var(--text-dark);
     }
 
-    .filter-dropdown {
-      padding: 10px 20px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      background: white;
-    }
+  
         /* Courses Section */
         .courses-section {
             padding: 5rem 0;
@@ -613,6 +1028,53 @@
                 <a href="/cart" class="icon-button" title="Shopping Cart">
                     <i class="fa-solid fa-shopping-bag"></i>
                 </a>
+                <!-- Notification Button -->
+                @auth
+                <div class="notification-button icon-button" title="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    @if(auth()->user()->unreadNotifications->count() > 0)
+                        <span class="notification-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                    @endif
+                    <div class="notification-dropdown">
+                        <div class="notification-header">
+                            <h4>Notifications</h4>
+                        </div>
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            @foreach (auth()->user()->unreadNotifications as $notification)
+                                @if ($notification->type === \App\Notifications\QuestionRejectedNotification::class)
+                                    <div class="notification-item notification-rejected">
+                                        <div class="notification-content">
+                                            <div class="notification-title">Question Rejected</div>
+                                            <div class="notification-text">{{ $notification->data['content'] }}</div>
+                                            <div class="notification-instructor">Instructor: {{ $notification->data['instructor_name'] }}</div>
+                                        </div>
+                                        <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="notification-action">
+                                            View Question
+                                        </a>
+                                    </div>
+                                @endif
+                                @if ($notification->type === \App\Notifications\QuestionAnsweredNotification::class)
+                                    <div class="notification-item notification-answered">
+                                        <div class="notification-content">
+                                            <div class="notification-title">Question Answered</div>
+                                            <div class="notification-text">{{ $notification->data['content'] }}</div>
+                                            <div class="notification-instructor">Instructor: {{ $notification->data['instructor_name'] }}</div>
+                                        </div>
+                                        <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="notification-action">
+                                            View Answer
+                                        </a>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @else
+                            <div class="no-notifications">
+                                <i class="fa-solid fa-bell-slash"></i>
+                                <div>No new notifications</div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                @endauth
                 <div class="user-menu">
                     <button class="user-menu-button" title="User Menu">
                         <i class="fa-solid fa-user-circle"></i>
@@ -641,6 +1103,7 @@
             <p class="username">{{ explode(' ', $user->name)[0] }}</p>
         </div>
     </header>
+
    <section class="hero">
         <div class="hero-content">
             <h1>Welcome to Edvantage</h1>
@@ -651,42 +1114,12 @@
             </div>
         </div>
     </section>
+    
     <!-- Section Header -->
       <div class="section-header">
         <h2 class="section-title"></h2>
-        <select class="filter-dropdown">
-          <option>Filter Courses</option>
-          <option>Newest First</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-          <option>Most Popular</option>
-        </select>
       </div>
-      @auth
-    <h3>Your Notifications</h3>
-    @foreach (auth()->user()->unreadNotifications as $notification)
-        @if ($notification->type === \App\Notifications\QuestionRejectedNotification::class)
-            <div class="p-3 mb-2 bg-danger text-white rounded">
-                <strong>Question Rejected:</strong> {{ $notification->data['content'] }}<br>
-                <small>Instructor: {{ $notification->data['instructor_name'] }}</small><br>
-                <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="btn btn-light mt-2">
-                    View Question
-                </a>
-            </div>
-        @endif
-    @endforeach
-     @foreach (auth()->user()->unreadNotifications as $notification)
-        @if ($notification->type === \App\Notifications\QuestionAnsweredNotification::class)
-            <div class="p-3 mb-2 bg-success text-white rounded">
-                <strong>Question Answered:</strong> {{ $notification->data['content'] }}<br>
-                <small>Instructor: {{ $notification->data['instructor_name'] }}</small><br>
-                <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="btn btn-light mt-2">
-                    View Answer
-                </a>
-            </div>
-        @endif
-    @endforeach
-@endauth
+
     <!-- Courses Section -->
     <section class="courses-section" id="courses">
         <div class="container">
@@ -711,11 +1144,7 @@
                         @if(isset($course->category))
                             <span class="course-category-badge">{{ $course->category }}</span>
                         @endif
-                        <div class="course-rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="rating-number">4.8</span>
-                            <span class="rating-count">(120)</span>
-                        </div>
+                      
                         <div class="course-price">
                             <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
                         </div>
