@@ -317,8 +317,8 @@
         .course-hero-section {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            /* Reduced hero section height by decreasing padding */
-            padding: var(--spacing-xl) 0 var(--spacing-md) 0;
+            padding: var(--spacing-5xl) 0;
+            min-height: 300px; /* ensures section is taller */
             position: relative;
         }
 
@@ -337,10 +337,16 @@
         .course-hero-left h1 {
             font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
             font-weight: 700;
-            margin-bottom: var(--spacing-lg);
-            line-height: 6;
+            margin-bottom: var(--spacing-md); /* tighter gap */
+            line-height: 1.3; /* natural line height */
         }
 
+        .course-hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: var(--spacing-4xl) 0 var(--spacing-4xl) 0; /* increase top/bottom padding */
+            position: relative;
+        }
         .course-hero-meta {
             display: flex;
             align-items: center;
@@ -678,9 +684,6 @@
                 margin-top: var(--spacing-sm);
             }
 
-            .course-hero-section {
-                padding: var(--spacing-2xl) 0;
-            }
 
             .sidebar-content {
                 padding: var(--spacing-xl);
