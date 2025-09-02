@@ -52,6 +52,46 @@ public function destroy($id)
     else
         return redirect('/instructor/manage_courses')->with('success', 'Course deleted successfully');
 }
+public function logged_in_search(Request $request)
+{
+    $searchTerm = $request->get('search');
+    $user = auth()->user();
+    
+    if (empty($searchTerm)) {
+        return redirect()->route('home');
+    }
+    
+    $courses = Courses::where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('description', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('category', 'LIKE', "%{$searchTerm}%")
+                    ->paginate(12);
+    
+    $uniqueCategories = Courses::distinct()->pluck('category');
+
+    return view('user.logged_in_search_results', compact('courses', 'user', 'searchTerm', 'uniqueCategories'));
+}
+
+public function guest_user_search(Request $request)
+{
+    $searchTerm = $request->get('search');
+    
+    
+    if (empty($searchTerm)) {
+        return redirect()->route('home');
+    }
+    
+    $courses = Courses::where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('description', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('category', 'LIKE', "%{$searchTerm}%")
+                    ->paginate(12);
+    
+    $uniqueCategories = Courses::distinct()->pluck('category');
+
+    return view('user.guest_user_search_results', compact('courses', 'searchTerm', 'uniqueCategories'));
+}
+
+
+
 
 public function editList()
 {

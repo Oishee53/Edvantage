@@ -61,8 +61,10 @@ Route::post('/register', [AuthController::class, 'register']);
 });
 
 Route::post('/guest/cart/add', [CartController::class, 'addToGuestCart'])->name('cart.guest.add');
+Route::post('/guest/cart/remove', [CartController::class, 'removeFromGuestCart'])->name('guest.cart.remove');
 Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.all');
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
 
 Route::middleware(['auth','student'])->group(function () {
 
@@ -75,7 +77,7 @@ Route::get('/homepage', function () {
 
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
-Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.details');
+
 
 Route::get('/courses/enrolled', function () {
     return 'Enrolled courses page coming soon!';
@@ -83,7 +85,7 @@ Route::get('/courses/enrolled', function () {
 
 Route::get('/courses',[CourseController::class, 'viewCourses'])->name('courses.all');;
 
-
+Route::get('/search', [CourseController::class, 'logged_in_search'])->name('courses.search');
 
 
 
@@ -144,3 +146,5 @@ Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'g
 Route::get('/verify-certificate/{certificate_id}', [CertificateController::class, 'verify'])->name('certificate.verify');
 Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
     ->name('secure.pdf.view');
+
+Route::get('/guest/search', [CourseController::class, 'guest_user_search'])->name('guest.courses.search');
