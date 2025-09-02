@@ -38,10 +38,6 @@ class PendingCourses extends Model
     {
         return $this->hasMany(PendingResources::class, 'courseId');
     }
-    public function courseNotifications()
-    {
-        return $this->hasMany(CourseNotification::class, 'pending_course_id', 'id');
-    }
 
     // Boot method for cascading deletes and ID generation
     protected static function booted()
@@ -49,7 +45,6 @@ class PendingCourses extends Model
         // Cascading delete for related pending resources
         static::deleting(function ($course) {
             $course->pendingResources()->delete();
-           $course->courseNotifications()->delete();
     });
 
         // Generate unique Pxxxxx ID

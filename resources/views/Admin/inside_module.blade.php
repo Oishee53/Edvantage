@@ -413,9 +413,8 @@
                     <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
                 @elseif(auth()->user()->role === 3)
                     <a href="/instructor_homepage">Dashboard</a>
-                    <a href="/instructor/manage_courses">Manage Courses</a>
+                    <a href="/instructor/manage_courses" class="active">Manage Courses</a>
                     <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
                 @endif
             </nav>
         </aside>
@@ -426,7 +425,7 @@
             <main class="main-content">
                 <!-- Top bar -->
                 <div class="top-bar">
-                    <div class="top-bar-title">Module Resources</div>
+                    <div class="top-bar-title">Lecture Resources</div>
                     <div class="user-info">
                         <span>{{ auth()->user()->name }}</span>
                         <form action="/logout" method="POST" style="display: inline;">
@@ -445,8 +444,8 @@
 
                 <!-- Course Information -->
                 <div class="course-info">
-                    <h2>Module Resources for Course: {{ $course->name }}</h2>
-                    <p class="module-info">Module Number: {{ $moduleNumber }}</p>
+                    <h2>Lecture Resources for Course: {{ $course->name }}</h2>
+                    <p class="module-info">Lecture Number: {{ $moduleNumber }}</p>
                 </div>
 
                 <!-- Video Content Section -->
@@ -539,7 +538,7 @@
                                 <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
                                 <path d="M8.5 8.5a2.5 2.5 0 0 1 0-5"></path>
                             </svg>
-                            Module Assessment
+                            Lecture Assessment
                         </h3>
                     </div>
                     <div class="resource-content">
@@ -564,7 +563,7 @@
                                     </svg>
                                     Quiz Status
                                 </div>
-                                <p class="quiz-info">No quiz available for this module.</p>
+                                <p class="quiz-info">No quiz available for this lecture.</p>
                             @endif
                         </div>
                     </div>

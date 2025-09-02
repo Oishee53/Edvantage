@@ -86,7 +86,7 @@ class InstructorController extends Controller
         $validatedPayment = $request->validate([
             'card_type' => 'required|in:visa,mastercard',
             'card_holder_name' => 'required|string|max:255', // form field
-            'card_number' => 'required|digits:16',
+            'card_number' => 'required',
             'expiry_month' => 'required|integer|min:1|max:12',
             'expiry_year' => 'required|integer|min:' . now()->year . '|max:' . (now()->year + 20),
             'cvv' => 'required|digits:3',

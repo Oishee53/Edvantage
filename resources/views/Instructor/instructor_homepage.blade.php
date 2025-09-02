@@ -601,7 +601,7 @@
 
                                         <a href="{{ $route }}" class="block">
                                             @if($notification->type === 'App\Notifications\approveCourseNotification')
-                                                ✅ Your course "{{ $notification->data['course_title'] }}" was approved.                                        
+                                                ✅ "{{ $notification->data['content'] }}"                                        
                                             @elseif($notification->type === 'App\Notifications\rejectCourseNotification')
                                                 ❌ Course rejected: "{{ $notification->data['course_title'] }}".
                                             @elseif($notification->type === 'App\Notifications\NewQuestionNotification')

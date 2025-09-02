@@ -124,8 +124,7 @@ class CourseNotificatioController extends Controller
         $notification = CourseNotification::where('pending_course_id', $course_id)->first();
         if ($notification) {
             $notification->update([
-                'status' => 'rejected',
-                'is_read' => true
+                'status' => 'rejected'
             ]);
         }
 

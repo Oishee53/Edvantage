@@ -39,7 +39,7 @@ class approveCourseNotification extends Notification
         $mailMessage = (new MailMessage)
             ->subject('Congratulation! Accepted Course Submission - ' . $this->course->title)
             ->greeting('Hello ' . $notifiable->name . ',')
-            ->line('We are pleased to inform you has been accepted.')
+            ->line('We are pleased to inform you has been accepted. You can now upload quizzes!')
             ->line('Course Title: ' .  $this->course->title )
             ->line('Course Description: ' .  $this->course->description );
 

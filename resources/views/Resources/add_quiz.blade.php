@@ -349,15 +349,13 @@
     <nav class="sidebar-nav">
                 @if(auth()->user()->role === 2)
                     <a href="/admin_panel">Dashboard</a>
-                    <a href="/admin_panel/manage_courses">Manage Courses</a>
+                    <a href="/admin_panel/manage_courses" class="active">Manage Courses</a>
                     <a href="/admin_panel/manage_user">Manage Users</a>
-                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
                     <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
                 @elseif(auth()->user()->role === 3)
                     <a href="/instructor_homepage">Dashboard</a>
                     <a href="/instructor/manage_courses">Manage Courses</a>
-                    <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
+                    <a href="/instructor/manage_user" class="active">Manage Users</a>
                 @endif
             </nav>
   </aside>
@@ -387,11 +385,11 @@
     <section class="main-content">
       @auth
         <div class="course-info">
-          <strong>Course:</strong> {{ $course->title ?? 'Sample Course Title' }} | <strong>Module:</strong> {{ $moduleNumber ?? '1' }}
+          <strong>Course:</strong> {{ $course->title ?? 'Sample Course Title' }} | <strong>Lecture:</strong> {{ $moduleNumber ?? '1' }}
         </div>
 
         <div class="form-container">
-          <h2 class="form-title">Add Quiz for Module {{ $moduleNumber ?? '1' }} of {{ $course->title ?? 'Sample Course' }}</h2>
+          <h2 class="form-title">Add Quiz for Lecture {{ $moduleNumber ?? '1' }} of {{ $course->title ?? 'Sample Course' }}</h2>
           
           <form action="{{ route('quiz.store', ['course' => $course->id ?? 1, 'module' => $moduleNumber ?? 1]) }}" method="POST">
             @csrf

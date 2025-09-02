@@ -65,6 +65,13 @@ public function reject($id)
 
     // Optional: Notify the student
     $question->user->notify(new QuestionRejectedNotification($question));
+    auth()->user()->unreadNotifications
+        ->where('type', 'App\Notifications\NewQuestionNotification')
+        ->where(function($n) use ($question) {
+            $data = $n->data;
+            return $data['question_id'] == $question->id;
+        })
+        ->each->markAsRead();
 
     return redirect()->back()->with('success', 'Question rejected successfully.');
 }
@@ -88,6 +95,13 @@ public function answer(Request $request, $id)
 
     // Notify the student about the answer
     $question->user->notify(new QuestionAnsweredNotification($question));
+    auth()->user()->unreadNotifications
+        ->where('type', 'App\Notifications\NewQuestionNotification')
+        ->where(function($n) use ($question) {
+            $data = $n->data;
+            return $data['question_id'] == $question->id;
+        })
+        ->each->markAsRead();
 
     return redirect()->back()->with('success', 'Answer submitted successfully.');
 }
