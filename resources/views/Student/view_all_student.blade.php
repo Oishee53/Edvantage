@@ -578,7 +578,6 @@
             <a href="/admin_panel/dashboard">Dashboard</a>
             <a href="/admin_panel/manage_courses">Manage Course</a>
             <a href="/admin_panel/manage_user" class="active">Manage User</a>
-            <a href="/admin_panel/manage_resources">Manage Resources</a>
         </nav>
     </aside>
 

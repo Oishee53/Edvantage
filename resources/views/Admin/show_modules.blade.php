@@ -526,15 +526,15 @@
 
         <!-- Modules Section -->
         <div class="modules-section">
-          <h3 class="modules-title">Course Modules</h3>
+          <h3 class="modules-title">Course Lectures</h3>
           
           @if(isset($modules) && count($modules) > 0)
             <div class="modules-list">
               @foreach ($modules as $index)
                 <a href="/view_pending_resources/{{$course->id}}/{{$index}}" class="module-card">
                   <div>
-                    <div class="module-number">Module {{ $index }}</div>
-                    <div class="module-description">Click to view module content and materials</div>
+                    <div class="module-number">Lecture {{ $index }}</div>
+                    <div class="module-description">Click to view lecture content and materials</div>
                   </div>
                   <div style="color: var(--text-gray-500);">→</div>
                 </a>
@@ -543,7 +543,7 @@
           @else
             <div class="empty-state">
               <div class="empty-state-icon">📚</div>
-              <p>No modules found for this course</p>
+              <p>No lectures found for this course</p>
             </div>
           @endif
         </div>

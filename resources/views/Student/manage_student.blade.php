@@ -424,7 +424,6 @@
             <a href="/admin_panel">Dashboard</a>
             <a href="/admin_panel/manage_courses">Manage Course</a>
             <a href="/admin_panel/manage_user" class="active">Manage User</a>
-            <a href="/admin_panel/manage_resources">Manage Resources</a>
             <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
         </nav>
     </aside>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module Resources - {{ $course->name }}</title>
+    <title>Lecture Resources - {{ $course->name }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -14,7 +14,7 @@
             <h1 class="text-2xl font-semibold text-gray-900 mb-3">{{ $course->name }}</h1>
             <div class="flex items-center text-gray-600">
                 <i class="fas fa-book-open mr-3 text-gray-400"></i>
-                <span class="text-base">Module {{ $moduleNumber }}</span>
+                <span class="text-base">Lecture {{ $moduleNumber }}</span>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                                     </div>
                                     <div>
                                         <h2 class="text-lg font-semibold text-gray-900">Video Content</h2>
-                                        <p class="text-sm text-gray-500">Watch the module video</p>
+                                        <p class="text-sm text-gray-500">Watch the lecture video</p>
                                     </div>
                                 </div>
                                 <button 
@@ -88,7 +88,7 @@
                                     </div>
                                     <div>
                                         <h2 class="text-lg font-semibold text-gray-900">PDF Document</h2>
-                                        <p class="text-sm text-gray-500">Download or view the module PDF</p>
+                                        <p class="text-sm text-gray-500">Download or view the lecture PDF</p>
                                     </div>
                                 </div>
                                 <a href="{{ route('secure.pdf.view', ['id' => $resource->id]) }}" 
@@ -122,7 +122,7 @@
                                 <i class="fas fa-question-circle text-gray-600"></i>
                             </div>
                             <div>
-                                <h2 class="text-lg font-semibold text-gray-900">Module Quiz</h2>
+                                <h2 class="text-lg font-semibold text-gray-900">Lecture Quiz</h2>
                                 <p class="text-sm text-gray-500">Test your knowledge</p>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                 @if(!$quiz)
                     <div class="p-6 text-gray-500 text-center bg-gray-50">
                         <i class="fas fa-info-circle mr-2"></i>
-                        No quiz available for this module.
+                        No quiz available for this lecture.
                     </div>
                 @endif
             </div>

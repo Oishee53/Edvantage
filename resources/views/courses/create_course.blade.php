@@ -390,7 +390,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="video_count">Number of Videos <span class="required">*</span></label>
+                        <label for="video_count">Number of Lectures <span class="required">*</span></label>
                         <input type="number" id="video_count" name="video_count"  min="1" required>
                     </div>
 

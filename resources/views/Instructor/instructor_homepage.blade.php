@@ -595,7 +595,7 @@
                                                     $route = route('notifications.read', $notification->id);
                                                     break;
                                                 default:
-                                                    $route = '#';
+                                                    $route = route('notifications.read', $notification->id);
                                             }
                                         @endphp
 
@@ -607,6 +607,8 @@
                                             @elseif($notification->type === 'App\Notifications\NewQuestionNotification')
                                                 ❓ New Question: "{{ $notification->data['content'] }}".
                                             @elseif($notification->type === 'App\Notifications\CourseUpdatedNotification')
+                                                Important : "{{ $notification->data['content'] }}"
+                                            @elseif($notification->type === 'App\Notifications\CourseDeleteNotification')
                                                 Important : "{{ $notification->data['content'] }}"
                                             @endif
 
@@ -622,7 +624,7 @@
                             </div>
                         </li>
 
-                        <a href="/homepage" class="student">Student View</a>
+                        <a href="/homepage" class="student">Student</a>
                         <span>{{ Auth::user()->name }}</span>
                         <form action="/logout" method="POST" style="margin:0;">
                             @csrf
@@ -642,12 +644,12 @@
 
             <!-- Statistics Grid -->
             <div class="stats-grid">
-                <div class="stat-card approved">
+                <div class="stat-card approved"  onclick="window.location='/instructor/manage_courses'">
                     <div class="stat-value">{{ isset($approvedCourses) ? count($approvedCourses) : 0 }}</div>
                     <div class="stat-label">Approved Courses</div>
                 </div>
 
-                <div class="stat-card pending">
+                <div class="stat-card pending" onclick="window.location='/instructor/manage_courses'">
                     <div class="stat-value">{{ isset($pendingCourses) ? count($pendingCourses) : 0 }}</div>
                     <div class="stat-label">Pending Courses</div>
                 </div>

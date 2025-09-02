@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Module Management</title>
+  <title>Lecture Management</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -321,7 +321,7 @@
   <div class="main-wrapper">
     <!-- Top bar -->
     <header class="top-bar">
-      <h1 class="top-bar-title">Module Management</h1>
+      <h1 class="top-bar-title">Lecture Management</h1>
       @auth
         <div class="user-info">
           <span>{{ auth()->user()->name }}</span>
@@ -343,11 +343,11 @@
       @auth
         <!-- Module Information Card -->
         <div class="module-info-card">
-          <h2 class="module-info-title">Module {{ $moduleNumber ?? '1' }} Management</h2>
+          <h2 class="module-info-title">Lecture {{ $moduleNumber ?? '1' }} Management</h2>
           <div class="module-info-details">
             <p><strong>Course:</strong> {{ $course->title ?? 'Sample Course Title' }}</p>
-            <p><strong>Module Number:</strong> {{ $moduleNumber ?? '1' }}</p>
-            <p><strong>Description:</strong> Manage videos, PDFs, and quizzes for this module</p>
+            <p><strong>Lecture Number:</strong> {{ $moduleNumber ?? '1' }}</p>
+            <p><strong>Description:</strong> Manage videos, PDFs, and quizzes for this lecture</p>
           </div>
         </div>
 
@@ -360,7 +360,7 @@
             </div>
             <h3 class="action-card-title">Add Video and PDF</h3>
             <p class="action-card-description">
-              Upload video content and PDF materials for this module to enhance the learning experience.
+              Upload video content and PDF materials for this lecture to enhance the learning experience.
             </p>
             <a href="/admin_panel/manage_resources/{{ $course->id ?? 1 }}/modules/{{ $moduleNumber ?? 1 }}/edit" class="action-button">
               @if(!$resource)  

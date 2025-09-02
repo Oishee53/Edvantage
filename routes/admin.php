@@ -97,7 +97,7 @@ Route::post('/resources/{course_id}/modules/{module_id}/upload', [UploadControll
     Route::get('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'editCourse']);
     Route::put('admin/manage_courses/courses/{id}/edit', [CourseController::class, 'update']);
     Route::delete('/admin_panel/manage_courses/delete-course/{id}', [CourseController::class, 'destroy']);
-        Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
+    Route::get('/admin_panel/courses/{course}/modules/{module}/quiz/create', [QuizController::class, 'create'])->name('quiz.create');
     Route::post('/courses/{course}/modules/{module}/quizzes', [QuizController::class, 'store'])->name('quiz.store');
 // ===================
 // Instructor Routes

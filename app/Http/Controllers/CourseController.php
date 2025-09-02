@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PendingCourses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\CourseDeleteNotification;
 
 class CourseController extends Controller
 {
@@ -37,21 +38,41 @@ public function viewAll()
 }
 public function destroy($id)
 {
+    $user = auth()->user();
+
     // Try to find in Courses
     $course = Courses::find($id);
 
-    // If not found, try PendingCourses
-    if (!$course) {
-        $course = PendingCourses::findOrFail($id);
+    if ($course) {
+        // Store details before deletion
+        $courseId   = $course->id;
+        $courseName = $course->title ?? 'Untitled Course';
+
+        // Delete the course
+        $course->delete();
+
+        // Send notification only if user is Admin (role == 2)
+        if ($user->role == 2) {
+            $instructor = $course->instructor ?? null;
+
+            if ($instructor) {
+                $instructor->notify(
+                    new CourseDeleteNotification(
+                        $course,
+                        "Admin deleted course '{$courseName}'."
+                    )
+                );
+            }
+        }
+    } else {
+        // If not found in Courses, try PendingCourses
+        $pendingCourse = PendingCourses::findOrFail($id);
+        $pendingCourse->delete();
     }
 
-    $course->delete();
-    $user = auth()->user();
-    if($user->role == 2)
-        return redirect('/admin_panel/manage_courses')->with('success', 'Course deleted successfully');
-    else
-        return redirect('/instructor/manage_courses')->with('success', 'Course deleted successfully');
+    return redirect()->back()->with('success', 'Course deleted successfully!');
 }
+
 public function logged_in_search(Request $request)
 {
     $searchTerm = $request->get('search');

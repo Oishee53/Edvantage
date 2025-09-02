@@ -68,6 +68,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Instructor::class);
     }
+    public function instructorProfile()
+    {
+        return $this->hasOne(Instructor::class, 'user_id');
+    }
+
 
 public function videoProgress() {
     return $this->hasMany(VideoProgress::class);
