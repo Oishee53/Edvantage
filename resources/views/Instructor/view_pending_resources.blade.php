@@ -392,13 +392,10 @@
                     <a href="/admin_panel">Dashboard</a>
                     <a href="/admin_panel/manage_courses">Manage Courses</a>
                     <a href="/admin_panel/manage_user">Manage Users</a>
-                    <a href="/admin_panel/manage_resources">Manage Resources</a>
                     <a href="/pending-courses" class="active">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
                 @elseif(auth()->user()->role === 3)
                     <a href="/instructor_homepage">Dashboard</a>
-                    <a href="/instructor/manage_courses">Manage Courses</a>
-                    <a href="/instructor/manage_user">Manage Users</a>
-                    <a href="/instructor/manage_resources" class="active">Manage Resources</a>
+                    <a href="/instructor/manage_courses" class="active">Manage Courses</a>
                 @endif
             </nav>
         </aside>
@@ -463,11 +460,11 @@
                                 <div id="videoPlayer" class="video-container">
                                     <mux-player 
                                         id="mux-player"
-                                        playbook-id="{{ $resource->videos }}"
+                                        playback-id="{{ $resource->videos }}"
                                         stream-type="on-demand"
-                                        controls
-                                        style="width: 100%; max-width: 720px;">
+                                        controls>
                                     </mux-player>
+
                                 </div>
                             </div>
                         </div>

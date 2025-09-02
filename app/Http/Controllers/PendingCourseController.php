@@ -42,7 +42,7 @@ public function store(Request $request)
     $instructorId = $user->role === 2 ? $request->input('instructor_id') : $user->id;
 
     // Create the course
-    PendingCourses::create([
+    $course = PendingCourses::create([
         'image' => $imagePath ?? null,
         'title' => $request->title,
         'description' => $request->description,
@@ -54,7 +54,8 @@ public function store(Request $request)
         'instructor_id' => $instructorId,
         'prerequisite' => $request->prerequisite,
     ]);
-   return redirect('/instructor/manage_courses')->with('success', 'Course added successfully!');
+    return redirect("/instructor/manage_resources/{$course->id}/modules")
+           ->with('success', 'Course added successfully');
 }
 public function showModules($course_id)
 {
@@ -241,9 +242,5 @@ public function editModule($course_id, $module_id){
         'moduleNumber' => $moduleNumber,
         'resource' => $resource,
     ]);
-}
-
-
-
- 
+} 
 }

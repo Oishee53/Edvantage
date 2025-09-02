@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instructor;
 use App\Models\User;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
+use App\Models\CourseNotification;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
+
 
 class InstructorController extends Controller
 {
    public function viewInstructorHomepage()
 {
+    $instructor = Auth::user();
     $approvedCourses = DB::table('courses')
         ->where('instructor_id', Auth::id())
         ->get();
@@ -41,7 +44,7 @@ class InstructorController extends Controller
                 'users.id',
                 'users.name',
                 'users.email',
-                'enrollments.created_at as enroll_date'
+                'enrollments.created_at as enroll_date',
             )
             ->get();
 
@@ -67,7 +70,7 @@ class InstructorController extends Controller
             'qualification' => 'required|string|max:255',
             'video_editing_skill' => 'required|string',
             'target_audience' => 'required|string',
-            'bio' => 'required|string',
+            'short_bio' => 'required|string',
         ]);
 
         // Store signup data in session
@@ -131,5 +134,32 @@ class InstructorController extends Controller
     }
     return redirect()->back()->with('success', 'Student unenrolled successfully.');
 }
+public function showRejectedCourses()
+{   
+    $user = auth()->user();
+    $user->unreadNotifications()
+        ->where('type', 'App\\Notifications\\rejectCourseNotification')
+        ->update(['read_at' => now()]);
+    // Get all rejection notifications for the logged-in instructor
+    $notifications = DB::table('notifications')
+        ->where('notifiable_id', auth()->id())
+        ->where('type', 'App\\Notifications\\rejectCourseNotification')
+        ->latest()
+        ->get();
 
+    $rejectedCourses = $notifications->map(function ($notification) {
+        $data = json_decode($notification->data, true);
+
+        return (object)[
+            'id' => $data['course_id'] ?? null,
+            'title' => $data['course_title'] ?? 'Untitled Course',
+            'description' => $data['course_description'] ?? '',
+            'rejection_message' => $data['rejection_message'] ?? 'No reason provided',
+            'created_at' => $data['created_at'] ?? null,
+            'rejected_at' => $data['rejected_at'] ?? $notification->created_at,
+        ];
+    });
+
+    return view('instructor.rejected_course_details', compact('rejectedCourses'));
+}
 }

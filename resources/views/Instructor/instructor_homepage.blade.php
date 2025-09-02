@@ -158,6 +158,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         .stat-card::before {
             content: '';
@@ -167,17 +168,6 @@
             right: 0;
             height: 4px;
             border-radius: 1rem 1rem 0 0;
-        }
-        .stat-card.approved::before {
-            background: linear-gradient(var(--primary-color));
-        }
-        .stat-card.pending::before {
-            background: linear-gradient(var(--primary-color));
-        }
-        .stat-card.rejected::before {
-            background: linear-gradient(var(--primary-color));
-        }
-        .stat-card.earnings::before {
             background: linear-gradient(var(--primary-color));
         }
         .stat-card:hover {
@@ -243,7 +233,7 @@
         }
         .courses-section {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 2rem;
             margin-bottom: 2rem;
         }
@@ -298,43 +288,92 @@
             font-weight: 600;
             font-size: 0.875rem;
         }
-        .earnings-breakdown {
-            background: var(--card-background);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+        .notifications {
+            position: relative;
         }
-        .earnings-item {
+
+        .notif-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: 600;
+        }
+
+        .notif-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 2.5rem;
+            width: 320px;
+            background: var(--card-background);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .notif-dropdown.show {
+            display: block;
+        }
+
+        .notif-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            color: var(--primary-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-color);
         }
-        .earnings-item:last-child {
+
+        .mark-read {
+            font-size: 0.75rem;
+            color: var(--info-color);
+            cursor: pointer;
+        }
+
+        .notif-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .notif-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+            color: var(--text-gray-600);
+        }
+        .notif-item.unread {
+            background: var(--primary-light-hover-bg);
+            font-weight: 600;
+        }
+        .notif-item:last-child {
             border-bottom: none;
         }
-        .earnings-course {
-            font-weight: 500;
-            color: var(--primary-color);
+        .notif-time {
+            font-size: 0.7rem;
+            color: var(--text-gray-500);
         }
-        .earnings-amount {
-            font-weight: 600;
-            color: var(--success-color);
-            font-size: 1.1rem;
-        }
-        .total-earnings {
-            background: linear-gradient(135deg, var(--success-color), #34D399);
-            color: white;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-top: 1rem;
+        .notif-empty {
+            padding: 2rem 1rem;
             text-align: center;
-        }
-        .total-earnings h3 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
+            color: var(--text-gray-500);
+            font-style: italic;
         }
 
         /* Modal Styles */
@@ -511,10 +550,9 @@
         <nav class="sidebar-nav">
             <a href="/instructor_homepage" class="active">Dashboard</a>
             <a href="/instructor/manage_courses">Manage Courses</a>
-            <a href="/instructor/manage_resources/add">Manage Resources</a>
         </nav>
     </aside>
-
+    
     <!-- Main Content -->
     <main class="main-content">
         <!-- Top Header -->
@@ -525,19 +563,74 @@
                 </button>
                 <h1>Instructor Dashboard</h1>
             </div>
-            <div class="user-info">
-                <a href="/homepage" class="student">Student View</a>
-                <span>{{ Auth::user()->name }}</span>
-                <form action="/logout" method="POST" style="margin:0;">
-                    @csrf
-                    <button class="logout-btn">Logout</button>
-                </form>
-            </div>
+                    <div class="user-info">
+                        <li class="nav-item dropdown notifications" style="list-style:none;">
+                            <button class="notif-btn" onclick="toggleNotifications()">
+                                <i class="fa fa-bell"></i>
+                                @if(auth()->user()->unreadNotifications->count() > 0)
+                                    <span class="notif-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                @endif
+                            </button>
+
+                            <div id="notifDropdown" class="notif-dropdown">
+                                <div class="notif-header">
+                                    Notifications
+                                </div>
+                                <div class="notif-list">
+                                    @forelse(auth()->user()->unreadNotifications as $notification)
+                                        <div class="notif-item unread">
+                                        @php
+                                            // Decide route based on notification type
+                                            switch ($notification->type) {
+                                                case 'App\Notifications\approveCourseNotification':
+                                                     $route = url("/admin_panel/manage_resources/{$notification->data['course_id']}/modules");
+                                                    break;    
+                                                case 'App\Notifications\rejectCourseNotification':
+                                                    $route = route('rejected.course.show');
+                                                    break;
+                                                case 'App\Notifications\NewQuestionNotification':
+                                                    $route = route('instructor.questions.show', $notification->data['question_id']); 
+                                                    break;
+                                                default:
+                                                    $route = '#';
+                                            }
+                                        @endphp
+
+                                        <a href="{{ $route }}" class="block">
+                                            @if($notification->type === 'App\Notifications\approveCourseNotification')
+                                                ✅ Your course "{{ $notification->data['course_title'] }}" was approved.                                        
+                                            @elseif($notification->type === 'App\Notifications\rejectCourseNotification')
+                                                ❌ Course rejected: "{{ $notification->data['course_title'] }}".
+                                            @elseif($notification->type === 'App\Notifications\NewQuestionNotification')
+                                                ❓ New Question: "{{ $notification->data['content'] }}".
+                                            @elseif($notification->type === 'App\Notifications\CourseUpdatedNotification')
+                                                Important : "{{ $notification->data['content'] }}"
+                                            @endif
+
+                                            <br>
+                                            <span class="notif-time">{{ $notification->created_at->diffForHumans() }}</span>
+                                        </a>
+                                    </div>
+
+                                    @empty
+                                        <div class="notif-empty">No new notifications</div>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </li>
+
+                        <a href="/homepage" class="student">Student View</a>
+                        <span>{{ Auth::user()->name }}</span>
+                        <form action="/logout" method="POST" style="margin:0;">
+                            @csrf
+                            <button class="logout-btn">Logout</button>
+                        </form>
+                    </div>
+
         </header>
 
         <!-- Dashboard Content -->
         <div class="dashboard-content">
-
             <!-- Welcome Section -->
             <div class="welcome-section">
                 <h2 class="welcome-title">Welcome back, {{ Auth::user()->name }}!</h2>
@@ -545,50 +638,53 @@
             </div>
 
             <!-- Statistics Grid -->
-           <div class="stats-grid">
+            <div class="stats-grid">
                 <div class="stat-card approved">
-
-                    <div class="stat-value">{{ isset($approvedCourses)? count($approvedCourses):0 }}</div>
-
-
+                    <div class="stat-value">{{ isset($approvedCourses) ? count($approvedCourses) : 0 }}</div>
                     <div class="stat-label">Approved Courses</div>
                 </div>
 
                 <div class="stat-card pending">
-                    <div class="stat-value">{{ count($pendingCourses ?? []) }}</div>
+                    <div class="stat-value">{{ isset($pendingCourses) ? count($pendingCourses) : 0 }}</div>
                     <div class="stat-label">Pending Courses</div>
                 </div>
 
-                <div class="stat-card rejected">
-
-                    <div class="stat-value">{{ isset($rejectedCourses)? count($rejectedCourses):0 }}</div>
-
-
+                <div class="stat-card rejected" onclick="window.location='{{ route('rejected.course.show') }}'">
+                    <div class="stat-value">{{ isset($rejectedCourses) ? count($rejectedCourses) : 0 }}</div>
                     <div class="stat-label">Rejected Courses</div>
                 </div>
 
                 <div class="stat-card earnings">
-                    <div class="stat-value">৳{{ $totalEarnings ?? 0 }}</div>
+                    <div class="stat-value">৳{{ number_format($totalEarnings ?? 0, 2) }}</div>
                     <div class="stat-label">Total Earnings</div>
                 </div>
             </div>
 
-
             <!-- Courses Section -->
             <div class="courses-section">
                 <div class="section-card">
-                    <h3 class="section-title">Courses</h3>
-                    @foreach($coursesWithStudents as $course)
-                    <div class="course-item" onclick="showStudents('{{ $course->title }}', '{{ $course->id }}')">
-                        <div class="course-info">
-                            <h4>{{ $course->title }}</h4>
-                            <p>{{ $course->description }}</p>
+                    <h3 class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        My Courses
+                    </h3>
+                    @if(isset($coursesWithStudents) && count($coursesWithStudents) > 0)
+                        @foreach($coursesWithStudents as $course)
+                            <div class="course-item" onclick="showStudents('{{ addslashes($course->title) }}', '{{ $course->id }}')">
+                                <div class="course-info">
+                                    <h4>{{ $course->title }}</h4>
+                                    <p>{{ Str::limit($course->description, 100) }}</p>
+                                </div>
+                                <div class="course-students">
+                                    <i class="fas fa-users"></i> {{ $course->student_count ?? 0 }}
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div style="text-align: center; padding: 2rem; color: var(--text-gray-500);">
+                            <i class="fas fa-book-open" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <p>No approved courses yet. Start by creating your first course!</p>
                         </div>
-                        <div class="course-students">
-                            <i class="fas fa-users"></i> {{ $course->student_count }}
-                        </div>
-                    </div>
-                    @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -605,12 +701,18 @@
         </div>
     </main>
 
-    <!-- Dynamic JS -->
+    <!-- JavaScript -->
     <script>
+        function toggleNotifications() {
+            document.getElementById('notifDropdown').classList.toggle('show');
+        }
+
+        // Course students data from Laravel
         const courseStudents = @json(
+            isset($coursesWithStudents) ? 
             $coursesWithStudents->mapWithKeys(function($course) {
-                return [$course->id => $course->students];
-            })
+                return [$course->id => $course->students ?? []];
+            }) : []
         );
 
         function toggleSidebar() {
@@ -626,25 +728,26 @@
             const students = courseStudents[courseId] || [];
             let studentsHTML = '';
 
-            students.forEach(student => {
-                const initials = student.name.split(' ').map(n => n[0]).join('');
-                const enrollDate = new Date(student.enroll_date).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: '2-digit',
-                    year: 'numeric'
-                });
-                studentsHTML += `
-                    <div class="student-item">
-                        <div class="student-avatar">${initials}</div>
-                        <div class="student-details">
-                            <h4>${student.name}</h4>
-                            <p>${student.email}</p>
-                            <p style="font-size:0.75rem;color:var(--text-gray-500)">Enrolled: ${enrollDate}</p>
+            if (students.length > 0) {
+                students.forEach(student => {
+                    const initials = student.name.split(' ').map(n => n[0]).join('');
+                    const enrollDate = new Date(student.enroll_date).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: '2-digit',
+                        year: 'numeric'
+                    });
+                    studentsHTML += `
+                        <div class="student-item">
+                            <div class="student-avatar">${initials}</div>
+                            <div class="student-details">
+                                <h4>${student.name}</h4>
+                                <p>${student.email}</p>
+                                <p style="font-size:0.75rem;color:var(--text-gray-500)">Enrolled: ${enrollDate}</p>
+                            </div>
                         </div>
-                `;
-            });
-
-            if(students.length === 0){
+                    `;
+                });
+            } else {
                 studentsHTML = '<p style="text-align:center;color:var(--text-gray-500);padding:2rem;">No students enrolled yet.</p>';
             }
 
@@ -656,9 +759,31 @@
             document.getElementById('studentsModal').classList.remove('show');
         }
 
-        document.addEventListener('click', function(event){
+        function toggleNotifications() {
+            document.getElementById('notifDropdown').classList.toggle('show');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
             const modal = document.getElementById('studentsModal');
-            if(event.target === modal) closeModal();
+            const notifDropdown = document.getElementById('notifDropdown');
+            
+            if (event.target === modal) {
+                closeModal();
+            }
+            
+            // Close notifications when clicking outside
+            if (!event.target.closest('.notifications')) {
+                notifDropdown.classList.remove('show');
+            }
+        });
+
+        // Escape key to close modal
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                document.getElementById('notifDropdown').classList.remove('show');
+            }
         });
     </script>
 </body>

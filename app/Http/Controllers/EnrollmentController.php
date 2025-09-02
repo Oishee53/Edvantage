@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Models\Enrollment;
-use App\Models\Courses;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
+use App\Models\Quiz;
+use App\Models\Courses;
 use App\Models\Resource;
+use App\Models\Enrollment;
+use Illuminate\Http\Request;
+use App\Models\VideoProgress;
+use App\Models\PendingResources;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
-use App\Models\Quiz;
-use App\Models\VideoProgress;
 
 class EnrollmentController extends Controller
 {
@@ -115,12 +116,15 @@ public function showInsideModule($courseId, $moduleNumber)
 
 public function viewPDF($id)
 {
-    $resource = Resource::findOrFail($id);
+    $resource = Resource::find($id);
 
+    // If not found, fallback to pending resources
+    if (!$resource) {
+        $resource = PendingResources::findOrFail($id); // will throw 404 if not found
+    }
+    
     // Cloudinary public URL
     $pdfUrl = $resource->pdf;
-
-
 
     //Option 2: Stream the file securely through your server (better for privacy, heavier on backend)
     $response = Http::get($pdfUrl);

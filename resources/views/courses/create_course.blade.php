@@ -321,17 +321,8 @@
             <img src="/image/Edvantage.png" alt="Edvantage Logo">
         </div>
         <nav class="sidebar-nav">
-            @if(auth()->user() && auth()->user()->role === 2)
-                <a href="/admin_panel">Dashboard</a>
-                <a href="/admin_panel/manage_courses">Manage Courses</a>
-                <a href="/admin_panel/manage_courses" class="active">Manage Courses</a>
-                <a href="/admin_panel/manage_user">Manage User</a>
-                <a href="/admin_panel/manage_resources">Manage Resources</a>
-            @elseif(auth()->user() && auth()->user()->role === 3)
                 <a href="/instructor_homepage">Dashboard</a>
-                <a href="/instructor/manage_courses">Manage Course</a>
-                <a href="/instructor/manage_resources/add">Manage Resources</a>
-            @endif
+                <a href="/instructor/manage_courses" class="active">Manage Course</a>
         </nav>
     </aside>
 

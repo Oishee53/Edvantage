@@ -47,6 +47,10 @@ public function showModules($course_id)
         $quizModules = DB::table('quizzes')
             ->where('course_id', $course_id)
             ->pluck('module_number');
+         $user->unreadNotifications()
+            ->where('type', 'App\\Notifications\\approveCourseNotification')
+            ->where('data->course_id', $course_id) // JSON field check
+            ->update(['read_at' => now()]);
     } elseif ($user->role === 2) {
         // Instructors/Admins: check both quizzes and resources separately
         $quizModules = DB::table('quizzes')

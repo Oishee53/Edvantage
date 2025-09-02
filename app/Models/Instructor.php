@@ -12,7 +12,7 @@ class Instructor extends Model
         'qualification',
         'video_editing_skill',
         'target_audience',
-        'bio',
+        'short_bio',
         'profile_image',
         'card_type',
         'card_holder_name',

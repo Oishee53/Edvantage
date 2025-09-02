@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Modules - {{ $course->title }}</title>
+    <title>Course Lectures - {{ $course->title }}</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
@@ -481,13 +481,11 @@
             <nav class="sidebar-nav">
                 @if(auth()->user()->role === 2)
                     <a href="/admin_panel">Dashboard</a>
-                    <a href="/admin_panel/manage_courses">Manage Courses</a>
+                    <a href="/admin_panel/manage_courses" class="active">Manage Courses</a>
                     <a href="/admin_panel/manage_user">Manage Users</a>
-                    <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
                 @elseif(auth()->user()->role === 3)
                    <a href="/instructor_homepage">Dashboard</a>
-                   <a href="/instructor/manage_courses">Manage Course</a>
-                   <a href="/instructor/manage_resources/add" class="active">Manage Resources</a>
+                   <a href="/instructor/manage_courses" class="active">Manage Course</a>
                 @endif
             </nav>
         </aside>
@@ -498,7 +496,7 @@
             <main class="main-content">
                 <!-- Top bar -->
                 <div class="top-bar">
-                    <div class="top-bar-title">Course Modules</div>
+                    <div class="top-bar-title">Course Lectures</div>
                     <div class="user-info">
                         <span>{{ auth()->user()->name }}</span>
                         <form action="/logout" method="POST" style="display: inline;">
@@ -510,7 +508,7 @@
 
                 <!-- Course Header -->
                 <div class="course-header">
-                    <h2>Course Modules</h2>
+                    <h2>Course Lectures</h2>
                     <div class="course-title">{{ $course->title }}</div>
                     
                     @php
@@ -524,7 +522,7 @@
                             <div class="progress-fill" style="width: {{ $progressPercentage }}%"></div>
                         </div>
                         <div class="progress-text">
-                            {{ $uploadedCount }} of {{ $totalModules }} modules completed ({{ number_format($progressPercentage, 1) }}%)
+                            {{ $uploadedCount }} of {{ $totalModules }} lectures completed ({{ number_format($progressPercentage, 1) }}%)
                         </div>
                     </div>
                 </div>
@@ -532,7 +530,7 @@
                 <!-- Modules Section -->
                 <div class="modules-section">
                     <div class="modules-section-header">
-                        <h3 class="modules-section-title">Module List</h3>
+                        <h3 class="modules-section-title">Lecture List</h3>
                     </div>
                     <div class="modules-list">
                         @foreach ($modules as $module)
@@ -546,7 +544,7 @@
                             <div class="module-item">
                                 <div class="module-info">
                                     <div>
-                                        <div class="module-title">Module {{ $module['id'] }}</div>
+                                        <div class="module-title">Lecture {{ $module['id'] }}</div>
                                     </div>
                                     <div class="upload-status">
                                         @if($module['uploaded'])
@@ -583,7 +581,7 @@
                                                 <line x1="9" y1="15" x2="15" y2="15"></line>
                                             @endif
                                         </svg>
-                                        {{ $module['uploaded'] ? 'Edit Module' : 'Upload Resources' }}
+                                        {{ $module['uploaded'] ? 'Edit Lecture' : 'Upload Resources' }}
                                     </a>
                                 </div>
                             </div>
@@ -601,7 +599,7 @@
                         </a>
                     @else
                         <button class="submit-btn" disabled>
-                            Submit For Review (Upload all modules first)
+                            Submit For Review (Upload all lectures first)
                         </button>
                     @endif
                 </div>

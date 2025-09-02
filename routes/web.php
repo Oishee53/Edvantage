@@ -135,8 +135,6 @@ Route::post('instructor/payment_setup', [InstructorController::class, 'savePayme
 Route::post('/post_question', [QuestionController::class, 'store'])->name('questions.store');
 Route::get('/student/questions/{id}', [NotificationController::class, 'show'])
     ->name('student.questions.show');
-Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
-    ->name('secure.pdf.view');
 
 
 });
@@ -144,3 +142,5 @@ Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
 Route::get('/certificate/{userId}/{courseId}', [CertificateController::class, 'generate'])
         ->name('certificate.generate');
 Route::get('/verify-certificate/{certificate_id}', [CertificateController::class, 'verify'])->name('certificate.verify');
+Route::get('/pdf/view/{id}', [EnrollmentController::class, 'viewPDF'])
+    ->name('secure.pdf.view');

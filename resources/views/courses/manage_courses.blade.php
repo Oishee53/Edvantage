@@ -494,7 +494,6 @@
       <a href="/admin_panel">Dashboard</a>
       <a href="/admin_panel/manage_courses" class="active">Manage Course</a>
       <a href="/admin_panel/manage_user">Manage User</a>
-      <a href="/admin_panel/manage_resources">Manage Resources</a>
       <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
     </nav>
   </aside>
@@ -523,14 +522,6 @@
       </div>
 
       @auth
-        <!-- Search and Add Section -->
-        <div class="search-add-section">
-          <form action="/manage_courses/add" method="GET" style="display: inline;">
-            <button type="submit" class="add-course-button">
-              Add Course
-            </button>
-          </form>
-        </div>
 
         <!-- Courses Table -->
         <div class="table-container">
@@ -570,7 +561,7 @@
                         @endif
                       </td>
                       <td>
-                        <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                        <a href="{{ url("/admin_panel/manage_resources/{$course->id}/modules") }}" class="course-title-link">{{ $course->title }}</a>
                       </td>
                       <td>
                         <div class="course-description">{{ $course->description }}</div>

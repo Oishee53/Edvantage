@@ -74,6 +74,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::post('/submitted-courses/{course}/reject', [CourseNotificatioController::class, 'reject'])
         ->name('admin.courses.reject');
+    Route::post('/admin/courses/{course}/ask-edit', [CourseNotificatioController::class, 'askForEdit'])->name('admin.courses.ask-edit');
     Route::get('/admin_panel/manage_user/view_all_instructors', [StudentController::class, 'allInstructors']);
 
 });
@@ -140,3 +141,15 @@ Route::get('/view_pending_resources/{courseId}/{moduleNumber}', [PendingCourseCo
      ->name('view.pending.resources');
      
 Route::get('/view/inside-module/{courseId}/{moduleNumber}', [ResourceController::class, 'showInsideModule'])->name('inside.module2');
+Route::get('/instructor/rejected_courses', [InstructorController::class, 'showRejectedCourses'])->name('rejected.course.show');
+// Notification routes
+Route::middleware('auth')->group(function () {
+    // Mark all notifications as read
+    Route::post('/notifications/mark-all-read', [InstructorController::class, 'markAllNotificationsAsRead'])->name('notifications.mark-all-read');
+    
+    // Mark individual notification as read
+    Route::post('/notifications/{id}/mark-read', [InstructorController::class, 'markNotificationAsRead'])->name('notifications.mark-read');
+    
+    // View specific notification (optional)
+    Route::get('/notifications/{id}/view', [InstructorController::class, 'viewNotification'])->name('notifications.view');
+});

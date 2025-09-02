@@ -557,7 +557,6 @@
     <nav class="sidebar-nav">
       <a href="/instructor_homepage">Dashboard</a>
       <a href="/instructor/manage_courses" class="active">Manage Course</a>
-      <a href="/instructor/manage_resources/add">Manage Resources</a>
     </nav>
   </aside>
 
@@ -626,7 +625,7 @@
                               @endif
                           </td>
                           <td>
-                              <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                              <a href="{{ url("/admin_panel/manage_resources/{$course->id}/modules") }}" class="course-title-link">{{ $course->title }}</a>
                           </td>
                           <td class="course-description">{{ $course->description }}</td>
                           <td>{{ $course->category }}</td>
@@ -677,7 +676,7 @@
                               @endif
                           </td>
                           <td>
-                              <a href="/admin/manage_courses/courses/{{ $course->id }}/edit" class="course-title-link">{{ $course->title }}</a>
+                              <a href="{{ url("/instructor/manage_resources/{$course->id}/modules") }}" class="course-title-link">{{ $course->title }}</a>
                           </td>
                           <td class="course-description">{{ $course->description }}</td>
                           <td>{{ $course->category }}</td>

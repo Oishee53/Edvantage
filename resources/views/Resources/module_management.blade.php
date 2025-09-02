@@ -306,15 +306,13 @@
     <nav class="sidebar-nav">
       @if(auth()->user()->role === 2)
         <a href="/admin_panel">Dashboard</a>
-        <a href="/admin_panel/manage_courses">Manage Course</a>
+        <a href="/admin_panel/manage_courses" class="active">Manage Course</a>
         <a href="/admin_panel/manage_user">Manage User</a>
-        <a href="/admin_panel/manage_resources" class="active">Manage Resources</a>
          <a href="/pending-courses">Manage Pending Courses ({{ $pendingCoursesCount ?? 0 }})</a>
       @elseif(auth()->user()->role === 3)
         <a href="/instructor_homepage">Dashboard</a>
-        <a href="/instructor/manage_courses">Manage Course</a>
+        <a href="/instructor/manage_courses" class="active">Manage Course</a>
         <a href="/instructor/manage_user">Manage User</a>
-        <a href="/instructor/manage_resources" class="active">Manage Resources</a>
       @endif
     </nav>
   </aside>

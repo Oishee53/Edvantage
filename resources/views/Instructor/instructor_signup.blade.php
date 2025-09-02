@@ -63,7 +63,7 @@
       <!-- Short Bio -->
       <div>
         <label class="block text-gray-700 font-medium mb-1">Short Bio</label>
-        <textarea name="bio" rows="3" placeholder="Write a short introduction about yourself" required
+        <textarea name="short_bio" rows="3" placeholder="Write a short introduction about yourself" required
                   class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">{{ old('bio') }}</textarea>
         @error('bio')
           <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
