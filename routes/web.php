@@ -83,7 +83,7 @@ Route::get('/courses/enrolled', function () {
     return 'Enrolled courses page coming soon!';
 });
 
-Route::get('/courses',[CourseController::class, 'viewCourses'])->name('courses.all');;
+Route::get('/browse',[CourseController::class, 'viewCourses'])->name('courses.all');
 
 Route::get('/search', [CourseController::class, 'logged_in_search'])->name('courses.search');
 

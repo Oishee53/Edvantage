@@ -12,13 +12,7 @@ class CourseController extends Controller
 {
    
 
-public function viewCourses()
-{
-    $courses = Courses::all();
-    $user = auth()->user();
-    $uniqueCategories = $courses->pluck('category')->unique();
-    return view('courses.all_courses', compact('user','courses','uniqueCategories'));
-}
+
 public function show($id)
 {
     // Load course with instructor

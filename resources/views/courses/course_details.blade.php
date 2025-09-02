@@ -916,7 +916,7 @@
                     <div class="instructor-profile">
                         <img src="/image/instructor.png" alt="Dr. Ahmed Rahman" class="instructor-avatar-large">
                         <div class="instructor-info-details">
-                            <div class="instructor-name-large">Dr. Ahmed Rahman</div>
+                            <div class="instructor-name-large">{{ $course->instructor->name }}</div>
                             <div class="instructor-title">Senior Software Engineer & Tech Educator</div>
                             <ul class="instructor-details-list">
                                 <li>

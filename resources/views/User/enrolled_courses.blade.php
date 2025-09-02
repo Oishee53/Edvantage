@@ -408,6 +408,20 @@
       color: white;
       box-shadow: 0 2px 8px rgba(14, 27, 51, 0.3);
     }
+
+.course-instructor {
+  font-size: 0.85rem;
+  color: #0E1B33;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.course-instructor i {
+  font-size: 0.8rem;
+  color: #5f6368;
+}
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .nav-menu {
@@ -516,6 +530,10 @@
               <a href="{{ route('user.course.modules', $course->id) }}" class="course-title">
                 {{ $course->title }}
               </a>
+               
+  <div class="course-instructor">
+    <span>{{ $course->instructor->name ?? 'Instructor not assigned' }}</span>
+  </div>
                             
               <p class="course-description">{{ $course->description }}</p>
                             

@@ -41,44 +41,35 @@ public function checkout()
 
 
 
-public function userEnrolledCourses()
-{
+public function userEnrolledCourses() {
     $user = Auth::user();
-    $enrolledCourses = $user->enrollments()->with('course')->get()->pluck('course');
-    $enrolledCourseIds = Enrollment::where('user_id', $user)->pluck('course_id');
-
+    
+    // Load the instructor relationship (assuming User model with role=3)
+    $enrolledCourses = $user->enrollments()
+        ->with(['course.instructor']) // This will load the instructor
+        ->get()
+        ->pluck('course');
+    
     $courseProgress = [];
-
-    foreach ($enrolledCourseIds as $courseId) {
-        $course = Courses::find($courseId);
-
-        if (!$course) continue;
-
-        // Step 2: Count total videos for the course
-        $totalVideos = Resource::where('courseId', $courseId)->count();
-
-        // Step 3: Count completed videos from video_progress
-        $completedVideos = VideoProgress::where('user_id', $user)
-            ->where('course_id', $courseId)
-            ->where('is_completed', true)
+    
+    foreach ($enrolledCourses as $course) {
+        $totalVideos = Resource::where('courseId', $course->id)->count();
+        
+        $completedVideos = VideoProgress::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->where('is_completed', 1)
             ->count();
-
-        // Step 4: Calculate percentage
-        $completionPercentage = $totalVideos > 0
-            ? round(($completedVideos / $totalVideos) * 100)
-            : 0;
-
-        $courseProgress[] = [
-            'course_id' => $course->id,
-            'course_name' => $course->title,
+        
+        $courseProgress[$course->id] = [
             'completed_videos' => $completedVideos,
             'total_videos' => $totalVideos,
-            'completion_percentage' => $completionPercentage,
+            'completion_percentage' => $totalVideos > 0 ? round(($completedVideos / $totalVideos) * 100) : 0,
         ];
     }
-
-    return view('User.enrolled_courses', compact('user','enrolledCourses', 'courseProgress'));
+    
+    return view('User.enrolled_courses', compact('user', 'enrolledCourses', 'courseProgress'));
 }
+
 
 public function viewCourseModules($courseId)
 {
