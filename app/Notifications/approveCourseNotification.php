@@ -35,35 +35,36 @@ class approveCourseNotification extends Notification
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
-    {
-        $mailMessage = (new MailMessage)
-            ->subject('Congratulation! Accepted Course Submission - ' . $this->course->title)
-            ->greeting('Hello ' . $notifiable->name . ',')
-            ->line('We are pleased to inform you has been accepted. You can now upload quizzes!')
-            ->line('Course Title: ' .  $this->course->title )
-            ->line('Course Description: ' .  $this->course->description );
+        {
+            $mailMessage = (new MailMessage)
+                ->subject('Congratulations! Accepted Course Submission - ' . $this->course->title)
+                ->greeting('Hello ' . $notifiable->name . ',')
+                ->line('We are pleased to inform you that your course has been accepted. You can now upload quizzes!')
+                ->line('Course Title: ' . $this->course->title)
+                ->line('Course Description: ' . $this->course->description);
 
-       
-        return $mailMessage
-            ->line('Your course is now approved and available publicly.')
-            ->action('View Course', url('/instructor/manage_courses'))
-            ->line('Thank you for using Edvantage platform!');
-    }
+            return $mailMessage
+                ->line('Your course is now approved and available publicly.')
+                ->action('View Course', url("/admin_panel/manage_resources/{$this->course->id}/modules"))
+                ->line('Thank you for using Edvantage platform!');
+        }
+
 
     /**
      * Get the database representation of the notification.
      *
      * @return array<string, mixed>
      */
-    public function toDatabase(object $notifiable): array
-    {
-        return [
-            'type' => 'course_approved',
-            'course_id' => $this->course->id,
-            'course_title' => $this->course->title,
-            'approved_at' => now(),
-        ];
-    }
+        public function toDatabase(object $notifiable): array
+        {
+            return [
+                'type' => 'course_approved',
+                'course_id' => $this->course->id,
+                'course_title' => $this->course->title,
+                'approved_at' => now(),
+                'content' => "Your course '{$this->course->title}' has been approved! You can now add quizzes!"
+            ];
+        }
 
     public function toArray(object $notifiable): array
     {

@@ -10,16 +10,7 @@ class Instructor extends Model
         'user_id',
         'area_of_expertise',
         'qualification',
-        'video_editing_skill',
-        'target_audience',
         'short_bio',
-        'profile_image',
-        'card_type',
-        'card_holder_name',
-        'card_number',
-        'expiry_date',
-        'cvv',
-        'bank_name',
     ];
 
     // Relationship to the User model

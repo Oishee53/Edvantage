@@ -63,67 +63,41 @@ class InstructorController extends Controller
     ));
 }
 
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-            'area_of_expertise' => 'required|string|max:255',
-            'qualification' => 'required|string|max:255',
-            'video_editing_skill' => 'required|string',
-            'target_audience' => 'required|string',
-            'short_bio' => 'required|string',
-        ]);
+public function register(Request $request)
+{
+    // Validate input
+    $validated = $request->validate([
+        'area_of_expertise' => 'required|string|max:255',
+        'qualification'      => 'required|string|max:255',
+        'short_bio'          => 'required|string',
+    ]);
 
-        // Store signup data in session
-        session(['instructor_signup' => $validated]);
+    $user = Auth::user();
 
-        // Redirect to payment setup page
-        return view('Instructor.payment_setup');
+    if (!$user) {
+        return redirect()->route('instructor.register')
+            ->withErrors(['error' => 'You must be logged in to register as an instructor.']);
     }
 
-    // Step 2: Handle payment setup form
-    public function savePaymentSetup(Request $request)
-    {
-        $validatedPayment = $request->validate([
-            'card_type' => 'required|in:visa,mastercard',
-            'card_holder_name' => 'required|string|max:255', // form field
-            'card_number' => 'required',
-            'expiry_month' => 'required|integer|min:1|max:12',
-            'expiry_year' => 'required|integer|min:' . now()->year . '|max:' . (now()->year + 20),
-            'cvv' => 'required|digits:3',
-            'bank_name' => 'nullable|string|max:255',
-        ]);
-
-        // Merge expiry month/year into single field
-        $validatedPayment['expiry_date'] = $validatedPayment['expiry_month'] . '/' . $validatedPayment['expiry_year'];
-        unset($validatedPayment['expiry_month'], $validatedPayment['expiry_year']);
-
-        // Retrieve signup data from session
-        $signupData = session('instructor_signup');
-
-        if (!$signupData) {
-            return redirect()->route('instructor.register')
-                ->withErrors(['error' => 'Session expired. Please fill out the signup form again.']);
-        }
-
-        $user = Auth::user();
-
-        DB::transaction(function () use ($user, $signupData, $validatedPayment) {
-            // Update user role
+    try {
+        DB::transaction(function () use ($user, $validated) {
+            // Update user role to instructor (role = 3)
             $user->update(['role' => 3]);
 
-            // Merge signup + payment data
-            $instructorData = array_merge($signupData, $validatedPayment);
-            $instructorData['user_id'] = $user->id;
-
-            // Save to instructors table
-            Instructor::create($instructorData);
+            // Create instructor profile
+            Instructor::create([
+                'user_id'          => $user->id,
+                'area_of_expertise'=> $validated['area_of_expertise'],
+                'qualification'    => $validated['qualification'],
+                'short_bio'        => $validated['short_bio'],
+            ]);
         });
 
-        // Clear session
-        session()->forget('instructor_signup');
-
-        return redirect('/instructor_homepage')->with('success', 'Instructor account created successfully!');
+        return redirect('instructor_homepage')->with('success', 'You are now registered as an instructor!');
+    } catch (\Exception $e) {
+        return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
     }
+}
     public function destroy($student_id)
 {
     $user = User::findOrFail($student_id);
