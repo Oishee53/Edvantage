@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Module Resources</title>
+    <title>Lecture Resources</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
@@ -406,7 +406,7 @@
             <main class="main-content">
                 <!-- Top bar -->
                 <div class="top-bar">
-                    <div class="top-bar-title">Module Resources</div>
+                    <div class="top-bar-title">Lecture Resources</div>
                     <div class="user-info">
                         <span>{{ auth()->user()->name }}</span>
                         <form action="/logout" method="POST" style="display: inline;">
@@ -425,8 +425,8 @@
 
                 <!-- Course Information -->
                 <div class="course-info">
-                    <h2>Module Resources for Course: {{ $course->name }}</h2>
-                    <p class="module-info">Module Number: {{ $moduleNumber }}</p>
+                    <h2>Lecture Resources for Course: {{ $course->name }}</h2>
+                    <p class="module-info">Lecture Number: {{ $moduleNumber }}</p>
                 </div>
 
                 <!-- Video Content Section -->
