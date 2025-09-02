@@ -142,6 +142,25 @@ public function update(Request $request, $id)
     return redirect('/instructor/manage_courses')
            ->with('success', 'Course updated successfully!');}
 }
+public function markAsReadNotification($id)
+    {
+        $notification = auth()->user()
+            ->notifications()
+            ->where('id', $id)
+            ->first();
+
+        if ($notification) {
+            $notification->markAsRead();
+            return response()->json([
+                'success' => true,
+                'message' => 'Notification marked as read.'
+            ]);
+        }
+
+        return redirect('/instructor_homepage')
+            ->with('success', 'Notification marked as read.');
+    }
+
 
 
 }

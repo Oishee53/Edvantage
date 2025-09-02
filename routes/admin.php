@@ -152,4 +152,6 @@ Route::middleware('auth')->group(function () {
     
     // View specific notification (optional)
     Route::get('/notifications/{id}/view', [InstructorController::class, 'viewNotification'])->name('notifications.view');
+    Route::get('/notifications/{id}/read', [CourseController::class, 'markAsReadNotification'])
+    ->name('notifications.read');
 });

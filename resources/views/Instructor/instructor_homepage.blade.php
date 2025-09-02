@@ -591,6 +591,9 @@
                                                 case 'App\Notifications\NewQuestionNotification':
                                                     $route = route('instructor.questions.show', $notification->data['question_id']); 
                                                     break;
+                                                case 'App\Notifications\CourseUpdatedNotification':
+                                                    $route = route('notifications.read', $notification->id);
+                                                    break;
                                                 default:
                                                     $route = '#';
                                             }
