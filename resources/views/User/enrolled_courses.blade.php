@@ -558,7 +558,7 @@
                             
               <!-- Course Stats -->
               <div class="course-stats">
-                <span><span class="icon-book"></span> {{ $course->video_count ?? 10 }} modules</span>
+                <span><span class="icon-book"></span> {{ $course->video_count ?? 10 }} lectures</span>
                 <span><span class="icon-clock"></span> {{ $course->total_duration ?? '2h' }} h</span>
               </div>
                             
