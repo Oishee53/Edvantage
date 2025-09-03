@@ -605,11 +605,7 @@
                                     <span class="course-category-badge">{{ $course->category }}</span>
                                 @endif
                                 
-                                <div class="course-rating">
-                                    <span class="stars">★★★★★</span>
-                                    <span class="rating-number">4.8</span>
-                                    <span class="rating-count">(120)</span>
-                                </div>
+                                
                                 
                                 <div class="course-price">
                                     <span class="taka-bold">৳</span> {{ number_format($course->price ?? 0, 0) }}
