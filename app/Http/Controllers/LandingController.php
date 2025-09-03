@@ -9,7 +9,11 @@ class LandingController extends Controller
 {
 public function showLanding()
 {   
-    $courses = Courses::all();
+    $courses = Courses::withCount('quizzes')
+        ->get()
+        ->filter(function ($course) {
+            return $course->quizzes_count == $course->video_count;
+        });
     $uniqueCategories = $courses->pluck('category')->unique();
 
     return response()

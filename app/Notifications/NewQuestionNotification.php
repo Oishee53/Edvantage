@@ -30,7 +30,7 @@ class NewQuestionNotification extends Notification
             ->line('A student has posted a question on your course/module.')
             ->line('Question: ' . $this->question->content)
             ->action('View Question',
-                route('instructor.notifications.view', $this->question->id))
+                route('instructor.questions.show', $this->question->id))
             ->line('Thank you for being an instructor!');
     }
 

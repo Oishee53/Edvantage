@@ -1030,51 +1030,61 @@
                 </a>
                 <!-- Notification Button -->
                 @auth
-                <div class="notification-button icon-button" title="Notifications">
-                    <i class="fa-solid fa-bell"></i>
-                    @if(auth()->user()->unreadNotifications->count() > 0)
-                        <span class="notification-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
-                    @endif
-                    <div class="notification-dropdown">
-                        <div class="notification-header">
-                            <h4>Notifications</h4>
+<div class="notification-button icon-button" title="Notifications">
+    <i class="fa-solid fa-bell"></i>
+    @php
+        // Filter notifications to only count question-related ones
+        $relevantNotifications = auth()->user()->unreadNotifications->filter(function ($notification) {
+            return $notification->type === \App\Notifications\QuestionRejectedNotification::class || 
+                   $notification->type === \App\Notifications\QuestionAnsweredNotification::class;
+        });
+        $relevantCount = $relevantNotifications->count();
+    @endphp
+    
+    @if($relevantCount > 0)
+        <span class="notification-badge">{{ $relevantCount }}</span>
+    @endif
+    
+    <div class="notification-dropdown">
+        <div class="notification-header">
+            <h4>Notifications</h4>
+        </div>
+        @if($relevantCount > 0)
+            @foreach ($relevantNotifications as $notification)
+                @if ($notification->type === \App\Notifications\QuestionRejectedNotification::class)
+                    <div class="notification-item notification-rejected">
+                        <div class="notification-content">
+                            <div class="notification-title">Question Rejected</div>
+                            <div class="notification-text">{{ $notification->data['content'] }}</div>
+                            <div class="notification-instructor">Instructor: {{ $notification->data['instructor_name'] }}</div>
                         </div>
-                        @if(auth()->user()->unreadNotifications->count() > 0)
-                            @foreach (auth()->user()->unreadNotifications as $notification)
-                                @if ($notification->type === \App\Notifications\QuestionRejectedNotification::class)
-                                    <div class="notification-item notification-rejected">
-                                        <div class="notification-content">
-                                            <div class="notification-title">Question Rejected</div>
-                                            <div class="notification-text">{{ $notification->data['content'] }}</div>
-                                            <div class="notification-instructor">Instructor: {{ $notification->data['instructor_name'] }}</div>
-                                        </div>
-                                        <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="notification-action">
-                                            View Question
-                                        </a>
-                                    </div>
-                                @endif
-                                @if ($notification->type === \App\Notifications\QuestionAnsweredNotification::class)
-                                    <div class="notification-item notification-answered">
-                                        <div class="notification-content">
-                                            <div class="notification-title">Question Answered</div>
-                                            <div class="notification-text">{{ $notification->data['content'] }}</div>
-                                            <div class="notification-instructor">Instructor: {{ $notification->data['instructor_name'] }}</div>
-                                        </div>
-                                        <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="notification-action">
-                                            View Answer
-                                        </a>
-                                    </div>
-                                @endif
-                            @endforeach
-                        @else
-                            <div class="no-notifications">
-                                <i class="fa-solid fa-bell-slash"></i>
-                                <div>No new notifications</div>
-                            </div>
-                        @endif
+                        <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="notification-action">
+                            View Question
+                        </a>
                     </div>
-                </div>
-                @endauth
+                @endif
+                @if ($notification->type === \App\Notifications\QuestionAnsweredNotification::class)
+                    <div class="notification-item notification-answered">
+                        <div class="notification-content">
+                            <div class="notification-title">Question Answered</div>
+                            <div class="notification-text">{{ $notification->data['content'] }}</div>
+                            <div class="notification-instructor">Instructor: {{ $notification->data['instructor_name'] }}</div>
+                        </div>
+                        <a href="{{ url('/student/questions/' . $notification->data['question_id']) }}" class="notification-action">
+                            View Answer
+                        </a>
+                    </div>
+                @endif
+            @endforeach
+        @else
+            <div class="no-notifications">
+                <i class="fa-solid fa-bell-slash"></i>
+                <div>No new notifications</div>
+            </div>
+        @endif
+    </div>
+</div>
+@endauth
                 <div class="user-menu">
                     <button class="user-menu-button" title="User Menu">
                         <i class="fa-solid fa-user-circle"></i>
