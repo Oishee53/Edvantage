@@ -64,8 +64,8 @@ public function showModules($course_id)
     // Get all module IDs that have at least one resource for this course
     $uploadedModuleIds = DB::table('pending_resources')
         ->where('courseId', $course_id)
-        ->pluck('moduleId')        // [2, 4, 4, 7, ...]
-        ->unique()                 // de-dupe
+        ->pluck('moduleId')       
+        ->unique()                 
         ->map(fn ($id) => (int) $id)
         ->values()
         ->all();

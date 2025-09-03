@@ -128,7 +128,7 @@ class UploadController extends Controller
 
         Log::info('Resource saved successfully:', ['resource' => $resource->toArray()]);
 
-        // ✅ Send notification if admin (role = 2)
+        //  Send notification if admin (role = 2)
         $user = auth()->user();
         if ($user->role == 2) {
             $course = Courses::findOrFail($course_id);

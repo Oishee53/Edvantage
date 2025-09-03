@@ -42,7 +42,7 @@ public function generate($userId, $courseId)
 
     $course = Courses::findOrFail($courseId);
 
-    // ----- 🔍 FIRST: Let's understand your database structure -----
+   
     $sampleResource = $course->resources()->first();
     
     if (!$sampleResource) {
@@ -57,7 +57,7 @@ public function generate($userId, $courseId)
         'course_id' => $courseId
     ]);
 
-    // ----- 🎥 Check video completion (FIXED) -----
+    // Check video completion 
     $totalVideos = 0;
     
     if (in_array('videos', $resourceColumns)) {
@@ -81,7 +81,7 @@ public function generate($userId, $courseId)
         ? round(($completedVideos / $totalVideos) * 100) 
         : 0;
 
-    // ----- 📝 Check average quiz score (FIXED to match dashboard) -----
+    //  Check average quiz score 
     $courseQuizzes = $course->quizzes()->pluck('id');
     $quizSubmissions = QuizSubmission::where('user_id', $user->id)
         ->whereIn('quiz_id', $courseQuizzes)
@@ -119,7 +119,7 @@ public function generate($userId, $courseId)
         'old_wrong_average' => $quizSubmissions->avg('score')
     ]);
 
-    // ----- ✅ Check eligibility -----
+    //  Check eligibility -----
     if ($completionPercentage < 100 || $averageScore < 70) {
         return redirect()->back()->with('error', 
             "You are not eligible for this certificate. " .
@@ -147,7 +147,7 @@ public function generate($userId, $courseId)
 
 $width  = 900 * 0.75; 
 $height = 650 * 0.75;
-    // ----- 🎓 Generate Certificate -----
+    //  Generate Certificate -----
  $pdf = Pdf::loadView('Resources.certificate', [
         'user'   => $user,
         'course' => $course,

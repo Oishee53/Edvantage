@@ -34,7 +34,7 @@ class QuestionController extends Controller
 
     $instructor = User::find($instructorId);
     $question->load('user');
-    $instructor->notify(new NewQuestionNotification($question)); // 👈 Notify once
+    $instructor->notify(new NewQuestionNotification($question)); // Notify once
 
     return back()->with('success', 'Your question has been sent to the instructor.');
 }
@@ -79,7 +79,7 @@ public function answer(Request $request, $id)
 {
     $question = Queries::findOrFail($id);
     
-    // Optional: Check if the user is authorized to answer
+    //  Check if the user is authorized to answer
     if (auth()->id() !== $question->instructor_id) {
         abort(403, 'Unauthorized action.');
     }

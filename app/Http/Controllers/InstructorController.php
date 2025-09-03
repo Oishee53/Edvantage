@@ -53,7 +53,7 @@ class InstructorController extends Controller
         return $course;
     });
 
-    // ✅ Return the view after mapping, not inside
+    //  Return the view after mapping, not inside
     return view('Instructor.instructor_homepage', compact(
         'coursesWithStudents',
         'rejectedCourses',
@@ -103,8 +103,8 @@ public function register(Request $request)
     $user = User::findOrFail($student_id);
 
     if ($user->role == User::ROLE_INSTRUCTOR) {
-        $user->role = User::ROLE_USER; // ✅ update role in the model
-        $user->save(); // ✅ save the change
+        $user->role = User::ROLE_USER; // update role in the model
+        $user->save(); // save the change
     }
     return redirect()->back()->with('success', 'Student unenrolled successfully.');
 }

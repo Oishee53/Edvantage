@@ -130,7 +130,7 @@ public function purchaseHistory()
 {
     $user = auth()->user();
 
-    // Option 1: Get all enrolled courses with enrollment info
+    // Get all enrolled courses with enrollment info
     $enrollments = Enrollment::with('course')
         ->where('user_id', $user->id)
         ->orderBy('created_at', 'desc')

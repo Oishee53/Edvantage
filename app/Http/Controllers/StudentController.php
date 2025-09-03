@@ -44,8 +44,8 @@ public function destroy($course_id, $student_id)
     $user = User::findOrFail($student_id);
 
     if ($user->role == User::ROLE_INSTRUCTOR) {
-        $user->role = User::ROLE_USER; // ✅ update role in the model
-        $user->save(); // ✅ save the change
+        $user->role = User::ROLE_USER; //  update role in the model
+        $user->save(); // save the change
     }
     return redirect()->back()->with('success', 'Student unenrolled successfully.');
 }
